@@ -4,7 +4,7 @@
 
 Questo repository contiene un gioco sviluppato con:
 
-- **Godot 4.7.1**
+- **Godot 4.5 stable**
 - **GDScript**
 - renderer **Forward+**
 - VS Code
@@ -42,7 +42,7 @@ Ordine di priorità:
 2. documentazione in `/docs`;
 3. codice e scene esistenti;
 4. convenzioni già presenti;
-5. documentazione ufficiale Godot 4.7.1;
+5. documentazione ufficiale Godot 4.5;
 6. proposta dell'assistente.
 
 Non inventare informazioni mancanti.
@@ -103,7 +103,7 @@ Non cambiare game design per rendere più semplice l'implementazione tecnica.
 
 ## 5. Godot
 
-Usa esclusivamente API e sintassi compatibili con **Godot 4.7.1**.
+Usa esclusivamente API e sintassi compatibili con **Godot 4.5 stable**.
 
 Non inventare:
 
@@ -221,7 +221,7 @@ Quando pertinente considera:
 
 Non aggiungere automaticamente sprint, crouch, head bob, stamina, leaning o altre funzionalità non richieste.
 
-Il progetto prevede cooperativa.
+Il progetto nasce come cooperativa host-authoritative per 1–4 giocatori. Anche il solo usa lo stesso flusso multiplayer con un partecipante. Consulta `docs/multiplayer.md` e `docs/architecture.md` prima di modificare stato di gameplay.
 
 Quando un sistema diventa realmente multiplayer considera:
 
@@ -233,7 +233,7 @@ Quando un sistema diventa realmente multiplayer considera:
 - host/client;
 - stato condiviso.
 
-Non costruire però infrastruttura multiplayer prematuramente in sistemi che non la richiedono ancora.
+Non creare prima una versione single-player di un sistema condiviso con l'intenzione di convertirla in seguito. Evita comunque networking in elementi puramente locali come camera e menu che non modificano lo stato della sessione.
 
 ---
 
@@ -364,7 +364,7 @@ Le decisioni tecniche importanti e durature devono essere documentate in `/docs`
 La soluzione migliore è quella che:
 
 - rispetta `/docs`;
-- funziona con Godot 4.7.1;
+- funziona con Godot 4.5 stable;
 - riutilizza ciò che già esiste;
 - introduce il minor rischio possibile;
 - è semplice da capire;

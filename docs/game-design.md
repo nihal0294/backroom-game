@@ -1,78 +1,109 @@
 # Game design
 
-Stato: iniziale. Questo file registra solo ciò che è già definito. Non è un GDD completo.
+Stato: fondazione approvata; il gameplay completo è ancora in definizione.
 
-## Direzione
+## Visione
 
-Survival 3D in prima persona in un mondo liminale ispirato alle Backrooms.
+`backroom-game` è un survival horror 3D in prima persona, cooperativo per **1–4 giocatori**, ambientato nelle Backrooms. Adatta la Backrooms Wiki a un'esperienza in cui isolamento, informazione e comunicazione sono meccaniche centrali.
 
-Intento dichiarato nel README: il più fedele possibile alle Backrooms.
+Il solo non è un'architettura separata: è una sessione cooperativa ospitata localmente con un partecipante.
 
 ## Pilastri
 
-Indirizzi generali, non sistemi già implementati o specificati:
+- esplorazione di ambienti liminali, labirintici e anomali;
+- cooperativa basata sulla comunicazione, non sulla presenza fisica costante;
+- isolamento percettivo tra membri dello stesso gruppo;
+- mondo condiviso: livello, entità, NPC, oggetti, loot, incontri, puzzle ed eventi;
+- sopravvivenza, tensione e scoperta;
+- enigmi e sfide differenti per livello;
+- ricerca di uscite non necessariamente fisiche;
+- fedeltà a Levels, Entities e Objects della wiki;
+- personaggi persistenti distinti, con stato e progresso propri.
 
-- esplorazione
-- sopravvivenza
-- ambienti liminali e labirintici
-- creature
-- horror e tensione
-- puzzle e sfide logiche
-- obiettivi da completare
-- elementi GDR
-- cooperativa/multiplayer
+## Personaggi e sessioni
+
+- Ogni giocatore può possedere più personaggi e ne sceglie uno per sessione.
+- Ogni personaggio conserva identità, progressione e stato propri.
+- Qualunque giocatore può ospitare una sessione per un massimo totale di quattro partecipanti.
+- I partecipanti entrano con il proprio personaggio, non con copie dell'host.
+- Salvataggio personaggio e stato sessione devono essere tecnicamente separati; formato e storage definitivi sono aperti.
+
+## Ciclo generale
+
+1. Selezionare o creare un personaggio.
+2. Ospitare o unirsi a una sessione.
+3. Entrare nel Level 0 in uno spawn valido scelto casualmente dall'host.
+4. Esplorare, raccogliere informazioni/risorse e affrontare entità, incontri, puzzle e anomalie.
+5. Comunicare anche quando gli altri non sono visibili.
+6. Individuare e attivare un'uscita.
+7. Raggiungere un altro livello e continuare la progressione.
+
+Non è ancora deciso se una specifica uscita trasferisca attivatore, presenti o gruppo intero: la politica deve essere configurabile per uscita.
+
+## Mondo condiviso e isolamento
+
+Tutti occupano **la stessa istanza autoritativa del livello**. Non esistono copie private del mondo.
+
+Sono condivisi, salvo regola esplicita: porte/interazioni, puzzle, oggetti/loot, entità/NPC, eventi/incontri, mutazioni e uscite.
+
+Fuori dalle condizioni di rivelazione, un giocatore non deve:
+
+- vedere corpo o equipaggiamento degli altri;
+- collidere o interagire direttamente con loro;
+- ricevere il loro audio spaziale;
+- vedere marker, posizione o distanza.
+
+Le conseguenze delle loro azioni sul mondo possono essere percepite: questa presenza indiretta è intenzionale.
+
+## Convergenza e rivelazione
+
+La regola può variare per livello ed essere modificata da zone, oggetti, effetti o eventi.
+
+Decisione confermata: la **Red Room del Level 0** è una zona di convergenza `interactive`. Solo chi è contemporaneamente al suo interno può vedersi e interagire; uscendo torna isolato. È una deroga deliberata alla pagina wiki attuale.
+
+## Comunicazione
+
+- La chat testuale di gruppo è fondamentale e resta disponibile durante l'isolamento.
+- Non rivela automaticamente posizione, direzione o distanza.
+- Voce, prossimità, ping e mappe condivise non sono ancora decisi.
+
+## Uscite
+
+Un'uscita è una **condizione di transizione**, non una porta. Può essere volume, superficie, interazione, oggetto, NPC, entità, puzzle, incontro, sequenza, condizione temporale, noclip, caduta o anomalia.
+
+Il codice non deve legare il concetto a una mesh o a un unico tipo di nodo.
+
+## Contenuti Backrooms
+
+I livelli hanno leggi, atmosfera, sottosezioni, pericoli, popolazione, entrate e uscite proprie. Possono essere stabili/mutevoli e limitati/apparentemente infiniti.
+
+Le entità possono essere amichevoli, intelligenti, neutrali, ostili o incomprensibili: non sono automaticamente nemici.
+
+Gli oggetti includono strumenti, consumabili, armi, artefatti, decorazioni e oggetti alterati. Nessun contenuto entra automaticamente nel gioco: richiede una scheda conforme a [`content-system.md`](content-system.md).
+
+## Level 0
+
+- main scene corrente: `res://scenes/levels/level_0_test.tscn`;
+- scala 1 unità Godot = 1 metro;
+- griglia 3 × 3 m, snap 1,5 m, soffitto 3 m;
+- layout manuale/modulare nella fase corrente;
+- look giallo-beige, moquette umida, fluorescenti e ronzio;
+- monotonia e geometrie plausibili organizzate in modo errato;
+- variazioni lore: archi, pilastri, buche, blackout, Red Rooms, layout changes;
+- Isolation Effect adattato alle regole cooperative;
+- entità non confermate finché non approvate;
+- uscita wiki di riferimento: parete tremolante/instabile verso Level 1.
+
+Il blockout esistente è un prototipo di scala/ambiente da convertire nel primo banco multiplayer, non da ampliare come gioco single-player.
+
+## Piattaforme
+
+- Piattaforma primaria: PC tramite Steam.
+- Target compatibile: Steam Deck, con controlli, UI, performance e salvataggi verificati.
+- Target eventuale: cellulari, con input/UI/performance e networking adatti.
+- Steam può offrire lobby, inviti, matchmaking e networking su PC/Deck, ma le regole di gioco non devono dipendere direttamente da Steam.
+- Mobile e build senza Steam devono poter usare un provider alternativo mantenendo protocollo e gameplay comuni.
 
 ## Non definito
 
-Non assumere l'esistenza di meccaniche standard del genere finché non sono scritte qui. In particolare non sono definiti:
-
-- fame, sete, sanità mentale, stamina
-- inventario, crafting, skill tree
-- combattimento
-- generazione procedurale
-- regole delle creature (non sono automaticamente nemici da combattere)
-- regole dei puzzle, dei livelli, della progressione
-- lore oltre ai riferimenti già adottati
-- regole multiplayer oltre a quanto indicato sotto per il Level 0
-
-I labirinti devono poter disorientare intenzionalmente senza diventare inutilmente illeggibili.
-
-Fonte esterna per lore e ambientazioni Backrooms: `https://backrooms-wiki.wikidot.com/`. Le regole esplicite di questo progetto e `/docs` hanno priorità sulla wiki.
-
-## Level 0 — metriche e layout
-
-- 1 unità Godot = 1 metro
-- griglia principale: 3 × 3 m
-- snap secondario: 1,5 m
-- altezza strutturale standard (soffitto): 3 m
-- corridoio standard: 3 m
-- corridoio largo: 6 m
-- stanze piccole: 6 × 6 m, 6 × 9 m
-- stanze normali: 9 × 9 m, 9 × 12 m, 12 × 12 m
-- stanze grandi/rare (esempi, non usate nel primo blockout): 18 × 18 m, 18 × 24 m, 30 × 30 m
-
-Il level design attuale è **manuale/modulare**. Il Level 0 non è proceduralmente generato.
-
-Il Level 0 deve sembrare un edificio plausibile progettato in modo profondamente sbagliato: non un dungeon, non un labirinto da videogioco, non una griglia identica. La griglia da 3 m è tecnica; lo snap da 1,5 m serve a romperla.
-
-## Level 0 — isolamento e convergenza
-
-Regola normale del Level 0: un giocatore è **isolato** dagli altri. Due giocatori “nel Level 0” non si vedono, non interagiscono fisicamente e non condividono automaticamente lo stesso spazio visibile.
-
-Alcune aree possono rompere questa regola. Sono **zone di convergenza**.
-
-Prima zona confermata:
-
-- **Red Room — Level 0** → convergenza. Solo i giocatori presenti contemporaneamente in quella zona sono visibili/interagibili tra loro.
-
-Chi lascia la zona torna sotto l’isolamento.
-
-Questa architettura **non è ancora implementata**. Il blockout non deve però renderla impossibile.
-
-Le regole di incontro tra giocatori **possono cambiare da livello a livello**. Non assumere che ogni area Backrooms usi isolamento + Red Room.
-
-Nota: sulla wiki la stanza in cui i wanderer possono incontrarsi è descritta diversamente, e le Red Room sono trattate come trappole da evitare. Per questo progetto vale la regola sopra, non l’interpretazione wiki.
-
-## Level 0 — audio
-
-Il ronzio delle fluorescenti è parte dell’atmosfera. Non è ancora implementato un sistema audio.
+Non assumere ancora fame, sete, sanità, stamina, sprint, crouch, combattimento, inventario definitivo, crafting, abilità, economia, procedural generation, salvataggio definitivo, host migration, voice chat o server dedicati.

@@ -6,7 +6,7 @@ Survival 3D in prima persona ambientato in un mondo liminale ispirato alle Backr
 
 ## Stack
 
-- Godot 4.7.1
+- Godot 4.5 stable
 - GDScript
 - renderer Forward+
 - VS Code
