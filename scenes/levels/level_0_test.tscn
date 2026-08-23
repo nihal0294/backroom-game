@@ -1,0 +1,2722 @@
+[gd_scene load_steps=31 format=3]
+
+[ext_resource type="PackedScene" path="res://scenes/player.tscn" id="1_player"]
+[ext_resource type="Script" path="res://scripts/apply_level_0_materials.gd" id="2_atlas"]
+[ext_resource type="PackedScene" path="res://assets/models/environment/level_0/wall_clean.glb" id="3_wall_clean"]
+[ext_resource type="PackedScene" path="res://assets/models/environment/level_0/wall_dirty.glb" id="4_wall_dirty"]
+[ext_resource type="PackedScene" path="res://assets/models/environment/level_0/wall_scratched.glb" id="5_wall_scratched"]
+[ext_resource type="PackedScene" path="res://assets/models/environment/level_0/wall_wet.glb" id="6_wall_wet"]
+[ext_resource type="PackedScene" path="res://assets/models/environment/level_0/floor_clean.glb" id="7_floor_clean"]
+[ext_resource type="PackedScene" path="res://assets/models/environment/level_0/floor_torn_1.glb" id="8_floor_torn_1"]
+[ext_resource type="PackedScene" path="res://assets/models/environment/level_0/floor_torn_2.glb" id="9_floor_torn_2"]
+[ext_resource type="PackedScene" path="res://assets/models/environment/level_0/tile_clean.glb" id="10_tile_clean"]
+[ext_resource type="PackedScene" path="res://assets/models/environment/level_0/tile_dirty.glb" id="11_tile_dirty"]
+[ext_resource type="PackedScene" path="res://assets/models/environment/level_0/tile_broken_1.glb" id="12_tile_broken_1"]
+[ext_resource type="PackedScene" path="res://assets/models/environment/level_0/tile_broken_2.glb" id="13_tile_broken_2"]
+[ext_resource type="PackedScene" path="res://assets/models/environment/level_0/doorway_clean.glb" id="14_doorway_clean"]
+[ext_resource type="PackedScene" path="res://assets/models/environment/level_0/doorway_dirty.glb" id="15_doorway_dirty"]
+[ext_resource type="PackedScene" path="res://assets/models/environment/level_0/doorway_scratched.glb" id="16_doorway_scratched"]
+[ext_resource type="PackedScene" path="res://assets/models/environment/level_0/doorway_wet.glb" id="17_doorway_wet"]
+[ext_resource type="PackedScene" path="res://assets/models/environment/level_0/corner_clean.glb" id="18_corner_clean"]
+[ext_resource type="PackedScene" path="res://assets/models/environment/level_0/corner_dirty.glb" id="19_corner_dirty"]
+[ext_resource type="PackedScene" path="res://assets/models/environment/level_0/corner_scratched.glb" id="20_corner_scratched"]
+[ext_resource type="PackedScene" path="res://assets/models/environment/level_0/corner_wet.glb" id="21_corner_wet"]
+[ext_resource type="PackedScene" path="res://assets/models/environment/level_0/light.glb" id="22_light"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_wall"]
+size = Vector3(0.12, 3, 3)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_floor"]
+size = Vector3(3, 0.12, 3)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_ceiling"]
+size = Vector3(3, 0.12, 3)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_jamb"]
+size = Vector3(0.12, 3, 0.6)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_lintel"]
+size = Vector3(0.12, 0.8, 3)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_corner_x"]
+size = Vector3(1.5, 3, 0.12)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_corner_z"]
+size = Vector3(0.12, 3, 1.5)
+
+[sub_resource type="Environment" id="Environment_level0"]
+background_mode = 1
+background_color = Color(0.16, 0.15, 0.08, 1)
+ambient_light_source = 2
+ambient_light_color = Color(0.86, 0.82, 0.48, 1)
+ambient_light_energy = 0.48
+tonemap_mode = 2
+tonemap_exposure = 1.18
+ssao_enabled = true
+ssao_radius = 0.9
+ssao_intensity = 0.7
+glow_enabled = true
+glow_intensity = 0.55
+glow_bloom = 0.18
+glow_hdr_threshold = 0.75
+fog_enabled = true
+fog_light_color = Color(0.72, 0.68, 0.38, 1)
+fog_density = 0.016
+fog_aerial_perspective = 0.25
+adjustment_enabled = true
+adjustment_brightness = 1.06
+adjustment_contrast = 0.94
+adjustment_saturation = 1.12
+
+[node name="Level0Test" type="Node3D"]
+script = ExtResource("2_atlas")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_level0")
+
+[node name="Player" parent="." instance=ExtResource("1_player")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 0, 3)
+
+[node name="Floors" type="Node3D" parent="."]
+
+[node name="Ceilings" type="Node3D" parent="."]
+
+[node name="Walls" type="Node3D" parent="."]
+
+[node name="Doorways" type="Node3D" parent="."]
+
+[node name="Lights" type="Node3D" parent="."]
+
+[node name="Details" type="Node3D" parent="."]
+
+[node name="Floor_1" parent="Floors" instance=ExtResource("8_floor_torn_1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.5, 0, 1.5)
+
+[node name="FloorBody_1" type="StaticBody3D" parent="Floors"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.5, 0, 1.5)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Floors/FloorBody_1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.06, 0)
+shape = SubResource("BoxShape3D_floor")
+
+[node name="Ceiling_1" parent="Ceilings" instance=ExtResource("10_tile_clean")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.5, 3, 1.5)
+
+[node name="CeilingBody_2" type="StaticBody3D" parent="Ceilings"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.5, 3, 1.5)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Ceilings/CeilingBody_2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.06, 0)
+shape = SubResource("BoxShape3D_ceiling")
+
+[node name="Light_1" parent="Lights" instance=ExtResource("22_light")]
+transform = Transform3D(0, 0, -1, 0, 1, 0, 1, 0, 0, 1.5, 2.985, 1.5)
+
+[node name="OmniLight3D" type="OmniLight3D" parent="Lights/Light_1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.12, 0)
+light_color = Color(1.0, 0.96, 0.58, 1)
+light_energy = 1.05
+light_specular = 0.12
+shadow_enabled = true
+shadow_blur = 2.4
+omni_range = 6.5
+omni_attenuation = 1.15
+
+[node name="Floor_2" parent="Floors" instance=ExtResource("9_floor_torn_2")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.5, 0, 4.5)
+
+[node name="FloorBody_3" type="StaticBody3D" parent="Floors"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.5, 0, 4.5)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Floors/FloorBody_3"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.06, 0)
+shape = SubResource("BoxShape3D_floor")
+
+[node name="Ceiling_2" parent="Ceilings" instance=ExtResource("13_tile_broken_2")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.5, 3, 4.5)
+
+[node name="CeilingBody_4" type="StaticBody3D" parent="Ceilings"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.5, 3, 4.5)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Ceilings/CeilingBody_4"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.06, 0)
+shape = SubResource("BoxShape3D_ceiling")
+
+[node name="Floor_3" parent="Floors" instance=ExtResource("7_floor_clean")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.5, 0, 7.5)
+
+[node name="FloorBody_5" type="StaticBody3D" parent="Floors"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.5, 0, 7.5)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Floors/FloorBody_5"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.06, 0)
+shape = SubResource("BoxShape3D_floor")
+
+[node name="Ceiling_3" parent="Ceilings" instance=ExtResource("12_tile_broken_1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.5, 3, 7.5)
+
+[node name="CeilingBody_6" type="StaticBody3D" parent="Ceilings"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.5, 3, 7.5)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Ceilings/CeilingBody_6"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.06, 0)
+shape = SubResource("BoxShape3D_ceiling")
+
+[node name="Floor_4" parent="Floors" instance=ExtResource("8_floor_torn_1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.5, 0, 10.5)
+
+[node name="FloorBody_7" type="StaticBody3D" parent="Floors"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.5, 0, 10.5)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Floors/FloorBody_7"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.06, 0)
+shape = SubResource("BoxShape3D_floor")
+
+[node name="Ceiling_4" parent="Ceilings" instance=ExtResource("11_tile_dirty")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.5, 3, 10.5)
+
+[node name="CeilingBody_8" type="StaticBody3D" parent="Ceilings"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.5, 3, 10.5)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Ceilings/CeilingBody_8"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.06, 0)
+shape = SubResource("BoxShape3D_ceiling")
+
+[node name="Floor_5" parent="Floors" instance=ExtResource("9_floor_torn_2")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.5, 0, 13.5)
+
+[node name="FloorBody_9" type="StaticBody3D" parent="Floors"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.5, 0, 13.5)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Floors/FloorBody_9"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.06, 0)
+shape = SubResource("BoxShape3D_floor")
+
+[node name="Ceiling_5" parent="Ceilings" instance=ExtResource("10_tile_clean")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.5, 3, 13.5)
+
+[node name="CeilingBody_10" type="StaticBody3D" parent="Ceilings"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.5, 3, 13.5)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Ceilings/CeilingBody_10"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.06, 0)
+shape = SubResource("BoxShape3D_ceiling")
+
+[node name="Light_2" parent="Lights" instance=ExtResource("22_light")]
+transform = Transform3D(0, 0, -1, 0, 1, 0, 1, 0, 0, 1.5, 2.985, 13.5)
+
+[node name="OmniLight3D" type="OmniLight3D" parent="Lights/Light_2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.12, 0)
+light_color = Color(1.0, 0.96, 0.58, 1)
+light_energy = 1.85
+light_specular = 0.12
+shadow_enabled = true
+shadow_blur = 2.4
+omni_range = 8.5
+omni_attenuation = 1.15
+
+[node name="Floor_6" parent="Floors" instance=ExtResource("7_floor_clean")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.5, 0, 16.5)
+
+[node name="FloorBody_11" type="StaticBody3D" parent="Floors"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.5, 0, 16.5)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Floors/FloorBody_11"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.06, 0)
+shape = SubResource("BoxShape3D_floor")
+
+[node name="Ceiling_6" parent="Ceilings" instance=ExtResource("13_tile_broken_2")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.5, 3, 16.5)
+
+[node name="CeilingBody_12" type="StaticBody3D" parent="Ceilings"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.5, 3, 16.5)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Ceilings/CeilingBody_12"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.06, 0)
+shape = SubResource("BoxShape3D_ceiling")
+
+[node name="Floor_7" parent="Floors" instance=ExtResource("7_floor_clean")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.5, 0, 25.5)
+
+[node name="FloorBody_13" type="StaticBody3D" parent="Floors"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.5, 0, 25.5)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Floors/FloorBody_13"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.06, 0)
+shape = SubResource("BoxShape3D_floor")
+
+[node name="Ceiling_7" parent="Ceilings" instance=ExtResource("10_tile_clean")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.5, 3, 25.5)
+
+[node name="CeilingBody_14" type="StaticBody3D" parent="Ceilings"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.5, 3, 25.5)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Ceilings/CeilingBody_14"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.06, 0)
+shape = SubResource("BoxShape3D_ceiling")
+
+[node name="Light_3" parent="Lights" instance=ExtResource("22_light")]
+transform = Transform3D(0, 0, -1, 0, 1, 0, 1, 0, 0, 1.5, 2.985, 25.5)
+
+[node name="OmniLight3D" type="OmniLight3D" parent="Lights/Light_3"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.12, 0)
+light_color = Color(1.0, 0.96, 0.58, 1)
+light_energy = 1.85
+light_specular = 0.12
+shadow_enabled = true
+shadow_blur = 2.4
+omni_range = 8.5
+omni_attenuation = 1.15
+
+[node name="Floor_8" parent="Floors" instance=ExtResource("8_floor_torn_1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.5, 0, 28.5)
+
+[node name="FloorBody_15" type="StaticBody3D" parent="Floors"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.5, 0, 28.5)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Floors/FloorBody_15"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.06, 0)
+shape = SubResource("BoxShape3D_floor")
+
+[node name="Ceiling_8" parent="Ceilings" instance=ExtResource("13_tile_broken_2")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.5, 3, 28.5)
+
+[node name="CeilingBody_16" type="StaticBody3D" parent="Ceilings"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.5, 3, 28.5)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Ceilings/CeilingBody_16"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.06, 0)
+shape = SubResource("BoxShape3D_ceiling")
+
+[node name="Floor_9" parent="Floors" instance=ExtResource("8_floor_torn_1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.5, 0, 1.5)
+
+[node name="FloorBody_17" type="StaticBody3D" parent="Floors"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.5, 0, 1.5)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Floors/FloorBody_17"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.06, 0)
+shape = SubResource("BoxShape3D_floor")
+
+[node name="Ceiling_9" parent="Ceilings" instance=ExtResource("13_tile_broken_2")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.5, 3, 1.5)
+
+[node name="CeilingBody_18" type="StaticBody3D" parent="Ceilings"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.5, 3, 1.5)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Ceilings/CeilingBody_18"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.06, 0)
+shape = SubResource("BoxShape3D_ceiling")
+
+[node name="Floor_10" parent="Floors" instance=ExtResource("9_floor_torn_2")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.5, 0, 4.5)
+
+[node name="FloorBody_19" type="StaticBody3D" parent="Floors"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.5, 0, 4.5)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Floors/FloorBody_19"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.06, 0)
+shape = SubResource("BoxShape3D_floor")
+
+[node name="Ceiling_10" parent="Ceilings" instance=ExtResource("12_tile_broken_1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.5, 3, 4.5)
+
+[node name="CeilingBody_20" type="StaticBody3D" parent="Ceilings"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.5, 3, 4.5)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Ceilings/CeilingBody_20"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.06, 0)
+shape = SubResource("BoxShape3D_ceiling")
+
+[node name="Light_4" parent="Lights" instance=ExtResource("22_light")]
+transform = Transform3D(0, 0, -1, 0, 1, 0, 1, 0, 0, 4.5, 2.985, 4.5)
+
+[node name="OmniLight3D" type="OmniLight3D" parent="Lights/Light_4"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.12, 0)
+light_color = Color(1.0, 0.96, 0.58, 1)
+light_energy = 1.85
+light_specular = 0.12
+shadow_enabled = true
+shadow_blur = 2.4
+omni_range = 8.5
+omni_attenuation = 1.15
+
+[node name="Floor_11" parent="Floors" instance=ExtResource("8_floor_torn_1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.5, 0, 10.5)
+
+[node name="FloorBody_21" type="StaticBody3D" parent="Floors"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.5, 0, 10.5)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Floors/FloorBody_21"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.06, 0)
+shape = SubResource("BoxShape3D_floor")
+
+[node name="Ceiling_11" parent="Ceilings" instance=ExtResource("10_tile_clean")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.5, 3, 10.5)
+
+[node name="CeilingBody_22" type="StaticBody3D" parent="Ceilings"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.5, 3, 10.5)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Ceilings/CeilingBody_22"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.06, 0)
+shape = SubResource("BoxShape3D_ceiling")
+
+[node name="Light_5" parent="Lights" instance=ExtResource("22_light")]
+transform = Transform3D(0, 0, -1, 0, 1, 0, 1, 0, 0, 4.5, 2.985, 10.5)
+
+[node name="OmniLight3D" type="OmniLight3D" parent="Lights/Light_5"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.12, 0)
+light_color = Color(1.0, 0.96, 0.58, 1)
+light_energy = 1.85
+light_specular = 0.12
+shadow_enabled = true
+shadow_blur = 2.4
+omni_range = 8.5
+omni_attenuation = 1.15
+
+[node name="Floor_12" parent="Floors" instance=ExtResource("9_floor_torn_2")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.5, 0, 13.5)
+
+[node name="FloorBody_23" type="StaticBody3D" parent="Floors"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.5, 0, 13.5)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Floors/FloorBody_23"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.06, 0)
+shape = SubResource("BoxShape3D_floor")
+
+[node name="Ceiling_12" parent="Ceilings" instance=ExtResource("13_tile_broken_2")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.5, 3, 13.5)
+
+[node name="CeilingBody_24" type="StaticBody3D" parent="Ceilings"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.5, 3, 13.5)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Ceilings/CeilingBody_24"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.06, 0)
+shape = SubResource("BoxShape3D_ceiling")
+
+[node name="Floor_13" parent="Floors" instance=ExtResource("7_floor_clean")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.5, 0, 16.5)
+
+[node name="FloorBody_25" type="StaticBody3D" parent="Floors"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.5, 0, 16.5)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Floors/FloorBody_25"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.06, 0)
+shape = SubResource("BoxShape3D_floor")
+
+[node name="Ceiling_13" parent="Ceilings" instance=ExtResource("12_tile_broken_1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.5, 3, 16.5)
+
+[node name="CeilingBody_26" type="StaticBody3D" parent="Ceilings"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.5, 3, 16.5)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Ceilings/CeilingBody_26"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.06, 0)
+shape = SubResource("BoxShape3D_ceiling")
+
+[node name="Light_6" parent="Lights" instance=ExtResource("22_light")]
+transform = Transform3D(0, 0, -1, 0, 1, 0, 1, 0, 0, 4.5, 2.985, 16.5)
+
+[node name="OmniLight3D" type="OmniLight3D" parent="Lights/Light_6"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.12, 0)
+light_color = Color(1.0, 0.96, 0.58, 1)
+light_energy = 1.85
+light_specular = 0.12
+shadow_enabled = true
+shadow_blur = 2.4
+omni_range = 8.5
+omni_attenuation = 1.15
+
+[node name="Floor_14" parent="Floors" instance=ExtResource("8_floor_torn_1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.5, 0, 19.5)
+
+[node name="FloorBody_27" type="StaticBody3D" parent="Floors"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.5, 0, 19.5)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Floors/FloorBody_27"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.06, 0)
+shape = SubResource("BoxShape3D_floor")
+
+[node name="Ceiling_14" parent="Ceilings" instance=ExtResource("11_tile_dirty")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.5, 3, 19.5)
+
+[node name="CeilingBody_28" type="StaticBody3D" parent="Ceilings"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.5, 3, 19.5)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Ceilings/CeilingBody_28"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.06, 0)
+shape = SubResource("BoxShape3D_ceiling")
+
+[node name="Floor_15" parent="Floors" instance=ExtResource("7_floor_clean")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.5, 0, 25.5)
+
+[node name="FloorBody_29" type="StaticBody3D" parent="Floors"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.5, 0, 25.5)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Floors/FloorBody_29"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.06, 0)
+shape = SubResource("BoxShape3D_floor")
+
+[node name="Ceiling_15" parent="Ceilings" instance=ExtResource("13_tile_broken_2")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.5, 3, 25.5)
+
+[node name="CeilingBody_30" type="StaticBody3D" parent="Ceilings"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.5, 3, 25.5)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Ceilings/CeilingBody_30"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.06, 0)
+shape = SubResource("BoxShape3D_ceiling")
+
+[node name="Floor_16" parent="Floors" instance=ExtResource("8_floor_torn_1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.5, 0, 28.5)
+
+[node name="FloorBody_31" type="StaticBody3D" parent="Floors"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.5, 0, 28.5)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Floors/FloorBody_31"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.06, 0)
+shape = SubResource("BoxShape3D_floor")
+
+[node name="Ceiling_16" parent="Ceilings" instance=ExtResource("12_tile_broken_1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.5, 3, 28.5)
+
+[node name="CeilingBody_32" type="StaticBody3D" parent="Ceilings"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.5, 3, 28.5)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Ceilings/CeilingBody_32"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.06, 0)
+shape = SubResource("BoxShape3D_ceiling")
+
+[node name="Light_7" parent="Lights" instance=ExtResource("22_light")]
+transform = Transform3D(0, 0, -1, 0, 1, 0, 1, 0, 0, 4.5, 2.985, 28.5)
+
+[node name="OmniLight3D" type="OmniLight3D" parent="Lights/Light_7"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.12, 0)
+light_color = Color(1.0, 0.96, 0.58, 1)
+light_energy = 1.05
+light_specular = 0.12
+shadow_enabled = true
+shadow_blur = 2.4
+omni_range = 6.5
+omni_attenuation = 1.15
+
+[node name="Floor_17" parent="Floors" instance=ExtResource("9_floor_torn_2")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.5, 0, 4.5)
+
+[node name="FloorBody_33" type="StaticBody3D" parent="Floors"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.5, 0, 4.5)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Floors/FloorBody_33"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.06, 0)
+shape = SubResource("BoxShape3D_floor")
+
+[node name="Ceiling_17" parent="Ceilings" instance=ExtResource("11_tile_dirty")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.5, 3, 4.5)
+
+[node name="CeilingBody_34" type="StaticBody3D" parent="Ceilings"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.5, 3, 4.5)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Ceilings/CeilingBody_34"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.06, 0)
+shape = SubResource("BoxShape3D_ceiling")
+
+[node name="Floor_18" parent="Floors" instance=ExtResource("8_floor_torn_1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.5, 0, 10.5)
+
+[node name="FloorBody_35" type="StaticBody3D" parent="Floors"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.5, 0, 10.5)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Floors/FloorBody_35"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.06, 0)
+shape = SubResource("BoxShape3D_floor")
+
+[node name="Ceiling_18" parent="Ceilings" instance=ExtResource("13_tile_broken_2")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.5, 3, 10.5)
+
+[node name="CeilingBody_36" type="StaticBody3D" parent="Ceilings"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.5, 3, 10.5)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Ceilings/CeilingBody_36"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.06, 0)
+shape = SubResource("BoxShape3D_ceiling")
+
+[node name="Floor_19" parent="Floors" instance=ExtResource("9_floor_torn_2")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.5, 0, 13.5)
+
+[node name="FloorBody_37" type="StaticBody3D" parent="Floors"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.5, 0, 13.5)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Floors/FloorBody_37"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.06, 0)
+shape = SubResource("BoxShape3D_floor")
+
+[node name="Ceiling_19" parent="Ceilings" instance=ExtResource("12_tile_broken_1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.5, 3, 13.5)
+
+[node name="CeilingBody_38" type="StaticBody3D" parent="Ceilings"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.5, 3, 13.5)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Ceilings/CeilingBody_38"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.06, 0)
+shape = SubResource("BoxShape3D_ceiling")
+
+[node name="Light_8" parent="Lights" instance=ExtResource("22_light")]
+transform = Transform3D(0, 0, -1, 0, 1, 0, 1, 0, 0, 7.5, 2.985, 13.5)
+
+[node name="OmniLight3D" type="OmniLight3D" parent="Lights/Light_8"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.12, 0)
+light_color = Color(1.0, 0.96, 0.58, 1)
+light_energy = 1.85
+light_specular = 0.12
+shadow_enabled = true
+shadow_blur = 2.4
+omni_range = 8.5
+omni_attenuation = 1.15
+
+[node name="Floor_20" parent="Floors" instance=ExtResource("7_floor_clean")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.5, 0, 16.5)
+
+[node name="FloorBody_39" type="StaticBody3D" parent="Floors"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.5, 0, 16.5)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Floors/FloorBody_39"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.06, 0)
+shape = SubResource("BoxShape3D_floor")
+
+[node name="Ceiling_20" parent="Ceilings" instance=ExtResource("11_tile_dirty")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.5, 3, 16.5)
+
+[node name="CeilingBody_40" type="StaticBody3D" parent="Ceilings"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.5, 3, 16.5)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Ceilings/CeilingBody_40"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.06, 0)
+shape = SubResource("BoxShape3D_ceiling")
+
+[node name="Floor_21" parent="Floors" instance=ExtResource("7_floor_clean")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.5, 0, 25.5)
+
+[node name="FloorBody_41" type="StaticBody3D" parent="Floors"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.5, 0, 25.5)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Floors/FloorBody_41"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.06, 0)
+shape = SubResource("BoxShape3D_floor")
+
+[node name="Ceiling_21" parent="Ceilings" instance=ExtResource("12_tile_broken_1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.5, 3, 25.5)
+
+[node name="CeilingBody_42" type="StaticBody3D" parent="Ceilings"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.5, 3, 25.5)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Ceilings/CeilingBody_42"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.06, 0)
+shape = SubResource("BoxShape3D_ceiling")
+
+[node name="Light_9" parent="Lights" instance=ExtResource("22_light")]
+transform = Transform3D(0, 0, -1, 0, 1, 0, 1, 0, 0, 7.5, 2.985, 25.5)
+
+[node name="OmniLight3D" type="OmniLight3D" parent="Lights/Light_9"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.12, 0)
+light_color = Color(1.0, 0.96, 0.58, 1)
+light_energy = 1.05
+light_specular = 0.12
+shadow_enabled = true
+shadow_blur = 2.4
+omni_range = 6.5
+omni_attenuation = 1.15
+
+[node name="Floor_22" parent="Floors" instance=ExtResource("9_floor_torn_2")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10.5, 0, 4.5)
+
+[node name="FloorBody_43" type="StaticBody3D" parent="Floors"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10.5, 0, 4.5)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Floors/FloorBody_43"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.06, 0)
+shape = SubResource("BoxShape3D_floor")
+
+[node name="Ceiling_22" parent="Ceilings" instance=ExtResource("10_tile_clean")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10.5, 3, 4.5)
+
+[node name="CeilingBody_44" type="StaticBody3D" parent="Ceilings"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10.5, 3, 4.5)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Ceilings/CeilingBody_44"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.06, 0)
+shape = SubResource("BoxShape3D_ceiling")
+
+[node name="Light_10" parent="Lights" instance=ExtResource("22_light")]
+transform = Transform3D(0, 0, -1, 0, 1, 0, 1, 0, 0, 10.5, 2.985, 4.5)
+
+[node name="OmniLight3D" type="OmniLight3D" parent="Lights/Light_10"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.12, 0)
+light_color = Color(1.0, 0.96, 0.58, 1)
+light_energy = 1.85
+light_specular = 0.12
+shadow_enabled = true
+shadow_blur = 2.4
+omni_range = 8.5
+omni_attenuation = 1.15
+
+[node name="Floor_23" parent="Floors" instance=ExtResource("8_floor_torn_1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10.5, 0, 10.5)
+
+[node name="FloorBody_45" type="StaticBody3D" parent="Floors"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10.5, 0, 10.5)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Floors/FloorBody_45"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.06, 0)
+shape = SubResource("BoxShape3D_floor")
+
+[node name="Ceiling_23" parent="Ceilings" instance=ExtResource("12_tile_broken_1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10.5, 3, 10.5)
+
+[node name="CeilingBody_46" type="StaticBody3D" parent="Ceilings"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10.5, 3, 10.5)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Ceilings/CeilingBody_46"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.06, 0)
+shape = SubResource("BoxShape3D_ceiling")
+
+[node name="Light_11" parent="Lights" instance=ExtResource("22_light")]
+transform = Transform3D(0, 0, -1, 0, 1, 0, 1, 0, 0, 10.5, 2.985, 10.5)
+
+[node name="OmniLight3D" type="OmniLight3D" parent="Lights/Light_11"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.12, 0)
+light_color = Color(1.0, 0.96, 0.58, 1)
+light_energy = 1.85
+light_specular = 0.12
+shadow_enabled = true
+shadow_blur = 2.4
+omni_range = 8.5
+omni_attenuation = 1.15
+
+[node name="Floor_24" parent="Floors" instance=ExtResource("9_floor_torn_2")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10.5, 0, 13.5)
+
+[node name="FloorBody_47" type="StaticBody3D" parent="Floors"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10.5, 0, 13.5)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Floors/FloorBody_47"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.06, 0)
+shape = SubResource("BoxShape3D_floor")
+
+[node name="Ceiling_24" parent="Ceilings" instance=ExtResource("11_tile_dirty")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10.5, 3, 13.5)
+
+[node name="CeilingBody_48" type="StaticBody3D" parent="Ceilings"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10.5, 3, 13.5)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Ceilings/CeilingBody_48"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.06, 0)
+shape = SubResource("BoxShape3D_ceiling")
+
+[node name="Floor_25" parent="Floors" instance=ExtResource("8_floor_torn_1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10.5, 0, 19.5)
+
+[node name="FloorBody_49" type="StaticBody3D" parent="Floors"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10.5, 0, 19.5)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Floors/FloorBody_49"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.06, 0)
+shape = SubResource("BoxShape3D_floor")
+
+[node name="Ceiling_25" parent="Ceilings" instance=ExtResource("13_tile_broken_2")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10.5, 3, 19.5)
+
+[node name="CeilingBody_50" type="StaticBody3D" parent="Ceilings"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10.5, 3, 19.5)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Ceilings/CeilingBody_50"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.06, 0)
+shape = SubResource("BoxShape3D_ceiling")
+
+[node name="Light_12" parent="Lights" instance=ExtResource("22_light")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10.5, 2.985, 19.5)
+
+[node name="OmniLight3D" type="OmniLight3D" parent="Lights/Light_12"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.12, 0)
+light_color = Color(1.0, 0.96, 0.58, 1)
+light_energy = 1.85
+light_specular = 0.12
+shadow_enabled = true
+shadow_blur = 2.4
+omni_range = 8.5
+omni_attenuation = 1.15
+
+[node name="Floor_26" parent="Floors" instance=ExtResource("9_floor_torn_2")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10.5, 0, 22.5)
+
+[node name="FloorBody_51" type="StaticBody3D" parent="Floors"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10.5, 0, 22.5)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Floors/FloorBody_51"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.06, 0)
+shape = SubResource("BoxShape3D_floor")
+
+[node name="Ceiling_26" parent="Ceilings" instance=ExtResource("12_tile_broken_1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10.5, 3, 22.5)
+
+[node name="CeilingBody_52" type="StaticBody3D" parent="Ceilings"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10.5, 3, 22.5)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Ceilings/CeilingBody_52"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.06, 0)
+shape = SubResource("BoxShape3D_ceiling")
+
+[node name="Floor_27" parent="Floors" instance=ExtResource("7_floor_clean")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10.5, 0, 25.5)
+
+[node name="FloorBody_53" type="StaticBody3D" parent="Floors"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10.5, 0, 25.5)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Floors/FloorBody_53"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.06, 0)
+shape = SubResource("BoxShape3D_floor")
+
+[node name="Ceiling_27" parent="Ceilings" instance=ExtResource("11_tile_dirty")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10.5, 3, 25.5)
+
+[node name="CeilingBody_54" type="StaticBody3D" parent="Ceilings"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10.5, 3, 25.5)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Ceilings/CeilingBody_54"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.06, 0)
+shape = SubResource("BoxShape3D_ceiling")
+
+[node name="Floor_28" parent="Floors" instance=ExtResource("8_floor_torn_1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10.5, 0, 28.5)
+
+[node name="FloorBody_55" type="StaticBody3D" parent="Floors"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10.5, 0, 28.5)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Floors/FloorBody_55"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.06, 0)
+shape = SubResource("BoxShape3D_floor")
+
+[node name="Ceiling_28" parent="Ceilings" instance=ExtResource("10_tile_clean")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10.5, 3, 28.5)
+
+[node name="CeilingBody_56" type="StaticBody3D" parent="Ceilings"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10.5, 3, 28.5)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Ceilings/CeilingBody_56"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.06, 0)
+shape = SubResource("BoxShape3D_ceiling")
+
+[node name="Light_13" parent="Lights" instance=ExtResource("22_light")]
+transform = Transform3D(0, 0, -1, 0, 1, 0, 1, 0, 0, 10.5, 2.985, 28.5)
+
+[node name="OmniLight3D" type="OmniLight3D" parent="Lights/Light_13"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.12, 0)
+light_color = Color(1.0, 0.96, 0.58, 1)
+light_energy = 1.85
+light_specular = 0.12
+shadow_enabled = true
+shadow_blur = 2.4
+omni_range = 8.5
+omni_attenuation = 1.15
+
+[node name="Floor_29" parent="Floors" instance=ExtResource("8_floor_torn_1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 13.5, 0, 1.5)
+
+[node name="FloorBody_57" type="StaticBody3D" parent="Floors"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 13.5, 0, 1.5)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Floors/FloorBody_57"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.06, 0)
+shape = SubResource("BoxShape3D_floor")
+
+[node name="Ceiling_29" parent="Ceilings" instance=ExtResource("10_tile_clean")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 13.5, 3, 1.5)
+
+[node name="CeilingBody_58" type="StaticBody3D" parent="Ceilings"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 13.5, 3, 1.5)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Ceilings/CeilingBody_58"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.06, 0)
+shape = SubResource("BoxShape3D_ceiling")
+
+[node name="Light_14" parent="Lights" instance=ExtResource("22_light")]
+transform = Transform3D(0, 0, -1, 0, 1, 0, 1, 0, 0, 13.5, 2.985, 1.5)
+
+[node name="OmniLight3D" type="OmniLight3D" parent="Lights/Light_14"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.12, 0)
+light_color = Color(1.0, 0.96, 0.58, 1)
+light_energy = 1.85
+light_specular = 0.12
+shadow_enabled = true
+shadow_blur = 2.4
+omni_range = 8.5
+omni_attenuation = 1.15
+
+[node name="Floor_30" parent="Floors" instance=ExtResource("9_floor_torn_2")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 13.5, 0, 4.5)
+
+[node name="FloorBody_59" type="StaticBody3D" parent="Floors"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 13.5, 0, 4.5)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Floors/FloorBody_59"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.06, 0)
+shape = SubResource("BoxShape3D_floor")
+
+[node name="Ceiling_30" parent="Ceilings" instance=ExtResource("13_tile_broken_2")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 13.5, 3, 4.5)
+
+[node name="CeilingBody_60" type="StaticBody3D" parent="Ceilings"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 13.5, 3, 4.5)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Ceilings/CeilingBody_60"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.06, 0)
+shape = SubResource("BoxShape3D_ceiling")
+
+[node name="Floor_31" parent="Floors" instance=ExtResource("9_floor_torn_2")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 13.5, 0, 13.5)
+
+[node name="FloorBody_61" type="StaticBody3D" parent="Floors"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 13.5, 0, 13.5)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Floors/FloorBody_61"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.06, 0)
+shape = SubResource("BoxShape3D_floor")
+
+[node name="Ceiling_31" parent="Ceilings" instance=ExtResource("10_tile_clean")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 13.5, 3, 13.5)
+
+[node name="CeilingBody_62" type="StaticBody3D" parent="Ceilings"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 13.5, 3, 13.5)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Ceilings/CeilingBody_62"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.06, 0)
+shape = SubResource("BoxShape3D_ceiling")
+
+[node name="Light_15" parent="Lights" instance=ExtResource("22_light")]
+transform = Transform3D(0, 0, -1, 0, 1, 0, 1, 0, 0, 13.5, 2.985, 13.5)
+
+[node name="OmniLight3D" type="OmniLight3D" parent="Lights/Light_15"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.12, 0)
+light_color = Color(1.0, 0.96, 0.58, 1)
+light_energy = 1.85
+light_specular = 0.12
+shadow_enabled = true
+shadow_blur = 2.4
+omni_range = 8.5
+omni_attenuation = 1.15
+
+[node name="Floor_32" parent="Floors" instance=ExtResource("8_floor_torn_1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 13.5, 0, 19.5)
+
+[node name="FloorBody_63" type="StaticBody3D" parent="Floors"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 13.5, 0, 19.5)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Floors/FloorBody_63"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.06, 0)
+shape = SubResource("BoxShape3D_floor")
+
+[node name="Ceiling_32" parent="Ceilings" instance=ExtResource("12_tile_broken_1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 13.5, 3, 19.5)
+
+[node name="CeilingBody_64" type="StaticBody3D" parent="Ceilings"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 13.5, 3, 19.5)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Ceilings/CeilingBody_64"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.06, 0)
+shape = SubResource("BoxShape3D_ceiling")
+
+[node name="Floor_33" parent="Floors" instance=ExtResource("9_floor_torn_2")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 13.5, 0, 22.5)
+
+[node name="FloorBody_65" type="StaticBody3D" parent="Floors"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 13.5, 0, 22.5)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Floors/FloorBody_65"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.06, 0)
+shape = SubResource("BoxShape3D_floor")
+
+[node name="Ceiling_33" parent="Ceilings" instance=ExtResource("11_tile_dirty")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 13.5, 3, 22.5)
+
+[node name="CeilingBody_66" type="StaticBody3D" parent="Ceilings"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 13.5, 3, 22.5)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Ceilings/CeilingBody_66"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.06, 0)
+shape = SubResource("BoxShape3D_ceiling")
+
+[node name="Floor_34" parent="Floors" instance=ExtResource("8_floor_torn_1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 13.5, 0, 28.5)
+
+[node name="FloorBody_67" type="StaticBody3D" parent="Floors"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 13.5, 0, 28.5)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Floors/FloorBody_67"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.06, 0)
+shape = SubResource("BoxShape3D_floor")
+
+[node name="Ceiling_34" parent="Ceilings" instance=ExtResource("13_tile_broken_2")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 13.5, 3, 28.5)
+
+[node name="CeilingBody_68" type="StaticBody3D" parent="Ceilings"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 13.5, 3, 28.5)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Ceilings/CeilingBody_68"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.06, 0)
+shape = SubResource("BoxShape3D_ceiling")
+
+[node name="Floor_35" parent="Floors" instance=ExtResource("8_floor_torn_1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16.5, 0, 1.5)
+
+[node name="FloorBody_69" type="StaticBody3D" parent="Floors"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16.5, 0, 1.5)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Floors/FloorBody_69"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.06, 0)
+shape = SubResource("BoxShape3D_floor")
+
+[node name="Ceiling_35" parent="Ceilings" instance=ExtResource("13_tile_broken_2")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16.5, 3, 1.5)
+
+[node name="CeilingBody_70" type="StaticBody3D" parent="Ceilings"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16.5, 3, 1.5)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Ceilings/CeilingBody_70"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.06, 0)
+shape = SubResource("BoxShape3D_ceiling")
+
+[node name="Floor_36" parent="Floors" instance=ExtResource("9_floor_torn_2")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16.5, 0, 4.5)
+
+[node name="FloorBody_71" type="StaticBody3D" parent="Floors"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16.5, 0, 4.5)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Floors/FloorBody_71"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.06, 0)
+shape = SubResource("BoxShape3D_floor")
+
+[node name="Ceiling_36" parent="Ceilings" instance=ExtResource("12_tile_broken_1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16.5, 3, 4.5)
+
+[node name="CeilingBody_72" type="StaticBody3D" parent="Ceilings"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16.5, 3, 4.5)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Ceilings/CeilingBody_72"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.06, 0)
+shape = SubResource("BoxShape3D_ceiling")
+
+[node name="Light_16" parent="Lights" instance=ExtResource("22_light")]
+transform = Transform3D(0, 0, -1, 0, 1, 0, 1, 0, 0, 16.5, 2.985, 4.5)
+
+[node name="OmniLight3D" type="OmniLight3D" parent="Lights/Light_16"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.12, 0)
+light_color = Color(1.0, 0.96, 0.58, 1)
+light_energy = 1.85
+light_specular = 0.12
+shadow_enabled = true
+shadow_blur = 2.4
+omni_range = 8.5
+omni_attenuation = 1.15
+
+[node name="Floor_37" parent="Floors" instance=ExtResource("7_floor_clean")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16.5, 0, 7.5)
+
+[node name="FloorBody_73" type="StaticBody3D" parent="Floors"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16.5, 0, 7.5)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Floors/FloorBody_73"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.06, 0)
+shape = SubResource("BoxShape3D_floor")
+
+[node name="Ceiling_37" parent="Ceilings" instance=ExtResource("11_tile_dirty")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16.5, 3, 7.5)
+
+[node name="CeilingBody_74" type="StaticBody3D" parent="Ceilings"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16.5, 3, 7.5)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Ceilings/CeilingBody_74"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.06, 0)
+shape = SubResource("BoxShape3D_ceiling")
+
+[node name="Floor_38" parent="Floors" instance=ExtResource("8_floor_torn_1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16.5, 0, 10.5)
+
+[node name="FloorBody_75" type="StaticBody3D" parent="Floors"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16.5, 0, 10.5)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Floors/FloorBody_75"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.06, 0)
+shape = SubResource("BoxShape3D_floor")
+
+[node name="Ceiling_38" parent="Ceilings" instance=ExtResource("10_tile_clean")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16.5, 3, 10.5)
+
+[node name="CeilingBody_76" type="StaticBody3D" parent="Ceilings"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16.5, 3, 10.5)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Ceilings/CeilingBody_76"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.06, 0)
+shape = SubResource("BoxShape3D_ceiling")
+
+[node name="Light_17" parent="Lights" instance=ExtResource("22_light")]
+transform = Transform3D(0, 0, -1, 0, 1, 0, 1, 0, 0, 16.5, 2.985, 10.5)
+
+[node name="OmniLight3D" type="OmniLight3D" parent="Lights/Light_17"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.12, 0)
+light_color = Color(1.0, 0.96, 0.58, 1)
+light_energy = 1.85
+light_specular = 0.12
+shadow_enabled = true
+shadow_blur = 2.4
+omni_range = 8.5
+omni_attenuation = 1.15
+
+[node name="Floor_39" parent="Floors" instance=ExtResource("9_floor_torn_2")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16.5, 0, 13.5)
+
+[node name="FloorBody_77" type="StaticBody3D" parent="Floors"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16.5, 0, 13.5)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Floors/FloorBody_77"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.06, 0)
+shape = SubResource("BoxShape3D_floor")
+
+[node name="Ceiling_39" parent="Ceilings" instance=ExtResource("13_tile_broken_2")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16.5, 3, 13.5)
+
+[node name="CeilingBody_78" type="StaticBody3D" parent="Ceilings"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16.5, 3, 13.5)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Ceilings/CeilingBody_78"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.06, 0)
+shape = SubResource("BoxShape3D_ceiling")
+
+[node name="Floor_40" parent="Floors" instance=ExtResource("7_floor_clean")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16.5, 0, 16.5)
+
+[node name="FloorBody_79" type="StaticBody3D" parent="Floors"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16.5, 0, 16.5)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Floors/FloorBody_79"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.06, 0)
+shape = SubResource("BoxShape3D_floor")
+
+[node name="Ceiling_40" parent="Ceilings" instance=ExtResource("12_tile_broken_1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16.5, 3, 16.5)
+
+[node name="CeilingBody_80" type="StaticBody3D" parent="Ceilings"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16.5, 3, 16.5)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Ceilings/CeilingBody_80"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.06, 0)
+shape = SubResource("BoxShape3D_ceiling")
+
+[node name="Light_18" parent="Lights" instance=ExtResource("22_light")]
+transform = Transform3D(0, 0, -1, 0, 1, 0, 1, 0, 0, 16.5, 2.985, 16.5)
+
+[node name="OmniLight3D" type="OmniLight3D" parent="Lights/Light_18"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.12, 0)
+light_color = Color(1.0, 0.96, 0.58, 1)
+light_energy = 1.05
+light_specular = 0.12
+shadow_enabled = true
+shadow_blur = 2.4
+omni_range = 6.5
+omni_attenuation = 1.15
+
+[node name="Floor_41" parent="Floors" instance=ExtResource("8_floor_torn_1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16.5, 0, 19.5)
+
+[node name="FloorBody_81" type="StaticBody3D" parent="Floors"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16.5, 0, 19.5)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Floors/FloorBody_81"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.06, 0)
+shape = SubResource("BoxShape3D_floor")
+
+[node name="Ceiling_41" parent="Ceilings" instance=ExtResource("11_tile_dirty")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16.5, 3, 19.5)
+
+[node name="CeilingBody_82" type="StaticBody3D" parent="Ceilings"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16.5, 3, 19.5)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Ceilings/CeilingBody_82"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.06, 0)
+shape = SubResource("BoxShape3D_ceiling")
+
+[node name="Floor_42" parent="Floors" instance=ExtResource("9_floor_torn_2")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16.5, 0, 22.5)
+
+[node name="FloorBody_83" type="StaticBody3D" parent="Floors"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16.5, 0, 22.5)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Floors/FloorBody_83"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.06, 0)
+shape = SubResource("BoxShape3D_floor")
+
+[node name="Ceiling_42" parent="Ceilings" instance=ExtResource("10_tile_clean")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16.5, 3, 22.5)
+
+[node name="CeilingBody_84" type="StaticBody3D" parent="Ceilings"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16.5, 3, 22.5)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Ceilings/CeilingBody_84"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.06, 0)
+shape = SubResource("BoxShape3D_ceiling")
+
+[node name="Light_19" parent="Lights" instance=ExtResource("22_light")]
+transform = Transform3D(0, 0, -1, 0, 1, 0, 1, 0, 0, 16.5, 2.985, 22.5)
+
+[node name="OmniLight3D" type="OmniLight3D" parent="Lights/Light_19"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.12, 0)
+light_color = Color(1.0, 0.96, 0.58, 1)
+light_energy = 1.85
+light_specular = 0.12
+shadow_enabled = true
+shadow_blur = 2.4
+omni_range = 8.5
+omni_attenuation = 1.15
+
+[node name="Floor_43" parent="Floors" instance=ExtResource("7_floor_clean")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16.5, 0, 25.5)
+
+[node name="FloorBody_85" type="StaticBody3D" parent="Floors"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16.5, 0, 25.5)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Floors/FloorBody_85"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.06, 0)
+shape = SubResource("BoxShape3D_floor")
+
+[node name="Ceiling_43" parent="Ceilings" instance=ExtResource("13_tile_broken_2")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16.5, 3, 25.5)
+
+[node name="CeilingBody_86" type="StaticBody3D" parent="Ceilings"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16.5, 3, 25.5)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Ceilings/CeilingBody_86"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.06, 0)
+shape = SubResource("BoxShape3D_ceiling")
+
+[node name="Floor_44" parent="Floors" instance=ExtResource("8_floor_torn_1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16.5, 0, 28.5)
+
+[node name="FloorBody_87" type="StaticBody3D" parent="Floors"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16.5, 0, 28.5)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Floors/FloorBody_87"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.06, 0)
+shape = SubResource("BoxShape3D_floor")
+
+[node name="Ceiling_44" parent="Ceilings" instance=ExtResource("12_tile_broken_1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16.5, 3, 28.5)
+
+[node name="CeilingBody_88" type="StaticBody3D" parent="Ceilings"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16.5, 3, 28.5)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Ceilings/CeilingBody_88"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.06, 0)
+shape = SubResource("BoxShape3D_ceiling")
+
+[node name="Floor_45" parent="Floors" instance=ExtResource("8_floor_torn_1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 19.5, 0, 1.5)
+
+[node name="FloorBody_89" type="StaticBody3D" parent="Floors"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 19.5, 0, 1.5)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Floors/FloorBody_89"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.06, 0)
+shape = SubResource("BoxShape3D_floor")
+
+[node name="Ceiling_45" parent="Ceilings" instance=ExtResource("12_tile_broken_1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 19.5, 3, 1.5)
+
+[node name="CeilingBody_90" type="StaticBody3D" parent="Ceilings"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 19.5, 3, 1.5)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Ceilings/CeilingBody_90"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.06, 0)
+shape = SubResource("BoxShape3D_ceiling")
+
+[node name="Floor_46" parent="Floors" instance=ExtResource("7_floor_clean")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 19.5, 0, 7.5)
+
+[node name="FloorBody_91" type="StaticBody3D" parent="Floors"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 19.5, 0, 7.5)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Floors/FloorBody_91"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.06, 0)
+shape = SubResource("BoxShape3D_floor")
+
+[node name="Ceiling_46" parent="Ceilings" instance=ExtResource("10_tile_clean")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 19.5, 3, 7.5)
+
+[node name="CeilingBody_92" type="StaticBody3D" parent="Ceilings"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 19.5, 3, 7.5)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Ceilings/CeilingBody_92"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.06, 0)
+shape = SubResource("BoxShape3D_ceiling")
+
+[node name="Floor_47" parent="Floors" instance=ExtResource("8_floor_torn_1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 19.5, 0, 10.5)
+
+[node name="FloorBody_93" type="StaticBody3D" parent="Floors"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 19.5, 0, 10.5)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Floors/FloorBody_93"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.06, 0)
+shape = SubResource("BoxShape3D_floor")
+
+[node name="Ceiling_47" parent="Ceilings" instance=ExtResource("13_tile_broken_2")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 19.5, 3, 10.5)
+
+[node name="CeilingBody_94" type="StaticBody3D" parent="Ceilings"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 19.5, 3, 10.5)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Ceilings/CeilingBody_94"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.06, 0)
+shape = SubResource("BoxShape3D_ceiling")
+
+[node name="Floor_48" parent="Floors" instance=ExtResource("9_floor_torn_2")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 19.5, 0, 13.5)
+
+[node name="FloorBody_95" type="StaticBody3D" parent="Floors"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 19.5, 0, 13.5)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Floors/FloorBody_95"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.06, 0)
+shape = SubResource("BoxShape3D_floor")
+
+[node name="Ceiling_48" parent="Ceilings" instance=ExtResource("12_tile_broken_1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 19.5, 3, 13.5)
+
+[node name="CeilingBody_96" type="StaticBody3D" parent="Ceilings"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 19.5, 3, 13.5)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Ceilings/CeilingBody_96"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.06, 0)
+shape = SubResource("BoxShape3D_ceiling")
+
+[node name="Light_20" parent="Lights" instance=ExtResource("22_light")]
+transform = Transform3D(0, 0, -1, 0, 1, 0, 1, 0, 0, 19.5, 2.985, 13.5)
+
+[node name="OmniLight3D" type="OmniLight3D" parent="Lights/Light_20"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.12, 0)
+light_color = Color(1.0, 0.96, 0.58, 1)
+light_energy = 1.05
+light_specular = 0.12
+shadow_enabled = true
+shadow_blur = 2.4
+omni_range = 6.5
+omni_attenuation = 1.15
+
+[node name="Floor_49" parent="Floors" instance=ExtResource("8_floor_torn_1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 19.5, 0, 19.5)
+
+[node name="FloorBody_97" type="StaticBody3D" parent="Floors"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 19.5, 0, 19.5)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Floors/FloorBody_97"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.06, 0)
+shape = SubResource("BoxShape3D_floor")
+
+[node name="Ceiling_49" parent="Ceilings" instance=ExtResource("10_tile_clean")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 19.5, 3, 19.5)
+
+[node name="CeilingBody_98" type="StaticBody3D" parent="Ceilings"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 19.5, 3, 19.5)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Ceilings/CeilingBody_98"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.06, 0)
+shape = SubResource("BoxShape3D_ceiling")
+
+[node name="Light_21" parent="Lights" instance=ExtResource("22_light")]
+transform = Transform3D(0, 0, -1, 0, 1, 0, 1, 0, 0, 19.5, 2.985, 19.5)
+
+[node name="OmniLight3D" type="OmniLight3D" parent="Lights/Light_21"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.12, 0)
+light_color = Color(1.0, 0.96, 0.58, 1)
+light_energy = 1.85
+light_specular = 0.12
+shadow_enabled = true
+shadow_blur = 2.4
+omni_range = 8.5
+omni_attenuation = 1.15
+
+[node name="Floor_50" parent="Floors" instance=ExtResource("9_floor_torn_2")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 19.5, 0, 22.5)
+
+[node name="FloorBody_99" type="StaticBody3D" parent="Floors"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 19.5, 0, 22.5)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Floors/FloorBody_99"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.06, 0)
+shape = SubResource("BoxShape3D_floor")
+
+[node name="Ceiling_50" parent="Ceilings" instance=ExtResource("13_tile_broken_2")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 19.5, 3, 22.5)
+
+[node name="CeilingBody_100" type="StaticBody3D" parent="Ceilings"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 19.5, 3, 22.5)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Ceilings/CeilingBody_100"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.06, 0)
+shape = SubResource("BoxShape3D_ceiling")
+
+[node name="Floor_51" parent="Floors" instance=ExtResource("7_floor_clean")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 19.5, 0, 25.5)
+
+[node name="FloorBody_101" type="StaticBody3D" parent="Floors"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 19.5, 0, 25.5)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Floors/FloorBody_101"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.06, 0)
+shape = SubResource("BoxShape3D_floor")
+
+[node name="Ceiling_51" parent="Ceilings" instance=ExtResource("12_tile_broken_1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 19.5, 3, 25.5)
+
+[node name="CeilingBody_102" type="StaticBody3D" parent="Ceilings"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 19.5, 3, 25.5)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Ceilings/CeilingBody_102"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.06, 0)
+shape = SubResource("BoxShape3D_ceiling")
+
+[node name="Floor_52" parent="Floors" instance=ExtResource("8_floor_torn_1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 19.5, 0, 28.5)
+
+[node name="FloorBody_103" type="StaticBody3D" parent="Floors"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 19.5, 0, 28.5)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Floors/FloorBody_103"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.06, 0)
+shape = SubResource("BoxShape3D_floor")
+
+[node name="Ceiling_52" parent="Ceilings" instance=ExtResource("11_tile_dirty")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 19.5, 3, 28.5)
+
+[node name="CeilingBody_104" type="StaticBody3D" parent="Ceilings"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 19.5, 3, 28.5)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Ceilings/CeilingBody_104"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.06, 0)
+shape = SubResource("BoxShape3D_ceiling")
+
+[node name="Light_22" parent="Lights" instance=ExtResource("22_light")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 19.5, 2.985, 28.5)
+
+[node name="OmniLight3D" type="OmniLight3D" parent="Lights/Light_22"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.12, 0)
+light_color = Color(1.0, 0.96, 0.58, 1)
+light_energy = 1.05
+light_specular = 0.12
+shadow_enabled = true
+shadow_blur = 2.4
+omni_range = 6.5
+omni_attenuation = 1.15
+
+[node name="Floor_53" parent="Floors" instance=ExtResource("9_floor_torn_2")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 22.5, 0, 13.5)
+
+[node name="FloorBody_105" type="StaticBody3D" parent="Floors"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 22.5, 0, 13.5)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Floors/FloorBody_105"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.06, 0)
+shape = SubResource("BoxShape3D_floor")
+
+[node name="Ceiling_53" parent="Ceilings" instance=ExtResource("11_tile_dirty")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 22.5, 3, 13.5)
+
+[node name="CeilingBody_106" type="StaticBody3D" parent="Ceilings"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 22.5, 3, 13.5)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Ceilings/CeilingBody_106"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.06, 0)
+shape = SubResource("BoxShape3D_ceiling")
+
+[node name="Floor_54" parent="Floors" instance=ExtResource("8_floor_torn_1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 22.5, 0, 19.5)
+
+[node name="FloorBody_107" type="StaticBody3D" parent="Floors"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 22.5, 0, 19.5)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Floors/FloorBody_107"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.06, 0)
+shape = SubResource("BoxShape3D_floor")
+
+[node name="Ceiling_54" parent="Ceilings" instance=ExtResource("13_tile_broken_2")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 22.5, 3, 19.5)
+
+[node name="CeilingBody_108" type="StaticBody3D" parent="Ceilings"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 22.5, 3, 19.5)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Ceilings/CeilingBody_108"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.06, 0)
+shape = SubResource("BoxShape3D_ceiling")
+
+[node name="Floor_55" parent="Floors" instance=ExtResource("9_floor_torn_2")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 25.5, 0, 13.5)
+
+[node name="FloorBody_109" type="StaticBody3D" parent="Floors"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 25.5, 0, 13.5)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Floors/FloorBody_109"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.06, 0)
+shape = SubResource("BoxShape3D_floor")
+
+[node name="Ceiling_55" parent="Ceilings" instance=ExtResource("10_tile_clean")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 25.5, 3, 13.5)
+
+[node name="CeilingBody_110" type="StaticBody3D" parent="Ceilings"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 25.5, 3, 13.5)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Ceilings/CeilingBody_110"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.06, 0)
+shape = SubResource("BoxShape3D_ceiling")
+
+[node name="Light_23" parent="Lights" instance=ExtResource("22_light")]
+transform = Transform3D(0, 0, -1, 0, 1, 0, 1, 0, 0, 25.5, 2.985, 13.5)
+
+[node name="OmniLight3D" type="OmniLight3D" parent="Lights/Light_23"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.12, 0)
+light_color = Color(1.0, 0.96, 0.58, 1)
+light_energy = 1.85
+light_specular = 0.12
+shadow_enabled = true
+shadow_blur = 2.4
+omni_range = 8.5
+omni_attenuation = 1.15
+
+[node name="Floor_56" parent="Floors" instance=ExtResource("7_floor_clean")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 25.5, 0, 16.5)
+
+[node name="FloorBody_111" type="StaticBody3D" parent="Floors"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 25.5, 0, 16.5)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Floors/FloorBody_111"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.06, 0)
+shape = SubResource("BoxShape3D_floor")
+
+[node name="Ceiling_56" parent="Ceilings" instance=ExtResource("13_tile_broken_2")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 25.5, 3, 16.5)
+
+[node name="CeilingBody_112" type="StaticBody3D" parent="Ceilings"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 25.5, 3, 16.5)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Ceilings/CeilingBody_112"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.06, 0)
+shape = SubResource("BoxShape3D_ceiling")
+
+[node name="Floor_57" parent="Floors" instance=ExtResource("8_floor_torn_1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 25.5, 0, 19.5)
+
+[node name="FloorBody_113" type="StaticBody3D" parent="Floors"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 25.5, 0, 19.5)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Floors/FloorBody_113"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.06, 0)
+shape = SubResource("BoxShape3D_floor")
+
+[node name="Ceiling_57" parent="Ceilings" instance=ExtResource("12_tile_broken_1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 25.5, 3, 19.5)
+
+[node name="CeilingBody_114" type="StaticBody3D" parent="Ceilings"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 25.5, 3, 19.5)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Ceilings/CeilingBody_114"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.06, 0)
+shape = SubResource("BoxShape3D_ceiling")
+
+[node name="Light_24" parent="Lights" instance=ExtResource("22_light")]
+transform = Transform3D(0, 0, -1, 0, 1, 0, 1, 0, 0, 25.5, 2.985, 19.5)
+
+[node name="OmniLight3D" type="OmniLight3D" parent="Lights/Light_24"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.12, 0)
+light_color = Color(1.0, 0.96, 0.58, 1)
+light_energy = 1.85
+light_specular = 0.12
+shadow_enabled = true
+shadow_blur = 2.4
+omni_range = 8.5
+omni_attenuation = 1.15
+
+[node name="Floor_58" parent="Floors" instance=ExtResource("9_floor_torn_2")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 25.5, 0, 22.5)
+
+[node name="FloorBody_115" type="StaticBody3D" parent="Floors"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 25.5, 0, 22.5)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Floors/FloorBody_115"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.06, 0)
+shape = SubResource("BoxShape3D_floor")
+
+[node name="Ceiling_58" parent="Ceilings" instance=ExtResource("11_tile_dirty")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 25.5, 3, 22.5)
+
+[node name="CeilingBody_116" type="StaticBody3D" parent="Ceilings"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 25.5, 3, 22.5)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Ceilings/CeilingBody_116"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.06, 0)
+shape = SubResource("BoxShape3D_ceiling")
+
+[node name="Floor_59" parent="Floors" instance=ExtResource("9_floor_torn_2")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 28.5, 0, 13.5)
+
+[node name="FloorBody_117" type="StaticBody3D" parent="Floors"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 28.5, 0, 13.5)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Floors/FloorBody_117"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.06, 0)
+shape = SubResource("BoxShape3D_floor")
+
+[node name="Ceiling_59" parent="Ceilings" instance=ExtResource("13_tile_broken_2")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 28.5, 3, 13.5)
+
+[node name="CeilingBody_118" type="StaticBody3D" parent="Ceilings"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 28.5, 3, 13.5)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Ceilings/CeilingBody_118"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.06, 0)
+shape = SubResource("BoxShape3D_ceiling")
+
+[node name="Floor_60" parent="Floors" instance=ExtResource("7_floor_clean")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 28.5, 0, 16.5)
+
+[node name="FloorBody_119" type="StaticBody3D" parent="Floors"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 28.5, 0, 16.5)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Floors/FloorBody_119"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.06, 0)
+shape = SubResource("BoxShape3D_floor")
+
+[node name="Ceiling_60" parent="Ceilings" instance=ExtResource("12_tile_broken_1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 28.5, 3, 16.5)
+
+[node name="CeilingBody_120" type="StaticBody3D" parent="Ceilings"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 28.5, 3, 16.5)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Ceilings/CeilingBody_120"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.06, 0)
+shape = SubResource("BoxShape3D_ceiling")
+
+[node name="Light_25" parent="Lights" instance=ExtResource("22_light")]
+transform = Transform3D(0, 0, -1, 0, 1, 0, 1, 0, 0, 28.5, 2.985, 16.5)
+
+[node name="OmniLight3D" type="OmniLight3D" parent="Lights/Light_25"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.12, 0)
+light_color = Color(1.0, 0.96, 0.58, 1)
+light_energy = 1.85
+light_specular = 0.12
+shadow_enabled = true
+shadow_blur = 2.4
+omni_range = 8.5
+omni_attenuation = 1.15
+
+[node name="Floor_61" parent="Floors" instance=ExtResource("8_floor_torn_1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 28.5, 0, 19.5)
+
+[node name="FloorBody_121" type="StaticBody3D" parent="Floors"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 28.5, 0, 19.5)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Floors/FloorBody_121"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.06, 0)
+shape = SubResource("BoxShape3D_floor")
+
+[node name="Ceiling_61" parent="Ceilings" instance=ExtResource("11_tile_dirty")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 28.5, 3, 19.5)
+
+[node name="CeilingBody_122" type="StaticBody3D" parent="Ceilings"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 28.5, 3, 19.5)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Ceilings/CeilingBody_122"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.06, 0)
+shape = SubResource("BoxShape3D_ceiling")
+
+[node name="Floor_62" parent="Floors" instance=ExtResource("9_floor_torn_2")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 28.5, 0, 22.5)
+
+[node name="FloorBody_123" type="StaticBody3D" parent="Floors"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 28.5, 0, 22.5)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Floors/FloorBody_123"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.06, 0)
+shape = SubResource("BoxShape3D_floor")
+
+[node name="Ceiling_62" parent="Ceilings" instance=ExtResource("10_tile_clean")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 28.5, 3, 22.5)
+
+[node name="CeilingBody_124" type="StaticBody3D" parent="Ceilings"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 28.5, 3, 22.5)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Ceilings/CeilingBody_124"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.06, 0)
+shape = SubResource("BoxShape3D_ceiling")
+
+[node name="Light_26" parent="Lights" instance=ExtResource("22_light")]
+transform = Transform3D(0, 0, -1, 0, 1, 0, 1, 0, 0, 28.5, 2.985, 22.5)
+
+[node name="OmniLight3D" type="OmniLight3D" parent="Lights/Light_26"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.12, 0)
+light_color = Color(1.0, 0.96, 0.58, 1)
+light_energy = 1.85
+light_specular = 0.12
+shadow_enabled = true
+shadow_blur = 2.4
+omni_range = 8.5
+omni_attenuation = 1.15
+
+[node name="Wall_1" parent="Walls" instance=ExtResource("4_wall_dirty")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1.5)
+
+[node name="WallBody_125" type="StaticBody3D" parent="Walls"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1.5)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Walls/WallBody_125"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
+shape = SubResource("BoxShape3D_wall")
+
+[node name="Wall_2" parent="Walls" instance=ExtResource("4_wall_dirty")]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 1.5, 0, 0)
+
+[node name="WallBody_126" type="StaticBody3D" parent="Walls"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 1.5, 0, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Walls/WallBody_126"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
+shape = SubResource("BoxShape3D_wall")
+
+[node name="Wall_3" parent="Walls" instance=ExtResource("3_wall_clean")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 4.5)
+
+[node name="WallBody_127" type="StaticBody3D" parent="Walls"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 4.5)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Walls/WallBody_127"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
+shape = SubResource("BoxShape3D_wall")
+
+[node name="Wall_4" parent="Walls" instance=ExtResource("6_wall_wet")]
+transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, 3, 0, 7.5)
+
+[node name="WallBody_128" type="StaticBody3D" parent="Walls"]
+transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, 3, 0, 7.5)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Walls/WallBody_128"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
+shape = SubResource("BoxShape3D_wall")
+
+[node name="Wall_5" parent="Walls" instance=ExtResource("6_wall_wet")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 7.5)
+
+[node name="WallBody_129" type="StaticBody3D" parent="Walls"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 7.5)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Walls/WallBody_129"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
+shape = SubResource("BoxShape3D_wall")
+
+[node name="Wall_6" parent="Walls" instance=ExtResource("5_wall_scratched")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 10.5)
+
+[node name="WallBody_130" type="StaticBody3D" parent="Walls"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 10.5)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Walls/WallBody_130"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
+shape = SubResource("BoxShape3D_wall")
+
+[node name="Wall_7" parent="Walls" instance=ExtResource("4_wall_dirty")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 13.5)
+
+[node name="WallBody_131" type="StaticBody3D" parent="Walls"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 13.5)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Walls/WallBody_131"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
+shape = SubResource("BoxShape3D_wall")
+
+[node name="Wall_8" parent="Walls" instance=ExtResource("3_wall_clean")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 16.5)
+
+[node name="WallBody_132" type="StaticBody3D" parent="Walls"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 16.5)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Walls/WallBody_132"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
+shape = SubResource("BoxShape3D_wall")
+
+[node name="Wall_9" parent="Walls" instance=ExtResource("3_wall_clean")]
+transform = Transform3D(0, 0, -1, 0, 1, 0, 1, 0, 0, 1.5, 0, 18)
+
+[node name="WallBody_133" type="StaticBody3D" parent="Walls"]
+transform = Transform3D(0, 0, -1, 0, 1, 0, 1, 0, 0, 1.5, 0, 18)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Walls/WallBody_133"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
+shape = SubResource("BoxShape3D_wall")
+
+[node name="Wall_10" parent="Walls" instance=ExtResource("4_wall_dirty")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 25.5)
+
+[node name="WallBody_134" type="StaticBody3D" parent="Walls"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 25.5)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Walls/WallBody_134"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
+shape = SubResource("BoxShape3D_wall")
+
+[node name="Wall_11" parent="Walls" instance=ExtResource("4_wall_dirty")]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 1.5, 0, 24)
+
+[node name="WallBody_135" type="StaticBody3D" parent="Walls"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 1.5, 0, 24)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Walls/WallBody_135"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
+shape = SubResource("BoxShape3D_wall")
+
+[node name="Wall_12" parent="Walls" instance=ExtResource("3_wall_clean")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 28.5)
+
+[node name="WallBody_136" type="StaticBody3D" parent="Walls"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 28.5)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Walls/WallBody_136"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
+shape = SubResource("BoxShape3D_wall")
+
+[node name="Wall_13" parent="Walls" instance=ExtResource("3_wall_clean")]
+transform = Transform3D(0, 0, -1, 0, 1, 0, 1, 0, 0, 1.5, 0, 30)
+
+[node name="WallBody_137" type="StaticBody3D" parent="Walls"]
+transform = Transform3D(0, 0, -1, 0, 1, 0, 1, 0, 0, 1.5, 0, 30)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Walls/WallBody_137"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
+shape = SubResource("BoxShape3D_wall")
+
+[node name="Wall_14" parent="Walls" instance=ExtResource("3_wall_clean")]
+transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, 6, 0, 1.5)
+
+[node name="WallBody_138" type="StaticBody3D" parent="Walls"]
+transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, 6, 0, 1.5)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Walls/WallBody_138"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
+shape = SubResource("BoxShape3D_wall")
+
+[node name="Wall_15" parent="Walls" instance=ExtResource("3_wall_clean")]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 4.5, 0, 0)
+
+[node name="WallBody_139" type="StaticBody3D" parent="Walls"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 4.5, 0, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Walls/WallBody_139"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
+shape = SubResource("BoxShape3D_wall")
+
+[node name="Wall_16" parent="Walls" instance=ExtResource("6_wall_wet")]
+transform = Transform3D(0, 0, -1, 0, 1, 0, 1, 0, 0, 4.5, 0, 6)
+
+[node name="WallBody_140" type="StaticBody3D" parent="Walls"]
+transform = Transform3D(0, 0, -1, 0, 1, 0, 1, 0, 0, 4.5, 0, 6)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Walls/WallBody_140"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
+shape = SubResource("BoxShape3D_wall")
+
+[node name="Wall_17" parent="Walls" instance=ExtResource("4_wall_dirty")]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 4.5, 0, 9)
+
+[node name="WallBody_141" type="StaticBody3D" parent="Walls"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 4.5, 0, 9)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Walls/WallBody_141"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
+shape = SubResource("BoxShape3D_wall")
+
+[node name="Wall_18" parent="Walls" instance=ExtResource("5_wall_scratched")]
+transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, 6, 0, 19.5)
+
+[node name="WallBody_142" type="StaticBody3D" parent="Walls"]
+transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, 6, 0, 19.5)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Walls/WallBody_142"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
+shape = SubResource("BoxShape3D_wall")
+
+[node name="Wall_19" parent="Walls" instance=ExtResource("5_wall_scratched")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 0, 19.5)
+
+[node name="WallBody_143" type="StaticBody3D" parent="Walls"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 0, 19.5)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Walls/WallBody_143"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
+shape = SubResource("BoxShape3D_wall")
+
+[node name="Wall_20" parent="Walls" instance=ExtResource("5_wall_scratched")]
+transform = Transform3D(0, 0, -1, 0, 1, 0, 1, 0, 0, 4.5, 0, 21)
+
+[node name="WallBody_144" type="StaticBody3D" parent="Walls"]
+transform = Transform3D(0, 0, -1, 0, 1, 0, 1, 0, 0, 4.5, 0, 21)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Walls/WallBody_144"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
+shape = SubResource("BoxShape3D_wall")
+
+[node name="Wall_21" parent="Walls" instance=ExtResource("3_wall_clean")]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 4.5, 0, 24)
+
+[node name="WallBody_145" type="StaticBody3D" parent="Walls"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 4.5, 0, 24)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Walls/WallBody_145"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
+shape = SubResource("BoxShape3D_wall")
+
+[node name="Wall_22" parent="Walls" instance=ExtResource("6_wall_wet")]
+transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, 6, 0, 28.5)
+
+[node name="WallBody_146" type="StaticBody3D" parent="Walls"]
+transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, 6, 0, 28.5)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Walls/WallBody_146"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
+shape = SubResource("BoxShape3D_wall")
+
+[node name="Wall_23" parent="Walls" instance=ExtResource("6_wall_wet")]
+transform = Transform3D(0, 0, -1, 0, 1, 0, 1, 0, 0, 4.5, 0, 30)
+
+[node name="WallBody_147" type="StaticBody3D" parent="Walls"]
+transform = Transform3D(0, 0, -1, 0, 1, 0, 1, 0, 0, 4.5, 0, 30)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Walls/WallBody_147"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
+shape = SubResource("BoxShape3D_wall")
+
+[node name="Wall_24" parent="Walls" instance=ExtResource("5_wall_scratched")]
+transform = Transform3D(0, 0, -1, 0, 1, 0, 1, 0, 0, 7.5, 0, 6)
+
+[node name="WallBody_148" type="StaticBody3D" parent="Walls"]
+transform = Transform3D(0, 0, -1, 0, 1, 0, 1, 0, 0, 7.5, 0, 6)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Walls/WallBody_148"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
+shape = SubResource("BoxShape3D_wall")
+
+[node name="Wall_25" parent="Walls" instance=ExtResource("5_wall_scratched")]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 7.5, 0, 3)
+
+[node name="WallBody_149" type="StaticBody3D" parent="Walls"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 7.5, 0, 3)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Walls/WallBody_149"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
+shape = SubResource("BoxShape3D_wall")
+
+[node name="Wall_26" parent="Walls" instance=ExtResource("3_wall_clean")]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 7.5, 0, 9)
+
+[node name="WallBody_150" type="StaticBody3D" parent="Walls"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 7.5, 0, 9)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Walls/WallBody_150"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
+shape = SubResource("BoxShape3D_wall")
+
+[node name="Wall_27" parent="Walls" instance=ExtResource("5_wall_scratched")]
+transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, 9, 0, 16.5)
+
+[node name="WallBody_151" type="StaticBody3D" parent="Walls"]
+transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, 9, 0, 16.5)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Walls/WallBody_151"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
+shape = SubResource("BoxShape3D_wall")
+
+[node name="Wall_28" parent="Walls" instance=ExtResource("5_wall_scratched")]
+transform = Transform3D(0, 0, -1, 0, 1, 0, 1, 0, 0, 7.5, 0, 18)
+
+[node name="WallBody_152" type="StaticBody3D" parent="Walls"]
+transform = Transform3D(0, 0, -1, 0, 1, 0, 1, 0, 0, 7.5, 0, 18)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Walls/WallBody_152"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
+shape = SubResource("BoxShape3D_wall")
+
+[node name="Wall_29" parent="Walls" instance=ExtResource("6_wall_wet")]
+transform = Transform3D(0, 0, -1, 0, 1, 0, 1, 0, 0, 7.5, 0, 27)
+
+[node name="WallBody_153" type="StaticBody3D" parent="Walls"]
+transform = Transform3D(0, 0, -1, 0, 1, 0, 1, 0, 0, 7.5, 0, 27)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Walls/WallBody_153"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
+shape = SubResource("BoxShape3D_wall")
+
+[node name="Wall_30" parent="Walls" instance=ExtResource("6_wall_wet")]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 7.5, 0, 24)
+
+[node name="WallBody_154" type="StaticBody3D" parent="Walls"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 7.5, 0, 24)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Walls/WallBody_154"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
+shape = SubResource("BoxShape3D_wall")
+
+[node name="Wall_31" parent="Walls" instance=ExtResource("4_wall_dirty")]
+transform = Transform3D(0, 0, -1, 0, 1, 0, 1, 0, 0, 10.5, 0, 6)
+
+[node name="WallBody_155" type="StaticBody3D" parent="Walls"]
+transform = Transform3D(0, 0, -1, 0, 1, 0, 1, 0, 0, 10.5, 0, 6)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Walls/WallBody_155"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
+shape = SubResource("BoxShape3D_wall")
+
+[node name="Wall_32" parent="Walls" instance=ExtResource("4_wall_dirty")]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 10.5, 0, 3)
+
+[node name="WallBody_156" type="StaticBody3D" parent="Walls"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 10.5, 0, 3)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Walls/WallBody_156"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
+shape = SubResource("BoxShape3D_wall")
+
+[node name="Wall_33" parent="Walls" instance=ExtResource("6_wall_wet")]
+transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, 12, 0, 10.5)
+
+[node name="WallBody_157" type="StaticBody3D" parent="Walls"]
+transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, 12, 0, 10.5)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Walls/WallBody_157"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
+shape = SubResource("BoxShape3D_wall")
+
+[node name="Wall_34" parent="Walls" instance=ExtResource("6_wall_wet")]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 10.5, 0, 9)
+
+[node name="WallBody_158" type="StaticBody3D" parent="Walls"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 10.5, 0, 9)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Walls/WallBody_158"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
+shape = SubResource("BoxShape3D_wall")
+
+[node name="Wall_35" parent="Walls" instance=ExtResource("5_wall_scratched")]
+transform = Transform3D(0, 0, -1, 0, 1, 0, 1, 0, 0, 10.5, 0, 15)
+
+[node name="WallBody_159" type="StaticBody3D" parent="Walls"]
+transform = Transform3D(0, 0, -1, 0, 1, 0, 1, 0, 0, 10.5, 0, 15)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Walls/WallBody_159"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
+shape = SubResource("BoxShape3D_wall")
+
+[node name="Wall_36" parent="Walls" instance=ExtResource("3_wall_clean")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9, 0, 19.5)
+
+[node name="WallBody_160" type="StaticBody3D" parent="Walls"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9, 0, 19.5)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Walls/WallBody_160"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
+shape = SubResource("BoxShape3D_wall")
+
+[node name="Wall_37" parent="Walls" instance=ExtResource("3_wall_clean")]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 10.5, 0, 18)
+
+[node name="WallBody_161" type="StaticBody3D" parent="Walls"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 10.5, 0, 18)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Walls/WallBody_161"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
+shape = SubResource("BoxShape3D_wall")
+
+[node name="Wall_38" parent="Walls" instance=ExtResource("6_wall_wet")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9, 0, 22.5)
+
+[node name="WallBody_162" type="StaticBody3D" parent="Walls"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9, 0, 22.5)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Walls/WallBody_162"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
+shape = SubResource("BoxShape3D_wall")
+
+[node name="Wall_39" parent="Walls" instance=ExtResource("5_wall_scratched")]
+transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, 12, 0, 25.5)
+
+[node name="WallBody_163" type="StaticBody3D" parent="Walls"]
+transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, 12, 0, 25.5)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Walls/WallBody_163"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
+shape = SubResource("BoxShape3D_wall")
+
+[node name="Wall_40" parent="Walls" instance=ExtResource("4_wall_dirty")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9, 0, 28.5)
+
+[node name="WallBody_164" type="StaticBody3D" parent="Walls"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9, 0, 28.5)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Walls/WallBody_164"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
+shape = SubResource("BoxShape3D_wall")
+
+[node name="Wall_41" parent="Walls" instance=ExtResource("4_wall_dirty")]
+transform = Transform3D(0, 0, -1, 0, 1, 0, 1, 0, 0, 10.5, 0, 30)
+
+[node name="WallBody_165" type="StaticBody3D" parent="Walls"]
+transform = Transform3D(0, 0, -1, 0, 1, 0, 1, 0, 0, 10.5, 0, 30)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Walls/WallBody_165"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
+shape = SubResource("BoxShape3D_wall")
+
+[node name="Wall_42" parent="Walls" instance=ExtResource("4_wall_dirty")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12, 0, 1.5)
+
+[node name="WallBody_166" type="StaticBody3D" parent="Walls"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12, 0, 1.5)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Walls/WallBody_166"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
+shape = SubResource("BoxShape3D_wall")
+
+[node name="Wall_43" parent="Walls" instance=ExtResource("4_wall_dirty")]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 13.5, 0, 0)
+
+[node name="WallBody_167" type="StaticBody3D" parent="Walls"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 13.5, 0, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Walls/WallBody_167"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
+shape = SubResource("BoxShape3D_wall")
+
+[node name="Wall_44" parent="Walls" instance=ExtResource("3_wall_clean")]
+transform = Transform3D(0, 0, -1, 0, 1, 0, 1, 0, 0, 13.5, 0, 6)
+
+[node name="WallBody_168" type="StaticBody3D" parent="Walls"]
+transform = Transform3D(0, 0, -1, 0, 1, 0, 1, 0, 0, 13.5, 0, 6)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Walls/WallBody_168"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
+shape = SubResource("BoxShape3D_wall")
+
+[node name="Wall_45" parent="Walls" instance=ExtResource("4_wall_dirty")]
+transform = Transform3D(0, 0, -1, 0, 1, 0, 1, 0, 0, 13.5, 0, 15)
+
+[node name="WallBody_169" type="StaticBody3D" parent="Walls"]
+transform = Transform3D(0, 0, -1, 0, 1, 0, 1, 0, 0, 13.5, 0, 15)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Walls/WallBody_169"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
+shape = SubResource("BoxShape3D_wall")
+
+[node name="Wall_46" parent="Walls" instance=ExtResource("4_wall_dirty")]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 13.5, 0, 12)
+
+[node name="WallBody_170" type="StaticBody3D" parent="Walls"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 13.5, 0, 12)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Walls/WallBody_170"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
+shape = SubResource("BoxShape3D_wall")
+
+[node name="Wall_47" parent="Walls" instance=ExtResource("6_wall_wet")]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 13.5, 0, 18)
+
+[node name="WallBody_171" type="StaticBody3D" parent="Walls"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 13.5, 0, 18)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Walls/WallBody_171"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
+shape = SubResource("BoxShape3D_wall")
+
+[node name="Wall_48" parent="Walls" instance=ExtResource("5_wall_scratched")]
+transform = Transform3D(0, 0, -1, 0, 1, 0, 1, 0, 0, 13.5, 0, 24)
+
+[node name="WallBody_172" type="StaticBody3D" parent="Walls"]
+transform = Transform3D(0, 0, -1, 0, 1, 0, 1, 0, 0, 13.5, 0, 24)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Walls/WallBody_172"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
+shape = SubResource("BoxShape3D_wall")
+
+[node name="Wall_49" parent="Walls" instance=ExtResource("3_wall_clean")]
+transform = Transform3D(0, 0, -1, 0, 1, 0, 1, 0, 0, 13.5, 0, 30)
+
+[node name="WallBody_173" type="StaticBody3D" parent="Walls"]
+transform = Transform3D(0, 0, -1, 0, 1, 0, 1, 0, 0, 13.5, 0, 30)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Walls/WallBody_173"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
+shape = SubResource("BoxShape3D_wall")
+
+[node name="Wall_50" parent="Walls" instance=ExtResource("3_wall_clean")]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 13.5, 0, 27)
+
+[node name="WallBody_174" type="StaticBody3D" parent="Walls"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 13.5, 0, 27)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Walls/WallBody_174"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
+shape = SubResource("BoxShape3D_wall")
+
+[node name="Wall_51" parent="Walls" instance=ExtResource("3_wall_clean")]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 16.5, 0, 0)
+
+[node name="WallBody_175" type="StaticBody3D" parent="Walls"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 16.5, 0, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Walls/WallBody_175"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
+shape = SubResource("BoxShape3D_wall")
+
+[node name="Wall_52" parent="Walls" instance=ExtResource("6_wall_wet")]
+transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, 18, 0, 4.5)
+
+[node name="WallBody_176" type="StaticBody3D" parent="Walls"]
+transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, 18, 0, 4.5)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Walls/WallBody_176"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
+shape = SubResource("BoxShape3D_wall")
+
+[node name="Wall_53" parent="Walls" instance=ExtResource("5_wall_scratched")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15, 0, 7.5)
+
+[node name="WallBody_177" type="StaticBody3D" parent="Walls"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15, 0, 7.5)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Walls/WallBody_177"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
+shape = SubResource("BoxShape3D_wall")
+
+[node name="Wall_54" parent="Walls" instance=ExtResource("4_wall_dirty")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15, 0, 10.5)
+
+[node name="WallBody_178" type="StaticBody3D" parent="Walls"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15, 0, 10.5)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Walls/WallBody_178"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
+shape = SubResource("BoxShape3D_wall")
+
+[node name="Wall_55" parent="Walls" instance=ExtResource("6_wall_wet")]
+transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, 18, 0, 16.5)
+
+[node name="WallBody_179" type="StaticBody3D" parent="Walls"]
+transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, 18, 0, 16.5)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Walls/WallBody_179"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
+shape = SubResource("BoxShape3D_wall")
+
+[node name="Wall_56" parent="Walls" instance=ExtResource("6_wall_wet")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15, 0, 16.5)
+
+[node name="WallBody_180" type="StaticBody3D" parent="Walls"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15, 0, 16.5)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Walls/WallBody_180"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
+shape = SubResource("BoxShape3D_wall")
+
+[node name="Wall_57" parent="Walls" instance=ExtResource("3_wall_clean")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15, 0, 25.5)
+
+[node name="WallBody_181" type="StaticBody3D" parent="Walls"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15, 0, 25.5)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Walls/WallBody_181"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
+shape = SubResource("BoxShape3D_wall")
+
+[node name="Wall_58" parent="Walls" instance=ExtResource("6_wall_wet")]
+transform = Transform3D(0, 0, -1, 0, 1, 0, 1, 0, 0, 16.5, 0, 30)
+
+[node name="WallBody_182" type="StaticBody3D" parent="Walls"]
+transform = Transform3D(0, 0, -1, 0, 1, 0, 1, 0, 0, 16.5, 0, 30)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Walls/WallBody_182"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
+shape = SubResource("BoxShape3D_wall")
+
+[node name="Wall_59" parent="Walls" instance=ExtResource("6_wall_wet")]
+transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, 21, 0, 1.5)
+
+[node name="WallBody_183" type="StaticBody3D" parent="Walls"]
+transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, 21, 0, 1.5)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Walls/WallBody_183"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
+shape = SubResource("BoxShape3D_wall")
+
+[node name="Wall_60" parent="Walls" instance=ExtResource("5_wall_scratched")]
+transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, 19.5, 0, 1.5)
+
+[node name="WallBody_184" type="StaticBody3D" parent="Walls"]
+transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, 19.5, 0, 1.5)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Walls/WallBody_184"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
+shape = SubResource("BoxShape3D_wall")
+
+[node name="Wall_61" parent="Walls" instance=ExtResource("6_wall_wet")]
+transform = Transform3D(0, 0, -1, 0, 1, 0, 1, 0, 0, 19.5, 0, 3)
+
+[node name="WallBody_185" type="StaticBody3D" parent="Walls"]
+transform = Transform3D(0, 0, -1, 0, 1, 0, 1, 0, 0, 19.5, 0, 3)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Walls/WallBody_185"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
+shape = SubResource("BoxShape3D_wall")
+
+[node name="Wall_62" parent="Walls" instance=ExtResource("6_wall_wet")]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 19.5, 0, 0)
+
+[node name="WallBody_186" type="StaticBody3D" parent="Walls"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 19.5, 0, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Walls/WallBody_186"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
+shape = SubResource("BoxShape3D_wall")
+
+[node name="Wall_63" parent="Walls" instance=ExtResource("4_wall_dirty")]
+transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, 21, 0, 7.5)
+
+[node name="WallBody_187" type="StaticBody3D" parent="Walls"]
+transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, 21, 0, 7.5)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Walls/WallBody_187"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
+shape = SubResource("BoxShape3D_wall")
+
+[node name="Wall_64" parent="Walls" instance=ExtResource("4_wall_dirty")]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 19.5, 0, 6)
+
+[node name="WallBody_188" type="StaticBody3D" parent="Walls"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 19.5, 0, 6)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Walls/WallBody_188"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
+shape = SubResource("BoxShape3D_wall")
+
+[node name="Wall_65" parent="Walls" instance=ExtResource("3_wall_clean")]
+transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, 21, 0, 10.5)
+
+[node name="WallBody_189" type="StaticBody3D" parent="Walls"]
+transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, 21, 0, 10.5)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Walls/WallBody_189"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
+shape = SubResource("BoxShape3D_wall")
+
+[node name="Wall_66" parent="Walls" instance=ExtResource("6_wall_wet")]
+transform = Transform3D(0, 0, -1, 0, 1, 0, 1, 0, 0, 19.5, 0, 15)
+
+[node name="WallBody_190" type="StaticBody3D" parent="Walls"]
+transform = Transform3D(0, 0, -1, 0, 1, 0, 1, 0, 0, 19.5, 0, 15)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Walls/WallBody_190"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
+shape = SubResource("BoxShape3D_wall")
+
+[node name="Wall_67" parent="Walls" instance=ExtResource("4_wall_dirty")]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 19.5, 0, 18)
+
+[node name="WallBody_191" type="StaticBody3D" parent="Walls"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 19.5, 0, 18)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Walls/WallBody_191"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
+shape = SubResource("BoxShape3D_wall")
+
+[node name="Wall_68" parent="Walls" instance=ExtResource("3_wall_clean")]
+transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, 21, 0, 22.5)
+
+[node name="WallBody_192" type="StaticBody3D" parent="Walls"]
+transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, 21, 0, 22.5)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Walls/WallBody_192"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
+shape = SubResource("BoxShape3D_wall")
+
+[node name="Wall_69" parent="Walls" instance=ExtResource("6_wall_wet")]
+transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, 21, 0, 25.5)
+
+[node name="WallBody_193" type="StaticBody3D" parent="Walls"]
+transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, 21, 0, 25.5)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Walls/WallBody_193"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
+shape = SubResource("BoxShape3D_wall")
+
+[node name="Wall_70" parent="Walls" instance=ExtResource("5_wall_scratched")]
+transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, 21, 0, 28.5)
+
+[node name="WallBody_194" type="StaticBody3D" parent="Walls"]
+transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, 21, 0, 28.5)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Walls/WallBody_194"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
+shape = SubResource("BoxShape3D_wall")
+
+[node name="Wall_71" parent="Walls" instance=ExtResource("5_wall_scratched")]
+transform = Transform3D(0, 0, -1, 0, 1, 0, 1, 0, 0, 19.5, 0, 30)
+
+[node name="WallBody_195" type="StaticBody3D" parent="Walls"]
+transform = Transform3D(0, 0, -1, 0, 1, 0, 1, 0, 0, 19.5, 0, 30)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Walls/WallBody_195"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
+shape = SubResource("BoxShape3D_wall")
+
+[node name="Wall_72" parent="Walls" instance=ExtResource("5_wall_scratched")]
+transform = Transform3D(0, 0, -1, 0, 1, 0, 1, 0, 0, 22.5, 0, 15)
+
+[node name="WallBody_196" type="StaticBody3D" parent="Walls"]
+transform = Transform3D(0, 0, -1, 0, 1, 0, 1, 0, 0, 22.5, 0, 15)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Walls/WallBody_196"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
+shape = SubResource("BoxShape3D_wall")
+
+[node name="Wall_73" parent="Walls" instance=ExtResource("5_wall_scratched")]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 22.5, 0, 12)
+
+[node name="WallBody_197" type="StaticBody3D" parent="Walls"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 22.5, 0, 12)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Walls/WallBody_197"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
+shape = SubResource("BoxShape3D_wall")
+
+[node name="Wall_74" parent="Walls" instance=ExtResource("3_wall_clean")]
+transform = Transform3D(0, 0, -1, 0, 1, 0, 1, 0, 0, 22.5, 0, 21)
+
+[node name="WallBody_198" type="StaticBody3D" parent="Walls"]
+transform = Transform3D(0, 0, -1, 0, 1, 0, 1, 0, 0, 22.5, 0, 21)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Walls/WallBody_198"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
+shape = SubResource("BoxShape3D_wall")
+
+[node name="Wall_75" parent="Walls" instance=ExtResource("3_wall_clean")]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 22.5, 0, 18)
+
+[node name="WallBody_199" type="StaticBody3D" parent="Walls"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 22.5, 0, 18)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Walls/WallBody_199"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
+shape = SubResource("BoxShape3D_wall")
+
+[node name="Wall_76" parent="Walls" instance=ExtResource("4_wall_dirty")]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 25.5, 0, 12)
+
+[node name="WallBody_200" type="StaticBody3D" parent="Walls"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 25.5, 0, 12)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Walls/WallBody_200"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
+shape = SubResource("BoxShape3D_wall")
+
+[node name="Wall_77" parent="Walls" instance=ExtResource("3_wall_clean")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 24, 0, 16.5)
+
+[node name="WallBody_201" type="StaticBody3D" parent="Walls"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 24, 0, 16.5)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Walls/WallBody_201"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
+shape = SubResource("BoxShape3D_wall")
+
+[node name="Wall_78" parent="Walls" instance=ExtResource("5_wall_scratched")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 24, 0, 22.5)
+
+[node name="WallBody_202" type="StaticBody3D" parent="Walls"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 24, 0, 22.5)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Walls/WallBody_202"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
+shape = SubResource("BoxShape3D_wall")
+
+[node name="Wall_79" parent="Walls" instance=ExtResource("5_wall_scratched")]
+transform = Transform3D(0, 0, -1, 0, 1, 0, 1, 0, 0, 25.5, 0, 24)
+
+[node name="WallBody_203" type="StaticBody3D" parent="Walls"]
+transform = Transform3D(0, 0, -1, 0, 1, 0, 1, 0, 0, 25.5, 0, 24)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Walls/WallBody_203"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
+shape = SubResource("BoxShape3D_wall")
+
+[node name="Wall_80" parent="Walls" instance=ExtResource("3_wall_clean")]
+transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, 30, 0, 13.5)
+
+[node name="WallBody_204" type="StaticBody3D" parent="Walls"]
+transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, 30, 0, 13.5)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Walls/WallBody_204"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
+shape = SubResource("BoxShape3D_wall")
+
+[node name="Wall_81" parent="Walls" instance=ExtResource("3_wall_clean")]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 28.5, 0, 12)
+
+[node name="WallBody_205" type="StaticBody3D" parent="Walls"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 28.5, 0, 12)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Walls/WallBody_205"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
+shape = SubResource("BoxShape3D_wall")
+
+[node name="Wall_82" parent="Walls" instance=ExtResource("6_wall_wet")]
+transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, 30, 0, 16.5)
+
+[node name="WallBody_206" type="StaticBody3D" parent="Walls"]
+transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, 30, 0, 16.5)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Walls/WallBody_206"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
+shape = SubResource("BoxShape3D_wall")
+
+[node name="Wall_83" parent="Walls" instance=ExtResource("5_wall_scratched")]
+transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, 30, 0, 19.5)
+
+[node name="WallBody_207" type="StaticBody3D" parent="Walls"]
+transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, 30, 0, 19.5)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Walls/WallBody_207"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
+shape = SubResource("BoxShape3D_wall")
+
+[node name="Wall_84" parent="Walls" instance=ExtResource("4_wall_dirty")]
+transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, 30, 0, 22.5)
+
+[node name="WallBody_208" type="StaticBody3D" parent="Walls"]
+transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, 30, 0, 22.5)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Walls/WallBody_208"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
+shape = SubResource("BoxShape3D_wall")
+
+[node name="Wall_85" parent="Walls" instance=ExtResource("4_wall_dirty")]
+transform = Transform3D(0, 0, -1, 0, 1, 0, 1, 0, 0, 28.5, 0, 24)
+
+[node name="WallBody_209" type="StaticBody3D" parent="Walls"]
+transform = Transform3D(0, 0, -1, 0, 1, 0, 1, 0, 0, 28.5, 0, 24)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Walls/WallBody_209"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
+shape = SubResource("BoxShape3D_wall")
+
+[node name="Doorway_1" parent="Doorways" instance=ExtResource("16_doorway_scratched")]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 1.5, 0, 6)
+
+[node name="DoorBody_210" type="StaticBody3D" parent="Doorways"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 1.5, 0, 6)
+
+[node name="JambL" type="CollisionShape3D" parent="Doorways/DoorBody_210"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 1.2)
+shape = SubResource("BoxShape3D_jamb")
+
+[node name="JambR" type="CollisionShape3D" parent="Doorways/DoorBody_210"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, -1.2)
+shape = SubResource("BoxShape3D_jamb")
+
+[node name="Lintel" type="CollisionShape3D" parent="Doorways/DoorBody_210"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.6, 0)
+shape = SubResource("BoxShape3D_lintel")
+
+[node name="Doorway_2" parent="Doorways" instance=ExtResource("17_doorway_wet")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 21, 0, 19.5)
+
+[node name="DoorBody_211" type="StaticBody3D" parent="Doorways"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 21, 0, 19.5)
+
+[node name="JambL" type="CollisionShape3D" parent="Doorways/DoorBody_211"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 1.2)
+shape = SubResource("BoxShape3D_jamb")
+
+[node name="JambR" type="CollisionShape3D" parent="Doorways/DoorBody_211"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, -1.2)
+shape = SubResource("BoxShape3D_jamb")
+
+[node name="Lintel" type="CollisionShape3D" parent="Doorways/DoorBody_211"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.6, 0)
+shape = SubResource("BoxShape3D_lintel")
+
+[node name="Doorway_3" parent="Doorways" instance=ExtResource("16_doorway_scratched")]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 16.5, 0, 15)
+
+[node name="DoorBody_212" type="StaticBody3D" parent="Doorways"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 16.5, 0, 15)
+
+[node name="JambL" type="CollisionShape3D" parent="Doorways/DoorBody_212"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 1.2)
+shape = SubResource("BoxShape3D_jamb")
+
+[node name="JambR" type="CollisionShape3D" parent="Doorways/DoorBody_212"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, -1.2)
+shape = SubResource("BoxShape3D_jamb")
+
+[node name="Lintel" type="CollisionShape3D" parent="Doorways/DoorBody_212"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.6, 0)
+shape = SubResource("BoxShape3D_lintel")
+
+[node name="Doorway_4" parent="Doorways" instance=ExtResource("14_doorway_clean")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9, 0, 25.5)
+
+[node name="DoorBody_213" type="StaticBody3D" parent="Doorways"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9, 0, 25.5)
+
+[node name="JambL" type="CollisionShape3D" parent="Doorways/DoorBody_213"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 1.2)
+shape = SubResource("BoxShape3D_jamb")
+
+[node name="JambR" type="CollisionShape3D" parent="Doorways/DoorBody_213"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, -1.2)
+shape = SubResource("BoxShape3D_jamb")
+
+[node name="Lintel" type="CollisionShape3D" parent="Doorways/DoorBody_213"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.6, 0)
+shape = SubResource("BoxShape3D_lintel")
+
+[node name="Doorway_5" parent="Doorways" instance=ExtResource("16_doorway_scratched")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 18, 0, 1.5)
+
+[node name="DoorBody_214" type="StaticBody3D" parent="Doorways"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 18, 0, 1.5)
+
+[node name="JambL" type="CollisionShape3D" parent="Doorways/DoorBody_214"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 1.2)
+shape = SubResource("BoxShape3D_jamb")
+
+[node name="JambR" type="CollisionShape3D" parent="Doorways/DoorBody_214"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, -1.2)
+shape = SubResource("BoxShape3D_jamb")
+
+[node name="Lintel" type="CollisionShape3D" parent="Doorways/DoorBody_214"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.6, 0)
+shape = SubResource("BoxShape3D_lintel")
+
+[node name="Doorway_6" parent="Doorways" instance=ExtResource("14_doorway_clean")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 24, 0, 13.5)
+
+[node name="DoorBody_215" type="StaticBody3D" parent="Doorways"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 24, 0, 13.5)
+
+[node name="JambL" type="CollisionShape3D" parent="Doorways/DoorBody_215"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 1.2)
+shape = SubResource("BoxShape3D_jamb")
+
+[node name="JambR" type="CollisionShape3D" parent="Doorways/DoorBody_215"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, -1.2)
+shape = SubResource("BoxShape3D_jamb")
+
+[node name="Lintel" type="CollisionShape3D" parent="Doorways/DoorBody_215"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.6, 0)
+shape = SubResource("BoxShape3D_lintel")
+
+[node name="Doorway_7" parent="Doorways" instance=ExtResource("15_doorway_dirty")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9, 0, 13.5)
+
+[node name="DoorBody_216" type="StaticBody3D" parent="Doorways"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9, 0, 13.5)
+
+[node name="JambL" type="CollisionShape3D" parent="Doorways/DoorBody_216"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 1.2)
+shape = SubResource("BoxShape3D_jamb")
+
+[node name="JambR" type="CollisionShape3D" parent="Doorways/DoorBody_216"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, -1.2)
+shape = SubResource("BoxShape3D_jamb")
+
+[node name="Lintel" type="CollisionShape3D" parent="Doorways/DoorBody_216"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.6, 0)
+shape = SubResource("BoxShape3D_lintel")
+
+[node name="Doorway_8" parent="Doorways" instance=ExtResource("17_doorway_wet")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15, 0, 13.5)
+
+[node name="DoorBody_217" type="StaticBody3D" parent="Doorways"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15, 0, 13.5)
+
+[node name="JambL" type="CollisionShape3D" parent="Doorways/DoorBody_217"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 1.2)
+shape = SubResource("BoxShape3D_jamb")
+
+[node name="JambR" type="CollisionShape3D" parent="Doorways/DoorBody_217"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, -1.2)
+shape = SubResource("BoxShape3D_jamb")
+
+[node name="Lintel" type="CollisionShape3D" parent="Doorways/DoorBody_217"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.6, 0)
+shape = SubResource("BoxShape3D_lintel")
+
+[node name="Doorway_9" parent="Doorways" instance=ExtResource("14_doorway_clean")]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 4.5, 0, 18)
+
+[node name="DoorBody_218" type="StaticBody3D" parent="Doorways"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 4.5, 0, 18)
+
+[node name="JambL" type="CollisionShape3D" parent="Doorways/DoorBody_218"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 1.2)
+shape = SubResource("BoxShape3D_jamb")
+
+[node name="JambR" type="CollisionShape3D" parent="Doorways/DoorBody_218"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, -1.2)
+shape = SubResource("BoxShape3D_jamb")
+
+[node name="Lintel" type="CollisionShape3D" parent="Doorways/DoorBody_218"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.6, 0)
+shape = SubResource("BoxShape3D_lintel")
+
+[node name="Corner_1" parent="Details" instance=ExtResource("19_corner_dirty")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 13.5, 0, 21)
+
+[node name="DetailBody_219" type="StaticBody3D" parent="Details"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 13.5, 0, 21)
+
+[node name="ArmX" type="CollisionShape3D" parent="Details/DetailBody_219"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.75, 1.5, 0)
+shape = SubResource("BoxShape3D_corner_x")
+
+[node name="ArmZ" type="CollisionShape3D" parent="Details/DetailBody_219"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0.75)
+shape = SubResource("BoxShape3D_corner_z")
+
+[node name="Corner_2" parent="Details" instance=ExtResource("20_corner_scratched")]
+transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, 18, 0, 24)
+
+[node name="DetailBody_220" type="StaticBody3D" parent="Details"]
+transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, 18, 0, 24)
+
+[node name="ArmX" type="CollisionShape3D" parent="Details/DetailBody_220"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.75, 1.5, 0)
+shape = SubResource("BoxShape3D_corner_x")
+
+[node name="ArmZ" type="CollisionShape3D" parent="Details/DetailBody_220"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0.75)
+shape = SubResource("BoxShape3D_corner_z")
+
+[node name="Corner_3" parent="Details" instance=ExtResource("21_corner_wet")]
+transform = Transform3D(0, 0, -1, 0, 1, 0, 1, 0, 0, 21, 0, 19.5)
+
+[node name="DetailBody_221" type="StaticBody3D" parent="Details"]
+transform = Transform3D(0, 0, -1, 0, 1, 0, 1, 0, 0, 21, 0, 19.5)
+
+[node name="ArmX" type="CollisionShape3D" parent="Details/DetailBody_221"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.75, 1.5, 0)
+shape = SubResource("BoxShape3D_corner_x")
+
+[node name="ArmZ" type="CollisionShape3D" parent="Details/DetailBody_221"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0.75)
+shape = SubResource("BoxShape3D_corner_z")

@@ -11,5 +11,6 @@ config_version=5
 [application]
 
 config/name="backrooms-game"
+run/main_scene="res://scenes/levels/level_0_test.tscn"
 config/features=PackedStringArray("4.5", "Forward Plus")
 config/icon="res://icon.svg"
