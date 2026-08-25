@@ -824,17 +824,14 @@ def stair_pieces(st: dict) -> list[dict]:
     ang = math.degrees(math.atan2(FLIGHT_RISE, FLIGHT_RUN))
     r1z = z0 + FLIGHT_RUN * 0.5
     r1y = FLIGHT_RISE * 0.5
-    out.append(rbox(f1x, r1y, r1z, FLIGHT_W, 0.14, hyp, pitch=-ang))
+    out.append(rbox(f1x, r1y, r1z, FLIGHT_W, 0.14, hyp, pitch=ang))
     out[-1]["mat"] = "stair"
     out[-1]["invisible"] = True
-    # ramp 2: along −Z as y rises → pitch opposite
     r2z = z0 + FLIGHT_RUN * 0.5
     r2y = FLIGHT_RISE + FLIGHT_RISE * 0.5
-    out.append(rbox(f2x, r2y, r2z, FLIGHT_W, 0.14, hyp, pitch=ang))
+    out.append(rbox(f2x, r2y, r2z, FLIGHT_W, 0.14, hyp, pitch=-ang))
     out[-1]["invisible"] = True
-    # solid under landing so the player cannot crawl in
-    out.append(rbox(land_x, FLIGHT_RISE * 0.5, land_z, land_sx, FLIGHT_RISE, LANDING_D))
-    out[-1]["mat"] = "stair"
+    # Do not fill the landing volume with a 1.5 m solid — it blocks the walk path.
     # GF floor of well (in case space floor is split)
     out.append(rbox(WELL * 0.5, -FLOOR_T * 0.5, WELL * 0.5, WELL, FLOOR_T, WELL))
     out[-1]["mat"] = "floor"
@@ -1379,7 +1376,6 @@ def main() -> int:
     emit_walls(em, segs)
     emit_stairs(em)
     st = stats()
-    emit_labels(em, st)
     write_tscn(em, st)
     ascii_map(0, ASCII_GF)
     ascii_map(1, ASCII_UF)
