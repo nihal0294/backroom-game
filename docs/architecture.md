@@ -146,12 +146,14 @@ Creare solo durante il milestone relativo.
 ## Stato corrente
 
 - `res://scenes/levels/level_0_test.tscn` come main scene;
-- `res://scenes/player.tscn` + `res://scripts/player.gd` come player di prova;
+- `res://scenes/player.tscn` con movimento, flashlight, CharacterStatus, InventoryRuntime e UI locale;
+- Input Map in `project.godot`;
+- inventario locale che non pausa lo SceneTree;
 - nessuna lobby, rete, chat o persistenza;
 - Level 0 manuale/modulare;
-- nessun sistema generale di contenuto.
+- nessun Object/Entity wiki implementato.
 
-Player e blockout sono prototipi, non contratti single-player da preservare se confliggono col network-first.
+Player e blockout sono prototipi network-first: stato sul personaggio, UI locale, niente `Global.player`.
 
 ## Vincoli
 
@@ -160,40 +162,10 @@ Player e blockout sono prototipi, non contratti single-player da preservare se c
 - nessun autoload senza responsabilità globale concreta;
 - nessun dato client attendibile senza validazione host;
 - nessuna API oltre Godot 4.5;
-- UI navigabile con mouse/tastiera e controller fin dall'inizio;
-- nessuna logica gameplay condizionata direttamente da `Steam.is_running()` o equivalenti.
+- UI navigabile con mouse/tastiera; focus pronto per controller/Steam Deck;
+- nessuna logica gameplay condizionata direttamente da `Steam.is_running()` o equivalenti;
+- l'inventario non usa `get_tree().paused`.
 
 ## Aperto
 
-<<<<<<< Updated upstream
-Adapter/estensione Steam concreta, provider mobile, cross-play, persistenza, host migration, late join definitivo, anti-cheat, transizioni e server dedicati. Vedi [`decisions.md`](decisions.md).
-=======
-## Cosa non c'è ancora
-
-- autoload
-- input map di gioco (il player di test usa WASD e mouse)
-- layer di collisione nominati
-- networking / isolamento / Red Room
-- salvataggi
-- props Vol. 2 nel livello
-
-## Preparazione multiplayer
-
-Lo sviluppo iniziale resta single-player.
-
-I sistemi di gameplay non devono però assumere strutturalmente
-l'esistenza di un solo giocatore.
-
-Quando possibile:
-
-- il player resta una scena autonoma;
-- input e azioni di gameplay restano separati;
-- gli oggetti interagibili ricevono l'attore che interagisce;
-- evitare dipendenze globali da un singolo `player`;
-- lo stato appartiene al nodo/sistema pertinente;
-- non implementare networking finché non esiste un caso concreto.
-
-Target multiplayer previsto:
-coop self-hosted con host autorevole, da validare tramite prototipo
-prima che il gioco raggiunga una fase avanzata.
->>>>>>> Stashed changes
+Adapter Steam concreto, provider mobile, cross-play, persistenza, host migration, late join definitivo, anti-cheat, transizioni, server dedicati, Manila Room. Vedi [`decisions.md`](decisions.md).

@@ -112,6 +112,6 @@ Non importare automaticamente liste complete: solo contenuti selezionati.
 - Dove appare e cosa fa?
 - Chi ha autorità?
 - Quale stato replica/persiste?
-- Come interagisce con isolamento/convergenza?
+- Come interagisce con il canone di percezione del livello (Isolation Effect, Manila Room, ecc.)?
 - Quali contenuti/uscite referenzia?
 - Come viene testato in multiplayer?

@@ -28,19 +28,19 @@ Le sezioni “Aperte” non autorizzano scelte arbitrarie.
 - Client inviano intenzioni; host valida/applica.
 - Nessun microservizio/container/Kubernetes necessario al runtime peer-hosted iniziale.
 
-## 2026-08-23 — Isolamento, convergenza e chat
+## 2026-08-23 — Isolamento e percezione
 
-- Stesso gruppo, non automaticamente visibili.
-- Fuori rivelazione: niente visuale, collisione, interazione, audio spaziale o marker.
-- Effetti sul mondo osservabili; chat testuale sempre disponibile.
-- Regole variabili per livello/zona/oggetto/effetto.
-- Red Room Level 0 = convergenza `interactive`, solo presenti, revoca all'uscita.
-- Deroga deliberata alla wiki.
+- Stesso gruppo, stessa istanza di livello.
+- Percezione reciproca: canone del livello, non una deroga di progetto.
+- Level 0: Isolation Effect. Nessun incontro visivo/fisico nel livello ordinario.
+- Red Rooms: pericolose, da evitare; **non** zona di convergenza.
+- Manila Room: eccezione canonica di percezione/incontro; **non implementata**.
+- Chat di sessione, se presente, è canale extra-diegetico, non comunicazione in-world nel Level 0.
 
 ## 2026-08-23 — Lore/contenuti
 
-- Fonte principale: dump locale `docs/wiki/backrooms-wiki-md/` (Backrooms Wiki, snapshot Markdown).
-- Richiesta e deroghe `/docs` prevalgono sulla wiki.
+- Canone: dump locale `docs/wiki/backrooms-wiki-md/`, seguito alla lettera per i fatti Backrooms.
+- Game design originale e `/docs` non possono contraddire quel canone.
 - La wiki non è un backlog di implementazione: ogni contenuto richiede scheda/decisione.
 - Ogni contenuto: fonte, `content_id`, adozioni/deroghe, autorità, replica/persistenza.
 - Entity non implica ostilità/combattimento; oggetti wiki non automaticamente approvati.
@@ -59,7 +59,16 @@ Le sezioni “Aperte” non autorizzano scelte arbitrarie.
 
 ## 2026-08-23 — Ordine
 
-Sessione Direct/LAN → personaggi/spawn/replica → isolamento/chat → Red Room → vertical slice Object/Entity/Puzzle/Exit → Steam → persistenza → eventuale mobile.
+Sessione Direct/LAN → personaggi/spawn/replica → isolamento/chat → Manila Room (canone, non ancora) → vertical slice Object/Entity/Puzzle/Exit → Steam → persistenza → eventuale mobile.
+
+## 2026-08-23 — Player UI / survival prototipo
+
+Controlli: WASD, Shift sprint, Space jump, F flashlight, Tab inventory, 1–5 quick use.
+Stato personaggio: sanity, stamina, hunger, thirst, conditions, limb integrity, adaptation per Level.
+UI: inventario full-screen che **non** pausa il mondo; HUD minimale/contestuale; 5 quick slot.
+Flashlight: prototipo tecnico, non Object wiki.
+
+Non definiti: rate/conseguenze fame-sete, cause/effetti sanity, malattie, fratture, bonus adaptation, capacità inventory definitiva.
 
 ## Aperte
 
@@ -70,7 +79,8 @@ Sessione Direct/LAN → personaggi/spawn/replica → isolamento/chat → Red Roo
 - host migration/riconnessione/late join;
 - fiducia/anti-cheat dei personaggi client;
 - transizioni e membri su livelli diversi;
-- inventario/loot/statistiche/survival;
+- rate/conseguenze fame-sete, sanity, malattie, fratture, bonus adaptation;
+- capacità definitiva inventory/equipment e loot;
 - voice chat;
 - server dedicati/backend;
 - tecnica livelli infiniti/mutevoli;

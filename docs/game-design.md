@@ -55,11 +55,17 @@ Fuori dalle condizioni di rivelazione, un giocatore non deve:
 
 Le conseguenze delle loro azioni sul mondo possono essere percepite: questa presenza indiretta è intenzionale.
 
-## Convergenza e rivelazione
+## Isolamento e percezione
 
-La regola può variare per livello ed essere modificata da zone, oggetti, effetti o eventi.
+La regola di percezione tra giocatori segue il canone del livello, non una policy unica per tutte le Backrooms.
 
-Decisione confermata: la **Red Room del Level 0** è una zona di convergenza `interactive`. Solo chi è contemporaneamente al suo interno può vedersi e interagire; uscendo torna isolato. È una deroga deliberata alla pagina wiki attuale.
+### Level 0
+
+- Isolation Effect: i giocatori non si percepiscono, non si trovano e non si incontrano.
+- Red Rooms: zone pericolose da evitare, non luoghi d'incontro.
+- Manila Room: unica eccezione canonica conosciuta in cui persone diverse possono percepirsi. Non è ancora implementata.
+
+Altri livelli potranno avere regole diverse, se la wiki o una scheda approvata lo stabiliscono.
 
 ## Comunicazione
 
@@ -89,9 +95,10 @@ Gli oggetti includono strumenti, consumabili, armi, artefatti, decorazioni e ogg
 - layout manuale/modulare nella fase corrente;
 - look giallo-beige, moquette umida, fluorescenti e ronzio;
 - monotonia e geometrie plausibili organizzate in modo errato;
-- variazioni lore: archi, pilastri, buche, blackout, Red Rooms, layout changes;
-- Isolation Effect adattato alle regole cooperative;
-- entità non confermate finché non approvate;
+- variazioni lore: archi, pilastri, buche, blackout, Red Rooms (pericolose), layout changes;
+- Isolation Effect secondo `level-0.md`;
+- Manila Room come unica eccezione canonica di incontro, non implementata;
+- entità non confermate (wiki: unknown); non inserirle;
 - uscita wiki di riferimento: parete tremolante/instabile verso Level 1.
 
 Il blockout esistente è un prototipo di scala/ambiente da convertire nel primo banco multiplayer, non da ampliare come gioco single-player.
@@ -104,6 +111,36 @@ Il blockout esistente è un prototipo di scala/ambiente da convertire nel primo 
 - Steam può offrire lobby, inviti, matchmaking e networking su PC/Deck, ma le regole di gioco non devono dipendere direttamente da Steam.
 - Mobile e build senza Steam devono poter usare un provider alternativo mantenendo protocollo e gameplay comuni.
 
+## Controlli (prototipo)
+
+- WASD movimento
+- Shift sprint
+- Space jump
+- F flashlight (equipaggiamento tecnico di prototipo, non Object wiki)
+- Tab inventory/status
+- 1–5 quick use
+
+Aprire l'inventario **non** mette in pausa il mondo.
+
+## Survival state (prototipo)
+
+Stato runtime per personaggio, non lore numerica della wiki:
+
+- sanity 0–100
+- stamina 0–100
+- hunger 0–100
+- thirst 0–100
+- diseases/conditions (lista; vuota finché non c'è una pagina wiki + scheda)
+- skeletal/limb integrity
+- adaptation/familiarity per Level (meccanica di progetto)
+
 ## Non definito
 
-Non assumere ancora fame, sete, sanità, stamina, sprint, crouch, combattimento, inventario definitivo, crafting, abilità, economia, procedural generation, salvataggio definitivo, host migration, voice chat o server dedicati.
+- rate di fame/sete e relative conseguenze
+- cause/effetti della sanity
+- malattie specifiche
+- effetti delle fratture
+- effetti/bonus dell'adaptation
+- capacità definitiva inventory/equipment
+- crouch, combattimento, crafting, economia
+- procedural generation, salvataggio definitivo, host migration, voice chat, server dedicati

@@ -32,27 +32,35 @@ Non assumere automaticamente l'esistenza di fame, sete, sanità mentale, craftin
 
 ## 2. Fonte di verità
 
-Prima di modificare sistemi importanti consulta la documentazione in:
+Prima di modificare sistemi importanti consulta `/docs` e, per i fatti canonici, la wiki locale.
 
-`/docs`
+Distinguere tre piani:
 
-Ordine di priorità:
+**A) Canone Backrooms** — autoritativo: dump locale `docs/wiki/backrooms-wiki-md/`.
+Vale per Levels, Entities, Objects, Phenomena, Rooms, Groups, Tales, entrate/uscite, pericoli, habitat e caratteristiche ambientali.
+Una richiesta di gameplay **non** può riscrivere un fatto canonico. Se la richiesta contraddice la wiki, seguire la wiki e segnalare il conflitto.
+Non usare Fandom, altre wiki, Kane Pixels, altri giochi Backrooms o ricordi generici per integrare il canone.
 
-1. richiesta corrente dello sviluppatore;
-2. documentazione di progetto in `/docs` (`decisions.md`, `game-design.md`, `architecture.md`, `multiplayer.md`, `content-system.md`, `lore.md`, `development-plan.md`);
-3. dump locale della Backrooms Wiki in `docs/wiki/backrooms-wiki-md/` per lore, livelli, entità, oggetti, stanze, storie e immagini di riferimento;
+**B) Game design originale** — richieste dello sviluppatore e `/docs`, purché non contraddicano il canone.
+Meccaniche, UI, sessioni, networking e astrazioni tecniche stanno qui.
+
+**C) Implementazione tecnica** — `/docs` (architecture/multiplayer), codice e scene esistenti, Godot 4.5.
+
+Ordine operativo:
+
+1. fatti canonici: pagina wiki locale pertinente;
+2. richiesta corrente, se non riscrive il canone;
+3. documentazione di progetto (`decisions.md`, `game-design.md`, `architecture.md`, `multiplayer.md`, `content-system.md`, `lore.md`, `development-plan.md`);
 4. codice e scene esistenti;
 5. convenzioni già presenti;
 6. documentazione ufficiale Godot 4.5;
 7. proposta dell'assistente.
 
-Le deroghe esplicite in `/docs` hanno priorità sulla wiki. Esempio già deciso: Isolation Effect e Red Room del Level 0.
-
 Non inventare informazioni mancanti.
 
 Se qualcosa non è definito, dichiaralo e presenta l'eventuale soluzione come **proposta**, non come comportamento già deciso.
 
-Se due documenti sono in conflitto, segnala il conflitto invece di scegliere arbitrariamente.
+Se due documenti di progetto sono in conflitto, segnala il conflitto invece di scegliere arbitrariamente.
 
 ### Wiki locale
 
@@ -205,7 +213,7 @@ Non riorganizzare significativamente le cartelle senza una motivazione concreta.
 
 Rispetta ciò che viene definito in `/docs`.
 
-Per Levels, Entities, Objects, stanze, storie e descrizioni canoniche consulta prima la pagina corrispondente in `docs/wiki/backrooms-wiki-md/`, poi applica le deroghe di `/docs`.
+Per Levels, Entities, Objects, stanze, storie e descrizioni canoniche leggi la pagina corrispondente in `docs/wiki/backrooms-wiki-md/`. Il game design originale non può contraddire quel canone.
 
 In particolare non inventare regole per:
 

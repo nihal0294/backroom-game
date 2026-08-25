@@ -22,8 +22,12 @@ Prima di modificare il progetto verificare sempre file, scene e script reali. I 
 
 ## Fonti
 
-La fonte lore principale è la copia locale della Backrooms Wiki in [`wiki/backrooms-wiki-md/`](wiki/backrooms-wiki-md/index.md) (snapshot Markdown di https://backrooms-wiki.wikidot.com/). Pagine chiave: `level-0.md`, `normal-levels-i.md`, `entities.md`, `objects.md`.
+**Canone Backrooms:** dump locale [`wiki/backrooms-wiki-md/`](wiki/backrooms-wiki-md/index.md). Autoritative per Levels, Entities, Objects, Phenomena, Rooms, Groups, Tales, entrate/uscite, pericoli, habitat e ambienti. Pagine chiave: `level-0.md`, `manila-room.md`, `red-rooms.md`, `normal-levels-i.md`, `entities.md`, `objects.md`.
 
-Richieste correnti e deroghe nei file di progetto in `/docs` hanno priorità sulla wiki. Nessuna voce wiki entra automaticamente nel gioco.
+**Game design originale:** richieste dello sviluppatore e i file di progetto in `/docs`, purché non contraddicano il canone.
 
-`guide-godot/` contiene materiale didattico: non definisce il game design e non prevale su queste specifiche.
+**Implementazione tecnica:** `architecture.md`, `multiplayer.md`, codice, Godot 4.5.
+
+Nessuna voce wiki entra automaticamente nel gioco: serve scheda/decisione. Non usare Fandom, Kane Pixels o altre wiki per il canone.
+
+`guide-godot/` è materiale didattico: non definisce il game design e non prevale su queste specifiche.

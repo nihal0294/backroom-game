@@ -42,14 +42,13 @@ Usare payload persistente temporaneo versionato, non consolidare il salvataggio 
 - diagnostica senza leak nell'UI;
 - test 2/3/4 giocatori.
 
-## Milestone 4 — Red Room
+## Milestone 4 — Manila Room (canone, non in questo task)
 
+- unica eccezione canonica di percezione nel Level 0;
 - volume/section autoritativo;
-- ingressi/uscite calcolati dall'host;
-- visibilità simmetrica solo tra presenti;
-- policy `interactive`;
-- revoca completa;
-- test simultanei/rapidi.
+- visibilità simmetrica solo tra presenti nella stanza;
+- revoca all'uscita (Isolation Effect riprende);
+- Red Rooms restano pericoli, non milestone di incontro.
 
 ## Milestone 5 — vertical slice condiviso
 
@@ -105,8 +104,8 @@ Dopo milestone 1–5: ampliare Level 0, scegliere contenuti reali, introdurre Le
 | disconnect client | cleanup e consistenza |
 | chiusura host | termine pulito |
 | pickup simultaneo | una assegnazione |
-| Red Room parziale | vede solo presenti |
-| revoca Red Room | nessun dato/collisione/audio residuo |
+| Isolation Effect Level 0 | nessun percepire gli altri |
+| Manila Room (futuro) | percezione solo all'interno |
 | uscita | precondizioni/partecipanti host-authoritative |
 | Steam assente | Direct/LAN/fallback senza crash |
 | Steam Deck | controller/UI/performance |

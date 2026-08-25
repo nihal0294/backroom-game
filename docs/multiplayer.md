@@ -73,34 +73,34 @@ Il seed deve poter essere fissato nei test. Distanza minima è bilanciamento ape
 - Incontri e mutazioni producono conseguenze condivise.
 - Porte/anomalie conservano lo stesso stato.
 
-## Isolation Effect
+## Isolation Effect (Level 0, canone)
 
-Fuori da una rivelazione valida, per ogni coppia A/B:
+Nel Level 0 i giocatori non si percepiscono. Per ogni coppia A/B, fuori da un'eccezione canonica:
 
 - A non vede/renderizza B;
 - A non collide/interagisce con B;
 - A non sente audio spaziale di B;
 - A non riceve marker, distanza o direzione di B;
-- azioni di B sul mondo restano reali;
-- A e B possono usare la chat di gruppo.
+- azioni di B sul mondo restano reali se il mondo è condiviso tecnicamente.
 
 Minimizzare la trasmissione di dati irrilevanti: non basta `visible = false`.
 
-## Policy di rivelazione
+La chat di sessione, se implementata, è extra-diegetica e non equivale a gridare nel Level 0.
 
-### Zona di convergenza
-Rivela solo chi occupa contemporaneamente la stessa zona compatibile. Host aggiorna coppie in modo simmetrico. La Red Room è la prima zona confermata.
+## Policy di percezione
 
-### Oggetto/effetto
-Può rivelare per durata, portatore, bersaglio, area o gruppo; l'ambito va dichiarato dalla scheda.
+Segue il canone del livello. Non inventare zone di incontro.
 
-### Evento
-Puzzle/incontri/anomalie possono modificare temporaneamente la policy; decide l'host.
+### Level 0
+Isolation Effect ovunque, eccetto la **Manila Room** (canone: percezione/incontro possibile). Manila Room **non è implementata**. Le Red Rooms sono pericolose da evitare, **non** zone di percezione.
 
-### Revoca
-Al termine, revocare replica/presenza, rendering, collisione, interazione, audio e UI. Non annullare effetti già prodotti sul mondo.
+### Altri livelli
+Solo se la wiki o una scheda approvata lo prevedono.
 
-Stati supportabili: `hidden`, `visible_only`, `interactive`. Level 0 Red Room usa `interactive`.
+### Oggetto/effetto/evento
+Solo con scheda che citi fonte canonica o lo dichiari game design originale senza contraddire la wiki.
+
+Stati supportabili in futuro: `hidden`, `visible_only`, `interactive`. Level 0 ordinario usa `hidden`.
 
 ## Chat
 
@@ -137,9 +137,9 @@ Prima di gameplay esteso dimostrare:
 - seam/adattatore Steam sostituibile, anche se implementato in milestone successivo;
 - personaggi distinti e spawn casuali non sovrapposti nel medesimo Level 0;
 - movimento autorizzato/replicato;
-- avatar davvero irrilevanti fuori convergenza;
-- chat;
-- Red Room con reveal/revoca corretti;
+- avatar davvero irrilevanti nel Level 0 (Isolation Effect);
+- chat extra-diegetica, se presente;
+- Manila Room (futuro): percezione solo all'interno, secondo canone;
 - un oggetto condiviso senza duplicazione;
 - una entità simulata dall'host;
 - un'uscita non-porta;
