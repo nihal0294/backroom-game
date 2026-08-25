@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://d0t5r8npfbivu"
-path="res://.godot/imported/DWTrim_Diffuse_1K_A.png-816f9903a5803ba2ac6936cff99f1396.ctex"
+path="res://.godot/imported/DWTrim_Diffuse_1K_A.png-153d72e1e5999a80b663e81529a5d90c.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/LoafbrrAssets/BackroomsLikeAsset2/Textures/DWTrim/DWTrim_Diffuse_1K_A.png"
-dest_files=["res://.godot/imported/DWTrim_Diffuse_1K_A.png-816f9903a5803ba2ac6936cff99f1396.ctex"]
+source_file="res://assets/textures/environment/BackroomsLikeAsset2/Textures/DWTrim/DWTrim_Diffuse_1K_A.png"
+dest_files=["res://.godot/imported/DWTrim_Diffuse_1K_A.png-153d72e1e5999a80b663e81529a5d90c.ctex"]
 
 [params]
 

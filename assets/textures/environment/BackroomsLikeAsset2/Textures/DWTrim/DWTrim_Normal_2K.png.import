@@ -3,7 +3,7 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://8agwko5f7vsf"
-path.s3tc="res://.godot/imported/DWTrim_Normal_2K.png-355de92674a73e636dd5e5273c18e1f7.s3tc.ctex"
+path.s3tc="res://.godot/imported/DWTrim_Normal_2K.png-176a9eebfebc480cbca3040ddf8cd083.s3tc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
@@ -11,8 +11,8 @@ metadata={
 
 [deps]
 
-source_file="res://Assets/LoafbrrAssets/BackroomsLikeAsset2/Textures/DWTrim/DWTrim_Normal_2K.png"
-dest_files=["res://.godot/imported/DWTrim_Normal_2K.png-355de92674a73e636dd5e5273c18e1f7.s3tc.ctex"]
+source_file="res://assets/textures/environment/BackroomsLikeAsset2/Textures/DWTrim/DWTrim_Normal_2K.png"
+dest_files=["res://.godot/imported/DWTrim_Normal_2K.png-176a9eebfebc480cbca3040ddf8cd083.s3tc.ctex"]
 
 [params]
 
@@ -27,7 +27,7 @@ compress/channel_pack=0
 mipmaps/generate=true
 mipmaps/limit=-1
 roughness/mode=1
-roughness/src_normal="res://Assets/LoafbrrAssets/BackroomsLikeAsset2/Textures/DWTrim/DWTrim_Normal_2K.png"
+roughness/src_normal="res://assets/textures/environment/BackroomsLikeAsset2/Textures/DWTrim/DWTrim_Normal_2K.png"
 process/channel_remap/red=0
 process/channel_remap/green=1
 process/channel_remap/blue=2

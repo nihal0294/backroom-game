@@ -1,8 +1,8 @@
 [gd_scene load_steps=7 format=4 uid="uid://b7om5wwlm0p3b"]
 
-[ext_resource type="Material" uid="uid://7lseh5pevooa" path="res://Assets/LoafbrrAssets/BackroomsLikeAsset2/Materials/BRF_B_Mat.tres" id="1_howu8"]
-[ext_resource type="Material" uid="uid://bwaaev27ix4jx" path="res://Assets/LoafbrrAssets/BackroomsLikeAsset2/Materials/BRC_Mat.tres" id="2_4gwqy"]
-[ext_resource type="Material" uid="uid://in2j66akq5wu" path="res://Assets/LoafbrrAssets/BackroomsLikeAsset2/Materials/DWTrim_Mat_B.tres" id="3_17rxw"]
+[ext_resource type="Material" uid="uid://7lseh5pevooa" path="res://assets/textures/environment/BackroomsLikeAsset2/Materials/BRF_B_Mat.tres" id="1_howu8"]
+[ext_resource type="Material" uid="uid://bwaaev27ix4jx" path="res://assets/textures/environment/BackroomsLikeAsset2/Materials/BRC_Mat.tres" id="2_4gwqy"]
+[ext_resource type="Material" uid="uid://in2j66akq5wu" path="res://assets/textures/environment/BackroomsLikeAsset2/Materials/DWTrim_Mat_B.tres" id="3_17rxw"]
 
 [sub_resource type="ArrayMesh" id="ArrayMesh_gf6x1"]
 _surfaces = [{

@@ -3,7 +3,7 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://dub3x5g4pq3a2"
-path.s3tc="res://.godot/imported/BRC_A_Emission_2K.png-e5b7135e462c6d14ae9e163e1dfa103b.s3tc.ctex"
+path.s3tc="res://.godot/imported/BRC_A_Emission_2K.png-00366845733e255a44a2d1440c38cc56.s3tc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
@@ -11,8 +11,8 @@ metadata={
 
 [deps]
 
-source_file="res://Assets/LoafbrrAssets/BackroomsLikeAsset2/Textures/BRC_A/BRC_A_Emission_2K.png"
-dest_files=["res://.godot/imported/BRC_A_Emission_2K.png-e5b7135e462c6d14ae9e163e1dfa103b.s3tc.ctex"]
+source_file="res://assets/textures/environment/BackroomsLikeAsset2/Textures/BRC_A/BRC_A_Emission_2K.png"
+dest_files=["res://.godot/imported/BRC_A_Emission_2K.png-00366845733e255a44a2d1440c38cc56.s3tc.ctex"]
 
 [params]
 

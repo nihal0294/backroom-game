@@ -1,6 +1,6 @@
 [gd_scene load_steps=14 format=4 uid="uid://bc6u22c0whliy"]
 
-[ext_resource type="Material" uid="uid://in2j66akq5wu" path="res://Assets/LoafbrrAssets/BackroomsLikeAsset2/Materials/DWTrim_Mat_B.tres" id="1_r3ydu"]
+[ext_resource type="Material" uid="uid://in2j66akq5wu" path="res://assets/textures/environment/BackroomsLikeAsset2/Materials/DWTrim_Mat_B.tres" id="1_r3ydu"]
 
 [sub_resource type="ArrayMesh" id="ArrayMesh_8ujtm"]
 _surfaces = [{

@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=4 uid="uid://cwgtrmnb6j7po"]
 
-[ext_resource type="Material" uid="uid://bveyabsta08b4" path="res://Assets/LoafbrrAssets/BackroomsLikeAsset2/Materials/Surface_Concrete_A_Mat_B.tres" id="1_tvyf2"]
+[ext_resource type="Material" uid="uid://bveyabsta08b4" path="res://assets/textures/environment/BackroomsLikeAsset2/Materials/Surface_Concrete_A_Mat_B.tres" id="1_tvyf2"]
 
 [sub_resource type="ArrayMesh" id="ArrayMesh_ia44t"]
 _surfaces = [{

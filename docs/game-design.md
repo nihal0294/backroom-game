@@ -90,9 +90,9 @@ Gli oggetti includono strumenti, consumabili, armi, artefatti, decorazioni e ogg
 ## Level 0
 
 - main scene corrente: `res://scenes/levels/level_0_test.tscn`;
+- layout deterministico a due piani, vedi [`levels/level-0-layout.md`](levels/level-0-layout.md);
 - scala 1 unità Godot = 1 metro;
-- griglia 3 × 3 m, snap 1,5 m, soffitto 3 m;
-- layout manuale/modulare nella fase corrente;
+- griglia 3 × 3 m, snap 1,5 m, soffitto 3 m / piano superiore a 3 m;
 - look giallo-beige, moquette umida, fluorescenti e ronzio;
 - monotonia e geometrie plausibili organizzate in modo errato;
 - variazioni lore: archi, pilastri, buche, blackout, Red Rooms (pericolose), layout changes;

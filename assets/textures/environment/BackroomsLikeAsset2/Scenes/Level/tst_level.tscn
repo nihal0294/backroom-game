@@ -1,13 +1,13 @@
 [gd_scene load_steps=30 format=4 uid="uid://cvskksr1ud74g"]
 
-[ext_resource type="Material" uid="uid://7lseh5pevooa" path="res://Assets/LoafbrrAssets/BackroomsLikeAsset2/Materials/BRF_B_Mat.tres" id="1_qn883"]
-[ext_resource type="Material" uid="uid://bwaaev27ix4jx" path="res://Assets/LoafbrrAssets/BackroomsLikeAsset2/Materials/BRC_Mat.tres" id="2_xvlxs"]
-[ext_resource type="Material" uid="uid://dfotrkxy8f7nv" path="res://Assets/LoafbrrAssets/BackroomsLikeAsset2/Materials/Surface_Concrete_A_Mat_C.tres" id="3_1r3uw"]
-[ext_resource type="Material" uid="uid://bveyabsta08b4" path="res://Assets/LoafbrrAssets/BackroomsLikeAsset2/Materials/Surface_Concrete_A_Mat_B.tres" id="4_ojyrh"]
-[ext_resource type="Material" uid="uid://c5mftxgpgom65" path="res://Assets/LoafbrrAssets/BackroomsLikeAsset2/Materials/BRW_B_Mat.tres" id="5_a74fd"]
-[ext_resource type="Material" uid="uid://7xqh7wgltlqk" path="res://Assets/LoafbrrAssets/BackroomsLikeAsset2/Materials/DWTrim_Mat_A.tres" id="6_wysu6"]
-[ext_resource type="Material" uid="uid://in2j66akq5wu" path="res://Assets/LoafbrrAssets/BackroomsLikeAsset2/Materials/DWTrim_Mat_B.tres" id="7_7da4i"]
-[ext_resource type="Material" uid="uid://2x3mputsxn31" path="res://Assets/LoafbrrAssets/BackroomsLikeAsset2/Materials/BRW_A_Mat.tres" id="8_fwqcd"]
+[ext_resource type="Material" uid="uid://7lseh5pevooa" path="res://assets/textures/environment/BackroomsLikeAsset2/Materials/BRF_B_Mat.tres" id="1_qn883"]
+[ext_resource type="Material" uid="uid://bwaaev27ix4jx" path="res://assets/textures/environment/BackroomsLikeAsset2/Materials/BRC_Mat.tres" id="2_xvlxs"]
+[ext_resource type="Material" uid="uid://dfotrkxy8f7nv" path="res://assets/textures/environment/BackroomsLikeAsset2/Materials/Surface_Concrete_A_Mat_C.tres" id="3_1r3uw"]
+[ext_resource type="Material" uid="uid://bveyabsta08b4" path="res://assets/textures/environment/BackroomsLikeAsset2/Materials/Surface_Concrete_A_Mat_B.tres" id="4_ojyrh"]
+[ext_resource type="Material" uid="uid://c5mftxgpgom65" path="res://assets/textures/environment/BackroomsLikeAsset2/Materials/BRW_B_Mat.tres" id="5_a74fd"]
+[ext_resource type="Material" uid="uid://7xqh7wgltlqk" path="res://assets/textures/environment/BackroomsLikeAsset2/Materials/DWTrim_Mat_A.tres" id="6_wysu6"]
+[ext_resource type="Material" uid="uid://in2j66akq5wu" path="res://assets/textures/environment/BackroomsLikeAsset2/Materials/DWTrim_Mat_B.tres" id="7_7da4i"]
+[ext_resource type="Material" uid="uid://2x3mputsxn31" path="res://assets/textures/environment/BackroomsLikeAsset2/Materials/BRW_A_Mat.tres" id="8_fwqcd"]
 
 [sub_resource type="ArrayMesh" id="ArrayMesh_l3p82"]
 _surfaces = [{

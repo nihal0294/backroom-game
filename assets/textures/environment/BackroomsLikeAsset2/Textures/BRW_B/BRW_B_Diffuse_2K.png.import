@@ -3,7 +3,7 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://bkq3nwaj4ehen"
-path.s3tc="res://.godot/imported/BRW_B_Diffuse_2K.png-ccd37d6a3ecfc1459e19cb3f91cb2815.s3tc.ctex"
+path.s3tc="res://.godot/imported/BRW_B_Diffuse_2K.png-955260307321fc1024ea86875550c7b1.s3tc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
@@ -11,8 +11,8 @@ metadata={
 
 [deps]
 
-source_file="res://Assets/LoafbrrAssets/BackroomsLikeAsset2/Textures/BRW_B/BRW_B_Diffuse_2K.png"
-dest_files=["res://.godot/imported/BRW_B_Diffuse_2K.png-ccd37d6a3ecfc1459e19cb3f91cb2815.s3tc.ctex"]
+source_file="res://assets/textures/environment/BackroomsLikeAsset2/Textures/BRW_B/BRW_B_Diffuse_2K.png"
+dest_files=["res://.godot/imported/BRW_B_Diffuse_2K.png-955260307321fc1024ea86875550c7b1.s3tc.ctex"]
 
 [params]
 

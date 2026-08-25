@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://bbv665t4twovu"
-path="res://.godot/imported/Surface_Concrete_A_Diffuse_1K_A.png-644c06d45c9fc1f2c758e3d09fc15567.ctex"
+path="res://.godot/imported/Surface_Concrete_A_Diffuse_1K_A.png-d58d3f46469b12ce5a406b39c681c2e6.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/LoafbrrAssets/BackroomsLikeAsset2/Textures/Surface_Concrete_A/Surface_Concrete_A_Diffuse_1K_A.png"
-dest_files=["res://.godot/imported/Surface_Concrete_A_Diffuse_1K_A.png-644c06d45c9fc1f2c758e3d09fc15567.ctex"]
+source_file="res://assets/textures/environment/BackroomsLikeAsset2/Textures/Surface_Concrete_A/Surface_Concrete_A_Diffuse_1K_A.png"
+dest_files=["res://.godot/imported/Surface_Concrete_A_Diffuse_1K_A.png-d58d3f46469b12ce5a406b39c681c2e6.ctex"]
 
 [params]
 

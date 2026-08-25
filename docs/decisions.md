@@ -18,6 +18,25 @@ Le sezioni “Aperte” non autorizzano scelte arbitrarie.
 - Look fluorescente giallo-beige con tint separati.
 - Player e test level sono prototipi di scala/navigazione, non architettura single-player da estendere.
 
+## 2026-08-25 — Level 0 rifatto (solo geometria)
+
+Il blockout kit 3×3 (occupancy-fill, ~57×48 m) è **fallito** come level design: open space, muri kit, scale senza pozzo, fluorescenti per cella.
+Sostituito da:
+
+- Blueprint: `docs/levels/level-0-blueprint.md` (trascrizione delle due piante).
+- Generatore: `tools/generate_level_0_blockout.py` (grafo stanze+corridoi, BoxMesh 0.12 m).
+- GF ~142×84 m, UF ~139×81 m, Y 0 / 3 / 6.
+- Tre stairwell switchback (alzata 0.167 / pedata 0.28), foro UF, headroom ≥ 3.0 m sul percorso.
+- Nessun materiale PBR, nessuna fluorescente, nessun prop. Placeholder + una DirectionalLight di debug.
+- Vista ortografica F9/F10/F11.
+
+## 2026-08-23 — Level 0 due piani
+
+- Layout deterministico (niente procedural generation).
+- **Superseded 2026-08-25** (vedi sopra). Storico: piano terra ~57×48 m, kit BackroomsLikeAsset2.
+- Label delle mappe di reference non canoniche non sono contenuti di gioco.
+Vedi `docs/levels/level-0-blueprint.md`.
+
 ## 2026-08-23 — Co-op come fondazione
 
 - Prima cooperativa 1–4, poi gameplay/contenuti.

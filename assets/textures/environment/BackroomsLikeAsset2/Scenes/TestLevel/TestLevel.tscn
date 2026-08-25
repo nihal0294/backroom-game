@@ -1,7 +1,7 @@
 [gd_scene load_steps=6 format=3 uid="uid://brau4q6neihrl"]
 
-[ext_resource type="PackedScene" uid="uid://cvskksr1ud74g" path="res://Assets/LoafbrrAssets/BackroomsLikeAsset2/Scenes/Level/tst_level.tscn" id="1_bb4r6"]
-[ext_resource type="LightmapGIData" uid="uid://divokwshhqt0y" path="res://Assets/LoafbrrAssets/BackroomsLikeAsset2/Scenes/TestLevel/Lightmap/TestLevel.lmbake" id="2_gp3xu"]
+[ext_resource type="PackedScene" uid="uid://cvskksr1ud74g" path="res://assets/textures/environment/BackroomsLikeAsset2/Scenes/Level/tst_level.tscn" id="1_bb4r6"]
+[ext_resource type="LightmapGIData" uid="uid://divokwshhqt0y" path="res://assets/textures/environment/BackroomsLikeAsset2/Scenes/TestLevel/Lightmap/TestLevel.lmbake" id="2_gp3xu"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_ihv3b"]
 sky_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)

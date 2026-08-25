@@ -3,7 +3,7 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://ng2yah57rfrt"
-path.s3tc="res://.godot/imported/BRF_B_ORM_2K.png-b43beb4f5c137a43122a32b5cd2a81e3.s3tc.ctex"
+path.s3tc="res://.godot/imported/BRF_B_ORM_2K.png-4176520d9280358fbdbb38c191f9e431.s3tc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
@@ -11,8 +11,8 @@ metadata={
 
 [deps]
 
-source_file="res://Assets/LoafbrrAssets/BackroomsLikeAsset2/Textures/BRF_B/BRF_B_ORM_2K.png"
-dest_files=["res://.godot/imported/BRF_B_ORM_2K.png-b43beb4f5c137a43122a32b5cd2a81e3.s3tc.ctex"]
+source_file="res://assets/textures/environment/BackroomsLikeAsset2/Textures/BRF_B/BRF_B_ORM_2K.png"
+dest_files=["res://.godot/imported/BRF_B_ORM_2K.png-4176520d9280358fbdbb38c191f9e431.s3tc.ctex"]
 
 [params]
 

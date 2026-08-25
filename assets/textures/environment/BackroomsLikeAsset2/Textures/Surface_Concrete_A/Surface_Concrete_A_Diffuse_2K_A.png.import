@@ -3,7 +3,7 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://fn8h7ys51vmj"
-path.s3tc="res://.godot/imported/Surface_Concrete_A_Diffuse_2K_A.png-9f3571c9e8204175d761456376cc292e.s3tc.ctex"
+path.s3tc="res://.godot/imported/Surface_Concrete_A_Diffuse_2K_A.png-7777a10ccdcfceccacfb227d41ffc8f2.s3tc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
@@ -11,8 +11,8 @@ metadata={
 
 [deps]
 
-source_file="res://Assets/LoafbrrAssets/BackroomsLikeAsset2/Textures/Surface_Concrete_A/Surface_Concrete_A_Diffuse_2K_A.png"
-dest_files=["res://.godot/imported/Surface_Concrete_A_Diffuse_2K_A.png-9f3571c9e8204175d761456376cc292e.s3tc.ctex"]
+source_file="res://assets/textures/environment/BackroomsLikeAsset2/Textures/Surface_Concrete_A/Surface_Concrete_A_Diffuse_2K_A.png"
+dest_files=["res://.godot/imported/Surface_Concrete_A_Diffuse_2K_A.png-7777a10ccdcfceccacfb227d41ffc8f2.s3tc.ctex"]
 
 [params]
 

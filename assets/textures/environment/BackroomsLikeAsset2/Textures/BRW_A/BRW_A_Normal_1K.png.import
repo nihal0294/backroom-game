@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://brhighfja4gl7"
-path="res://.godot/imported/BRW_A_Normal_1K.png-34274f1ad905759349c96c7f8f3629e7.ctex"
+path="res://.godot/imported/BRW_A_Normal_1K.png-3f98033e1b2df291cf9f99147509f2b1.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/LoafbrrAssets/BackroomsLikeAsset2/Textures/BRW_A/BRW_A_Normal_1K.png"
-dest_files=["res://.godot/imported/BRW_A_Normal_1K.png-34274f1ad905759349c96c7f8f3629e7.ctex"]
+source_file="res://assets/textures/environment/BackroomsLikeAsset2/Textures/BRW_A/BRW_A_Normal_1K.png"
+dest_files=["res://.godot/imported/BRW_A_Normal_1K.png-3f98033e1b2df291cf9f99147509f2b1.ctex"]
 
 [params]
 

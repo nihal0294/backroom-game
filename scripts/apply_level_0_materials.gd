@@ -12,6 +12,10 @@ func _ready() -> void:
 		var mi := mesh_instance as MeshInstance3D
 		if mi.mesh == null:
 			continue
+		if mi.material_override is ShaderMaterial:
+			continue
+		if mi.get_active_material(0) is ShaderMaterial:
+			continue
 		if mi.mesh.get_surface_count() >= 2:
 			mi.set_surface_override_material(0, ATLAS)
 			mi.set_surface_override_material(1, TUBE)
