@@ -1,0 +1,876 @@
+---
+title: "Level 49 - \"The Unfilled River of Phlegethon\""
+source: "https://backrooms-wiki.wikidot.com/level-49"
+retrieved_at: "2026-08-23T23:35:49+00:00"
+license: CC-BY-SA-3.0
+---
+
+# Level 49 - "The Unfilled River of Phlegethon"
+
+All that remained is war without reason.
+
+![Missing alt text.](https://backrooms-sandbox-2.wdfiles.com/local--files/exotichive/bang)
+
+VIOLENCE
+
+Level 49
+
+#### "The Unfilled River of Phlegethon"
+
+rating: +78[+](javascript:; "I like it")[–](javascript:; "I don't like it")[x](javascript:; "Cancel my vote")
+
+[exotichive](javascript:;)
+
+**LEVEL 49 | THE UNFILLED RIVER OF PHLEGETHON**  
+Rewritten by me: , original by .
+
+---
+
+Hello, this is my first level, expect some beginners' mistakes and overall stupidity!! also pls play the ambience as it really adds to the atmosphere and whatnot…… anyways enjoy reading the thing
+
+---
+
+Inspired by the Seventh Circle of Violence as depicted in Dante Alighieri's Inferno and ULTRAKILL, particularly 7-2.
+
+Languages:Languages:
+
+  
+[![flag-saudi-arabia2x.png](https://cdn3.iconfinder.com/data/icons/142-mini-country-flags-16x16px/32/flag-saudi-arabia2x.png)](level-49.md)  
+[![china](http://backrooms-sandbox-2.wikidot.com/local--files/zenzick-3/china)](level-49.md)  
+[![flag-germany2x.png](https://cdn3.iconfinder.com/data/icons/142-mini-country-flags-16x16px/32/flag-germany2x.png)](level-49.md)  
+[![uk](http://backrooms-sandbox-2.wikidot.com/local--files/zenzick/uk)](level-49.md)  
+[![spain](http://backrooms-sandbox-2.wikidot.com/local--files/zenzick/spain)](level-49.md)  
+[![france](http://backrooms-sandbox-2.wikidot.com/local--files/zenzick/france)](level-49.md)  
+[![indonesia](http://backrooms-sandbox-2.wikidot.com/local--files/zenzick-3/indonesia)](level-49.md)  
+[![italy](http://backrooms-sandbox-2.wikidot.com/local--files/zenzick/italy)](level-49.md)  
+[![KO](http://backrooms-wiki.wikidot.com/local--files/component:translations/KO)](level-49.md)  
+[![poland](http://backrooms-sandbox-2.wikidot.com/local--files/zenzick/poland)](level-49.md)  
+[![portugal](http://backrooms-sandbox-2.wikidot.com/local--files/zenzick/portugal)](level-49.md)  
+[![russia](http://backrooms-sandbox-2.wikidot.com/local--files/zenzick-3/russia)](level-49.md)  
+[![thai](http://backrooms-sandbox-2.wikidot.com/local--files/zenzick-3/thai)](level-49.md)  
+[![toki](http://backrooms-sandbox-2.wikidot.com/local--files/zenzick-3/toki)](level-49.md)  
+[![vietnam](http://backrooms-sandbox-2.wikidot.com/local--files/zenzick/vietnam)](level-49.md)
+
+LEVEL  
+**49**
+
+SURVIVAL DIFFICULTY  
+**CLASS 4**
+
+**Exit: 2/5**  
+Somewhat Difficult to Exit
+
+**Environment: 4/5**  
+Extreme Environmental Risk
+
+**Entities: 5/5**  
+Hostile Infestation
+
+  
+  
+
+**Level 49** is an endless battlefield that bears resemblance to trench warfares seen in World War I of [the Frontrooms](the-frontrooms.md). Although the level itself spans infinitely, only the trench system is accessible to wanderers[1](javascript:;), rendering the majority of the level inaccessible.
+
+  
+  
+
+# DESCRIPTION
+
+![Missing alt text.](https://backrooms-sandbox-2.wdfiles.com/local--files/exotichive/trenchwithlogs)
+
+An image capturing one of the sections of the trench.
+
+![Missing alt text.](https://backrooms-sandbox-2.wdfiles.com/local--files/exotichive/bang)
+
+An image of a wanderer perched on a stone to peer over the trench, captured in the exact moment of their demise. Image has been heavily altered to obscure any graphic content.
+
+The accessible section of **Level 49** is an infinitely stretching abandoned trench system reminiscent to those used in World War I from [the Frontrooms](the-frontrooms.md) with a complex yet euclidian layout featuring numerous randomly placed twists and turns. The environment is eerily silent, broken only by the distant sound of gunfire, seemingly originating from unseen entities located on the far side of the no man's land.
+
+Attempts to exit the trench invariably result in immediate death. Wanderers attempting to leave are shot with precision, typically through the head or other vital areas. The use of protective gear has proven ineffective, as the unseen entities escalate their firepower in response, utilizing sniper rifles, missiles, or even artillery. On rare occasions, bomber planes may be observed flying overhead, dropping bombs on the trench system.
+
+**Survival Protocol (L.E.A.D.S.):**  
+In the event of a bombing:
+
+---
+
+- **L**ocate shelter immediately.
+- **E**nter the shelter without delay.
+- **A**void open areas and ensure protection.
+- **D**uck and cover your head.
+- **S**hield your head with your hands and/or gear.
+
+---
+
+Scattered throughout the trench are half-empty bottles of [Almond Water](object-1.md) and various supplies, such as canned food and medical kits, used but still functional. These resources are often accompanied by military equipment, including worn uniforms, discarded empty rifles, and written materials such as notes and books. The texts provide unfiltered insights into the events that occurred within the level, offering potential clues about its history.
+
+  
+  
+
+[EXTRACTED NOTE 02](javascript:;)
+
+[EXTRACTED NOTE 02](javascript:;)
+
+To all my fellow soldiers,
+
+*Hagsten* has proven to be cunning and ruthless; they will stop at nothing to claim our land. Their strategies are brutal — we cannot predict their next move. Moreover, intel says they have developed new weapons that we must prepare for. Stay vigilant, my soldiers. We must protect our homeland at all costs. Failure is not an option.
+
+Sincerely,  
+General Douglas
+
+  
+  
+
+# STRUCTURE AND LAYOUT
+
+The walls of the trench are fortified with decaying wood planks, corroded iron sheets, and sandbags that have long since worn down. Barbed wire, rusted and tangled, lines certain areas along the trench, adding to an already hazardous environment. The width and layout of the trench vary greatly with section, from narrow winding paths to wide areas that must have been constructed as gun emplacements, artillery stations, or bunkers.
+
+## GUN EMPLACEMENTS
+
+![Missing alt text.](https://backrooms-sandbox-2.wdfiles.com/local--files/exotichive/gunemplacement)
+
+An image capturing the interior of an empty gun emplacement.
+
+Gun emplacements are among the many structures scattered throughout **Level 49**. These emplacements, which were once built for strategic defense, now serve as potential shelters and havens for the wanderers to take refuge in, who have little or no choice over other human settlements. While providing shelter from the dangers outside the trench, they possess many disadvantages too. Many of the floors inside are wet and muddy from past flooding, and it is quite uncomfortable to sit or rest in them. However, if you are not troubled by the sogginess and need temporary refuge, these emplacements do offer a relatively safe space from the entities lurking in the trench.
+
+  
+  
+
+## ARTILLERY STATIONS
+
+![Missing alt text.](https://backrooms-sandbox-2.wdfiles.com/local--files/exotichive/mortor)
+
+An image capturing a mortar mounted on an artillery station.
+
+Artillery stations, though offering limited protection compared to other structures, are notable for housing several artillery pieces, typically mortars. Upon examination, **M.E.G.** military analysts have concluded that many of these weapons bear unusual characteristics, with materials, mechanisms, and craftsmanship that do not correspond to known human manufacturing methods. These properties suggests that the artilleries may have been engineered from scratch by the **nation of *Nuvaria***.
+
+  
+  
+
+## BUNKERS
+
+![Missing alt text.](https://backrooms-sandbox-2.wdfiles.com/local--files/exotichive/bunk)
+
+An image capturing the interior of a bunker, this one in particular is small but furnished and largely intact.
+
+Varying in size and more enclosed, bunkers can be found in select sections of the trench. Inside the bunkers, there may be furnishings such as beds, tables, and chairs, alongside the remnants of old military supplies like tattered uniforms, crates of ammunition, and old ration packs littering the floors. These areas, while safer than being out in the open, are inevitably damp and claustrophobic, the air thick and musty. Some of the bunkers are entirely collapsed or barricaded shut, leaving them inaccessible in most means, while others remain fairly intact but in states of decay.
+
+  
+  
+
+[EXTRACTED NOTE 05](javascript:;)
+
+[EXTRACTED NOTE 05](javascript:;)
+
+To the next soul wandering these trenches,
+
+I write this in the hopes that someone will understand our plight. The sound of gunfire has become a haunting lullaby, the faces of my fallen comrades linger in my mind. We have become ghosts of our former selves, trapped in the endless cycle of violence.
+
+Perhaps this be the ultimate statement: we may never see the end of this war. Remember us, and do not let our sacrifices be in vain.
+
+  
+  
+
+# ENVIRONMENT
+
+The soil of **Level 49** is thick and damp, large areas are often covered with dried blood patches and decaying organic material, giving off an unpleasant odor that seems to permeate the entire trench system. Prolonged exposure to the soil has led to reports of respiratory discomfort; thus, respiratory protection is recommended.
+
+**Level 49** follows an extended day-night cycle, with both daytime and nighttime periods lasting about twice as long as in [the Frontrooms](the-frontrooms.md). The distant sounds of constant gunfire are significantly reduced at night. However, it is still strongly advised not to leave the trench at any point, as the unseen entities are still extremely quick and accurate to eliminate anyone attempting to do so. These entities may also periodically launch artillery shells towards the trench at random intervals, further increasing the danger. For this reason, seeking refuge inside the level's abandoned structures is highly recommended during both day and night.
+
+  
+  
+
+[EXTRACTED NOTE 08](javascript:;)
+
+[EXTRACTED NOTE 08](javascript:;)
+
+General,  
+  
+Our situation grows dire. We are in urgent need of reinforcements. The enemy is advancing relentlessly, tightening their hold, and our supplies have nearly run out. For the past month, we have received no shipments, no rations, and no medical aid. We have held our ground bravely, but each day drains our strength. We are losing more comrades than we can replace; men are falling with no end in sight.
+
+This trench has become a graveyard, General. Morale weakens as each hour passes. We cannot hold the line for much longer — not without reinforcements and supplies. Please, send aid. Send men. Send anything you can spare. We cannot withstand much longer under these conditions, and if this continues, we risk losing not only the frontline but the very spirit of *Nuvaria* itself.  
+   
+Respectfully,  
+Sgt. Theodore Phillips
+
+  
+  
+
+# PHENOMENA
+
+**Level 49** is periodically affected by a dense and thick fog that appears with little warning and rapidly spreads throughout the trenches. Within minutes, the entire level can be engulfed, severely reducing visibility, auditory perception, and even consciousness as the fog induces a sense of confusion and vulnerability. In some instances, the fog lingers for several hours or even days, adding an element of unpredictability to this phenomenon.
+
+![Missing alt text.](https://backrooms-sandbox-2.wdfiles.com/local--files/exotichive/flood)
+
+An image depicting M.E.G. personnel partially submerged in floodwaters following a rainstorm in **Level 49**.
+
+Additionally, **Level 49** is also subject to infrequent but severe rainstorms. These storms can last from a few hours up to a full day and bring flooding in the system of trenches. As the rain builds up, the water in the trench could rise up to waist level and rendering moving difficult. Flooding can make certain sections of the trenches impassable for extended periods and increases the risk of drowning, especially in narrower sections. Once the rain ceases, floodwater goes down gradually, leaving a thick layer of mud and debris that makes it even worse to cross.
+
+However, it is important to note that exiting the safety of the trench during any of the aforementioned phenomena remains fatal.
+
+  
+  
+
+[EXTRACTED NOTE 11](javascript:;)
+
+[EXTRACTED NOTE 11](javascript:;)
+
+**Additional Context:** This note appears to have been acquired by the Nuvarian Army from the Hagstenian Army through an espionage operation.
+
+---
+
+General Zimmer,
+
+Per your directive, we are proud to have successfully designed and built a prototype for the next generation in autonomous combat units, herein referred to as the ***Trenchcleaner***. Designed specifically for trench warfare, this beautiful machine of war is put together with a purpose: to take out enemy soldiers with both speed and accuracy. Fitted with a high-caliber chaingun, the *Trenchcleaner* can sweep through enemy trenches with unprecedented force, carving its way through opponents as if it were a red-hot knife through butter.
+
+After many months of heavy and intense testing, the results prove that the *Trenchcleaner* is indeed capable of dramatically shifting the flow of power in a battlefield. The unit represents the key advantage and promises to change the tides of war.
+
+I hereby attach the blueprint with this report and respectfully submit it for your approval to go into full-scale production.
+
+---
+
+  
+![gutterbeast](https://backrooms-sandbox-2.wdfiles.com/local--files/exotichive/gutterbeast)
+
+  
+  
+
+# ENTITIES
+
+**Level 49** is home to only one known entity, aside from the unseen entities:
+
+  
+  
+
+**ENTITY 49/1 | "TRENCHCLEANERS"**
+
+![Missing alt text.](https://backrooms-sandbox-2.wdfiles.com/local--files/exotichive/blur)
+
+A photograph of a Trenchcleaner as it moves through the structure, taken from behind cover near the doorway it was passing. Note the distinct blue lights emitted by the entity. This remains the clearest image in the M.E.G.'s possession.
+
+CONCORD ENTITY CLASSIFICATION SYSTEM
+
+ENTITY ID: 49/1  
+HABITAT(S): Level 49
+
+**IETS:**  
+**5B****X****X**
+
+CLASS:
+
+Enigmatic
+
+PROPERTIES:
+
+HVM
+
+VRL-A
+
+VRL-B
+
+NCR
+
+MCH
+
+CBR
+
+SYN
+
+DMN
+
+SSV
+
+CVL
+
+RLA
+
+UNQ
+
+AGR
+
+BNV
+
+{$custom-tag-name}
+
+{$custom2-tag-name}
+
+{$custom3-tag-name}
+
+RAD
+
+NRO
+
+TXC
+
+PYR
+
+**Entity 49/1** are highly advanced, autonomous bipedal war machines, primarily colorized in shiny grayish-white or neon bluish hue, that patrol **Level 49**’s trench system. Its body emanates scattered blue lights, most notably from its head, which features a camera-like apparatus emitting a bright beam that serves both as a sensory tool and a warning signal.
+
+Standing roughly 10 feet tall, their right arm is replaced with a large, cylindrical, eight-barreled chaingun with an apparently infinite supply of ammunition. There is no visible external power source, suggesting it either possesses a self-sustaining energy core or utilizes some other unknown technology, enabling it to operate indefinitely.
+
+**Entity 49/1** behaves like a relentless hunter, quietly stalking the trenches and waiting for movement. Once they detect a wanderer, they methodically advance until they gain a clear line of sight, then unleashes a relentless barrage from their chaingun. They will continue their pursuit until the target is neutralized or completely evades detection. Interestingly, they often remain in specific sections of the trench for extended periods[2](javascript:;), though the reason for this behavior is unknown. Though when they are not in the previous mode, they roam the entire trench network, scanning for intruders to eliminate.
+
+Further investigation into **Entity 49/1** is ongoing, with additional information pending.  
+  
+
+### DOS AND DON'TS
+
+#### DO:
+
+- Travel in groups, only travel alone if it's absolutely necessary.
+- Stay low and move cautiously.
+- Use debris or natural cover to hide.
+- Remain silent at all costs.
+- Observe for blue light glows or mechanical sounds before moving.
+
+#### DON'T:
+
+- Run or make sudden movements.
+- Use loud objects or weapons.
+- Stay in one place for too long.
+- Use light sources in open areas.
+- Rely solely on protective gear, as it won't save you.
+- **Fight back.**
+
+  
+  
+
+[ATTACHED TRANSCRIPT: 49/1 SURVIVOR LOG](javascript:;)
+
+[ATTACHED TRANSCRIPT: 49/1 SURVIVOR LOG](javascript:;)
+
+**DATE:** 2015/04/14  
+**MISSION PERSONNEL:**
+
+- Alexander Lambert (KIA)
+- Harrison Blanchard (KIA)
+- Maxwell Lancaster
+
+**ABSTRACT:** Document Entity 49/1.
+
+**« BEGIN LOG »**
+
+---
+
+**LANCASTER**: *(Breathing heavily, whispering.)* This is Maxwell. I'm still here… somehow. I don’t know how long I’ve been hiding in this collapsed section. Those forsaken robots are still out there…
+
+**COMMAND**: Maxwell? You’re still alive? Please describe your situation. Can you see it?
+
+**LANCASTER**: *(Shaky.)* Yeah. I saw it up close, maybe 20 meters away. It’s huge… it’s like an old war machine, but… more. I heard it before I saw it — a low, grinding noise, like gears turning. Then the chaingun… *(Inaudible.)*
+
+**COMMAND**: Elaborate on that, please.
+
+**LANCASTER**: When we tried to run, there's another one on the east side — it got Harry. Then, another one on the west — it got Alex. Then a fucking third appeared behind me. I swear they’re working together.
+
+**COMMAND**: How did you evade them?
+
+**LANCASTER**: …Dumb luck, I guess. Dropped my gear when it fired — maybe it thought I was dead. Crawled through the mud. Found cover in a *(Inaudible.)*. I swear, it stopped… like it was listening.
+
+**COMMAND**: Can you escape? Return to the extraction point?
+
+**LANCASTER**: *(Nervous laugh.)* Return? No. I’m stuck. Any sound and…
+
+***(A mechanical whine echoes, growing louder in sync with Lancaster's heavy breathing.)***
+
+**LANCASTER**: *(Voice cracking.)* There’s one moving closer… It knows. It’s like it can hear my heartbeat. *(Breathing faster, voice lowering.)* Okay, Max, you got this… Don’t make a sound. Just… just stay still. F- fuck. It’s… *(Voice breaking.)* approaching…
+
+**COMMAND**: Max, stay with us. You’re almost—
+
+**LANCASTER**: *(Panicking.)* Oh, fuck me! I'm so fucking dead! They’re here! I can hear them! They’re right outside! I— *(Static cuts in, followed by faint gunfire and screams.)*
+
+---
+
+**« END LOG »**
+
+[ATTACHED TRANSCRIPT: 49/1 SURVIVOR LOG](javascript:;)
+
+  
+  
+
+# BASES, OUTPOSTS, AND COMMUNITIES
+
+  
+Three established man-made settlements have been documented to date in **Level 49**:  
+  
+
+## M.E.G. OUTPOST "GUTTER BUNKERS"
+
+![Missing alt text.](https://backrooms-sandbox-2.wdfiles.com/local--files/exotichive/meganbunk)
+
+An image capturing a section of the interior of one of M.E.G Outpost "Gutter Bunkers"' bunker.
+
+**The M.E.G. Outpost "Gutter Bunkers"** is a network of three renovated, medium-sized abandoned bunkers, repurposed into a **M.E.G.** outpost, all interconnected by a small yet secure underground tunnel system. Each bunker is designed to accommodate a standard personnel team of three; however, the infrastructure is capable of housing up to seven individuals, should the need arise for additional shelter. The bunkers are equipped with essential provisions, including sleeping arrangements, supplies, and equipment necessary for extended stays. Plans for improving the infrastructure are currently under review by **the Overwatch Council**, but due to the high risk of hostile activity and potential structural failure, any upgrades are currently on hold.
+
+  
+  
+
+## THE VAULT OF ARES
+
+![Missing alt text.](https://backrooms-sandbox-2.wdfiles.com/local--files/exotichive/mowrboulets)
+
+An image showcasing a cache of weapons stored within the Vault of Ares. This is the sole image of the Vault in the M.E.G.'s possession, obtained covertly from the U.E.C.'s official website.
+
+**The Vault of Ares** is a facility owned by [the U.E.C.](the-u-e-c.md) located somewhere inside **Level 49**, this facility seems to operate as a secretive storage site for salvaged items, objects, and weapons found on this level. While the full extent of its operations remains unclear, it is believed to serve as a repository for materials gathered by the **Servants of Ponos** during their expeditions. Further research into the activities of **the U.E.C.** at this location is ongoing and is considered a high-priority target for exploration.
+
+  
+  
+
+### BROTHERHOOD OF FIREARM GUARDIANS (B.F.G.)
+
+![Missing alt text.](https://backrooms-sandbox-2.wdfiles.com/local--files/exotichive/bfg)
+
+An image capturing one of the shooting ranges built by the B.F.G.
+
+**The Brotherhood of Firearm Guardians** is the only independent community that exists in **Level 49**, without any affiliation with one of the more established factions. Comprised of dedicated firearm and military enthusiasts, they have lived here long before **the M.E.G.** arrived. They have restored or repaired many of the pieces of military equipment that litters the level, making them one of the few communities with functional weaponry. They are known by their friendly nature, hence helping any wanderer in need; however, it is advised to approach them with civility and respect, as they hold a strong code of conduct within their ranks.
+
+  
+  
+
+[ATTACHED TRANSCRIPT: BFG INTERVIEW](javascript:;)
+
+[ATTACHED TRANSCRIPT: BFG INTERVIEW](javascript:;)
+
+![Missing alt text.](https://backrooms-sandbox-2.wdfiles.com/local--files/exotichive/nerd2)
+
+Darryl Falcon.
+
+**DATE:** 2015/05/02
+
+**INTERVIEWER:** Dr. Rachel Moriah, Head Researcher of Level 49, Trial Testers Division, Major Explorer Group
+
+**INTERVIEWEE:** Darryl Falcon, Co-Founder, Brotherhood of Firearm Guardians
+
+**SUBJECT:** Entity 49/1, "The Trenchcleaners".
+
+**« BEGIN LOG »**
+
+---
+
+**MORIAH:** Good morning, Mr. Falcon. How are you today?
+
+**FALCON:** Morning, Dr. Moriah. And I'm good, thanks!
+
+**MORIAH:** Excellent. Let's start the interview with some background information. Could you tell me what the Brotherhood of Firearm Guardians is?
+
+**FALCON:** Well, it’s a group for people who love firearms and anything military-related. You know, this level has a lot of military equipment just lying around, so it’s perfect for us. We hang out, trade knowledge, and fix up the gear we find here.
+
+**MORIAH:** I see. And you’re one of the co-founders, right? Who helped you start it, and why did you decide to make it a community?
+
+**FALCON:** Ooh, good question! It was me, John, and Alton, originally. We met in this level, bonded over our shared interests, and just sort of… stayed. We started fixing up the rifles and other gear we’d scavenge, and eventually, we built a little shooting range in one of the bunkers we call 'Shooting Range Alpha' now. Then we met Walter, he was the one that had the brilliant idea of turning our friendship into a community. And, here we are!
+
+**MORIAH:** That’s a great story. So, the Brotherhood has been around… how long now?
+
+**FALCON:** Coming up on a decade — nine years, to be exact.
+
+**MORIAH:** Impressive. Given that time, I assume you’ve encountered instances of Entity 49/1, sorry, I mean the Trenchcleaners. Is that correct?
+
+**FALCON:** Oh, we know him all too well. You could say he's our arch-nemesis, haha. We’ve spent the last nine years trying to find a way to disable, compromise, or even reverse-engineer that machine, but… no luck so far.
+
+**MORIAH:** I noticed you refer to it as *"he."* Any particular reason?
+
+**FALCON:** Eh, no real reason. Just… personal preference, I suppose.
+
+**MORIAH:** Alright. Could you provide us with some specific details about the Trenchcleaners?
+
+**FALCON:** Well, for one thing, he's cool, he’s heavily armed with a chaingun, and he’s not just some mindless machine — he seems to have a level of autonomy, artificial intelligence or some sort. Most unsettling, though, is his heat-seeking capability.
+
+**MORIAH:** Heat-seeking? Can you elaborate on how that works?
+
+**FALCON:** He can detect body heat from about fifteen miles away, so he knows where you are long before you even realize he's nearby. We had to learn that the hard way.
+
+**MORIAH:** Could you explain what happened?
+
+**FALCON:** We have — well — *had* a tech expert, his name's Anderson — he's a hacker, really. He managed to momentarily disable the Trenchcleaner to give us a chance to inspect him. We confirmed the heat-seeking sensor then, but… things went south fast after that. I’d rather not get into the details.
+
+**MORIAH:** Understood, and thank you for sharing that. I’ll note the heat-seeking capability.
+
+**FALCON:** Is that everything?
+
+**MORIAH:** Actually, one last question — why do you keep referring to it as "Trenchcleaner," as if it is singular?
+
+**FALCON:** *(Chuckles.)* Because he is singular. *There is only one Trenchcleaner.*
+
+---
+
+**« END LOG »**
+
+[ATTACHED TRANSCRIPT: BFG INTERVIEW](javascript:;)
+
+  
+  
+
+# NATIONS
+
+Listed below are the two nations that have existed since before the discovery of **Level 49** and are non-human origin:
+
+## REPUBLIC OF NUVARIA
+
+![Missing alt text.](https://backrooms-sandbox-2.wdfiles.com/local--files/exotichive/hagsten)
+
+A recreated rendition of the Republic of Nuvaria flag.
+
+Not much is known about the **Republic of Nuvaria** apart from hypotheses that their military was responsible for digging the trenches of **Level 49** and may have once inhabited them. They are said to be engaged in a prolonged conflict with the **Kingdom of Hagsten**, though the reasons behind the war are unclear. It remains uncertain why the **Nuvarian** forces disappeared — or if they truly existed at all. However, it is speculated that the **Trenchcleaner** is responsible for wiping out any soldiers who once inhabited the trench system.
+
+  
+  
+
+## KINGDOM OF HAGSTEN
+
+![Missing alt text.](https://backrooms-sandbox-2.wdfiles.com/local--files/exotichive/nuvaria)
+
+A recreated rendition of the Kingdom of Hagsten flag.
+
+Little is known about the **Kingdom of Hagsten** other than they are suspected to have started a long and bloody war against the **Republic of Nuvaria**. It is highly possible that Hagsten’s military forces are responsible for executing wanderers who attempt to escape the trenches, as they are also the supposed creators of the **Trenchcleaner**. Strangely, despite having seemingly defeated **Nuvaria**, the **Kingdom of Hagsten** appears locked in an endless ghost conflict with their former enemies.
+
+  
+  
+
+[EXTRACTED DOCUMENT 03](javascript:;)
+
+[EXTRACTED DOCUMENT 03](javascript:;)
+
+**TO:** ***[Unreadable due to damage.]***  
+**FROM:** The Office of the ***[Unreadable due to damage.]***  
+**SUBJECT:** Trench Construction and Military Operations
+
+---
+
+![Missing alt text.](https://i.imgur.com/USHgh6Y.jpg)
+
+Attached image.
+
+The construction of the trench system in **southern Veldena** was initiated as part of our **Strategic Defense Initiative (SDI)**. After several years of careful planning and resource allocation, we have successfully dug what is now known as the **"Deep Network"**: a labyrinthine trench structure intended to provide both defense and mobility for our forces in this hostile environment. The Deep Network was outfitted with fortified outposts, supply caches, and strategic checkpoints to monitor enemy movements.
+
+SDI's primary objective was to ***[Unreadable due to damage.]***. Through this project, we achieved early victory by conquering a few cities in **eastern Drakthar** and
+
+***[Remaining text unintelligible due to damage to the paper.]***
+
+  
+  
+
+BY ORDER OF THE OVERWATCH COUNCIL
+
+The following files are classified, with access restricted to M.E.G. personnel only.  
+**Unauthorized access is strictly forbidden.**
+
+49
+
+---
+
+[INPUT M.E.G. PERSONNEL CREDENTIALS  ◁](javascript:;)
+
+[LOG OFF  ▽](javascript:;)
+
+Welcome, authorized personnel.
+
+---
+
+**TEST ID:** 49-01-16922  
+   
+**OBJECTIVE:** Test if the unseen entities react to inanimate objects exiting the trench.  
+   
+**METHOD:** A human-sized doll outfitted with basic clothing and a helmet was placed at the edge of the trench and slowly raised above ground level.  
+   
+**RESULT:** No response. The doll remained untouched for over ten minutes after "exiting" the trench.  
+   
+**NOTES:** Entities did not respond to a non-living decoy. No projectile was fired.
+
+---
+
+**TEST ID:** 49-02-17293  
+   
+**OBJECTIVE:** Test if a moving object triggers a response from unseen entities.  
+   
+**METHOD:** A remote-controlled rover, equipped with basic heat emission and movement patterns resembling a human's, was guided towards the edge and maneuvered out of the trench.  
+   
+**RESULT:** The rover was instantly targeted upon fully clearing the trench edge, destroyed by a single sniper shot to its central control unit.  
+   
+**NOTES:** Entities react to machinery with some level of perceived intelligence or movement but maintain precise, calculated shots. Possibility of thermal sensors suspected.
+
+---
+
+**TEST ID:** 49-03-17676  
+   
+**OBJECTIVE:** Test if protective gear can prevent immediate death upon attempting to exit the trench.  
+   
+**METHOD:** Peter Williams, a volunteer, equipped with full-body armor and a reinforced helmet, was instructed to climb out of the trench cautiously.  
+   
+**RESULT:** Upon fully emerging, the subject was targeted and instantly hit by a high-caliber sniper round, piercing both the helmet and armor. Moments later, additional rounds from a heavy machine gun followed, rendering all protective measures ineffective. Subject was pronounced dead on impact.  
+   
+**NOTES:** Entities appear to escalate firepower based on the perceived level of protection. Armor offers no increased survival chance and may provoke further aggression.
+
+---
+
+**TEST ID:** 49-04-18011  
+   
+**OBJECTIVE:** Test if heavy armor in the form of a vehicle increases survivability when attempting to exit the trench.  
+   
+**METHOD:** A makeshift tank, crafted from salvaged trench metal and equipped with reinforced plating, was remotely driven to the trench edge, intending to push through and exit.  
+   
+**RESULT:** As soon as the tank breached the trench edge, it was struck by what seems to be two simultaneous Javelin anti-tank missiles from different directions. The tank was obliterated in under three seconds.  
+   
+**NOTES:** Entities responded with overwhelming force, suggesting an automated, anti-armor targeting system. Standard heavy armor appears insufficient to withstand even a coordinated missile strike.
+
+---
+
+**TEST ID:** 49-05-18574  
+   
+**OBJECTIVE:** Test if radar interference can obscure visibility or targeting systems of unseen entities.  
+   
+**METHOD:** An armored personnel carrier (APC) retrofitted with a jamming device was operated remotely. Jammer activated, the APC moved towards the trench edge.  
+   
+**RESULT:** As soon as the APC cleared the trench, it was attacked by two artillery fire from two unknown distances, striking with such precision that the vehicle was destroyed instantly despite radar interference.  
+   
+**NOTES:** The entities either bypass radar interference or rely on other detection mechanisms, possibly thermal or motion-based targeting.
+
+---
+
+**TEST ID:** 49-06-18877  
+   
+**OBJECTIVE:** Test if camouflaged, non-hostile body language delays or prevents attacks.  
+   
+**METHOD:** Nicholas Biggerstaff, a volunteer in full camouflage and armor, mimicking a non-combatant posture (moving low, hands visible), was instructed to carefully crawl towards the trench edge and attempt to cross without appearing threatening.  
+   
+**RESULT:** Upon exiting, the subject was struck by a missile within five seconds. The explosive force vaporized the body, leaving minimal remains.  
+   
+**NOTES:** Entities appear unresponsive to camouflage or non-aggressive movements and do not distinguish between potential threats and passive attempts. Lethal force remains indiscriminate.
+
+---
+
+**TEST ID:** 49-07-19010  
+   
+**OBJECTIVE:** Attempt to evade detection using a drone cloaked against thermal imaging.  
+   
+**METHOD:** A high-altitude drone outfitted with thermal cloaking was guided out of the trench, simulating an "exit" attempt from above.  
+   
+**RESULT:** Upon reaching the perimeter, the drone was destroyed by an anti-air missile, launched from an unidentified source. Debris analysis confirmed that the drone was targeted despite cloaking.  
+   
+**NOTES:** Thermal cloaking is ineffective; the unseen entities seem capable of tracking objects without relying solely on heat signatures.
+
+---
+
+**TEST ID:** 49-Ω-21792  
+   
+**OBJECTIVE:** Test the viability of offensive tactics to neutralize or disable unseen entities guarding the trench perimeter using combined M.E.G. resources and Brotherhood of Firearm Guardians’ mortar artillery.  
+   
+**METHOD:** M.E.G. operatives teamed with Brotherhood members to position mortars along a fortified section of the trench. The plan involved launching sustained mortar fire onto suspected sniper and artillery positions around the trench perimeter, attempting to suppress unseen entities and create a temporary opening for a controlled exit attempt.  
+   
+**LOG:**  
+
+M.E.G. scouts identified multiple suspected enemy positions, prompting the deployment of mortars along a 100-meter stretch of the trench. Brotherhood personnel provided firing support, while M.E.G. operatives were stationed with high-caliber rifles to suppress counter-fire and mitigate potential threats, including Entity 49/1 activity.
+
+---
+
+At 14:32, mortar units commenced bombardment on identified enemy coordinates. The first volley yielded no observable reaction, leading to the deployment of a second volley.
+
+---
+
+During the second volley, enemy forces initiated a coordinated response. Heavy artillery fire targeted the mortar positions with high precision, striking within the trench confines. Operatives and Brotherhood members were forced to disperse.
+
+---
+
+Concurrently, sniper fire originating from multiple directions engaged M.E.G. and Brotherhood personnel. Casualties included two M.E.G. scouts (KIA) and one Brotherhood gunner (WIA). Mortar teams sustained fire under increasing pressure but were subsequently neutralized.
+
+---
+
+An unidentified bomber deployed high-yield ordnance on the mortar positions, resulting in the destruction of the entire line. Surviving personnel reported extensive structural damage and severely reduced visibility due to debris and smoke.
+
+---
+
+As operatives attempted withdrawal, automated weapon systems engaged retreating personnel. An anti-personnel missile targeted the main egress point, necessitating an immediate and full tactical withdrawal.
+
+  
+   
+**CASUALTIES:**
+
+- **M.E.G. Operatives**: Four fatalities, three wounded.
+- **B.F.G. Members**: Two fatalities, five wounded.
+
+**RESULT:** The mortar fires intended to suppress unseen entities was deemed unsuccessful. The counter-response was swift, overwhelming, and results in significant escalation in firepower and precision. This suggests that the entities possess dynamic defensive capabilities. The operation resulted in significant casualties and rendered the trench sector structurally compromised and unsafe for future use.  
+   
+**NOTES:** The hostile entities demonstrated advanced tactical capabilities, including coordinated use of artillery, sniping, and aerial bombardment. Artillery fires or any kind of offensive actions were ineffective against them and resulted in severe and disproportionate counter-attacks.  
+   
+**CONCLUSION:** *Attempts to engage or neutralize the unseen entities located on the far side of the no man's land through force result in unacceptable losses.*
+
+---
+
+**To all M.E.G. personnel,**
+
+Following the catastrophic result of **Test 49-Ω-21792**, along with the previously failed attempts at exiting the trenches, further testing in **Level 49** is not only pointless but extremely dangerous. The ability of unseen entities to escalate their countermeasures in response to even minor provocations suggests that their defensive capabilities far surpass our capacity to overcome them. Losses that our personnel have experienced and our allies of the **Brotherhood of Firearm Guardians** have underlined the acute risks of challenging this level's perimeter defenses.
+
+A full moratorium is hereby enacted on any further attempts to exit the trenches or to perform offensive testing on **Level 49**, effective immediately. I hereby order all personnel to immediately cease these operations and reconnaissance missions near the perimeter of the trench or anything that may be perceived as hostile by these entities.
+
+***Failure to comply shall be met with disciplinary actions.***
+
+Stay safe, and remember: not every battle is meant to be fought.
+
+**- Overseer A, Justin Zimals**
+
+[LOG OFF  ▽](javascript:;)
+
+---
+
+  
+  
+
+# ENTRANCES AND EXITS
+
+The following are the currently documented and verified entrances and exits for **Level 49** as of **2016/07/18**. Please note that additional entrances and exits are the subject of ongoing investigation and will be documented as soon as new information becomes available.
+
+## ENTRANCES
+
+- Entering an abandoned **High Mobility Multipurpose Wheeled Vehicle (Humvee)** in [Level 35](level-35.md) causes you to lose consciousness. Upon regaining consciousness, you will find yourself lying on the trenches of this level.
+- Touching a military recruitment poster in [Level 11](level-11.md) triggers an immediate no-clip to this level.
+- Being buried alive in **any level**, whether by accident or intentional, will result in you being transported to this level upon regaining consciousness.
+
+## EXITS
+
+- Specific rusted doors in the bunkers serve as access points to [Level 14](level-14.md), [Level 65](level-65.md), or [Level 50](level-50.md). These doors can be found within all three bunkers that comprise the **M.E.G. Outpost "Gutter Bunkers"**.
+- Being struck by lightning during a rainstorm phenomenon results in an immediate no-clip to [Level 3](level-3.md).
+- During severe flooding caused by the rainstorm phenomenon, a water-filled tunnel may become accessible. Following this tunnel will lead you to [Level 7](level-7.md).
+- Killing another wanderer in this level will trigger an immediate no-clip to [Level 666](level-666.md).
+
+  
+  
+
+[ATTACHED DOCUMENTED RADIO TRANSMISSION RECORDING TAPE](javascript:;)
+
+[ATTACHED DOCUMENTED RADIO TRANSMISSION RECORDING TAPE](javascript:;)
+
+---
+
+---
+
+**DECIPHERED:** Ballistic components continue construction. Stacking progress ongoing. Fuel core connection nearly finalized. Q-Tech precision components installed. Further modifications pending; reactor power unit stable. Hirsk assembly in process. Test protocols nearing completion. Final adjustments required. **One phase remaining.**
+
+  
+ 
+
+Footnotes
+
+[1](javascript:;). Refer to the description.
+
+[2](javascript:;). Longest recorded time: ~3 days
+
+  
+  
+
+---
+
+### « [Level 48](level-48.md) | **VIOLENCE** | [Level 50](level-50.md) »
+
+---
+
+[‡ Licensing / Citation](javascript:;)
+
+[‡ Hide Licensing / Citation](javascript:;)
+
+Cite this page as:
+
+> "[Level 49 - "The Unfilled River of Phlegethon"](level-49.md)" by exotichive, from the [Backrooms Wiki](index.md). Source: [https://backrooms-wiki.wikidot.com/level-49](level-49.md). Licensed under [CC-BY-SA-3.0](https://creativecommons.org/licenses/by-sa/3.0/).
+
+- - \_
+
+  [+ Embed citation as HTML](javascript:;)[- Embed citation as HTML](javascript:;)
+
+  "<a href="https://backrooms-wiki.wikidot.com/level-49">Level 49 - "The Unfilled River of Phlegethon"</a>" by exotichive, from the <a href="http://backrooms-wiki.wikidot.com/">Backrooms Wiki</a>. Source: <a href="https://backrooms-wiki.wikidot.com/level-49">https://backrooms-wiki.wikidot.com/level-49</a>. Licensed under <a href="https://creativecommons.org/licenses/by-sa/3.0/">CC-BY-SA-3.0</a>.
+
+---
+
+**Filename:** trenchwithlogs.jpeg  
+**Name:** WWI Trench ending in Switerland - CH-BAR - 3238320  
+**Author:** Kuratle  
+**License:** Public Domain  
+**Source Link:** [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:WWI_Trench_ending_in_Switerland_-_CH-BAR_-_3238320.jpg)  
+**Additional Notes:** Edited by
+
+**Filename:** bang.png  
+**Name:** Schützengraben auf der Auria. (6-5.1917.) (BildID 15500435)  
+**Author:** K.u.k. Kriegspressequartier, Lichtbildstelle - Wien  
+**License:** Public Domain  
+**Source Link:** [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Sch%C3%BCtzengraben_auf_der_Auria._(6-5.1917.)_(BildID_15500435).jpg)  
+**Additional Notes:** Edited by
+
+**Filename:** gunemplacement.jpeg  
+**Name:** Machine Gun Emplacement, interior (eDOB Reference e11578) - 49367927611  
+**Author:** IntrepidExplorer82  
+**License:** CC BY 2.0  
+**Source Link:** [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Machine_Gun_Emplacement,_interior_(eDOB_Reference_e11578)_-_49367927611.jpg)
+
+**Filename:** mortor.jpeg  
+**Name:** 01916 Mittlerer Minenwerfer, Gruppe Magdeburg Infanterieregiment 40.  
+**Author:** Unknown author / Österreichische Nationalbibliothek (ÖNB, K.u.k.Kriegspressequartier)  
+**License:** Public Domain  
+**Source Link:** [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:01916_Mittlerer_Minenwerfer,_Gruppe_Magdeburg_Infanterieregiment_40..jpg)  
+**Additional Notes:** Edited by
+
+**Filename:** bunk.jpeg  
+**Name:** German bunker with bed Somme 1916 IWM Q 1384  
+**Author:** Ernest Brooks  
+**License:** Public Domain  
+**Source Link:** [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:German_bunker_with_bed_Somme_1916_IWM_Q_1384.jpg)  
+**Additional Notes:** Edited by
+
+**Filename:** meganbunk.jpeg  
+**Name:** Broadcasting studio, Secret Bunker - geograph.org.uk - 3387966  
+**Author:** Jim Barton  
+**License:** CC BY-SA 2.0  
+**Source Link:** [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Broadcasting_studio,_Secret_Bunker_-_geograph.org.uk_-_3387966.jpg)
+
+**Filename:** gutterbeast.png, nuvaria.png, hagsten.png  
+**Name:** Blueprint of Trenchcleaner (sort of), Flag of Nuvaria, Flag of Hagsten  
+**Author:**   
+**License:** CC BY-SA 3.0
+
+**Filename:** blur.png  
+**Author:** H4roldas  
+**License:** CC0 (Uploaded before January 6th, 2019)  
+**Source Link:** [Pixabay](https://pixabay.com/photos/camera-video-camera-movie-projector-3848320)  
+**Additional Notes:** Edited by
+
+**Filename:** nerd2.png  
+**Source Link:** [thispersondoesnotexist.com](index.md)
+
+**Filename:** lightupthenight.mp3  
+**Name:** ULTRAKILL | 7-2 (LIGHT UP THE NIGHT) Ambience  
+**Author:** ULTRAKILL, beep  
+**Source Link:** [YouTube](https://youtu.be/Zg2Vvq6Fz8A?si=s6Dtk5qkrIajA2eD)  
+**Additional Notes:** ultrakill
+
+**Filename:** flood.jpeg  
+**Name:** Gettin’ dirty, FOB Salerno hosts Mud Run 130324-A-AY560-777  
+**Author:** Sgt. 1st Class Abram Pinnington  
+**License:** Public Domain  
+**Source Link:** [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Gettin%E2%80%99_dirty,_FOB_Salerno_hosts_Mud_Run_130324-A-AY560-777.jpg)
+
+**Filename:** mowrboulets.jpeg  
+**Name:** Many Weapons  
+**Author:** LCPL JORDAN F. SHERWOOD, USMC  
+**License:** Public Domain  
+**Source Link:** [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Many_Weapons.JPEG)
+
+**Filename:** bfg.jpeg  
+**Name:** Palacio de la Reunificación, Ciudad Ho Chi Minh, Vietnam, 2013-08-14, DD 30  
+**Author:** Diego Delso  
+**License:** CC BY-SA 3.0  
+**Source Link:** [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Palacio_de_la_Reunificaci%C3%B3n,_Ciudad_Ho_Chi_Minh,_Vietnam,_2013-08-14,_DD_30.JPG)
+
+**Filename:** Radio transmission morse code @4606.2kHz Poland  
+**Author:** NebulousRoyale  
+**License:** [CC0 1.0](https://creativecommons.org/publicdomain/zero/1.0/)  
+**Source Link:** <https://shorturl.at/6rhAX>
+
+**Name:** Blood drop  
+**Author:** Sémhur  
+**License:** CC0 1.0  
+**Source Link:** [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Blood_drop.svg)
+
+**Name:** Resting on Peleliu Island  
+**Author:** National Archives  
+**License:** Public Domain  
+**Source Link:** [Wikipedia](https://de.wikipedia.org/wiki/Datei:Resting_on_Peleliu_Island.jpg)
+
+For more information about on-wiki content, visit the [Licensing Master List](licensing-master-list.md).
+
+---
+
+Source: [https://backrooms-wiki.wikidot.com/level-49](https://backrooms-wiki.wikidot.com/level-49)

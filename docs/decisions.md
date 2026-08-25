@@ -39,8 +39,9 @@ Le sezioni “Aperte” non autorizzano scelte arbitrarie.
 
 ## 2026-08-23 — Lore/contenuti
 
-- Fonte principale: Backrooms Wiki, priorità Levels/Entities/Objects.
-- Richiesta e deroghe `/docs` prevalgono.
+- Fonte principale: dump locale `docs/wiki/backrooms-wiki-md/` (Backrooms Wiki, snapshot Markdown).
+- Richiesta e deroghe `/docs` prevalgono sulla wiki.
+- La wiki non è un backlog di implementazione: ogni contenuto richiede scheda/decisione.
 - Ogni contenuto: fonte, `content_id`, adozioni/deroghe, autorità, replica/persistenza.
 - Entity non implica ostilità/combattimento; oggetti wiki non automaticamente approvati.
 - Exit = condizione di transizione, non necessariamente porta.

@@ -1,0 +1,153 @@
+---
+title: "Stagnation: to stay the same and not grow or develop"
+source: "https://backrooms-wiki.wikidot.com/forum/t-16858119/stagnation:to-stay-the-same-and-not-grow-or-develop"
+retrieved_at: "2026-08-23T23:48:21+00:00"
+license: CC-BY-SA-3.0
+---
+
+# Stagnation: to stay the same and not grow or develop
+
+[Forum](https://backrooms-wiki.wikidot.com/forum/start)
+» [General / General](forum__c-6898690__general--c8e06fbe.md)
+» Stagnation: to stay the same and not grow or develop
+
+Started by:   
+Date: 05 Jun 2024 13:34  
+Number of posts: 3  
+![rss icon](http://www.wikidot.com/common--theme/base/images/feed/feed-icon-14x14.png)
+RSS: [New posts](https://backrooms-wiki.wikidot.com/feed/forum/t-16858119.xml)
+
+[Unfold All](javascript:;)
+[Fold All](javascript:;)
+ [More Options](javascript:;)
+
+[Edit Title & Description](javascript:;)
+[Stickness](javascript:;)
+[Lock Thread](javascript:;)
+[Move Thread](javascript:;)
+
+[Fold](javascript:;)
+
+Stagnation: to stay the same and not grow or develop
+
+05 Jun 2024 13:34
+
+What is the Backrooms?
+
+*“If you're not careful and no-clip out of reality in wrong areas, you'll end up in the Backrooms, where it's nothing but the stink of moist carpet, the madness of mono-yellow, and endless background noise of fluorescent lights at maximum hum-buzz, and approximately six hundred million square miles of randomly segmented empty rooms to be trapped in. God save you if you hear something wandering around nearby, because it sure as hell has heard you…”*
+
+This 4chan quote defines the original storyline. The Backrooms is a place of isolation, a liminal place, a point of no return. Authors call this initial realm “*Level 0*.” Exploring mile after mile of randomly segmented empty rooms, hallways, and stairs becomes torturous considering the maddening monotony of the journey.
+
+Fixating only on Level 0 became maddening monotonous for both writers and readers. To break free, we added new levels, and entities, objects, and phenomena. We added tales and groups and canons.
+
+Many feel that we are facing maddening monotony once again. Levels and entities are starting to sound formulaic. Some blame the authors. Others see inevitability.
+
+Have we run out of ideas?
+
+How many of us became bored and moved on?
+
+Readership and voting seem to be on a downward trend. Is it my imagination? Because honestly, my imagination is pretty wild!
+
+Maybe we just need to pause, take a deep breath, and discuss what comes next. Interest and enthusiasm for any subject can rise and fall. *Teenage Mutant Ninja Turtles* (1984) is a wonderful example of this; a new movie comes out and the stores are filled with comics, magazines, and a slew of action figures. Time passes and the toys make their way to the “*clearance*” aisle. More time passes and a new movie comes out and the cycle repeats.
+
+A Backrooms movie is in the works. Adding to that, people are constantly finding *“new to them*” ideas to tickle their fancy. Perhaps holding tightly to original audiences is not fair to anyone.
+
+In the meantime, we should sharpen our pencils and crayons and minds.
+
+“This isn’t over yet!”
+
+---
+
+Your friend and colleague,  
+Goerman  
+[http://backrooms-wiki.wikidot.com/goerman](goerman.md)
+
+**[Reply](javascript:;)**
+[Options](javascript:;)
+
+[Unfold](javascript:;)
+[Stagnation: to stay the same and not grow or develop](javascript:;) by , 05 Jun 2024 13:34
+
+[Fold](javascript:;)
+
+Re: Stagnation: to stay the same and not grow or develop
+
+05 Jun 2024 19:14
+
+This may be one possible outcome of this downhill: soon it could be a new chapter in our history where new people enter and the "meta of the backrooms" changes, we've seen this a few times with the idea of sanity becoming an old idea, and with so many classic articles being rewritten to our newer version of articles. If the backrooms movie does well both the fandom and the wikidot could probably see a large spike in new users, a new generation of writers if you will, to fill the place of the several seasoned users who have left. Until something happens to cause a large uproar in the backrooms, we just have to ride this dwindling wave until we reach land
+
+I could be completely wrong about this, but this is just my theory on what may be happening.
+
+---
+
+does anyone see these forum signatures, also why does this have more space than the description
+
+**[Reply](javascript:;)**
+[Options](javascript:;)
+
+[Unfold](javascript:;)
+[Re: Stagnation: to stay the same and not grow or develop](javascript:;) by , 05 Jun 2024 19:14
+
+[Fold](javascript:;)
+
+Re: Stagnation: to stay the same and not grow or develop
+
+07 Jun 2024 10:00
+
+The discovery of the Original Backrooms image was impactful in the internet, despite it may not be as impactful as when the movie come out, regardless, you can see the reflection of what will happen if a Backrooms product with little connection to the entire Wiki community become somehow popular again in internet.
+
+No much population generated by the events of the discovery of **Dsc00161.jpg**.
+
+You may ask, isn't the original Kane Pixel series brought new crowd into TS? well, back when the Kane Pixel series released, no one really knows about us, and of course, they see a place where they can write about "liminal spaces", they come, but in the recent years, people already know about us, and most of them even know that this place is no longer a liminal purists heavens, the reputation of this place called Backrooms Wiki can even be seen as "gen alpha playgrounds" (thx Youtube content makers), so, I won't be surprised if the Kane Pixel movies came out, and became a big hit on internet- we receives nothing from it.
+
+Anyway, putting hopes on a product that has little or even no connection to the wiki brings population to the wiki can be little naive.
+
+But hey, maybe I am wrong.
+
+---
+
+From another perspective, maybe a hot takes, but TS platform isn't very friendly to the new authors, we seek for quality, indeed, but we check their quality harsh from the very beginning stage, if it was a bad draft, and continues to be after 1 - 2 crit and then rot for like a month with the some few familiar critters come sometimes but normally no improvement seen on the draft, and then nobody come to them again, nothing, the author won't be able to post, the author won't be able to see the possibility of contributing to the site, the author quit. Maybe they will struggle for a few more attempts, enter the cycle again, and leave in quietly.
+
+Click on the [New created page](most-recently-created.md) at the side bar, excluding the theme pages, you can see the first unfamiliar author with their first page posted at 3 months ago march 8th, the chocobyte author (like it or hate it, and not to flex but I told them to just go for a clear with no afraid, yeah it was probably a bad page, but cleary our site accepted it, so hey, clap for that newbies?), if crit system can improve pages to a good stage, you're suppose to see more active new author posts. You can say those new author who left because they don't see chance of improving their page and posting on the site weak and deserved and I will definetely agree with you! but honestly, then we shouldn't expect many new author to come by.
+
+Hence I am happy with the new system that offers new author an opportunity to shine on the actual page, if it got deleted, at least they have chance to stand on the stage.
+
+You can't go harsh as hell with quality control and gatekeep pages from the site while expecting there is a lot of high quality author with infinite passion on pages crit stage and have their first page a +50 score level draft joining to the site.
+
+I haven't even started on the GL system, just click on the Greenlight channel and you'll see the last month GL without even scrolling up back in May lol. Very effective, love it, it'll be good if we can see some new faces there in that channel. Both new GLer and new author kekw.
+
+---
+
+currently I think an average page that is normally released, not a rewrite of a impactful page, not a contest winner, will have around 30-40 voters, this might be an overestimate.
+
+pages that are really, really outstanding pages in a specific period can have around 90 as peak and slows down in the next few month, again, might be an overestimate.
+
+pages with very impactful topic such as Partygoer rewrites, many inactive readers will come back from the trend, different sites readers that never reads and vote on TS pages might come and vote (CN people for example), they will have around 120 voters within a month after released.
+
+for now, I don't think our active users are above even 250.
+
+---
+
+I said I was going to be inactive, I am sorry that I broke my own rules by writing this much, I will make sure this issue will not happen again.
+
+Last edited on 07 Jun 2024 10:22
+by
+ [Show more](javascript:;)
+
+**[Reply](javascript:;)**
+[Options](javascript:;)
+
+[Unfold](javascript:;)
+[Re: Stagnation: to stay the same and not grow or develop](javascript:;) by , 07 Jun 2024 10:00
+
+[New Post](javascript:;)
+
+[Permanent Link](javascript:;)
+[Edit](javascript:;)
+[Delete](javascript:;)
+
+/forum/t-16858119/stagnation:to-stay-the-same-and-not-grow-or-develop#post-
+
+---
+
+Source: [https://backrooms-wiki.wikidot.com/forum/t-16858119/stagnation:to-stay-the-same-and-not-grow-or-develop](https://backrooms-wiki.wikidot.com/forum/t-16858119/stagnation:to-stay-the-same-and-not-grow-or-develop)

@@ -165,4 +165,35 @@ Player e blockout sono prototipi, non contratti single-player da preservare se c
 
 ## Aperto
 
+<<<<<<< Updated upstream
 Adapter/estensione Steam concreta, provider mobile, cross-play, persistenza, host migration, late join definitivo, anti-cheat, transizioni e server dedicati. Vedi [`decisions.md`](decisions.md).
+=======
+## Cosa non c'è ancora
+
+- autoload
+- input map di gioco (il player di test usa WASD e mouse)
+- layer di collisione nominati
+- networking / isolamento / Red Room
+- salvataggi
+- props Vol. 2 nel livello
+
+## Preparazione multiplayer
+
+Lo sviluppo iniziale resta single-player.
+
+I sistemi di gameplay non devono però assumere strutturalmente
+l'esistenza di un solo giocatore.
+
+Quando possibile:
+
+- il player resta una scena autonoma;
+- input e azioni di gameplay restano separati;
+- gli oggetti interagibili ricevono l'attore che interagisce;
+- evitare dipendenze globali da un singolo `player`;
+- lo stato appartiene al nodo/sistema pertinente;
+- non implementare networking finché non esiste un caso concreto.
+
+Target multiplayer previsto:
+coop self-hosted con host autorevole, da validare tramite prototipo
+prima che il gioco raggiunga una fase avanzata.
+>>>>>>> Stashed changes

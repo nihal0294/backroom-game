@@ -1,0 +1,208 @@
+---
+title: "Houses Of The Holy 8"
+source: "https://backrooms-wiki.wikidot.com/fragment:houses-of-the-holy-8"
+retrieved_at: "2026-08-23T23:38:44+00:00"
+license: CC-BY-SA-3.0
+---
+
+# Houses Of The Holy 8
+
+[+ Theme Code](javascript:;)
+
+[- Close](javascript:;)
+
+```
+:root {
+    --logo-image: none;
+ 
+    --white-monochrome: var(--accent-one);
+    --pale-gray-monochrome: var(--accent-two);
+    --light-gray-monochrome: var(--accent-one);
+    --gray-monochrome: var(--accent-one);
+    --dark-gray-monochrome: var(--accent-middle);
+    --black-monochrome: var(--accent-one);
+    --medium-accent: var(--accent-two);
+    --pale-accent: var(--accent-middle);
+    --bright-accent: var(--accent-middle);
+    --dark-accent: var(--accent-middle);
+    --alt-accent: var(--accent-middle);
+ 
+   /*SWATCH EDITS*/
+   --swatch-text-light: var(--accent-one);
+ 
+   --swatch-text-secondary-color: var(--accent-one);
+ 
+   --swatch-topmenu-bg-color: var(--accent-two); /*GRADIENT*/
+   --swatch-topmenu-border-color: var(--accent-one);
+ 
+   --swatch-menutxt-light-color: var(--accent-two);
+   --swatch-menutxt-dark-color: var(--accent-two);
+   --swatch-menutxt-general-color: var(--accent-one);
+ 
+    --swatch-menubg-color: var(--accent-two);
+ 
+   --quote-shadow: none;
+   --header-text-shadow: none;
+ 
+    --rating-module-bg-color: var(--accent-one);
+ 
+   /* THEME VARIABLES */
+   --accent-one: var(--black);
+   --accent-two: var(--white);
+   --accent-middle: var(--gray);
+ 
+   --white: 255, 255, 255;
+   --black: 0, 0, 0;
+   --gray: 125, 125, 125;
+}
+ 
+.lightblock, .styled-quote {
+  background: rgb(var(--accent-two));
+  color: rgb(var(--accent-one));
+}
+ 
+.darkblock, .dark-styled-quote {
+  background: rgb(var(--accent-one));
+  color: rgb(var(--accent-two));
+}
+ 
+.frameblock {
+  color: rgb(var(--accent-one));
+  background: rgb(var(--accent-two));
+  padding: 0.01rem 1rem;
+  margin: 0.5rem 0;
+  border: solid 5px rgb(var(--accent-one));
+}
+ 
+div.scp-image-block div.scp-image-caption {
+   background-color: rgb(var(--accent-two));
+   border: 2px solid rgb(var(--accent-one));
+}
+ 
+#top-bar {
+   --swatch-text-secondary-color: var(--accent-one);
+}
+ 
+#page-content table.wiki-content-table {
+   --tables-header-bg: var(--accent-one);
+   --tables-header-txt: var(--accent-two);
+}
+ 
+.footnotes-footer {
+   --footnotes-footer-text-color: var(--accent-two);
+}
+ 
+div.wiki-note {
+   --note-color: var(--accent-middle);
+}
+ 
+.code, .page-source {
+   background-color: rgb(var(--accent-two));
+   color: rgb(var(--accent-one));
+}
+ 
+#who-rated-page-area > div > span[style*="color"] {
+   color: rgb(var(--accent-middle)) !important;
+}
+ 
+html, body {
+    scrollbar-color: rgb(var(--pale-gray-monochrome))rgb(var(--black-monochrome));
+}
+```
+
+[- Close](javascript:;)
+
+As Spec feels his forced noclip come to a conclusion, he opens his eyes to reveal the small, familiar environment of his basement in Level 11. He shrugs off the landing, and brings himself to his feet.
+
+*"What is another measly failure in the face of discovery?"* Spec thinks to himself. *"Just another setback. I'll have it all sorted by tomorrow— perhaps I should look into that Rat Master file."*
+
+Spec replaces his contacts and re-powers his prosthetic as he walks over to his worktable and computer. Despite having royally fumbled his attempt at getting information from Herne, he still felt some satisfaction at being functioning at full capacity again. He felt safe. Competent.
+
+As Spec sits down in the now-infamous swivel chair, he notices something on the top of his wastebasket. The note from Avalon, from all those days ago. He scowls, as his memories are flooded with spiteful thoughts about his toxic acquaintance. Despite his better judgement, he picks up the folded piece of paper, and places it on the desk.
+
+Hi Spec. I hope this note finds you well.
+
+I… have an apology to give. The past few years, I don't think I've been treating you fairly for all you've done for me.  
+I hadn't realized it until now, but I've been using you in the same way that the U.E.C. was using me. Never once had I actually stopped to think about how what I was doing has been affecting you. Never once did I actually stop to say "thank you" for all you've done, and now I fear that this may be too little too late.
+
+You know I've never been much for apologies, but I think it's finally time I put an end to this. For our own good.
+
+We've been friends for years, and I've been your information broker for quite some time now. I've learned what makes you tick, what makes you cringe. I've used it for personal gain, manipulating you into giving me more and more due to my own issues.
+
+But lately, I've started to notice something that gave me my own awakening. You're deteriorating, and fast. Gone is the charmingly crazy nerd with big ideas— and in his place lies a monster of his own making. With every file I give you, your obsession grows. Your hunger to know more, compulsion to find an "answer" to everything.
+
+I can't in good faith continue like this, despite the benefits I've reaped from our little 'exchanges.' You're destroying yourself, and I'm not going to be a part of it any longer.
+
+You may be confused as to why I'm doing this. After all, I know what you probably think of me at this point. But as dumb as it sounds, the truth is that I *care.* I'm not going to feed into your neurosis any longer. If you continue down this path, you're going to end up killing yourself one way or another. Just look at yourself in the mirror if you still can muster the resolve. You. Need. To. Stop. You've tried. You've done infinitely more than most people here could ever imagine.
+
+You don't need to be humanity's savior just to fulfill your own shattered ego. Just do what you can to keep yourself safe. Do what you can to *live.* If you heed my words, perhaps we can try to be friends once more. But if not, don't even think about contacting me ever again.
+
+-Avalon
+
+Spec stares at the paper with a distasteful grimace. He's not obsessed, he's just dedicated. Some emotionally abusive prick like Avalon wouldn't have the first idea about what he's doing. After all, he can stop whenever he wants. He feels fine, he feels normal. Avalon is just being her usual dickish self, nothing more, nothing less.
+
+Spec throws the paper into the trash can once more, opening up his computer. Having been out for a few days, he decides to check his messages. Perhaps Tom or Evie have reached out to him for something. Maybe Kaiser is finally done with his latest project…
+
+As Spec clicks on his inbox, he finds a message from none other than Leo Castellos. He must be writing to update Spec on how things went with the Hunters after he fled Leo's museum. He opens the message.
+
+![door_white.png](http://zaskou.wdfiles.com/local--files/what-if-blackout/door_white.png)**THE BACKDOOR** Backrooms' #1 Chat & Forum
+
+**> Direct Messaging - User: Asinine\_Archivist**
+
+---
+
+[Asinine\_Archivist]: You must really think I'm stupid. What the genuine fuck is wrong with you?
+
+[Asinine\_Archivist]: I know you have a fucking computer, Spec. You're THE technology guy in this place. Respond with a little *respect* you coward.
+
+[Asinine\_Archivist]:…
+
+[Asinine\_Archivist]: Fine. Be that way. I'll just lay it all out. Never fucking contact me for anything again, do you hear? You nearly brought along the destruction of HALF OF THE OMICRON SECTOR. DO YOU REALISE WHAT YOU COULD HAVE DONE? IN YOUR SELF-INDULGENT LITTLE QUEST TO BE THE BIG FUCKING HERO, YOU WOULD HAVE DROPPED A TRANSCENDENTAL BEING WITHIN 900 KILOMETERS OF THE FUCKING [HEART OF THE UNIVERSE](heart-of-the-universe.md), AND I'D HAVE BEEN RESPONSIBLE. DO YOU UNDERSTAND WHAT THAT MEANS FOR *ME,* LET ALONE REALITY YOU LITTLE SHIT? I KNOW YOU KNOW WHAT KIRAI IS. YOUR PARANOID ASS KEEPS A VIAL OF ITS ESSENCE ON YOU AS A DETERRENT. YOU KNOW EXACTLY WHAT IT'D DO TO ME IF IT FOUND OUT I WAS A PART OF THIS. I LEFT THE LOST FOR A FUCKING REASON, YOU SELFISH PRICK. I WANTED *OUT* OF THE SHITTY DRAMA. AND NOW HERE YOU ARE, THROWING ME BACK INTO IT.
+
+[Asinine\_Archivist]: I just want a little FUCKING honesty, Spec. That's all. IF ALL YOU HAD DONE WAS TELL ME WHAT WAS GOING ON, I COULD HAVE HELPED! DID IT NOT CROSS YOUR EGOTISTICAL FUCKING MIND TO ASK *THE MAN FROM THE LOST* ABOUT *THE GOD DAMN WILD HUNT?*
+
+[Asinine\_Archivist]: Maybe a few years ago, I'd have let this one slide, but it's clear where your priorities lie nowadays. You only care about your inevitable path of zealous self-destruction for the "greater good." Funny, isn't it? You claim such reason to justify your actions, but all you are is a hazard to everyone close to you and the natural order. Want my advice? Stop while you can. I wish you well, but I hope I never see you again.
+
+**[User has disconnected.]**
+
+>\_
+
+Taken aback by Leo's abrupt hostility, Spec leans back in his chair to meditate on his words for a moment. Leo has always been rather polite and well-spoken, so seeing this type of message from him is certainly jarring. Perhaps he hadn't had his morning tea yet. It's not like he'd done anything wrong after all. Leo didn't have to give him that information, and Spec was never going to let the Spiral be summoned anyway. It was all just for intimidation factor, nothing would have actually happened.
+
+Spec sighs. Why can't anyone just trust him? He's got a good handle on things, he's proven that much by now. Sure, his backup plan was a little risky, but isn't everything in the Backrooms volatile to some degree? Either way, he didn't appreciate the abrasiveness. He thought about responding, but he knew Leo would come around eventually. He always did.
+
+As Spec closes the chatroom, his computer screen turns a reflective black as it loads the messaging hub. Just long enough for Spec to catch a pair of glowing white eyes staring at him in the background.
+
+Cold needles rush up Spec's back, and he whirls around in his chair. He flicks his eyes frantically across the room, but there isn't a sight of whatever was just there. He knew what he saw, but his eyes don't deceive him. His basement is empty.
+
+*"Am I finally losing it?"* Spec wonders to himself. *"No, just a trick of the light."*
+
+As Spec returns to his seat, he catches a glance at himself in the reflective screen of his computer. He looks like a wreck. He's covered in blood, and there's dark circles under his eyes. He looks like he just got run through a trash compactor.
+
+Spec quickly looks away, disgusted. Looks would be tomorrow's problem. He had work to do. Spec once again clicks on his inbox, and he feels himself sink.
+
+> *User "Evie\_H" has sent you a message: "Spec, we need to talk."*
+
+> *User "Cygnus\_TVH" has sent you a message: "Hey jackass. Are you available? Some of us really need to have a chat with you."*
+
+> *User "Rust\_Punk37" has sent you a message: "SPEC! IT'S BEEN TOO LONG. WHERE HAVE YOU BEEN?"*
+
+> *User "Blanche" has sent you a message: "Spec dear, I'm worried about you. It's been nearly a year since you've last visited the archive. Are you doing well?"*
+
+Spec takes a step back as countless messages flood over him. Messages sent days ago, weeks ago, some even years ago. All individuals reaching out to him. All messages he ignored for the sake of "time."
+
+He slams his computer shut, and frantically looks around the room. He isn't even sure what he's looking for.
+
+Everything comes crashing down as realization after realization hit him like asteroids into the side of a planet. He wasn't obsessed, was he? No. He hadn't heard from most of his real "friends" in months, nor had they sent him any messages. Were they busy, or did everyone just start getting tired of his shit? How much had he destroyed in his mania? Had he gone too far? All of these questions and more cascade through his brain like a tidal wave, and Spec's vision begins to grow cloudy. His face feels flushed, and he feels like throwing up. Is he dying? Is he dying right here on the floor like a pathetic little worm?
+
+No, something is causing this. Something is in the basement with him. Those eyes he saw earlier, this must be some sort of new Entity attack. Is it the Dreamweaver? No, he isn't asleep. That shouldn't even be possible, he's immune to these sort of things…
+
+Throughout the cacophony of his mental explosion, one thought still remains in Spec's mind as he begins to pass out.
+
+*"How long do I have left until I'm truly alone?"*
+
+« [Spec](spec.md) | Houses of the Holy—Prelude | [Testing Testing is this thing even FUCKIN ON](testing-testing-is-this-thing-even-fuckin-on.md) »
+
+---
+
+Source: [https://backrooms-wiki.wikidot.com/fragment:houses-of-the-holy-8](https://backrooms-wiki.wikidot.com/fragment:houses-of-the-holy-8)

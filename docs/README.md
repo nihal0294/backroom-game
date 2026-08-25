@@ -22,6 +22,8 @@ Prima di modificare il progetto verificare sempre file, scene e script reali. I 
 
 ## Fonti
 
-La fonte lore principale è la [Backrooms Wiki](https://backrooms-wiki.wikidot.com/), soprattutto [Levels](https://backrooms-wiki.wikidot.com/normal-levels-i), [Entities](https://backrooms-wiki.wikidot.com/entities) e [Objects](https://backrooms-wiki.wikidot.com/objects). Richieste correnti e deroghe in `/docs` hanno priorità.
+La fonte lore principale è la copia locale della Backrooms Wiki in [`wiki/backrooms-wiki-md/`](wiki/backrooms-wiki-md/index.md) (snapshot Markdown di https://backrooms-wiki.wikidot.com/). Pagine chiave: `level-0.md`, `normal-levels-i.md`, `entities.md`, `objects.md`.
+
+Richieste correnti e deroghe nei file di progetto in `/docs` hanno priorità sulla wiki. Nessuna voce wiki entra automaticamente nel gioco.
 
 `guide-godot/` contiene materiale didattico: non definisce il game design e non prevale su queste specifiche.

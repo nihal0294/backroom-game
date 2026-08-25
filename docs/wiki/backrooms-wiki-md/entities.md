@@ -1,0 +1,374 @@
+---
+title: "Entities"
+source: "https://backrooms-wiki.wikidot.com/entities"
+retrieved_at: "2026-08-23T23:34:58+00:00"
+license: CC-BY-SA-3.0
+---
+
+# Entities
+
+|  |  |
+| --- | --- |
+| [Skip to List](index.md) | View [Unnumbereds](unnumbered-entities.md) or try a [Random Entity?](random__random-entity--13e40b10.md) |
+
+**In universe…**  
+*…the term "entity" covers a wide variety of beings, from friendly inhabitants with human-like intelligence, to mindless beasts, to creatures whose motivations and abilities are beyond our understanding.*
+
+*Each entity has unique behaviors, habitats, and physiological needs. When in doubt, a good rule of thumb for interacting with entities is to leave them be, for your sake and theirs. As always in the Backrooms, trusting your gut is always the best way to survive.*
+
+**Out of universe…**  
+…an entity can be described as "anything that lives in the Backrooms." As said above, entities are as wildly varied as living things on Earth, if not more — feel free to get creative! Entity pages can take on any format from a regular 'database' article to a wanderer's handwritten account — you can use your entity slot number within the page, or choose to disregard it as a wanderer might do.
+
+**Want to contribute?**
+
+- [Guide Hub](guide-hub.md)
+- [Greenlight Policy](greenlight-policy.md)
+- [Templates](templates.md)
+
+## Can't find a page here? It may have been trimmed!
+
+You can find pages archived due to age or flaws [in the Trimmed Hub](trimmed__hub--ad64229d.md)!
+
+  
+
+- [*Entities 1-99*](javascript:;)
+- [*Entities 100-199*](javascript:;)
+- [*Entities 200-299*](javascript:;)
+
+- [Entity 1](entity-1.md) - "The Humans"
+- [Entity 2](entity-2.md) - "The Windows"
+- [Entity 3](entity-3.md) - "Smiler"
+- [Entity 4](entity-4.md) - "Deathmoths"
+- [Entity 5](entity-5.md) - "Clump" (Trimmed; Open for Rewrite)
+- [Entity 6](entity-6.md) - "Dullers"
+- [Entity 7](entity-7.md) - "Jerry" (This article is under rewrite)
+- [Entity 8](entity-8.md) - "Hound"
+- [Entity 9](entity-9.md) - "Facelings"
+- [Entity 10](entity-10.md) - "Skin-Stealer"
+- [Entity 11](entity-11.md) - "Bursters" (Trimmed; Open for Rewrite)
+- [Entity 12](entity-12.md) - "Dunks" (Trimmed; Open for Rewrite)
+- [Entity 13](entity-13.md) - "Transporters"
+- [Entity 14](entity-14.md) - "Reviooks" (Trimmed; Open for Rewrite)
+- [Entity 15](entity-15.md) - "Wretches"
+- [Entity 16](entity-16.md) - "Nguithr'xurh" (Trimmed; Open for Rewrite)
+- [Entity 17](entity-17.md) - "Crawlers" (Trimmed; Open for Rewrite)
+- [Entity 18](entity-18.md) - "The Beast Gentleman of Level 5"
+- [Entity 19](entity-19.md) - "The Disease"
+- [Entity 20](entity-20.md) - "Scits" (This article is under rewrite)
+- [Entity 21](entity-21.md) - "Anna"
+- [Entity 22](entity-22.md) - "Warning Kites" (This article is under rewrite)
+- [Entity 23](entity-23.md) - "Unapproachable Horse" (Trimmed; Open for Rewrite)
+- [Entity 24](entity-24.md) - "Death Rats" (This article is under rewrite)
+- [Entity 25](entity-25.md) - "Plague Goblins"
+- [Entity 26](entity-26.md) - "Samantha" (Trimmed; Open for Rewrite)
+- [Entity 27](entity-27.md) - "Athenian Ducks"
+- [Entity 28](entity-28.md) - "The Spokeslady"
+- [Entity 29](entity-29.md) - “Blub Cats”
+- [Entity 30](entity-30.md) - "Mother"
+- [Entity 31](entity-31.md) - "Camo Crawlers" (This article is under rewrite)
+- [Entity 32](entity-32.md) - "Animations"
+- [Entity 33](entity-33.md) - "**THE KING**"
+- [Entity 34](entity-34.md) - "Dollface" (This article is under rewrite)
+- [Entity 35](entity-35.md) - "Light Guides" (This article is under rewrite)
+- [Entity 36](entity-36.md) - "Cannibal Cuisines" (Trimmed; Open for Rewrite)
+- [Entity 37](entity-37.md) - "Curabitur Birds"
+- [Entity 38](entity-38.md) - "Humanoids" (This article is under rewrite)
+- [Entity 39](entity-39.md) - "Organiguns" (This article is under rewrite)
+- [Entity 40](entity-40.md) - "Reverse Defecation Bird"
+- [Entity 41](entity-41.md) - "The Artist" (This article is under rewrite)
+- [Entity 42](entity-42.md) - "The Memory Wyrm"
+- [Entity 43](entity-43.md) - "Dracoliths"
+- [Entity 44](entity-44.md) - "Gossip Beacons" (This article is under rewrite)
+- [Entity 45](entity-45.md) - "Chupavidas" (Trimmed; Open for Rewrite)
+- [Entity 46](entity-46.md) - "Lucky Cranes"
+- [Entity 47](entity-47.md) - "Teddy"
+- [Entity 48](entity-48.md) - "Livingsheds"
+- [Entity 49](entity-49.md) - “Corpus Vitis”
+- [Entity 50](entity-50.md) - "The Numbed Man"
+- [Entity 51](entity-51.md) - "Predation from the Midnight Zone"
+- [Entity 52](entity-52.md) - "Null-06"
+- [Entity 53](https://backrooms-wiki.wikidot.com/entity-53) - [NO DATA]
+- [Entity 54](entity-54.md) - "Grawlix"
+- [Entity 55](entity-55.md) - "Acathasia" (Trimmed; Open for Rewrite)
+- [Entity 56](entity-56.md) - "Killer Christmas Trees"
+- [Entity 57](entity-57.md) - "Leech Adders"
+- [Entity 58](entity-58.md) - "Adym"
+- [Entity 59](entity-59.md) - "Snagsturts"
+- [Entity 60](entity-60.md) - "Scramby"
+- [Entity 61](entity-61.md) - "Coconut Snares" (Trimmed; Open for Rewrite)
+- [Entity 62](entity-62.md) - "Leggers"
+- [Entity 63](entity-63.md) - "The Mangled"
+- [Entity 64](entity-64.md) - "The Puzzle Maker"
+- [Entity 65](entity-65.md) - "Moley's Comedy Club & Bar"
+- [Entity 66](entity-66.md) - "Shocker Ghoul" (Trimmed; Open for Rewrite)
+- [Entity 67](entity-67.md) - "Partygoers =)"
+- [Entity 68](entity-68.md) - "Frowning Husks Partypoopers =)"
+- [Entity 69](entity-69.md) - ⛔️
+- [Entity 70](entity-70.md) - "Bulb-BugsTM"
+- [Entity 71](entity-71.md) - "The Red Knight"
+- [Entity 72](entity-72.md) - "Man, Machine, My Dearest Creation"
+- [Entity 73](entity-73.md) - "Abyssal Ooze/Kirai”
+- [Entity 74](entity-74.md) - "Argos"
+- [Entity 75](entity-75.md) - "Wranglers"
+- [Entity 76](entity-76.md) - "What the hell is this?"
+- [Entity 77](entity-77.md) - "Part-timers"
+- [Entity 78](entity-78.md) - "Chrono-Wisps"
+- [Entity 79](entity-79.md) - "Wanderers"
+- [Entity 80](entity-80.md) - "Before Eternal Sleep"
+- [Entity 81](entity-81.md) - "Elevators"
+- [Entity 82](entity-82.md) - "Koko" (Trimmed; Open for Rewrite)
+- [Entity 83](entity-83.md) - "The Hermit"
+- [Entity 84](entity-84.md) - "King Rasputin Bartholemew III" (This article is under rewrite)
+- [Entity 85](entity-85.md) - "Nymphs"
+- [Entity 86](https://backrooms-wiki.wikidot.com/entity-86) - [NO DATA]
+- [Entity 87](entity-87.md) - "Untitled Project"
+- [Entity 88](entity-88.md) - "Robo'Vision"
+- [Entity 89](https://backrooms-wiki.wikidot.com/entity-89) - [NO DATA]
+- [Entity 90](entity-90.md) - "The Steel"
+- [Entity 91](https://backrooms-wiki.wikidot.com/entity-91) - [NO DATA]
+- [Entity 92](entity-92.md) - "Ferren"
+- [Entity 93](entity-93.md) - "Night Stalker Night Stocker"
+- [Entity 94](https://backrooms-wiki.wikidot.com/entity-94) - [NO DATA]
+- [Entity 95](entity-95.md) - "Reality Bugs"
+- [Entity 96](entity-96.md) - "The Neighborhood Watch"
+- [Entity 97](entity-97.md) - "Scream Eaters" (Trimmed; Open for Rewrite)
+- [Entity 98](https://backrooms-wiki.wikidot.com/entity-98) - [NO DATA]
+- [Entity 99](entity-99.md) - "The Game Master"
+
+- [Entity 100](https://backrooms-wiki.wikidot.com/entity-100) - [NO DATA]
+- [Entity 101](entity-101.md) - "The Squires"
+- [Entity 102](entity-102.md) - "The Headless Hunter"
+- [Entity 103](https://backrooms-wiki.wikidot.com/entity-103) - [NO DATA]
+- [Entity 104](entity-104.md) - "Photoshop" (This article is under rewrite)
+- [Entity 105](https://backrooms-wiki.wikidot.com/entity-105) - [NO DATA]
+- [Entity 106](entity-106.md) - "tgochi.exe"
+- [Entity 107](https://backrooms-wiki.wikidot.com/entity-107) - [NO DATA]
+- [Entity 108](https://backrooms-wiki.wikidot.com/entity-108) - [NO DATA]
+- [Entity 109](entity-109.md) - "Festa!!"
+- [Entity 110](entity-110.md) - "Carnivorous Balloons" (This article is under rewrite)
+- [Entity 111](entity-111.md) - "The Housekeeper"
+- [Entity 112](entity-112.md) - "Wraiths"
+- [Entity 113](https://backrooms-wiki.wikidot.com/entity-113) - [NO DATA]
+- [Entity 114](entity-114.md) - "Lotka" (This article is under rewrite)
+- [Entity 115](https://backrooms-wiki.wikidot.com/entity-115) - [NO DATA]
+- [Entity 116](entity-116.md) - "Dentists"
+- [Entity 117](https://backrooms-wiki.wikidot.com/entity-117) - [NO DATA]
+- [Entity 118](entity-118.md) - NO DATA…?
+- [Entity 119](https://backrooms-wiki.wikidot.com/entity-119) - [NO DATA]
+- [Entity 120](entity-120.md) - "The Officinarum" (Trimmed; Open for Rewrite)
+- [Entity 121](entity-121.md) - "The Bone Thieves" (This article is under rewrite)
+- [Entity 122](https://backrooms-wiki.wikidot.com/entity-122) - [NO DATA]
+- [Entity 123](entity-123.md) - "Your Name Here"
+- [Entity 124](entity-124.md) - "Memory Merchant"
+- [Entity 125](entity-125.md) - "To Kill a Sun"
+- [Entity 126](entity-126.md) - "The Scarecrows"
+- [Entity 127](https://backrooms-wiki.wikidot.com/entity-127) - [NO DATA]
+- [Entity 128](entity-128.md) - "ΩMEGA"
+- [Entity 129](entity-129.md) - "βETA"
+- [Entity 130](https://backrooms-wiki.wikidot.com/entity-130) - [NO DATA]
+- [Entity 131](entity-131.md) - "The Concierge"
+- [Entity 132](entity-132.md) - "TV Heads" (Trimmed; Open for Rewrite)
+- [Entity 133](entity-133.md) - "The Mail Carrier" (Trimmed; Open for Rewrite)
+- [Entity 134](entity-134.md) - "Phobic Centipedes"
+- [Entity 135](entity-135.md) - "The Bellhopper"
+- [Entity 136](https://backrooms-wiki.wikidot.com/entity-136) - [NO DATA]
+- [Entity 137](https://backrooms-wiki.wikidot.com/entity-137) - [NO DATA]
+- [Entity 138](https://backrooms-wiki.wikidot.com/entity-138) - [NO DATA]
+- [Entity 139](https://backrooms-wiki.wikidot.com/entity-139) - [NO DATA]
+- [Entity 140](entity-140.md) - "Blanche"
+- [Entity 141](entity-141.md) - "Ambassadors"
+- [Entity 142](entity-142.md) - "Evolution Engine"
+- [Entity 143](entity-143.md) - "Snatcher Weeds" (Trimmed; Open for Rewrite)
+- [Entity 144](entity-144.md) - "Nonbelievers"
+- [Entity 145](https://backrooms-wiki.wikidot.com/entity-145) - [NO DATA]
+- [Entity 146](https://backrooms-wiki.wikidot.com/entity-146) - [NO DATA]
+- [Entity 147](https://backrooms-wiki.wikidot.com/entity-147) - [NO DATA]
+- [Entity 148](https://backrooms-wiki.wikidot.com/entity-148) - [NO DATA]
+- [Entity 149](https://backrooms-wiki.wikidot.com/entity-149) - [NO DATA]
+- [Entity 150](entity-150.md) - “The Stalkers”
+- [Entity 151](https://backrooms-wiki.wikidot.com/entity-151) - [NO DATA]
+- [Entity 152](entity-152.md) - "Xeroxes" (Trimmed; Open for Rewrite)
+- [Entity 153](https://backrooms-wiki.wikidot.com/entity-153) - [NO DATA]
+- [Entity 154](https://backrooms-wiki.wikidot.com/entity-154) - [NO DATA]
+- [Entity 155](entity-155.md) - “This Meat is Gummy”
+- [Entity 156](https://backrooms-wiki.wikidot.com/entity-156) - [NO DATA]
+- [Entity 157](entity-157.md) - "The Homerunners"
+- [Entity 158](https://backrooms-wiki.wikidot.com/entity-158) - [NO DATA]
+- [Entity 159](https://backrooms-wiki.wikidot.com/entity-159) - [NO DATA]
+- [Entity 160](entity-160.md) - "*Showcase* presents the super-team supreme: The Backrooms Batallion!"
+- [Entity 161](https://backrooms-wiki.wikidot.com/entity-161) - [NO DATA]
+- [Entity 162](https://backrooms-wiki.wikidot.com/entity-162) - [NO DATA]
+- [Entity 163](https://backrooms-wiki.wikidot.com/entity-163) - [NO DATA]
+- [Entity 164](entity-164.md) - "Crimson Eyes"
+- [Entity 165](https://backrooms-wiki.wikidot.com/entity-165) - [NO DATA]
+- [Entity 166](entity-166.md) - "Rivechs"
+- [Entity 167](entity-167.md) - "The Party Hosts" (This article is under rewrite)
+- [Entity 168](https://backrooms-wiki.wikidot.com/entity-168) - [NO DATA]
+- [Entity 169](entity-169.md) - *"BOING!"*
+- [Entity 170](https://backrooms-wiki.wikidot.com/entity-170) - [NO DATA]
+- [Entity 171](https://backrooms-wiki.wikidot.com/entity-171) - [NO DATA]
+- [Entity 172](https://backrooms-wiki.wikidot.com/entity-172) - [NO DATA]
+- [Entity 173](entity-173.md) - "Evocationaries" (Trimmed; Open for Rewrite)
+- [Entity 174](https://backrooms-wiki.wikidot.com/entity-174) - [NO DATA]
+- [Entity 175](entity-175.md) - "Webmaker"
+- [Entity 176](https://backrooms-wiki.wikidot.com/entity-176) - [NO DATA]
+- [Entity 177](https://backrooms-wiki.wikidot.com/entity-177) - [NO DATA]
+- [Entity 178](https://backrooms-wiki.wikidot.com/entity-178) - [NO DATA]
+- [Entity 179](entity-179.md) - **"M"**
+- [Entity 180](entity-180.md) - "Berry" (This article is under rewrite)
+- [Entity 181](https://backrooms-wiki.wikidot.com/entity-181) - [NO DATA]
+- [Entity 182](entity-182.md) - "Masked Messengers"
+- [Entity 183](https://backrooms-wiki.wikidot.com/entity-183) - [NO DATA]
+- [Entity 184](https://backrooms-wiki.wikidot.com/entity-184) - [NO DATA]
+- [Entity 185](entity-185.md) - "The Comedian"
+- [Entity 186](entity-186.md) - "The Rockstar"
+- [Entity 187](entity-187.md) - "Servants"
+- [Entity 188](https://backrooms-wiki.wikidot.com/entity-188) - [NO DATA]
+- [Entity 189](entity-189.md) - "The Macchina"
+- [Entity 190](entity-190.md) - "Men in Black"
+- [Entity 191](entity-191.md) - "The Company"
+- [Entity 192](entity-192.md) - "Swindlebirds"
+- [Entity 193](https://backrooms-wiki.wikidot.com/entity-193) - [NO DATA]
+- [Entity 194](entity-194.md) - "The Crystal Sisters" (Trimmed; Open for Rewrite)
+- [Entity 195](https://backrooms-wiki.wikidot.com/entity-195) - [NO DATA]
+- [Entity 196](entity-196.md) - "Child of the Walls" (This article is under rewrite)
+- [Entity 197](entity-197.md) - "Jazzheads"
+- [Entity 198](entity-198.md) - "The Plush Dino" (This article is under rewrite)
+- [Entity 199](entity-199.md) - "The Game Player"
+
+- [Entity 200](entity-200.md) - "my friends"
+- [Entity 201](entity-201.md) - "Blue-Ringed Deerlings"
+- [Entity 202](entity-202.md) - "Bident"
+- [Entity 203](https://backrooms-wiki.wikidot.com/entity-203) - [NO DATA]
+- [Entity 204](entity-204.md) - "Tagalongs"
+- [Entity 205](https://backrooms-wiki.wikidot.com/entity-205) - [NO DATA]
+- [Entity 206](https://backrooms-wiki.wikidot.com/entity-206) - [NO DATA]
+- [Entity 207](entity-207.md) - "Will o' Waves"
+- [Entity 208](https://backrooms-wiki.wikidot.com/entity-208) - [NO DATA]
+- [Entity 209](https://backrooms-wiki.wikidot.com/entity-209) - [NO DATA]
+- [Entity 210](entity-210.md) - "Imposters"
+- [Entity 211](https://backrooms-wiki.wikidot.com/entity-211) - [NO DATA]
+- [Entity 212](https://backrooms-wiki.wikidot.com/entity-212) - [NO DATA]
+- [Entity 213](https://backrooms-wiki.wikidot.com/entity-213) - [NO DATA]
+- [Entity 214](https://backrooms-wiki.wikidot.com/entity-214) - [NO DATA]
+- [Entity 215](entity-215.md) - "The Bronze Builders"
+- [Entity 216](entity-216.md) - **"Petrified Subjects of the First Prince"**
+- [Entity 217](https://backrooms-wiki.wikidot.com/entity-217) - [NO DATA]
+- [Entity 218](https://backrooms-wiki.wikidot.com/entity-218) - [NO DATA]
+- [Entity 219](https://backrooms-wiki.wikidot.com/entity-219) - [NO DATA]
+- [Entity 220](entity-220.md) - "The Catmaster"
+- [Entity 221](https://backrooms-wiki.wikidot.com/entity-221) - [NO DATA]
+- [Entity 222](entity-222.md) - "Soulsuckers" (Trimmed; Open for Rewrite)
+- [Entity 223](https://backrooms-wiki.wikidot.com/entity-223) - [NO DATA]
+- [Entity 224](https://backrooms-wiki.wikidot.com/entity-224) - [NO DATA]
+- [Entity 225](https://backrooms-wiki.wikidot.com/entity-225) - [NO DATA]
+- [Entity 226](entity-226.md) - "Lawcrows"
+- [Entity 227](entity-227.md) - "Model Fighter Squadron" (Trimmed; Open for Rewrite)
+- [Entity 228](https://backrooms-wiki.wikidot.com/entity-228) - [NO DATA]
+- [Entity 229](https://backrooms-wiki.wikidot.com/entity-229) - [NO DATA]
+- [Entity 230](entity-230.md) - "Baggers" (Trimmed; Open for Rewrite)
+- [Entity 231](entity-231.md) - "Porters" (Trimmed; Open for Rewrite)
+- [Entity 232](entity-232.md) - "Drowners"
+- [Entity 233](https://backrooms-wiki.wikidot.com/entity-233) - [NO DATA]
+- [Entity 234](entity-234.md) - "Meaningless Oppositions"
+- [Entity 235](https://backrooms-wiki.wikidot.com/entity-235) - [NO DATA]
+- [Entity 236](https://backrooms-wiki.wikidot.com/entity-236) - [NO DATA]
+- [Entity 237](https://backrooms-wiki.wikidot.com/entity-237) - [NO DATA]
+- [Entity 238](https://backrooms-wiki.wikidot.com/entity-238) - [NO DATA]
+- [Entity 239](https://backrooms-wiki.wikidot.com/entity-239) - [NO DATA]
+- [Entity 240](https://backrooms-wiki.wikidot.com/entity-240) - [NO DATA]
+- [Entity 241](https://backrooms-wiki.wikidot.com/entity-241) - [NO DATA]
+- [Entity 242](https://backrooms-wiki.wikidot.com/entity-242) - [NO DATA]
+- [Entity 243](https://backrooms-wiki.wikidot.com/entity-243) - [NO DATA]
+- [Entity 244](https://backrooms-wiki.wikidot.com/entity-244) - [NO DATA]
+- [Entity 245](https://backrooms-wiki.wikidot.com/entity-245) - [NO DATA]
+- [Entity 246](entity-246.md) - "Overseer Andrew's Corpse + The Heart"
+- [Entity 247](https://backrooms-wiki.wikidot.com/entity-247) - [NO DATA]
+- [Entity 248](https://backrooms-wiki.wikidot.com/entity-248) - [NO DATA]
+- [Entity 249](https://backrooms-wiki.wikidot.com/entity-249) - [NO DATA]
+- [Entity 250](entity-250.md) - "Wheelfolk"
+- [Entity 251](https://backrooms-wiki.wikidot.com/entity-251) - [NO DATA]
+- [Entity 252](https://backrooms-wiki.wikidot.com/entity-252) - [NO DATA]
+- [Entity 253](https://backrooms-wiki.wikidot.com/entity-253) - [NO DATA]
+- [Entity 254](https://backrooms-wiki.wikidot.com/entity-254) - [NO DATA]
+- [Entity 255](https://backrooms-wiki.wikidot.com/entity-255) - [NO DATA]
+- [Entity 256](https://backrooms-wiki.wikidot.com/entity-256) - [NO DATA]
+- [Entity 257](entity-257.md) - "The Sun over the Void"
+- [Entity 258](https://backrooms-wiki.wikidot.com/entity-258) - [NO DATA]
+- [Entity 259](https://backrooms-wiki.wikidot.com/entity-259) - [NO DATA]
+- [Entity 260](https://backrooms-wiki.wikidot.com/entity-260) - [NO DATA]
+- [Entity 261](https://backrooms-wiki.wikidot.com/entity-261) - [NO DATA]
+- [Entity 262](https://backrooms-wiki.wikidot.com/entity-262) - [NO DATA]
+- [Entity 263](https://backrooms-wiki.wikidot.com/entity-263) - [NO DATA]
+- [Entity 264](https://backrooms-wiki.wikidot.com/entity-264) - [NO DATA]
+- [Entity 265](https://backrooms-wiki.wikidot.com/entity-265) - [NO DATA]
+- [Entity 266](https://backrooms-wiki.wikidot.com/entity-266) - [NO DATA]
+- [Entity 267](https://backrooms-wiki.wikidot.com/entity-267) - [NO DATA]
+- [Entity 268](https://backrooms-wiki.wikidot.com/entity-268) - [NO DATA]
+- [Entity 269](https://backrooms-wiki.wikidot.com/entity-269) - [NO DATA]
+- [Entity 270](https://backrooms-wiki.wikidot.com/entity-270) - [NO DATA]
+- [Entity 271](https://backrooms-wiki.wikidot.com/entity-271) - [NO DATA]
+- [Entity 272](https://backrooms-wiki.wikidot.com/entity-272) - [NO DATA]
+- [Entity 273](https://backrooms-wiki.wikidot.com/entity-273) - [NO DATA]
+- [Entity 274](https://backrooms-wiki.wikidot.com/entity-274) - [NO DATA]
+- [Entity 275](https://backrooms-wiki.wikidot.com/entity-275) - [NO DATA]
+- [Entity 276](https://backrooms-wiki.wikidot.com/entity-276) - [NO DATA]
+- [Entity 277](https://backrooms-wiki.wikidot.com/entity-277) - [NO DATA]
+- [Entity 278](https://backrooms-wiki.wikidot.com/entity-278) - [NO DATA]
+- [Entity 279](https://backrooms-wiki.wikidot.com/entity-279) - [NO DATA]
+- [Entity 280](https://backrooms-wiki.wikidot.com/entity-280) - [NO DATA]
+- [Entity 281](https://backrooms-wiki.wikidot.com/entity-281) - [NO DATA]
+- [Entity 282](https://backrooms-wiki.wikidot.com/entity-282) - [NO DATA]
+- [Entity 283](entity-283.md) - "Volares"
+- [Entity 284](https://backrooms-wiki.wikidot.com/entity-284) - [NO DATA]
+- [Entity 285](https://backrooms-wiki.wikidot.com/entity-285) - [NO DATA]
+- [Entity 286](https://backrooms-wiki.wikidot.com/entity-286) - [NO DATA]
+- [Entity 287](https://backrooms-wiki.wikidot.com/entity-287) - [NO DATA]
+- [Entity 288](entity-288.md) - "An Operative's Encounter With Two Stupid Ducks"
+- [Entity 289](https://backrooms-wiki.wikidot.com/entity-289) - [NO DATA]
+- [Entity 290](https://backrooms-wiki.wikidot.com/entity-290) - [NO DATA]
+- [Entity 291](https://backrooms-wiki.wikidot.com/entity-291) - [NO DATA]
+- [Entity 292](https://backrooms-wiki.wikidot.com/entity-292) - [NO DATA]
+- [Entity 293](https://backrooms-wiki.wikidot.com/entity-293) - [NO DATA]
+- [Entity 294](https://backrooms-wiki.wikidot.com/entity-294) - [NO DATA]
+- [Entity 295](https://backrooms-wiki.wikidot.com/entity-295) - [NO DATA]
+- [Entity 296](https://backrooms-wiki.wikidot.com/entity-296) - [NO DATA]
+- [Entity 297](entity-297.md) - "The Dark Sovereign"
+- [Entity 298](https://backrooms-wiki.wikidot.com/entity-298) - [NO DATA]
+- [Entity 299](entity-299.md) - "The Kraken"
+
+## Other Entities
+
+- [Entity 315](entity-315.md) - "Hearseflies"
+- [Entity 326](entity-326.md) - "Cuddlemares"
+- [Entity 332](entity-332.md) - "Constructors"
+- [Entity 333](entity-333.md) - "Lorenzo Windsor"
+- [Entity 346](entity-346.md) - "The Moon Hare"
+- [Entity 365](entity-365.md) - "Sightless Seers"
+- [Entity 380](entity-380.md) - "Administrative Sentinel Constructs"
+- [Entity 398](entity-398.md) - "The Wild Hunt"
+- [Entity 400](entity-400.md) - "Mimic"
+- [Entity 404](entity-404.md) - "The Death of a Star" (Trimmed; Open for Rewrite)
+- [Entity 440](entity-440.md) - "The Historian" (Trimmed; Open for Rewrite)
+- [Entity 456](entity-456.md) - "Frost Boars"
+- [Entity 471](entity-471.md) - "A Molting Gentleman"
+- [SPLIT(!)HEAD IS A FLAGGED TERM!](entity-500.md)
+- [Entity 503](entity-503.md) - "Volts" (This article is under rewrite)
+- [Entity 555](entity-555.md) - "The Lonely Scarecrow"
+- [Entity 600](entity-600.md) - "The Saberzoa"
+- [Entity 666](entity-666.md) - "The HappyFiles Virus" (Trimmed; Open for Rewrite)
+- [Entity 699](entity-699.md) - "Greinophones" (This article is under rewrite)
+- [Entity 700](entity-700.md) - "Solaris"
+- [Entity 709](entity-709.md) - "The Behemoth… ?"
+- [Entity 740](entity-740.md) - "Justice"
+- [Entity 776](entity-776.md) - "Junkhunks"
+- [Entity 777](entity-777.md) - "Necromobile"
+- [Entity 800](entity-800.md) - "Chef"
+- [Entity 888](entity-888.md) - "Uneasy Rider"
+- [Entity 900](entity-900.md) - "What hides in Level 9"
+- [Entity 987](entity-987.md) - "The God on Level 532"
+- [Entity 999](entity-999.md) - "Consciousness Disease"
+
+---
+
+Source: [https://backrooms-wiki.wikidot.com/entities](https://backrooms-wiki.wikidot.com/entities)

@@ -39,17 +39,38 @@ Prima di modificare sistemi importanti consulta la documentazione in:
 Ordine di priorità:
 
 1. richiesta corrente dello sviluppatore;
-2. documentazione in `/docs`;
-3. codice e scene esistenti;
-4. convenzioni già presenti;
-5. documentazione ufficiale Godot 4.5;
-6. proposta dell'assistente.
+2. documentazione di progetto in `/docs` (`decisions.md`, `game-design.md`, `architecture.md`, `multiplayer.md`, `content-system.md`, `lore.md`, `development-plan.md`);
+3. dump locale della Backrooms Wiki in `docs/wiki/backrooms-wiki-md/` per lore, livelli, entità, oggetti, stanze, storie e immagini di riferimento;
+4. codice e scene esistenti;
+5. convenzioni già presenti;
+6. documentazione ufficiale Godot 4.5;
+7. proposta dell'assistente.
+
+Le deroghe esplicite in `/docs` hanno priorità sulla wiki. Esempio già deciso: Isolation Effect e Red Room del Level 0.
 
 Non inventare informazioni mancanti.
 
 Se qualcosa non è definito, dichiaralo e presenta l'eventuale soluzione come **proposta**, non come comportamento già deciso.
 
 Se due documenti sono in conflitto, segnala il conflitto invece di scegliere arbitrariamente.
+
+### Wiki locale
+
+Copia offline della [Backrooms Wiki](https://backrooms-wiki.wikidot.com/), snapshot in Markdown:
+
+- indice: `docs/wiki/backrooms-wiki-md/index.md`
+- pagina: `docs/wiki/backrooms-wiki-md/<slug>.md`
+- slug = path Wikidot (`https://backrooms-wiki.wikidot.com/level-0` → `level-0.md`)
+- indici utili: `normal-levels-i.md`, `entities.md`, `objects.md`
+- script di download: `docs/wiki/download_backrooms_wiki.py`
+
+Quando serve una voce specifica, leggi quella pagina del dump. Non usare ricordi generici, Fandom u/altre wiki.
+
+I file `archived__*` sono revisioni storiche: preferisci la pagina corrente con lo slug normale.
+
+Il dump è un archivio di riferimento, non un catalogo di feature da implementare. Nessun Level, Entity, Object, Tale o immagine entra nel gioco solo perché esiste nella wiki: serve una scheda/decisione in `/docs` conforme a `content-system.md`.
+
+Le immagini nelle pagine possono essere link remote Wikidot. Se esiste un file locale accanto alla pagina, usalo; altrimenti il Markdown resta la fonte testuale. Non scaricare automaticamente l'intera gallery.
 
 ---
 
@@ -183,6 +204,8 @@ Non riorganizzare significativamente le cartelle senza una motivazione concreta.
 ## 8. Game design
 
 Rispetta ciò che viene definito in `/docs`.
+
+Per Levels, Entities, Objects, stanze, storie e descrizioni canoniche consulta prima la pagina corrispondente in `docs/wiki/backrooms-wiki-md/`, poi applica le deroghe di `/docs`.
 
 In particolare non inventare regole per:
 

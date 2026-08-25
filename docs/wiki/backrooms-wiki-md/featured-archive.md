@@ -1,0 +1,221 @@
+---
+title: "Featured Archive"
+source: "https://backrooms-wiki.wikidot.com/featured-archive"
+retrieved_at: "2026-08-23T23:41:32+00:00"
+license: CC-BY-SA-3.0
+---
+
+# Featured Archive
+
+# **What are featured pages?:**
+
+These are the entries have been shown on the main page of our wiki. They likely deserve your attention, as they have been picked by staff and other members of GMP. We change featured articles every month, so this will always be updated.
+
+---
+
+- [Entity 18 - "The Beast of Level 5"](entity-18.md) *by* Stretchsterz
+  - 04 Apr 2020 02:14
+- [Level 9 - "The Suburbs"](level-9.md) *by* Stretchsterz
+  - 09 Apr 2020 19:00
+- [Level 43 - "Water World"](level-43.md) *by* Stretchsterz
+  - 11 Apr 2020 23:55
+- [Level 35 - "An Empty Car Park"](level-35.md) *by* thelastpizzaroll
+  - 11 May 2020 03:51
+- [Level 50 - "The Moribund Highway"](level-50.md) *by* Joey Springer
+  - 11 May 2020 12:26
+- [Entity 50 - "The Numbed Man"](entity-50.md) *by* 0ktober
+  - 07 Jun 2020 01:32
+- [Level 609 - "The Decay Zone"](level-609.md) *by* Stretchsterz
+  - 08 Jun 2020 21:42
+- [Unnumbered Level - "The Blue Channel"](blue-channel.md) *by* (user deleted)
+  - 05 Oct 2020 16:30
+- [Level 666 - "Welcome To Hell"](level-666.md) *by* SkitsTheSkitty
+  - 12 Oct 2020 20:51
+- [Entity 82 - "Koko"](entity-82.md) *by* yoyoflux
+  - 05 Nov 2020 20:58
+- [Unnumbered Entity - "Nostalgi Gaius"](nostalgi-gaius.md) *by* etoisle
+  - 03 Dec 2020 17:59
+- [The Black Knights](the-black-knights.md) *by* Hylius
+  - 05 Dec 2020 23:22
+- [Entity 71 - "The Red Knight"](entity-71.md) *by* CadaverCommander
+  - 23 Dec 2020 02:23
+- [Level 500 - "Subcarrier"](level-500.md) *by* vvvolt
+  - 24 Dec 2020 02:08
+- [Unnumbered Level - "The Forgotten Forest"](the-forgotten-forest.md) *by* yoyoflux
+  - 12 Jan 2021 03:04
+- [Level 144 - "The Giant's Causeway"](level-144.md) *by* DrChandra
+  - 28 Jan 2021 03:23
+- [escapism](escapism.md) *by* yoyoflux
+  - 27 Feb 2021 21:34
+- [Backrooms Remodeling Co](backrooms-remodeling-co.md) *by* RowanLater
+  - 28 Feb 2021 05:10
+- [Entity 27 - "Athenian Ducks"](entity-27.md) *by* CutTheBirch
+  - 19 Mar 2021 16:19
+- [Level 945 - "Creation of the sea vessel as recorded by E. Makaraig"](level-945.md) *by* makaraig
+  - 31 Mar 2021 00:22
+- [Level 512 - "LEVEL\_TEMPLATE"](level-512.md) *by* DrBobtail
+  - 05 Apr 2021 02:44
+- [Knight Fever](knight-of-fire.md) *by* Hylius
+  - 24 Apr 2021 22:44
+- [Entity 185 - "The Comedian"](entity-185.md) *by* ratscrapz
+  - 24 Apr 2021 23:05
+- [Object 77 - "Involuntarily Portable Radio"](object-77.md) *by* Bart0nius
+  - 28 Apr 2021 12:51
+- [Entity 111 - "The Housekeeper"](entity-111.md) *by* ratscrapz
+  - 06 May 2021 16:21
+- [&Ã£é‰9jöè Q\_¶Ã©w¾¥ "or" 1'=1'](joey-q.md) *by* etoisle
+  - 10 May 2021 16:55
+- [I have met the devil, and his name is Garfield](i-have-met-the-devil-and-his-name-is-garfield.md) *by* CutTheBirch
+  - 21 May 2021 21:31
+- [Eden G](eden-g.md) *by* Natedagreat563
+  - 03 Jun 2021 13:12
+- [Unnumbered Level - "The Foundry"](the-foundry.md) *by* CadaverCommander
+  - 04 Jun 2021 01:12
+- [The Crimson Family Part I](the-crimson-family-part-i.md) *by* Kitty Rika
+  - 08 Jun 2021 22:19
+- [Entity 157 - "The Homerunners"](entity-157.md) *by* Dr Bierre
+  - 02 Jul 2021 02:18
+- [Level 146 - "The Tavern of Thanks"](level-146.md) *by* Kitty Rika
+  - 02 Jul 2021 22:04
+- [Level 158 - "ONSLAUGHT STATION"](level-158.md) *by* GhostlyGlyphs
+  - 09 Jul 2021 22:59
+- [The Snake Crawls Part 1: Walk In The Mono-Yellow Park](the-snake-crawls-part-1.md) *by* Stretchsterz
+  - 16 Jul 2021 20:30
+- [Level 10.1 - "Corpse Lake"](level-10-1.md) *by* Kitty Rika
+  - 01 Aug 2021 20:40
+- [Macy](macy.md) *by* Natedagreat563
+  - 18 Aug 2021 12:02
+- [Entity 106 - "tgochi.exe"](entity-106.md) *by* Nukboi
+  - 04 Sep 2021 10:58
+- [The Shrine](the-shrine.md) *by* Sariastuff
+  - 06 Sep 2021 17:13
+- [Evangeline Holmes](evangeline-holmes.md) *by* TrailmixNCocoa
+  - 20 Sep 2021 15:18
+- [Level 5.1 - "GRAND OPENING OF THE TERROR HOTEL CASINO"](level-5-1.md) *by* Natedagreat563
+  - 01 Oct 2021 00:30
+- [Level 826 - "Sea of Bones"](level-826.md) *by* CutTheBirch
+  - 01 Oct 2021 18:23
+- [Embers Of Light](embers-of-light.md) *by* SnomWriting
+  - 13 Oct 2021 13:25
+- [Entity 118 - NO DATA…?](entity-118.md) *by* EpicNecromancer1
+  - 30 Oct 2021 20:34
+- [Unnumbered Level - "PA98"](pa98.md) *by* Greggita Mahayfaio
+  - 03 Nov 2021 09:16
+- [Level 611 - "The maze, the creatures, the monster"](level-611.md) *by* Sariastuff
+  - 07 Nov 2021 20:44
+- [Blanche’s Halloween Party](blanches-halloween-party.md) *by* Natedagreat563
+  - 10 Nov 2021 19:07
+- [Ironsoul, The Trickster Prophet](ironsoul-the-trickster-prophet.md) *by* Nukboi
+  - 20 Dec 2021 19:59
+- [Entity 65 - "Moley's Comedy Club & Bar"](entity-65.md) *by* snailjail
+  - 23 Dec 2021 21:46
+- [RED](red.md) *by* Hylius
+  - 05 Jan 2022 01:07
+- [creep](creep.md) *by* yoyoflux
+  - 11 Jan 2022 23:47
+- [Level 289 - "Overflow"](level-289.md) *by* Stretchsterz
+  - 12 Jan 2022 22:44
+- [Level 904 - "The Dark Metro"](level-904.md) *by* Natedagreat563
+  - 12 Feb 2022 01:35
+- [it'll all work out](it-ll-all-work-out.md) *by* yoyoflux
+  - 12 Feb 2022 06:07
+- [Unnumbered Level - "The Serpent's Void"](the-serpents-void.md) *by* NavyEOD\_24
+  - 17 Feb 2022 02:50
+- [troubleshooting](troubleshooting.md) *by* Entro\_P
+  - 16 Mar 2022 10:44
+- [Integration Point Symphony](integration-point-symphony.md) *by* SnomWriting
+  - 21 Mar 2022 17:25
+- [Level 657 - "On small island live only one shopping cart."](level-657.md) *by* TrailmixNCocoa
+  - 21 Mar 2022 22:54
+- [The Blackout](blackout.md) *by* zaskou
+  - 24 Mar 2022 01:57
+- [The Sun Vanished](the-sun-vanished.md) *by* NavyEOD\_24
+  - 07 Apr 2022 01:51
+- [Unnumbered Level - "The Future"](the-future.md) *by* Dr Bierre
+  - 13 Apr 2022 01:42
+- [Level 114 - “Sweet Dreams”](level-114.md) *by* Kai4C
+  - 19 Apr 2022 17:54
+- [Curiosity Killed The Cat (Comic)](curiosity-killed-the-cat-comic.md) *by* SnomWriting
+  - 05 May 2022 10:05
+- [Blanche.net](blanche-net.md) *by* SnomWriting
+  - 12 May 2022 11:52
+- [Joke Object 245 - "Bagel"](joke-object-245.md) *by* Aether48
+  - 16 May 2022 19:28
+- [Notable Person - The Actor](lines-please.md) *by* ghostchibi
+  - 25 May 2022 05:09
+- [Level 0.1 - "Zenith Station"](level-0-1.md) *by* CutTheBirch
+  - 03 Jun 2022 17:16
+- [Entity 500 - "SPLIT(!)HEAD"](entity-500.md) *by* PinDead
+  - 12 Jun 2022 19:05
+- [Level 998 - "A Path Across Hell, and Towards Any Beyond"](level-998.md) *by* Greggita Mahayfaio
+  - 12 Jun 2022 23:44
+- [Level 365 - "Your Worst Enemy"](level-365.md) *by* Robert Goerman
+  - 13 Jun 2022 13:46
+- [Entity 23 - "Unapproachable Horse"](entity-23.md) *by* CutTheBirch
+  - 11 Jul 2022 00:15
+- [Level 599 - "Aster"](level-599.md) *by* Entro\_P
+  - 11 Jul 2022 13:21
+- [Level 710 - "Ring and Ruins"](level-710.md) *by* Robert Goerman
+  - 13 Jul 2022 03:25
+- [Level 60 - "The Baywalk"](level-60.md) *by* D34TH\_0000
+  - 27 Jul 2022 07:27
+- [Unnumbered Entity - "Icarus Procidens"](icarus-procidens.md) *by* Natedagreat563
+  - 30 Jul 2022 22:18
+- [Unnumbered Entity - "Hymenoptera"](hymenoptera.md) *by* Dr Bierre
+  - 02 Aug 2022 04:08
+- [Level 37 - "Sublimity"](level-37.md) *by* egglord
+  - 04 Aug 2022 22:08
+- [Level 11.3 - "The Red Light District"](level-11-3.md) *by* Noctilucian
+  - 27 Aug 2022 16:50
+- [The Pantheon](the-pantheon.md) *by* (user deleted)
+  - 01 Sep 2022 13:30
+- [Level 414 - "Hortus Aeturnus"](level-414.md) *by* PrinceBun
+  - 28 Sep 2022 20:24
+- [Object 365 - "Seer Tea"](object-365.md) *by* Robert Goerman
+  - 03 Oct 2022 22:37
+- [Object 95 - "Temporal Apotheosis"](object-95.md) *by* Sky3
+  - 04 Oct 2022 02:53
+- [Object 74 - "Warpberries!"](object-74.md) *by* scutoid studios
+  - 11 Oct 2022 07:07
+- [Level 436 - "Salvaged Seaboard"](level-436.md) *by* captaiin
+  - 21 Oct 2022 20:58
+- [Phenomenon 1 - "Directed Control"](phenomenon-1.md) *by* ghostchibi
+  - 08 Nov 2022 18:09
+- [Level 206 - "Bones of Bones"](level-206.md) *by* Greggita Mahayfaio
+  - 09 Nov 2022 02:18
+- [Level 46.1 - "The Saline Dunes and The Purgatorial Monastery"](level-46-1.md) *by* VivamusLudio
+  - 29 Nov 2022 18:14
+- [The Church](the-church.md) *by* Dr Bierre
+  - 07 Dec 2022 03:35
+- [Level 990 - "Overgrown City"](level-990.md) *by* Eliminature
+  - 10 Dec 2022 10:56
+- [The Profane Burial Site](the-profane-burial-site.md) *by* VivamusLudio
+  - 14 Dec 2022 05:13
+- [Level 11.1 - "Private Enterprise"](level-11-1.md) *by* Dr Bierre
+  - 18 Dec 2022 23:43
+- [Entity 257 - "The Sun over the Void"](entity-257.md) *by* Kai4C
+  - 05 Jan 2023 16:00
+- [Phenomenon 4 - "Spiderposting"](phenomenon-4.md) *by* Kai4C
+  - 23 Jan 2023 20:34
+- [The Church Part Two](the-church-part-two.md) *by* Dr Bierre
+  - 25 Jan 2023 00:13
+- [Unnumbered Level - "Hotel Virginia"](hotel-virginia.md) *by* Dr Bierre
+  - 06 Feb 2023 01:46
+- [Phenomenon 3 - "Happy Dance"](phenomenon-3.md) *by* Robert Goerman
+  - 23 Feb 2023 17:12
+- [Entity 131 - "The Concierge"](entity-131.md) *by* captaiin
+  - 24 Feb 2023 02:58
+- [Object 86 - "Reality Lag Machine"](object-86.md) *by* Schulzenreich
+  - 25 Feb 2023 03:40
+- [Phenomenon 5 - "No-clipping"](phenomenon-5.md) *by* Robert Goerman
+  - 12 Mar 2023 01:20
+- [Level 999](level-999.md) *by* Greggita Mahayfaio
+  - 14 Mar 2023 09:43
+- [Unnumbered Level - "A Long Forgotten Exclamation..."](long-forgotten-exclamation.md) *by* PrinceBun
+  - 21 Mar 2023 12:53
+
+page 1 of 31[2](https://backrooms-wiki.wikidot.com/featured-archive/p/2)[3](https://backrooms-wiki.wikidot.com/featured-archive/p/3)[next »](https://backrooms-wiki.wikidot.com/featured-archive/p/2)
+
+---
+
+Source: [https://backrooms-wiki.wikidot.com/featured-archive](https://backrooms-wiki.wikidot.com/featured-archive)

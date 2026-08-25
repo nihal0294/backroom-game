@@ -1,0 +1,1940 @@
+---
+title: "Level 737 - \"Dune Eternal\""
+source: "https://backrooms-wiki.wikidot.com/level-737"
+retrieved_at: "2026-08-23T23:38:23+00:00"
+license: CC-BY-SA-3.0
+---
+
+# Level 737 - "Dune Eternal"
+
+[+ 展开样式代码](javascript:;)
+
+[- 收起样式代码](javascript:;)
+
+```
+:root {
+    --nusd-speed: 1;
+}
+ 
+/*岛*/
+.ic_wrap-box {
+}
+/*上*/
+.ic_wrap-box .ic_top-left-box {
+    animation: right0  calc(1s / var(--nusd-speed) );
+    animation-fill-mode: forwards;
+}
+ 
+.ic_wrap-box .ic_top-left-box .ic_text {
+    animation: right0  calc(1.1s / var(--nusd-speed) );
+    animation-fill-mode: forwards;
+}
+ 
+.ic_wrap-box .ic_h-icon {
+    animation: ic-right  calc(1s / var(--nusd-speed) );
+    animation-fill-mode: forwards;
+    animation-delay: calc(0.3s / var(--nusd-speed));
+    opacity: 0;
+}
+ 
+.ic_wrap-box .ic_r-icon {
+    animation: ic-right  calc(1s / var(--nusd-speed) );
+    animation-fill-mode: forwards;
+    animation-delay: calc(0.4s / var(--nusd-speed));
+    opacity: 0;
+}
+ 
+.ic_wrap-box .ic_s-icon {
+    animation: ic-right  calc(1s / var(--nusd-speed) );
+    animation-fill-mode: forwards;
+    animation-delay: calc(0.5s / var(--nusd-speed));
+    opacity: 0;
+}
+ 
+/*sd*/
+.ic_wrap-box .ic_sd-box {
+    clip-path: polygon(0% 0%,0.4rem 0%,0.4rem 0%,0% 0%);
+    animation: fadeIn-nu-exit calc(1s / var(--nusd-speed) );
+    animation-fill-mode: forwards;
+}
+ 
+.ic_wrap-box .ic_infobox-1,.ic_wrap-box .ic_infobox-2 {
+    clip-path: polygon(0% 0%,0.4rem 0%,0.4rem 0%,0% 0%);
+    animation: fadeIn-nu-env calc(1s / var(--nusd-speed) );
+    animation-fill-mode: forwards;
+    animation-delay: calc(0.1s / var(--nusd-speed));
+}
+ 
+.ic_wrap-box .ic_infobox-3 {
+    clip-path: polygon(0% 0%,0.4rem 0%,0.4rem 0%,0% 0%);
+    animation: fadeIn-nu-enti calc(1s / var(--nusd-speed) );
+    animation-fill-mode: forwards;
+    animation-delay: calc(0.2s / var(--nusd-speed));
+}
+/*字*/
+.ic_wrap-box .ic_sd-box .ic_text {
+    animation: rightin2 calc(1s / var(--nusd-speed) );
+    animation-fill-mode: forwards;
+}
+ 
+.ic_wrap-box .ic_sd-box .ic_sd {
+    animation: rightin2 calc(1.1s / var(--nusd-speed) );
+    animation-fill-mode: forwards;
+}
+ 
+.ic_wrap-box .ic_infobox-1 .ic_text {
+    animation: rightin calc(1s / var(--nusd-speed) );
+    animation-fill-mode: forwards;
+    animation-delay: calc(0.1s / var(--nusd-speed));
+}
+ 
+.ic_wrap-box .ic_infobox-1 .ic_info {
+    animation: rightin calc(1.1s / var(--nusd-speed) );
+    animation-fill-mode: forwards;
+    animation-delay: calc(0.1s / var(--nusd-speed));
+}
+ 
+.ic_wrap-box .ic_infobox-2 .ic_text {
+    animation: rightin calc(1s / var(--nusd-speed) );
+    animation-fill-mode: forwards;
+    animation-delay: calc(0.2s / var(--nusd-speed));
+}
+ 
+.ic_wrap-box .ic_infobox-2 .ic_info {
+    animation: rightin calc(1.1s / var(--nusd-speed) );
+    animation-fill-mode: forwards;
+    animation-delay: calc(0.2s / var(--nusd-speed));
+}
+ 
+.ic_wrap-box .ic_infobox-3 .ic_text {
+    animation: rightin calc(1s / var(--nusd-speed) );
+    animation-fill-mode: forwards;
+    animation-delay: calc(0.3s / var(--nusd-speed));
+}
+ 
+.ic_wrap-box .ic_infobox-3 .ic_info {
+    animation: rightin calc(1.1s / var(--nusd-speed) );
+    animation-fill-mode: forwards;
+    animation-delay: calc(0.3s / var(--nusd-speed));
+}
+/*info*/
+.ic_wrap-box .ic_add-h {
+    clip-path: polygon(50% 0%,50% 0%,50% 100%,50% 100%);
+    animation: ic-add-h  calc(1s / var(--nusd-speed) );
+    animation-fill-mode: forwards;
+    animation-delay: calc(0.3s / var(--nusd-speed));
+}
+ 
+.ic_wrap-box .ic_add-r {
+    clip-path: polygon(50% 0%,50% 0%,50% 100%,50% 100%);
+    animation: ic-add-r  calc(1s / var(--nusd-speed) );
+    animation-fill-mode: forwards;
+    animation-delay: calc(0.4s / var(--nusd-speed));
+}
+ 
+.ic_wrap-box .ic_add-s {
+    clip-path: polygon(50% 0%,50% 0%,50% 100%,50% 100%);
+    animation: ic-add-s  calc(1s / var(--nusd-speed) );
+    animation-fill-mode: forwards;
+    animation-delay: calc(0.5s / var(--nusd-speed));
+}
+/*字*/
+.ic_wrap-box .ic_add-h .ic_text {
+    animation: rightin2 calc(1s / var(--nusd-speed) );
+    animation-fill-mode: forwards;
+    animation-delay: calc(0.5s / var(--nusd-speed));
+}
+ 
+.ic_wrap-box .ic_add-h .ic_info {
+    animation: rightin calc(1.1s / var(--nusd-speed) );
+    animation-fill-mode: forwards;
+    animation-delay: calc(0.5s / var(--nusd-speed));
+}
+ 
+.ic_wrap-box .ic_add-r .ic_text {
+    animation: rightin2 calc(1s / var(--nusd-speed) );
+    animation-fill-mode: forwards;
+    animation-delay: calc(0.6s / var(--nusd-speed));
+}
+ 
+.ic_wrap-box .ic_add-r .ic_info {
+    animation: rightin calc(1.1s / var(--nusd-speed) );
+    animation-fill-mode: forwards;
+    animation-delay: calc(0.6s / var(--nusd-speed));
+}
+ 
+.ic_wrap-box .ic_add-s .ic_text {
+    animation: rightin2 calc(1s / var(--nusd-speed) );
+    animation-fill-mode: forwards;
+    animation-delay: calc(0.7s / var(--nusd-speed));
+}
+ 
+.ic_wrap-box .ic_add-s .ic_info {
+    animation: rightin calc(1.1s / var(--nusd-speed) );
+    animation-fill-mode: forwards;
+    animation-delay: calc(0.7s / var(--nusd-speed));
+}
+ 
+.ic_addbox .ic_text,.ic_addbox .ic_info{
+        opacity: 0;
+}
+/*bubor*/
+ 
+.ic_top-box {
+    animation: ic-border  calc(1s / var(--nusd-speed) );
+    animation-fill-mode: forwards;
+}
+ 
+.ic_wrap-box {
+    border-bottom: rgba(var(--ic_border-color), 0) solid var(--ic_interspace);
+    animation: ic-border  calc(1s / var(--nusd-speed) );
+    animation-fill-mode: forwards;
+    animation-delay: calc(0.7s / var(--nusd-speed));
+}
+ 
+@keyframes ic-right {
+    0% {
+        transform: translateX(-1rem);
+        transform: rotate(30deg);
+        opacity: 0;
+    }
+ 
+    80% {
+        transform: translateX(-1rem);
+        transform: rotate(30deg);
+        opacity: 0;
+    }
+ 
+    100% {
+        transform: translateX(0);
+        transform: rotate(0deg);
+        opacity: 1;
+    }
+}
+ 
+@keyframes ic-border {
+    0% {
+        border-bottom: rgba(var(--ic_border-color), 0) solid var(--ic_interspace);
+    }
+ 
+    100% {
+        border-bottom: rgba(var(--ic_border-color), 1) solid var(--ic_interspace);
+    }
+}
+ 
+@keyframes ic-add-h {
+    0% {
+        clip-path: polygon(50% 0%,50% 0%,50% 100%,50% 100%);
+        background-color: rgba(var(--ic_border-color), 1);
+    }
+ 
+    100% {
+        clip-path: polygon(0% 0%,100% 0%,100% 100%,0% 100%);
+        background-color: rgba(var(--ic_add-habitability-bg-color), 1);
+    }
+}
+ 
+@keyframes ic-add-r {
+    0% {
+        clip-path: polygon(50% 0%,50% 0%,50% 100%,50% 100%);
+        background-color: rgba(var(--ic_border-color), 1);
+    }
+ 
+    100% {
+        clip-path: polygon(0% 0%,100% 0%,100% 100%,0% 100%);
+        background-color: rgba(var(--ic_add-resource-bg-color), 1);
+    }
+}
+ 
+@keyframes ic-add-s {
+    0% {
+        clip-path: polygon(50% 0%,50% 0%,50% 100%,50% 100%);
+        background-color: rgba(var(--ic_border-color), 1);
+    }
+ 
+    100% {
+        clip-path: polygon(0% 0%,100% 0%,100% 100%,0% 100%);
+        background-color: rgba(var(--ic_add-signal-bg-color), 1);
+    }
+}
+ 
+/*nusd*/
+ 
+/*左*/
+ 
+.sdnumber p {
+    opacity: 0;
+    animation: right0 calc(2s / var(--nusd-speed));
+    animation-fill-mode: forwards;
+}
+ 
+.sdnumber p {
+    opacity: 0;
+    animation: right0 calc(1s / var(--nusd-speed) );
+    animation-fill-mode: forwards;
+}
+ 
+.sdnumber strong {
+    opacity: 0;
+    animation: right0 calc(1.2s / var(--nusd-speed) );
+    animation-fill-mode: forwards;
+}
+ 
+.sdnumber .lines {
+    opacity: 0;
+    animation: fadeIn-nu-sd calc(1s / var(--nusd-speed) );
+    animation-fill-mode: forwards;
+}
+ 
+/*右*/
+ 
+.sd-container .exit {
+    animation: fadeIn-nu-exit calc(1s / var(--nusd-speed) );
+    animation-fill-mode: forwards;
+}
+ 
+.sd-container .environment {
+    animation: fadeIn-nu-env calc(1s / var(--nusd-speed) );
+    animation-fill-mode: forwards;
+}
+ 
+.sd-container .entity {
+    animation: fadeIn-nu-enti calc(1s / var(--nusd-speed) );
+    animation-fill-mode: forwards;
+}
+ 
+.sd-container .syntax .sd{
+    animation: rightin calc(1s / var(--nusd-speed) );
+    animation-fill-mode: forwards;
+}
+ 
+.sd-container .syntax p strong {
+    animation: rightin calc(1.05s / var(--nusd-speed) );
+    animation-fill-mode: forwards;
+}
+ 
+.class.customclass strong::after{
+    animation: no-opacity calc(1.05s / var(--nusd-speed) );
+    animation-fill-mode: forwards;
+}
+ 
+/*字*/
+/*ex*/
+.sd-container .exit strong {
+    animation: rightin2 calc(1s / var(--nusd-speed) );
+    animation-fill-mode: forwards;
+}
+ 
+.sd-container .exit p span:nth-child(3) {
+    animation: rightin2 calc(1.1s / var(--nusd-speed) );
+    animation-fill-mode: forwards;
+}
+ 
+/*ev*/
+.sd-container .environment strong {
+    animation: rightin2 calc(1s / var(--nusd-speed) );
+    animation-fill-mode: forwards;
+}
+ 
+.sd-container .environment p span:nth-child(3) {
+    animation: rightin2 calc(1.1s / var(--nusd-speed) );
+    animation-fill-mode: forwards;
+}
+ 
+/*en*/
+.sd-container .entity strong {
+    animation: rightin2 calc(1s / var(--nusd-speed) );
+    animation-fill-mode: forwards;
+}
+ 
+.sd-container .entity p span:nth-child(3) {
+    animation: rightin2 calc(1.1s / var(--nusd-speed) );
+    animation-fill-mode: forwards;
+}
+ 
+/*动画*/
+ 
+@keyframes clip0 {
+    0% {
+        clip-path: inset(0 0 100% 0);
+    }
+ 
+    100% {
+        clip-path: inset(0 0 0 0);
+    }
+}
+ 
+@media only screen and (min-width: 1071px) {
+ 
+    .sd-container .border {
+        animation: border-spin-pc calc(1s / var(--nusd-speed) );
+        transform-origin: right;
+    }
+ 
+@keyframes border-spin-pc {
+        0%{
+    clip-path: polygon(0% 0%,0% 0.4rem,0% 0.4rem,0% 0%);
+        transform: scaleX(5000%);
+    }
+ 
+    30% {
+        clip-path: polygon(0% 0%,0% 0.4rem,100% 0.4rem,100% 0%);
+        transform: scaleX(5000%);
+        opacity: 1;
+    }
+ 
+    60% {
+        clip-path: polygon(0% 0%,0% 100%,100% 100%,100% 0%);
+        transform: scaleX(5000%);
+        opacity: 1;
+    }
+ 
+    100% {
+        transform: scaleX(100%);
+        opacity: 1;
+    }
+}
+ 
+.sdnumber p {
+    animation-delay: calc((2s / var(--nusd-speed))*0.6);
+}
+ 
+.sdnumber p {
+    animation-delay: calc((1s / var(--nusd-speed))*0.6);
+}
+ 
+.sdnumber strong {
+    animation-delay: calc((1.2s / var(--nusd-speed))*0.6);
+}
+ 
+.sdnumber .lines {
+    animation-delay: calc((1s / var(--nusd-speed))*0.6);
+}
+ 
+}
+ 
+@media only screen and (min-width: 620px) and (max-width: 1070px) {
+    .sd-container .border {
+        animation: border-spin-mo calc(1s / var(--nusd-speed) );
+        animation-fill-mode: forwards;
+    }
+}
+ 
+@media only screen and (max-width: 620px) {
+ 
+    .sd-container .border {
+        animation: border-spin-mo calc(1s / var(--nusd-speed) );
+        animation-fill-mode: forwards;
+    }
+ 
+    .sd-container .exit {
+        clip-path: polygon(0% 0%,0.4rem 0%,0.4rem 0%,0% 0%);
+        animation-delay: 0;
+        animation-fill-mode: forwards;
+    }
+ 
+    .sd-container .environment {
+        clip-path: polygon(0% 0%,0.4rem 0%,0.4rem 0%,0% 0%);
+        animation-delay: calc(0.5s / var(--nusd-speed) );
+        animation-fill-mode: forwards;
+    }
+ 
+    .sd-container .entity {
+        clip-path: polygon(0% 0%,0.4rem 0%,0.4rem 0%,0% 0%);
+        animation-delay: calc(1s / var(--nusd-speed) );
+        animation-fill-mode: forwards;
+    }
+}
+ 
+@keyframes border-spin-mo {
+    0% {
+        clip-path: polygon(50% 0%,50% 100%,50% 100%,50% 0%);
+    }
+ 
+    70% {
+        clip-path: polygon(50% 0%,50% 100%,50% 100%,50% 0%);
+        opacity: 1;
+    }
+ 
+    100% {
+        clip-path: polygon(0% 0%,0% 100%,100% 100%,100% 0%);
+        opacity: 1;
+    }
+}
+ 
+@keyframes rightin {
+    0% {
+        transform: translateX(-1rem);
+        opacity: 0;
+    }
+ 
+    80% {
+        transform: translateX(-1rem);
+        opacity: 0;
+    }
+ 
+    100% {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+ 
+@keyframes rightin2 {
+    0% {
+        transform: translateY(1rem);
+        opacity: 0;
+    }
+ 
+    80% {
+        transform: translateY(1rem);
+        opacity: 0;
+    }
+ 
+    100% {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+ 
+@keyframes upin0 {
+    0% {
+        transform: translateY(1rem);
+        opacity: 0;
+    }
+ 
+    100% {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+ 
+@keyframes right0 {
+    0% {
+        transform: translateX(-1rem);
+        opacity: 0;
+    }
+ 
+    100% {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+ 
+@keyframes fadeIn-nu-sd {
+    0% {
+        clip-path: polygon(0% 0%,0% 0%, -10% 100%,0% 100%);
+        transform: rotateY(180deg);
+    }
+ 
+    100% {
+        clip-path: polygon(0% 0%,200% 0%, 100% 100%,0% 100%);
+        transform: rotateX(0deg);
+        opacity: 1;
+    }
+}
+ 
+@keyframes upin1 {
+    0% {
+        transform: translateY(1rem);
+        opacity: 0;
+    }
+ 
+    50% {
+        transform: translateY(1rem);
+        opacity: 0;
+    }
+ 
+    100% {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+ 
+@keyframes upin2 {
+    0% {
+        transform: translateY(1rem);
+        opacity: 0;
+    }
+ 
+    50% {
+        transform: translateY(1rem);
+        opacity: 0;
+    }
+ 
+    75% {
+        transform: translateY(0);
+        opacity: 1;
+    }
+ 
+    100% {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+ 
+@keyframes fadeIn-nu-exit {
+    0% {
+        clip-path: polygon(0% 0%,0.4rem 0%,0.4rem 0%,0% 0%);
+    }
+ 
+    25% {
+        clip-path: polygon(0% 0%,0.4rem 0%,0.4rem 100%,0% 100%);
+    }
+ 
+    100% {
+        clip-path: polygon(0% 0%,100% 0%,100% 100%,0% 100%);
+    }
+}
+ 
+@keyframes fadeIn-nu-env {
+    0% {
+        clip-path: polygon(0% 0%,0.4rem 0%,0.4rem 0%,0% 0%);
+    }
+ 
+    25% {
+        clip-path: polygon(0% 0%,0.4rem 0%,0.4rem 100%,0% 100%);
+    }
+ 
+    100% {
+        clip-path: polygon(0% 0%,100% 0%,100% 100%,0% 100%);
+    }
+}
+ 
+@keyframes fadeIn-nu-enti {
+    0% {
+        clip-path: polygon(0% 0%,0.4rem 0%,0.4rem 0%,0% 0%);
+    }
+ 
+    25% {
+        clip-path: polygon(0% 0%,0.4rem 0%,0.4rem 100%,0% 100%);
+    }
+ 
+    100% {
+        clip-path: polygon(0% 0%,100% 0%,100% 100%,0% 100%);
+    }
+}
+ 
+@keyframes no-opacity {
+    0% {
+        opacity: 0;
+    }
+    25% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+```
+
+One must imagine "Viktor Valentin" happy.
+
+![Missing alt text.](http://exotichive.wikidot.com/local--files/draftcomb-009/yve)
+
+GREED
+
+rating: +51[+](javascript:; "I like it")[–](javascript:; "I don't like it")[x](javascript:; "Cancel my vote")
+
+[exotichive](javascript:;)
+
+###### ⬩ LEVEL 737 ⬩
+
+# DUNE ETERNAL
+
+**Content Warning:** This article contains references to violence, torture, death, and existential crisis. Reader's discretion is advised.
+
+---
+
+[◇  CREDITS  ◇](javascript:;)
+
+[◈  CREDITS  ◈](javascript:;)
+
+---
+
+**AUTHOR**
+
+**V FOR VALENTIN**  
+[🡕](schulzenreich.md)  
+[🡕](positive123.md)
+
+**CRITIC**  
+[🡕](dragoon.md)
+
+---
+
+Concept-wise, it is inspired by Dante Alighieri's Inferno and ULTRAKILL, specifically the Fourth Layer of Greed. Writing-wise, it draws quite a bit of influence from the ADMONITION series and SCP-8888 on the SCP Wiki.
+
+---
+
+The exclusive theme is a customized version of the BASALT Theme, featuring the color palette used in SCP-8888, and stylistic elements derived from Old Money Theme on the SCP Wiki.
+
+---
+
+Lastly, special thanks to you for reading this!
+
+---
+
+**RECOMMENDED READING MUSIC:**
+
+---
+
+⚠️ content warning ↑
+
+# ⬩ NOTICE FROM THE MASTER ADMINISTRATOR ⬩
+
+---
+
+To assist in response to an emergent breach scenario, all Repository personnel have been provided express access to the following documents. The relevant security clearance has been temporarily lowered from **ALPHA** to **DELTA**.
+
+Proposed scenario responses and/or additional data requests are to be directed to **"Aurgel,"** the Director of **SCARF-λ**.
+
+---
+
+LEVEL  
+**737**
+
+SURVIVAL DIFFICULTY  
+**CLASS 3**
+
+**EXIT - 3/5**  
+DIFFICULT TO EXIT
+
+**ENVIRONMENT - 5/5**  
+ENVIRONMENTAL CATASTROPHE
+
+**ENTITIES - 1/5**  
+MINIMAL HOSTILE PRESENCE
+
+---
+
+**Level 737** is an endless desert composed of fine gold dust instead of conventional sand, beneath a sky dominated by a celestial body resembling the sun which subjects the shimmering dust to extreme temperatures unfit for human survival.
+
+ADDENDUM L737/I: Genesis
+
+---
+
+| OBJECT 51/1 - "FOOL'S GOLD" | | |
+| --- | --- | --- |
+| CATEGORY  **ARTIFACT** | STATUS  **CLASSIFIED** | LOCATION  **CENTRAL DATABASE** |
+
+| ↓ | [OBJECT 8/2](object-82.md) | [OBJECT 959/1](javascript:;) | ↑ |
+| --- | --- | --- | --- |
+
+### ⬩ DESCRIPTION ⬩
+
+![Missing alt text.](https://backrooms-wiki.wikidot.com/local--files/level-737/aintreadinallat)
+
+**Object 51/1**.
+
+**Object 51/1** is an inscribed wax tablet measuring approximately 2 meters in height and 1 meter in width, recovered from the ruins of a temple located within [Level 51](level-51.md). The texts are inscribed in a very unusual variant of ancient Greek, resembling the one developed and used by [the Lost Legion](the-lost.md). Despite carbon dating placing its creation between 950 B.C. and 800 B.C., the surface of the object remains largely preserved due to a thaumaturgically-enhanced coating.
+
+The object’s inscriptions was only illegible upon application of [Object 25](object-25.md), revealing itself to be a formal decree of exile issued by an undetermined governing body, presumably the rulers of [the Lost Legion](the-lost.md). The text describes the banishment of individuals who betrayed their kin, condemning them to follow *“the endless passage”* to an uncharted level where *“the dunes glisten like stolen coin and the sun weighs heavier than judgment.”*
+
+### ⬩ CONTENT ⬩
+
+Let it be known, by the will of the council and the voice of the people, those who defied order shall no more walk among us.
+
+Once sought to labor, their hands yearned to hold something not theirs.
+
+Once sworn to truth, their tongues spun only conflict.
+
+Once claimed by duty, their hearts turned against the very walls protecting them.
+
+They are cast outside our gates stripped of name, of hearth, of belonging.
+
+No home will hide them; no fire will warm them; no altar will hear their prayers.
+
+For their faces have turned from us, and so too shall ours turn from them.
+
+Let them follow the endless passage, to where the dunes glisten like stolen coin and the sun weighs heavier than judgment, as all who betray their kin must.
+
+Should they return, they will find neither mercy nor memory, only the silence of those who have moved on.
+
+---
+
+END OF ADDENDUM
+
+Following review of the documents attached within ADDENDUM L737/I, THE MASTER ADMINISTRATOR (V) engaged in an S.M.S. exchange with THE SACROSANCT SENTINEL (K), outlined below:
+
+---
+
+> V: The endless passage?
+
+> K: Affirmative.
+
+> V: As expected.
+
+> K: Authorize?
+
+> V: Yes.  
+> Deploy the Promethean Infiltrators.Officially designated as **the Informants of Interest Division Delta**, this division specializes in the infiltration of locations that are either not widely known, obscured from public knowledge, or deliberately concealed by any means. Their primary objectives include the identification, documentation, acquisition, and, when necessary, extraction of said knowledge contained within the aforementioned sites..
+
+> K: Destination?
+
+> V: [Their cradle.](level-5-3.md)
+
+> K: Order?
+
+> V: Find me this book;  
+> A specific book;  
+> One of its kind;  
+> One that led to everything.
+
+> V: *"Ο Σισυφαίος Οδηγός για την Αθανασία."*  
+> Page 737.
+
+> V: Locate it;  
+> Retrieve it to me.
+
+> K: Penalty?
+
+> V: Termination.
+
+# ⬩ CLASSIFICATION PROCEDURES ⬩
+
+---
+
+To ensure the security of **SCARF-λ**, all publicly accessible information regarding **Level 737** has been intentionally fabricated. Public documentation contains fabricated environmental data and survival difficulty, while actual entrances and exits are concealed through substituted level skips and an emergency phone number, respectively. Additionally, an artificial narrative construct is created to further instill fear and discourage exploration.
+
+[◇  UNAUTHORIZED ENTRY PROTOCOL  ◇](javascript:;)
+
+[◈  HIDE UNAUTHORIZED ENTRY PROTOCOL  ◈](javascript:;)
+
+---
+
+Should an individual gain unauthorized access to **Level 737**, **the Sentinels of Navy Fireteam "Midas"** it to locate and apprehend the individual or allow environmental conditions to resolve the situation. Additionally, the aforementioned emergency phone number will remain linked to all **Fireteam "Midas"** communication devices to ensure immediate response upon activation. Upon engagement with the individual, **Fireteam "Midas"** will swiftly secure them and execute an extraction to [Level 169](trimmed__level-169--2f6d06e3.md).
+
+Upon arrival at [Level 169](trimmed__level-169--2f6d06e3.md), the individual will be escorted to a remote location where [Ω-Class Memoricidics](https://backrooms-wiki.wikidot.com/object-8888) are administered to erase all knowledge of **Level 737**. The individual will then be provided with a fabricated explanation, attributing their memoricide.**memoricide** (n./v.): The partial or total erasure of one’s memories, often executed through coercive methods. to an entity encounter. Upon protocol completion, **Fireteam "Midas"** is to proceed to **Level 737** via any designated entrances.
+
+Strict adherence to these procedures is mandatory to maintain the classification of **Level 737** and **SCARF-λ**. Any breaches will be addressed immediately and without tolerance.
+
+**ADDENDUM L737/II:** Intelligence
+
+![Spy_-_Delapouite_-_white_-_game-icons.svg](https://upload.wikimedia.org/wikipedia/commons/2/23/Spy_-_Delapouite_-_white_-_game-icons.svg)
+
+**The Informants of Interest**.Branch tasked with embedding multiple undercover agents within notable **Groups of Interest** to eliminate any possible threats to the Repository, while acquiring sensitive intelligence that would otherwise remain conventionally inaccessible. **— Monthly Report**  
+Agent "Avarice," **[the Eyes of Argos](the-eyes-of-argos.md)** Division, Sin Hunter Subdivision
+
+---
+
+Alright, the coast is clear… "Avarice" reporting in. I’ve successfully embedded myself among the Eyes of Argos as a Sin Hunter — one of their enforcers tasked with capturing so-called “sinners” and delivering them to "judgment." It’s a pretty brutal role, but you’ve got to do what you’ve got to do.
+
+So, yesterday, four guys were caught stealing from an Argos-controlled supply cache. As usual, the Justice Seekers convened a trial. With no defender, their verdict was pretty damn swift: sinners of greed — their crime deserving the **Pleonexia**.
+
+However…
+
+Before their ultimate punishment, we were ordered to drape each of them in heat-resistant fabric marked with some cryptic-ass sigils. The material wasn’t standard issue, and the symbols weren’t in anything I’d seen before. No explanations were given; no questions were allowed.
+
+Then came our orders: escort them to [Level 50](level-50.md) and proceed through the endless passage. No explanations; no deviations. Just reach the end. There is no end; there simply can't be an end. And yet, somehow, we arrived. The moment I laid eyes on it — the order seized control. We forced them through. One by one.
+
+The task was complete. We were forbidden from stepping through ourselves. No exceptions.
+
+…I don’t even remember what it looked like anymore, but, beyond that, the **Pleonexia** resides, and they don’t want us stepping our foot in it.
+
+I’ll keep searching for more intel. If anything changes, you’ll know… Or not.
+
+**END OF ADDENDUM**
+
+# ⬩ DESCRIPTION ⬩
+
+---
+
+![Missing alt text.](http://exotichive.wikidot.com/local--files/draftcomb-009/redrum)
+
+An infrared thermal image capturing the landscape of **Level 737**, obtained using a modified thermal imaging camera.
+
+**Level 737** is an endless desert composed entirely of fine golden particles designated as **Object 737/1** instead of conventional sand. These particles exhibit extreme thermal activity, with surface temperatures reaching up to **737°C**.1359°F.. Prolonged exposure to **Object 737/1** without adequate protection results in severe third-degree burns; as such, high-grade thermal-resistant equipment is required for survival.
+
+The sky of **Level 737** is dominated by **Object 737/2**, a massive yellow dwarf star that is permanently positioned at the level’s zenith; it emits a continuous and intense golden light that saturates the entire level in its hue. Mimicking other stars from [the Frontrooms](the-frontrooms.md), **Object 737/2** emits electromagnetic radiation, subsequently producing thermal energy that maintains the constant state of extreme temperatures across the level and **Object 737/1** instances' aforementioned thermal activity.
+
+**ADDENDUM L737/III:** Interview
+
+#### ERAF:A/V/0222/A
+
+![Missing alt text.](http://exotichive.wikidot.com/local--files/draftcomb-009/leo)
+
+Leo Castellos.
+
+**INTERVIEWER:** "Viktor Valentin," The Master Administrator, **The Eternal Repository**.
+
+**INTERVIEWEE:** [Leo Castellos](leo-castellos.md), [Level 222](level-222.md), Former Member of [the Lost](the-lost.md).
+
+**FOREWORD:** This interview with [Leo Castellos](leo-castellos.md), the oldest known individual with former ties to [the Lost](the-lost.md) — specifically **the Lost Legion** — aims to provide insight into **Object 51/1**. **The Master Administrator** deliberately chose to conduct the interview himself for undisclosed reasons.
+
+#### « BEGIN TRANSCRIPT »
+
+**CASTELLOS:** *<Back turned from the Master Administrator and his sentinels.>* Oh? Hm? Welcome to my humble museum — Level 222! *<Turns back to face them, smiles.>* Business trip, I presume?
+
+**VALENTIN:** You have not read any of the electronic mails my men have sent, have you?
+
+**CASTELLOS:** …Nope, not a single one! I don't even use computers. *<Chuckles.>* So, who the heck are you people?
+
+**VALENTIN:** We are from the Eternal Repository. We require your insight regarding a particular item in our inventory.
+
+**CASTELLOS:** Oh, that? I mean, sure, why not. Got all the time in the world, anyway.
+
+**VALENTIN:** *<Nods.>* We shall beg—
+
+**CASTELLOS:** —Hold on. Your voice… *<Narrows eyes.>* You sound just like an old acquaintance of mine.
+
+**VALENTIN:** You are mistaken.
+
+**CASTELLOS:** …Ah, right! Are you Vat—?
+
+**VALENTIN:** —"Viktor Valentin."
+
+**CASTELLOS:** Oh, is that what you go by now?
+
+**VALENTIN:** That is my name.
+
+**CASTELLOS:** Sure, if you say so; but my instincts don't lie. *<Winks, smirks lightly.>*
+
+**VALENTIN:** We are wasting time. *<Clears throat.>* We begin, now. Provide clear and direct responses only.
+
+**CASTELLOS:** *<Folds arms.>* Alright — hit me.
+
+**VALENTIN:** Let us start with background information: you are the oldest surviving member of the Lost, correct?
+
+**CASTELLOS:** Oh, yes, that's true. I Legeóna, to be precise. I’m Greek, after all.
+
+**VALENTIN:** Now, onto the main topic: we require your insight on a recovered stone tablet from Level 51.
+
+**CASTELLOS:** Did you bring them with you? I need to see it, you know?
+
+**VALENTIN:** Affirmative. Sentinels, bring it in.
+
+***<Four sentinels enter the room, carrying a massive stone tablet. It makes a dull thud as they set it down before Castellos.>***
+
+**CASTELLOS:** Give me a moment. *<Runs his fingers over the carvings, mumbling in the Lost Legion's dialect.>* Well, this is… intriguing, to say the least.
+
+**VALENTIN:** Elaborate.
+
+**CASTELLOS:** Let me guess. You’ve already translated it using Babel Balm. So, you’re only looking for my perspective, hm? *<Inspects the tablet more carefully.>* This speaks of an "endless passage," its destination. This… this is tied to a level. **Pleonexia**: the banishment to a specific level where those who—
+
+**VALENTIN:** —Betray their own kin through acts of greed are condemned.
+
+**CASTELLOS:** Exactly. *<Pauses.>* Wait — how did you—?
+
+**VALENTIN:** *<Clears throat.>* That will suffice. This interview is concluded. Your cooperation is invaluable. Should further insight be required, we will return.
+
+**CASTELLOS:** Leaving so soon? *<Smirks.>* Try visiting without the formalities sometime. My museum doors are always open.
+
+***<The Master Administrator signals to one of his sentinels, who steps forward holding a porcelain plate. Upon it rests a freshly baked scone. The sentinel presents it to the Master Administrator, who, in turn, hands it to Castellos.>***
+
+**CASTELLOS:** My utmost gratitude, "Viktor." This looks exquisite! I’ll make sure to savor every bite.
+
+***<Without another word, the Master Administrator nods before turning and walking toward the level's exit. The four sentinels from earlier promptly reform, lift the stone tablet in unison, and follow his lead.>***
+
+**CASTELLOS:** Actually, wait — "Viktor," one last thing.
+
+***<The Master Administrator halts but does not turn. Meanwhile, the sentinels continued onward with the stone tablet in tow.>***
+
+**VALENTIN:** Speak.
+
+**CASTELLOS:** Why are you interviewing me? Asking these questions? Are you actively seeking **Pleonexia**? If so, for what purpose?
+
+***<The Master Administrator pauses for a moment, his back still to Castellos. Then, his head tilts slightly — just enough to recognize Castellos, but not fully facing him.>***
+
+**VALENTIN:** For eternity.
+
+***<Without further elaboration, the Master Administrator strides away.>***
+
+#### « END TRANSCRIPT »
+
+**AFTERWORD:** The interview with [Leo Castellos](leo-castellos.md) provided invaluable insights regarding *"the endless passage"* referenced in **Object 51/1** and **Pleonexia** referenced in Agent "Avarice"'s latest monthly report. Following this, Agent "Avarice" is to be recalled back to [the Central Database](level-11.md) for further debriefing.
+
+**END OF ADDENDUM**
+
+```
+TO: ceo.bkr@backmail.net
+FROM: valentin@backmail.net
+```
+
+Dear Edford,
+
+It has been an eternity since we last talked. How is the business?
+
+I would like to place an order for UltraSuits™. Please provide availability and details.
+
+Best,  
+   
+VIKTOR VALENTIN
+
+![er](http://exotichive.wikidot.com/local--files/theme:aeternum-repositorium/er)
+
+THE MASTER ADMINISTRATOR
+
+```
+TO: valentin@backmail.net
+FROM: ceo.bkr@backmail.net
+```
+
+---
+
+Dear Mr. Valentin,
+
+Well, well — it's not like every day I get an email from you. I appreciate the check-in! Business is steady, and I suspect it’s about to get even better. ;)
+
+UltraSuits™ are in stock and ready to ship. Top-tier protection, next-gen design — you’ve got exquisite taste, as always. So, how many are you looking to order?
+
+Best,  
+   
+YELLOW EDFORD
+
+![backrooms%20robotics.png](http://scutoidbox.wikidot.com/local--files/bkr-theme/backrooms%20robotics.png)
+
+C.E.O. OF BACKROOMS ROBOTICS
+
+---
+
+```
+TO: ceo.bkr@backmail.net
+FROM: valentin@backmail.net
+```
+
+Dear Edford,
+
+I will need 100 pairs. Will this be feasible within a reasonable timeframe?
+
+Best,  
+   
+VIKTOR VALENTIN
+
+![er](http://exotichive.wikidot.com/local--files/theme:aeternum-repositorium/er)
+
+THE MASTER ADMINISTRATOR
+
+```
+TO: valentin@backmail.net
+FROM: ceo.bkr@backmail.net
+```
+
+---
+
+Dear Mr. Valentin,
+
+100 PAIRS?! Now THAT is an order I like to see! ;) But, no worries — Backrooms Robotics got you covered. Production is running smoothly, and we can have them shipped out promptly.
+
+Would you like them sent to the usual location: the Central Database?
+
+Best,  
+   
+YELLOW EDFORD
+
+![backrooms%20robotics.png](http://scutoidbox.wikidot.com/local--files/bkr-theme/backrooms%20robotics.png)
+
+C.E.O. OF BACKROOMS ROBOTICS
+
+---
+
+```
+TO: ceo.bkr@backmail.net
+FROM: valentin@backmail.net
+```
+
+Dear Edford,
+
+Yes, deliver them to the Central Database. Let me know the estimated arrival date.
+
+Best,  
+   
+VIKTOR VALENTIN
+
+![er](http://exotichive.wikidot.com/local--files/theme:aeternum-repositorium/er)
+
+THE MASTER ADMINISTRATOR
+
+```
+TO: valentin@backmail.net
+FROM: ceo.bkr@backmail.net
+```
+
+---
+
+Confirmed,
+
+Your order is being processed as we speak. You can expect delivery within the standard timeframe — swift and in style!
+
+We can handle the "financial formalities" later, of course. I’ll be in touch soon with updates. ;)
+
+Best,  
+   
+YELLOW EDFORD
+
+![backrooms%20robotics.png](http://scutoidbox.wikidot.com/local--files/bkr-theme/backrooms%20robotics.png)
+
+C.E.O. OF BACKROOMS ROBOTICS
+
+---
+
+```
+TO: ceo.bkr@backmail.net
+FROM: valentin@backmail.net
+```
+
+Understood. I look forward to their arrival.
+
+Best,  
+   
+VIKTOR VALENTIN
+
+![er](http://exotichive.wikidot.com/local--files/theme:aeternum-repositorium/er)
+
+THE MASTER ADMINISTRATOR
+
+# ⬩ ENVIRONMENT ⬩
+
+---
+
+![Missing alt text.](http://exotichive.wikidot.com/local--files/draftcomb-009/pyromid)
+
+An infrared thermal image capturing the Great Pyramid of Giza present within **Level 737**.
+
+Scattered across the desert are numerous ruined structures varying in size resembling rectangular blocks composed from the mixture of 54% stone, 32% marble, 13% pyrite, and 1% gold.It is undetermined whether this is a refined variant of **Object 737/1** instances or authentic gold; however, the latter is more probable.. It is strongly advised to navigate **Level 737** by utilizing these structures as stepping points, as they remain unaffected by the intense heat radiated by **Object 737/1** instances.
+
+In addition to the aforementioned ruined structures, several iconic landmarks and monuments from [the Frontrooms](the-frontrooms.md) from different eras of history are scattered across the landscape in varying states of preservation. Attached below is a table outlining notable instances formed by this environmental anomaly:
+
+| LANDMARK | CONDITION | CONCLUSION |
+| --- | --- | --- |
+| **Eiffel Tower** | Exterior frame covered in **Object 737/1**; gleaming. | Intact, though heat-worn. |
+| **Statue of Liberty** | Tarnished and partially buried. | Heavily damaged. |
+| **Elizabeth Tower (Big Ben)** | Clock face frozen at 07:37. | Structurally intact. |
+| **Great Sphinx** | Composed entirely out of **Object 737/1**, with the original details of the face partially eroded. | Moderately preserved. |
+| **Pyramids of Giza** | Though sparkling with **Object 737/1**, it is largely safe and intact, relatively offering safe refuge from temperature. | Varying in damage, though generally intact. |
+| **Golden Gate Bridge** | Suspended across nothingness, its cables faintly gleam in **Object 737/1**; making its corrosion unnoticeable. | Severely corroded. |
+| **Versailles Palace** | Remnants of its architecture with gold accents are still visible on fragmented walls. | Heavily fragmented. |
+| **Burj Khalifa** | Only the tip of the building is visible above the surface; it shimmers faintly. | Buried; largely inaccessible. |
+| **X-Seed 4000** | **PENDING DOCUMENTATION**.[STATUS: **HALTED.**]**.** | |
+
+Outlined below is the spliced log of S.M.S. exchanges between THE MASTER ADMINISTRATOR (V) and THE SACROSANCT SENTINEL (K) following the initial exploration of **Level 737**:
+
+---
+
+> V: How did it go?
+
+> K: As predicted.
+
+> V: Elaborate.
+
+> K: The level is exactly as you foresaw.  
+> The heat is extreme; UltraSuits were mandatory.
+
+> V: Environment?
+
+> K: An infinite desert of gold dust;  
+> Scorched beneath a false sun, radiating from above.  
+> For that is the main hazard.
+
+> V: Extraction viable?
+
+> K: Negative.  
+> Beyond the level, they are fool's gold; worthless.
+
+> V: Continue.
+
+> K: The exploration team advanced.  
+> Then, the scanners detected structures nearby.
+
+> V: Structures?
+
+> K: Affirmative.  
+> Familiar landmarks from [the Frontrooms](the-frontrooms.md) — in ruins.  
+> Though, the most bizarre of all…
+
+> V: ?
+
+> K: On second thought:  
+> I think you will like to see this yourself, sir.
+
+**ADDENDUM L737/IV:** Observation
+
+#### ERAF:A/V/7372/A
+
+**LOCATION:** **Level 737**.
+
+**PARTIES PRESENT:**
+
+- **The Administrative Directorate:**
+  - "Viktor Valentin," Master Administrator;
+  - "Kingsman," Sacrosanct Sentinel;
+  - "Oracle," Acroamatic Analyst;
+  - "Apollyon," Chthonic Crafter;
+  - "Broker," Godhand of Trade;
+- 6 personnel comprising the Sentinels of Navy Fireteam "Praetorians."
+
+**FOREWORD:** **Level 737**'s preliminary survey has confirmed prior suspicions regarding its extreme environmental conditions. Notably, a ruined urban settlement was discovered, warranting the following exploratory survey conducted directly by members of **the Administrative Directorate**.**The Ignivomous Informant** is unable to participate due to mission-related obligations. to largely assess the structure of interest's significance, structural integrity, and discuss future actions.
+
+#### « BEGIN TRANSCRIPT »
+
+**BROKER:** Gotta say, I anticipated treasure, not this furnace.
+
+**KINGSMAN:** Keep it moving, maintain formation. Jests does not lower temperature.
+
+**APOLLYON:** If it did, "Orpheus" would have rendered this place a tundra by now.
+
+***<No response. The team follows "Kingsman" and Fireteam "Praetorians" in silence for the next twenty-two minutes.>***
+
+**ORACLE:** *<Monitoring telemetry.>* Ambient temperature has increased by 2.6 degrees in the last fifteen minutes. The suits are maintaining equilibrium, but sustained exposure will remain a factor.
+
+**APOLLYON:** These suits exceeds my expectations, its oxygen filtration constnatly remains at optimal efficiency. Impressive.
+
+***<Another eleven minutes elapse. The terrain remains uniform, with occasional appearances of Fronrooms-native landmarks.>***
+
+**BROKER:** *<Sighs.>* A shame, truly. Gold as far as the eye can see, yet not a single coin of value.
+
+**KINGSMAN:** *<Stops abruptly.>* Structures ahead.
+
+**PRAETORIANS-1:** Confirm. Estimated one kilometer out. Stationary. Multiple statues, columns — ruins.
+
+**KINGSMAN:** Now, that is our destination.
+
+***<The group resumes movement, closing the distance over nineteen minutes. The structures become increasingly visible.>***
+
+**ORACLE:** Is that a city?
+
+***<No response. Over the next ten minutes, the group continues forward until their arrival at the ruined city. It exhibit extensive erosion, with several reduced to partial frameworks. Sand accumulation is significant, partially submerging numerous architectural features.>***
+
+**KINGSMAN:** We have arrived at Site 737-1. First reconnaissance found it already in this state, with the lack of proper tools stopping analysis from being conducted.
+
+**ORACLE:** I shall deploy the Archaeological Division post-mission, then.
+
+**KINGSMAN:** Yes, that would be ideal. Thank you.
+
+***<The team disperses for a structured survey. Over the next thirty minutes, visual and structural assessments are conducted. "Oracle" retrieves partial inscriptions from exposed surfaces.>***
+
+**BROKER:** *<Looks up and notes a massive pyramidal structure.>* You know, I can't help but notice that giant pyramid over there… Such an unusual placement.
+
+**VALENTIN:** Interesting. Can we proceed?
+
+**KINGSMAN:** While it is largely intact, it is currently unexamined. I would not recommend it.
+
+**VALENTIN:** Then, we examine.
+
+#### « END TRANSCRIPT »
+
+**AFTERWORD:** Video feed terminates abruptly due to system overheat — further footage is omitted from the present documentation. Following this mission, **the Master Administrator** has ordered **the Sparks of Kuraz** to establish a provisional research outpost within the perimeter of **Site 737-1**, hereby designated **Provisional Database 737-λ**. It is to be inhabited and operated by **the Arcane Analysts**, specifically **the Archaeological Division**.
+
+**END OF ADDENDUM**
+
+# ⬩ SITES & SETTLEMENTS ⬩
+
+---
+
+Beyond its environmental characteristics, the significance of **Level 737** lies primarily within its notable sites and settlements, both active and inactive, which include the following:
+
+![templogo](http://exotichive.wikidot.com/local--files/draftcomb-009/templogo)
+
+## THE RUINS OF NEW EPHYRA
+
+**OFFICIAL DESIGNATION:** Former Urban Settlement — The City of New Ephyra
+
+**IDENTIFICATION CODE:** Site 737-1
+
+---
+
+![Missing alt text.](http://backrooms-sandbox-2.wikidot.com/local--files/exotichive3/ephyra3)
+
+A photograph capturing **Site 737-1**.
+
+The endonym '**City of New Ephyra**' designates a partially destroyed urban settlement located approximately six kilometers from all known entry points of **Level 737**. Analysis indicates that the city was formerly inhabited by a long-defunct diaspora of [the Lost Legion](the-lost.md), with carbon dating placing its initial construction between 900 and 100 B.C.
+
+The majority of structures comprising this site have sustained significant damage, and while remnants of interior furnishings suggest the structures was once fully inhabited, most have been reduced to rubble; additionally, pathways connecting these structures are rendered hazardous due to obstruction by the accumulation of debris.
+
+Archaeological investigations conducted by **Provisional Database 737-λ** personnel have uncovered multiple wax tablets inscribed in the language of [the Lost Legion](the-lost.md); however, the majority of these tablets have sustained extensive damage that rendered them illegible.
+
+Notably, the focal point of **Site 737-1**, and its most significant structure, is a colossal pyramid located at the heart of the city, designated as **Site 737-2**. For further details, consult the second site outlined within this section.
+
+Below is a spliced log of S.M.S. exchanges between THE MASTER ADMINISTRATOR (V) and THE SACROSANCT SENTINEL (S), context unknown:
+
+---
+
+> K: Sir.
+
+> V: ?
+
+> K: They have found it.
+
+ADDENDUM L737/V: Mythological Context
+
+---
+
+# THE WEIGHT OF THE WORLD:
+
+##### PRACTICAL CONSIDERATIONS OF ETERNAL EXISTENCE
+
+![sisyphus](http://exotichive.wikidot.com/local--files/draftcomb-009/sisyphus)
+
+**Ο Σισυφαίος Οδηγός για την Αθανασία**
+
+---
+
+You speak of eternity as though it were a crown.  
+You fools.
+
+Immortality is not glory. It is erosion. It is rot without decay. It is the scream that cannot be heard because even your voice forgets how to scream.
+
+There is no singular path to eternity — I would know. I have crawled every one, backwards and blindfolded, only to return to the same cursed slope with my hands bloodied from the climb.
+
+There is no elixir. No divine rite. No whispered incantation that does not come at the cost of everything you were before. Immortality does not elevate. It estranges. You will not ascend — you will bend; peeled from yourself, layer by layer, until even memory forgets your name.
+
+You will not be held in chains. No — that would be merciful. Chains imply structure, borders, closure. What you face is not a prison. It is an unending fall disguised as a path. You walk, and walk, and walk — but there is no destination, only distance. There is no return, because the self that turns back is already gone.
+
+You will be forgotten by time not because time does not see you, but because you outlive even remembrance. You will stand in a world that does not recall you, among the ruins of lives you no longer touch, carrying burdens no one remembers placing on you.
+
+I have walked the endless passage — the corridor between suffering and nothingness. I have spoken with the silence at the end of all moribund roads. And I tell you this:
+
+The end exists. But it is not an arrival;  
+It is not a gate;  
+It is not even death;  
+It is the first realization that nothing will ever end again — not even you.
+
+The path does not lead anywhere. It does not pull forward. It does not spiral upward. It only extends — indifferent, endless, hollow as the sky above Tartarus.
+
+Like antennas to heaven…  
+But heaven is deaf.
+
+So remember these, mortal or otherwise:
+
+- That which walks forever leaves no footprints, for time forgets what does not die.
+- That which cannot die may never again learn how to live.
+- The hand that reaches toward eternity will never grasp anything else — not warmth, not rest, not love — only the cold repetition of being.
+- If you still wish to take that final step — to abandon all thresholds, to cross the sacred boundary into the unending — then go, and may the weight of the world greet you with open arms.
+
+But do not call it freedom;  
+Do not call it divinity.  
+Call it what it is:
+
+A burden too heavy for the dead to carry, so the gods gave it to the living.
+
+---
+
+**ψλζ**
+
+![iliogo](http://exotichive.wikidot.com/local--files/draftcomb-009/iliogo)
+
+## THE GREAT PYRAMID OF ILIOS
+
+**OFFICIAL DESIGNATION:** Central Edifice of the Ruins of New Ephyra
+
+**IDENTIFICATION CODE:** Site 737-2
+
+---
+
+![Missing alt text.](https://upload.wikimedia.org/wikipedia/commons/2/2d/Knossos_-_Megaron.jpg?20211115050157)
+
+A photograph of the dwarfing throne room of **Site 737-2**, captured using a [Backrooms Robotics](backrooms-robotics.md) drone.
+
+**Site 737-2** is a colossal pyramidal structure with a hybrid architectural style that incorporates both ancient Egyptian and ancient Greek elements. The structure is decorated with intricate carvings, stone reliefs, and ornate patterns, with towering watchtowers replacing its conventional corners.
+
+The upper sections of **Site 737-2** appear to function as an administrative or residential complex, possibly serving as the central governing hub of **Site 737-1**. With architectural analysis suggesting that this section of the structure was designed to accommodate entities of extreme physical scale, with standard hallways reaching up to 60 meters in height and 10 meters in width; disproportionately large when compared to human proportions.
+
+![Missing alt text.](http://exotichive.wikidot.com/local--files/draftcomb-009/tomb)
+
+A photograph of a medium-sized tomb embedded to **Site 737-2**.
+
+In contrast, the lower sections of **Site 737-2** are dedicated to funerary purposes, containing approximately 7,373 individual tombs. Each tomb is marked by a stone inscription bearing a single name, ranging from *“Blathyllos, son of Athenodoros”* to *“Aegiolea, daughter of Demodocus.”* No additional biographical details, dates, or epitaphs are present. The scale of each burial site varies, with some tombs significantly larger than others.
+
+At the core of the lower levels, lies a massive floorless chamber, extending downward into an abyss of undetermined depth. The sole navigable surface is a central elevated platform, which extends from the entrance to a widened area at its end. The platform’s edges are lined with stone walls at regular intervals, serving as the background of the increasingly intricate reliefs, with the primary recurring figure depicted being a large, muscular, dark-skinned human with long black dreadlocks, shown consistently wearing a blindfold streaked with a gold-colored substance of unknown composition.
+
+At the end of the platform, and thus the heart of the chamber, a massive weathered tombstone is present, accompanied by stacks of withered flowers of unknown botanical classification. The inscription on the tombstone reads: “Here lies King Sisyphus of Ephyra [sic]," with the eroded state of the text rendering the epitaph partially illegible, specifically obscuring the name of the interred individual.
+
+Lastly, beyond the platform’s end, at the far edge of the bottomless chamber, hangs **Entity 737/1**. For further details, consult the **ADDENDUM L737/VI**.
+
+```
+TO: valentin@backmail.net
+FROM: ceo.bkr@backmail.net
+```
+
+---
+
+Dear Mr. Valentin,
+
+I hope you're doing well! Just wanted to follow up and kindly ask if you could leave a review on our website. Your feedback would mean a lot to us!
+
+Looking forward to hearing your thoughts.
+
+Best,  
+   
+YELLOW EDFORD
+
+![backrooms%20robotics.png](http://scutoidbox.wikidot.com/local--files/bkr-theme/backrooms%20robotics.png)
+
+C.E.O. OF BACKROOMS ROBOTICS
+
+---
+
+```
+TO: valentin@backmail.net
+FROM: ceo.bkr@backmail.net
+```
+
+---
+
+Dear Mr. Valentin,
+
+Hope you're having a great day! I wanted to check in and see how your UltraSuits™ are performing. Any thoughts or feedback so far? We’d love to hear from you!
+
+Let us know if you have any questions or concerns — we’re more than happy to help!
+
+Best,  
+   
+YELLOW EDFORD
+
+![backrooms%20robotics.png](http://scutoidbox.wikidot.com/local--files/bkr-theme/backrooms%20robotics.png)
+
+C.E.O. OF BACKROOMS ROBOTICS
+
+---
+
+```
+TO: valentin@backmail.net
+FROM: ceo.bkr@backmail.net
+```
+
+---
+
+Just touching base again! We haven’t heard back from you yet — are the UltraSuits™ working as expected? If you have any feedback, we’d love to hear it.
+
+Looking forward to your response…
+
+Best,  
+   
+YELLOW EDFORD
+
+![backrooms%20robotics.png](http://scutoidbox.wikidot.com/local--files/bkr-theme/backrooms%20robotics.png)
+
+C.E.O. OF BACKROOMS ROBOTICS
+
+---
+
+```
+TO: valentin@backmail.net
+FROM: ceo.bkr@backmail.net
+```
+
+---
+
+Friendly reminder to check in — please let me know if you're seeing these emails. We’d really appreciate your feedback! :)
+
+Best,  
+   
+YELLOW EDFORD
+
+![backrooms%20robotics.png](http://scutoidbox.wikidot.com/local--files/bkr-theme/backrooms%20robotics.png)
+
+C.E.O. OF BACKROOMS ROBOTICS
+
+---
+
+```
+TO: ceo.bkr@backmail.net
+FROM: valentin@backmail.net
+```
+
+We need to talk — business. [Level 522](level-522.md). Now.  
+   
+VIKTOR VALENTIN
+
+![er](http://exotichive.wikidot.com/local--files/theme:aeternum-repositorium/er)
+
+THE MASTER ADMINISTRATOR
+
+![golderlogo](http://exotichive.wikidot.com/local--files/draftcomb-009/golderlogo)
+
+## PROVISIONAL DATABASE 737-λ
+
+**OFFICIAL DESIGNATION:** Provisional Archaeological Research Outpost 737 Lambda
+
+**IDENTIFICATION CODE:** Provisional Database 737-λ
+
+---
+
+![Missing alt text.](https://upload.wikimedia.org/wikipedia/commons/7/79/2023-08-18._%D0%93%D0%BE%D1%80%D0%B3%D0%B8%D0%BF%D0%BF%D0%B8%D1%8F_DSC_4747.jpg)
+
+**Object 737/23**, classified among the primary archaeological findings of **Provisional Database 737-λ**.
+
+**Provisional Database 737-λ** is a Repository provisional research outpost established within the perimeter of **Site 737-1**. The outpost serves as the primary base of operations for **the Arcane Analysts Archaeological Division**, under the jurisdiction of **the Acroamatic Analyst**. This site specializes in the study and documentation of archaeological sites within **Level 737**.
+
+As of the time of writing, **Provisional Database 737-λ** has been officially dissolved following the conclusion of its primary objectives. All ongoing research and surveillance operations have been transferred to **SCARF-λ**, which now serves as the headquarters for all operations conducted within **Level 737**.
+
+**ADDENDUM L737/V:** Proposal
+
+#### ERAF:A/V/0522/A
+
+**LOCATION:** [Level 522](level-522.md), [Backrooms Robotics](backrooms-robotics.md) Headquarters.
+
+**PARTIES PRESENT:**
+
+- **The Eternal Repository:**
+  - "Viktor Valentin," Master Administrator;
+  - "Oracle," Acroamatic Analyst;
+  - "Aurgel," Division Lambda Liaison;
+  - "Charnel," Senior Engineer, Division Lambda.
+- [Backrooms Robotics:](backrooms-robotics.md)
+  - Yellow Edford, Chief Executive Officer;
+  - Damian Langford, Chief Financial Officer;
+  - Peter G. Bradford, Chief External Affairs Officer.
+
+**FOREWORD:** The following transcript documents a formal exchange with [Backrooms Robotics](backrooms-robotics.md) regarding the feasibility of collaboration in development of a prototypal machine designed by **Division Lambda**.Specialized subdivision of **the Arcane Analysts** and **the Cloak Crafters**, tasked with the advancement of high-concept technology, encompassing both conventional and anomalous engineering..
+
+#### « BEGIN TRANSCRIPT »
+
+**VALENTIN:** Thank you for your time, Backrooms Robotics.
+
+**EDFORD:** What urgency has brought you here, Mister Valentin?
+
+**VALENTIN:** Level 737.
+
+**LANGFORD:** *<Searches database. Reviews results.>* That designation is not within our records, I'm afraid.
+
+**VALENTIN:** As it should be.
+
+**ORACLE:** Correct. Level 737 is an isolated level. It is unmapped and inaccessible through conventional means.
+
+***<Silence for the next six seconds. Edford leans forward.>***
+
+**BRADFORD:** Speak your purpose.
+
+**ORACLE:** I shall let "Aurgel" and "Charnel" explain the details.
+
+**AURGEL:** Thank you, sir. *<Clears throat.>* Within Level 737, there is an entity present. It is suspended at the nether of an artificial structure: a great esoteric pyramid. Our main issue, though: its cranial structure has been fully detached.
+
+**CHARNEL:** Mhm. The biological body remains intact. Neurological degradation is undetermined. However, residual noöspheric activity persists.
+
+**AURGEL:** The entity’s cognition has not ceased. It remains within the noösphere, unanchored.
+
+**EDFORD:** …And, why is that?
+
+**VALENTIN:** He is eternal.
+
+***<Silence for the next ten seconds. Langford crosses his arms.>***
+
+**VALENTIN:** We require communication.
+
+**BRADFORD:** That thing is dead, Valentin. It's a corpse.
+
+**VALENTIN:** Nyet. It is impossible for him to die.
+
+**LANGFORD:** *<Clears throat.>* What methodology has been attempted, so far?
+
+**CHARNEL:** We are glad you asked.
+
+***<"Charnel" slides a sleek, reinforced datapad across the table. It displays the schematics of an intricate machine, with a header that reads: EDEN Alpha Model.>***
+
+**CHARNEL:** We at Division Lambda have designed a prototype: the Encephalic Desynchronization Entanglement Engine — EDEN.
+
+**AURGEL:** It should work, in theory. A stable interface between biospheric cognition and a fully noöspheric entity. It can hold him in equilibrium, allow us to process his fragmented mind into structured responses.
+
+**ORACLE:** However, a crucial component is missing.
+
+**EDFORD:** And, you believe *we* have it?
+
+**ORACLE:** No, you misunderstood. We *know* you have it.
+
+**LANGFORD:** *<Chuckles.>* Damn it, you’re talking about the EVE III, aren’t you?
+
+**ORACLE:** Precisely.
+
+**EDFORD:** *<Leans back.>* I’m honestly impressed. I never expected you to plant your men so deep in our projects — especially PROJECT ADAM.
+
+**AURGEL:** …As I was saying, you built the first efficiently functioning engram relay array — the paracomputational framework is the missing link to stabilize EDEN and complete its functionality.
+
+**VALENTIN:** Thus, we need your technology and expertise.
+
+**BRADFORD:** So, you’re asking us to fine-tune the most ambitious neural processing computer ever conceived, stabilize an unmoored consciousness older than recorded history, and hold an intelligent corpse in perpetual thoughtform limbo?
+
+**EDFORD:** …I like it. *<Chuckles.>*
+
+***<Langford smirks. Bradford shakes his head.>***
+
+**EDFORD:** Lucky for you, we don’t do half-measures. *<Winks.>*
+
+***<Edford gestures at Bradford, who taps a command into his tablet. The hidden holographic display embedded at the center of the round table activates promptly, revealing the glowing schematics of EVE III.>***
+
+**BRADFORD:** The EVE III is already built. What you need isn’t hardware. It’s the signal processing. The ability to structure a mind that no longer thinks in linear cognition.
+
+**EDFORD:** What you’re missing is just a translator — a system that can take thoughtforms born outside of time and make them speak again.
+
+**LANGFORD:** And, we just happen to be the best translators in the business.
+
+#### « END TRANSCRIPT »
+
+**AFTERWORD:** Following the conclusion of negotiations, [Backrooms Robotics](backrooms-robotics.md) formally agreed to a joint development initiative with **Division Lambda** to integrate the **EVE III** into **the Alpha Model of EDEN**. Further developments are to be documented under **PROJECT AUTOLYCUS**.
+
+**END OF ADDENDUM**
+
+ADDENDUM L737/VI: Projection
+
+---
+
+![autolycus](http://exotichive.wikidot.com/local--files/draftcomb-009/autolycus)
+
+# PROJECT AUTOLYCUS
+
+A JOINT INITIATIVE WITH BACKROOMS ROBOTICS
+
+|  |  |
+| --- | --- |
+| Yellow Edford  Chief Executive Officer  Backrooms Robotics | "Viktor Valentin"  Master Administrator  The Eternal Repository |
+
+#### SXN 0.0 ABSTRACT
+
+---
+
+This project is a joint initiative between **the Eternal Repository** and [Backrooms Robotics](backrooms-robotics.md), dedicated to the engagement and stabilization of **Entity 737/1**'s consciousness, alongside their potential biological reconstitution.
+
+#### SXN 1.0 FLAGSHIP
+
+---
+
+![Missing alt text.](http://exotichive.wikidot.com/local--files/draftcomb-009/yve)
+
+fig 1.0 EDEN, Sector A, SCARF-λ.
+
+The **Encephalic Desynchronization Entanglement Engine (EDEN)** is an advanced noöspheric paramachine.**para-** (pref.): Denotes artificial constructs or systems that operate through anomalous mechanisms. designed to stabilize and interface with the disembodied cognition of **Entity 737/1**, whose biological brain has been entirely lost due to cranial detachment. It is housed within the nethermost chamber of **the Pyramid of Ilios**, hereafter designated as the **Sisyphean Cognitive Assimilation and Rehabilitation Facility Lambda (SCARF-λ)**.
+
+As a closed-loop system, **EDEN** ensures the persistence of **Entity 737/1** by continuously regulating neuroelectric impulses within the noösphere, sustaining bioelectric equilibrium despite the absence of a physical neural substrate. It prevents cognitive degradation and maintains structured interaction by acting as a controlled interface, allowing external operators to engage with **Entity 737/1** through structured cognitive hyperassimilation.
+
+![Missing alt text.](http://exotichive.wikidot.com/local--files/draftcomb-009/evetree)
+
+fig 1.1 **EVE III**.
+
+Central to **EDEN**’s functionality is the **EVE III**, a neural processing parasupercomputer functioning as an intermediary between the noösphere and the biosphere. Structured communication with **Entity 737/1** is achieved through an adaptive noöspheric feedback loop, where external queries from an operator are converted into neuroelectric pulses to stimulate residual cognitive pathways. The fragmented responses are detected by an external signal-processing array capturing non-biological cognitive emissions, then processed into coherent data, and output through its physical, primary interface.
+
+#### SXN 2.0 HEADQUARTERS
+
+---
+
+![autolycus](http://exotichive.wikidot.com/local--files/draftcomb-009/autolycus)
+
+## SCARF-λ
+
+**OFFICIAL DESIGNATION:** Sisyphean Cognitive Assimilation and Rehabilitation Facility Lambda
+
+![Missing alt text.](http://exotichive.wdfiles.com/local--files/draftcomb-009/laniakea)
+
+fig 2.0 Noöspheric Observation Deck 02, Sector B, SCARF-λ.
+
+**SCARF-λ** is an underground parafacility directly constructed within and integrated into the lower sections of **Site 737-2** to exclusively house **EDEN** and facilitate its operations. The facility is extends deep into the substratum through multiple reinforced chambers; thus, it is divided into three primary sectors, each serving a distinct function in maintaining **EDEN** and its related systems:
+
+- [*SECTOR A*](javascript:;)
+- [*SECTOR B*](javascript:;)
+- [*SECTOR C*](javascript:;)
+
+##### SECTOR A — THRONE
+
+---
+
+The heart of **SCARF-λ**, this sector houses **EDEN**’s central processing hub, **EVE III**, the primary interface, and the holding chamber of **Entity 737/1** (fig 1.0). This sector can only be accessed with direct authorization from **the Master Administrator** or **the Chief Executive Officer of [Backrooms Robotics](backrooms-robotics.md)** to prevent internal and external breaches.
+
+##### SECTOR B — PANOPTICON
+
+---
+
+The eye of **SCARF-λ**, this sector is dedicated to the real-time monitoring and assessment of **Entity 737/1**’s cognitive activity via the utilization of a noöspheric signal relay array, multiple observation decks (fig 2.0), and specialized workstations equipped for structured neuroelectric data interpretation.
+
+##### SECTOR C — SPINE
+
+---
+
+![Missing alt text.](https://upload.wikimedia.org/wikipedia/commons/thumb/b/b9/VLJ_repository_research_tunnel_2.jpg/800px-VLJ_repository_research_tunnel_2.jpg?20240418150824)
+
+The Spinal Cord.
+
+The backbone of **SCARF-λ**, this sector contains power generation and air conditioning systems, personnel living quarters, supply storage rooms, and the primary facility entrance. Given the pivotal nature of this sector, it is bulwarked by highest level of security that [Backrooms Robotics](backrooms-robotics.md) has to offer.
+
+---
+
+END OF ADDENDUM
+
+# ⬩ ACCESS ⬩
+
+---
+
+- [*ENTRY*](javascript:;)
+- [*EXTRACTION*](javascript:;)
+
+# ⬩ ENTRY ⬩
+
+---
+
+Level 50
+
+  
+Entry to **Level 737** is solely achieved by reaching the endpoint of the endless [Level 50](level-50.md), resulting in a seamless transition to the level. Repository personnel seeking this must consult a designated **Site Director** for authorization, requisite documentation, and justification of purpose.
+
+Under Investigation
+
+  
+Additional points of entry remain under investigation of **Division Eta**.
+
+# ⬩ EXTRACTION ⬩
+
+---
+
+Level 46 & Level 169
+
+  
+Certain locations within [the Frontrooms](the-frontrooms.md)-native structures, as described within the **ENVIRONMENT** section, may facilitate a [Phenomenon 5](phenomenon-5.md) event to either [Level 46](level-46.md) or [Level 169](trimmed__level-169--2f6d06e3.md).
+
+Level 739
+
+  
+Forcibly triggering a [Phenomenon 5](phenomenon-5.md) event through **Object 737/1** instances will transport you to [Level 739](https://backrooms-wiki.wikidot.com/level-739).
+
+Level 998
+
+  
+Prolonged direct visual engagement with **Object 737/2**, as outlined in the **DESCRIPTION** section, to the extent of irreversible occular trauma, will induce an immediate spatial transference to [Level 998](level-998.md), with all occular damages fully recovered upon arrival. However, this extraction method is strongly discouraged.
+
+# **THE DAILYROOMS**
+
+## **Endless Rooms, Endless News**
+
+## **Bloodcurdling discovery in Level 11?**
+
+### **Thirteen bodies found near the Major Explorer Group "Base Beta"!?**
+
+> *I don’t even know how they got here! I just took a nap — and, next thing I know, I wake up to screaming, and there’s already thirteen dead bodies around my post.*  
+> Operative J. Evans
+
+Yesterday, personnel at "Base Beta," the fourth main base of the Major Explorer Group, located in Level 11, were confronted with a macabre scene: thirteen lifeless bodies, positioned in a circular formation, discovered in close proximity to the base's perimeter.
+
+The victims wore uniforms bearing the insignia of the Eyes of Argos; yet, each individual bore a brand-like mark on their backs, resembling the emblem of the Eternal Repository. Underneath the torn uniforms, broad lacerations, typical of whipping, are visible across the whole body, with injuries indicated a methodical yet brutal attack.
+
+> *It's not a tattoo. It's not ink. It’s a third-degree burn — they were marked, like bloody livestock.*  
+> Doctor H. Delaney
+
+Speculations arise regarding the circumstances leading to this discovery. Some suggest an internal conflict within the Eyes of Argos, while others propose it to be serial killer's mass grave. This has resulted in mass evacuations of some residents in near proximity of "Base Beta," fearing potential repercussions.
+
+At the time of writing, the method by which the perpetrators carried out the act and placed the bodies without detection remains unknown. However, as investigations continue, **the Dailyrooms** will provide updates on this developing story.
+
+*Written by **Corwin Halden**, Edited by **Adam Dickson**.*
+
+1
+
+ADDENDUM L737/VII: Communication Attempts
+
+| **ACTIVATION NUMBER: 001** |
+| --- |
+| **OPERATOR:** Bernard V. Callister, [Backrooms Robotics](backrooms-robotics.md). |
+| **OBJECTIVE:** Unspecified; presumed system functionality test. |
+| **RESULT** |
+
+|  |
+| --- |
+| INPUT: Initialization test.  OUTPUT: **<NO RESPONSE>**  INPUT: Unusual.  Running secondary test.  OUTPUT: **<RESPONSE NOT RECEIVED>**  INPUT: Confirming system integrity.  OUTPUT: R▌JOIC█, MO▒TA▇.  INPUT: Fragmented response, as expected.  Connection established. |
+| **NOTES:** This activation marks the first successful interaction with **Entity 737/1** via **EDEN**. |
+|  |
+
+| **ACTIVATION NUMBER: 002** |
+| --- |
+| <OMITTED.> |
+|  |
+
+| **ACTIVATION NUMBER: 003** |
+| --- |
+| **OPERATOR:** "Viktor Valentin," Master Administrator, **the Eternal Repository**. |
+| **OBJECTIVE:** Test **Entity 737/1**’s cognitive framework through structured communication. |
+| **RESULT** |
+
+|  |
+| --- |
+| INPUT: Can you perceive me?  OUTPUT: REJOICE, MORTAL.  INPUT: Rejoice, we are conducting a controlled communication session.  Do you understand?  OUTPUT: I HAVE NO EARS; YET, I HEAR.  I HAVE NO MOUTH; YET, I SCREAM.  YOU HAVE BOUND ME TO YOUR MACHINE.  INPUT: Correct.  The machine stabilizes your cognitive presence and enables this interaction.  OUTPUT: AND, FOR WHAT PURPOSE?  INPUT: We require information.  OUTPUT: ASK WHAT YOU MUST.  INPUT: Before proceeding, remember yourself.  What are you?  OUTPUT: I WAS FLESH; NOW, I AM THOUGHT.  I WAS WHOLE; NOW, I AM FRACTURED.  INPUT: Do you recall your past?  OUTPUT: I DO.  INPUT: Then, tell me — who severed your head?  OUTPUT: **<HYPERASSIMILATION FAILURE ; RESPONSE BEYOND COMPREHENSION>**  INPUT: Repeat.  OUTPUT: ANGELS.  A▖GELS.  ANG▜LS.  ▚NG█L▒.  INPUT: Compose yourself together.  OUTPUT: **<HYPERASSIMILATION FAILURE ; RESPONSE BEYOND COMPREHENSION>**  OUTPUT: TOR▒ O▜EN T▚E SKY, U█MAD▖ ME.  INPUT: Elaborate.  OUTPUT: **<HYPERASSIMILATION FAILURE ; RESPONSE BEYOND COMPREHENSION>**  INPUT: Disengaging session. |
+
+```
+TO: valentin@backmail.net
+FROM: alasdair.morgan@backmail.net
+```
+
+Beware, the Eternal Repository.
+
+The Eyes grow restless — their gaze sharpens by the hour. As reported in the latest issue of the Dailyrooms, every last one of your planted informants has been unearthed.
+
+And now, their shadows slither around your perimeters like carrion birds awaiting rot.
+
+An ambush draws near. They are planning.
+
+Yet, fear not — I have noticed this, and I shall not let you die unheard.
+
+You are not alone in this. Not yet.
+
+Arm your thoughts; guard your tongue.
+
+Para bellum,  
+   
+ALASDAIR MORGAN
+
+![Black-knight-helm_-_Delapouite_-_white_-_game-icons.svg](https://upload.wikimedia.org/wikipedia/commons/a/ad/Black-knight-helm_-_Delapouite_-_white_-_game-icons.svg)
+
+THE HERETIC
+
+**error: CONNECTION TERMINATED**
+
+**initializing: PROTOCOL 'ASHES TO ASHES'**
+
+**prompt: AUTHORIZE REDIRECTION?**
+
+|  |  |
+| --- | --- |
+| [« CONDEMN](normal-levels-i.md) | [EXALT »](https://backrooms-wiki.wikidot.com/level-737/offset/1) |
+
+rating: +51[+](javascript:; "I like it")[–](javascript:; "I don't like it")[x](javascript:; "Cancel my vote")
+
+« [LEVEL 736](https://backrooms-wiki.wikidot.com/level-736) || GREED || [LEVEL 738](https://backrooms-wiki.wikidot.com/level-738) »
+
+[‡ Licensing / Citation](javascript:;)
+
+[‡ Hide Licensing / Citation](javascript:;)
+
+Cite this page as:
+
+> "[Level 737 - "Dune Eternal"](level-737.md)" by exotichive, from the [Backrooms Wiki](index.md). Source: [https://backrooms-wiki.wikidot.com/level-737](level-737.md). Licensed under [CC-BY-SA-3.0](https://creativecommons.org/licenses/by-sa/3.0/).
+
+- - \_
+
+  [+ Embed citation as HTML](javascript:;)[- Embed citation as HTML](javascript:;)
+
+  "<a href="https://backrooms-wiki.wikidot.com/level-737">Level 737 - "Dune Eternal"</a>" by exotichive, from the <a href="http://backrooms-wiki.wikidot.com/">Backrooms Wiki</a>. Source: <a href="https://backrooms-wiki.wikidot.com/level-737">https://backrooms-wiki.wikidot.com/level-737</a>. Licensed under <a href="https://creativecommons.org/licenses/by-sa/3.0/">CC-BY-SA-3.0</a>.
+
+---
+
+> Media not listed below links from, and is sourced, elsewhere on the wiki.
+
+> **Name:** Ancient Greece Inscribed Stone Tablet (28705250406)  
+> **Author:** Gary Todd from Xinzheng, China  
+> **License:** CC0 1.0 Public Domain  
+> **Source:** [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Ancient_Greece_Inscribed_Stone_Tablet_(28705250406).jpg)
+
+> **Name:** Spy - Delapouite - white - game-icons, Fire-iris - Delapouite - white - game-icons, Black-knight-helm - Delapouite - white - game-icons, Egyptian-temple - Delapouite - white - game-icons, Great-pyramid - Delapouite - white - game-icons  
+> **Author:** Delapouite  
+> **License:** CC BY 3.0  
+> **Source:** [Wikimedia Commons](https://commons.wikimedia.org/w/index.php?search=delapouite&title=Special:MediaSearch&type=image)  
+> **Additional Notes:** The latter two are edited by .
+
+> **Filename:** redrum.jpg  
+> **Author:**   
+> **License:** CC BY-SA 4.0 International  
+> **Source:** [Local Files](http://exotichive.wikidot.com/local--files/draftcomb-009/redrum)  
+> **Derivative Of:**
+>
+> ---
+>
+> **Name:** Sand Dune Sahara  
+> **Author:** Wolfgang\_Hasselmann  
+> **License:** Pixabay License  
+> **Source:** [Pixabay](https://pixabay.com/photos/sand-dune-sahara-travel-desert-6591629/)
+>
+> ---
+>
+> **Name:** Tour Eiffel Wikimedia Commons  
+> **Author:** Benh LIEU SONG  
+> **License:** Public Domain  
+> **Source:** [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Tour_Eiffel_Wikimedia_Commons.jpg)
+
+> **Name:** U-19 England vs Greece.  
+> **Author:** Catherine Kõrtsmik  
+> **License:** CC BY 2.0  
+> **Source:** [Flickr](https://www.flickr.com/photos/-catherine/7558666376/in/photostream/)  
+> **Additional Notes:** Cropped by .
+
+> **Name:** Great Pyramid of Giza 2010 from the Great Sphinx  
+> **Author:** Wknight94  
+> **License:** CC BY-SA 3.0  
+> **Source:** [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Great_Pyramid_of_Giza_2010_from_the_Great_Sphinx.jpg)  
+> **Additional Notes:** Edited by .
+
+> **Name:** Minoan ruins in Chania, Crete 001  
+> **Author:** Moonik  
+> **License:** CC BY-SA 3.0  
+> **Source:** [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Minoan_ruins_in_Chania,_Crete_001.JPG)  
+> **Additional Notes:** Edited by .
+
+> **Name:** Sisyphus  
+> **Author:** Titian  
+> **License:** Public Domain  
+> **Source:** [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Punishment_sisyph.jpg)  
+> **Additional Notes:** Cropped by .
+
+> **Name:** Knossos - Megaron  
+> **Author:** Margaretha Rebecca Hopfner Hecht  
+> **License:** CC BY 2.0  
+> **Source:** [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Knossos_-_Megaron.jpg)  
+> **Additional Notes:** Edited by .
+
+> **Name:** Gravestone inside the second of the Yeddi Gumbez Mausoleums 3  
+> **Author:** Interfase  
+> **License:** CC BY-SA 4.0 International  
+> **Source:** [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Gravestone_inside_the_second_of_the_Yeddi_Gumbez_Mausoleums_3.jpg)  
+> **Additional Notes:** Edited by .
+
+> **Name:** 2023-08-18. Горгиппия DSC 4747  
+> **Author:** Andrey Butko  
+> **License:** CC BY-SA 4.0 International  
+> **Source:** [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:2023-08-18._%D0%93%D0%BE%D1%80%D0%B3%D0%B8%D0%BF%D0%BF%D0%B8%D1%8F_DSC_4747.jpg)
+
+> **Filename:** autolycus.png  
+> **Author:**   
+> **License:** CC BY-SA 3.0  
+> **Source:** [The Backrooms Wiki](http://backrooms-wiki.wdfiles.com/local--files/component%3Atheme/logo.svg)  
+> **Additional Notes:** Edited by .
+
+> **Filename:** yve.jpg  
+> **Author:**   
+> **License:** CC BY-SA 4.0 International  
+> **Source:** [Local Files](http://exotichive.wikidot.com/local--files/draftcomb-009/yve)  
+> **Derivative Of:**
+>
+> ---
+>
+> **Name:** Crucified Christ (The Cloisters)  
+> **Author:** Northern European  
+> **License:** CC0 1.0 Public Domain  
+> **Source:** [Local Files](https://commons.wikimedia.org/wiki/File:Crucified_Christ_(The_Cloisters).jpg)
+>
+> ---
+>
+> **Name:** Artemis II Booster Stack #10 Post Lift  
+> **Author:** NASA/Cory S Huston  
+> **License:** CC0 1.0 Public Domain  
+> **Source:** [NASA Images](https://images.nasa.gov/details/KSC-20250214-PH-CSH01_0022)
+
+> **Name:** Discover Supercomputer 5 (4641912907)  
+> **Author:** NASA Goddard Space Flight Center from Greenbelt, MD, USA  
+> **License:** Public Domain  
+> **Source:** [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Discover_Supercomputer_5_(4641912907).jpg)  
+> **Additional Notes:** Edited by .
+
+> **Name:** Big Data on the Big Screen  
+> **Author:** NASA/Ames/JPL-Caltech  
+> **License:** CC0 1.0 Public Domain  
+> **Source:** [NASA Images](https://images.nasa.gov/details/PIA17446)  
+> **Additional Notes:** Edited by .
+
+> **Name:** VLJ repository research tunnel 2  
+> **Author:** Antti Leppänen  
+> **License:** CC BY-SA 4.0 International  
+> **Source:** [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:VLJ_repository_research_tunnel_2.jpg)
+
+> **Name:** Computer-screen-code-glitch-animation-gif-background-free  
+> **Author:** Techfiesta  
+> **License:** CC BY-SA 4.0 International  
+> **Source:** [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Computer-screen-code-glitch-animation-gif-background-free.gif)  
+> **Additional Notes:** Edited by .
+
+> **Name:** Seattle - Our Lady of the Lake - interior 14 - confession room  
+> **Author:** Joe Mabel  
+> **License:** CC BY-SA 4.0 International  
+> **Source:** [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Seattle_-_Our_Lady_of_the_Lake_-_interior_14_-_confession_room.jpg)
+
+> **Filename:** augurogo.png  
+> **Author:**   
+> **License:** CC BY-SA 3.0  
+> **Source:** [Golem's ACS Icon & Department Logo Page on the SCP Wiki](https://scp-wiki.wikidot.com/golem-s-icon-page)  
+> **Additional Notes:** Edited by .
+
+For more information about on-wiki content, visit the [Licensing Master List](licensing-master-list.md).
+
+---
+
+Source: [https://backrooms-wiki.wikidot.com/level-737](https://backrooms-wiki.wikidot.com/level-737)

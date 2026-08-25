@@ -1,0 +1,118 @@
+---
+title: "User Flairs"
+source: "https://backrooms-wiki.wikidot.com/component:user-flairs"
+retrieved_at: "2026-08-23T23:34:44+00:00"
+license: CC-BY-SA-3.0
+---
+
+# User Flairs
+
+W A R N I N G  
+**PLEASE DO NOT TOUCH THIS PAGE WITHOUT STAFF PERMISSION.**
+
+**This is a template page used internally by the Backrooms Wiki.**
+
+---
+
+## When adding / removing users from the CSS, PLEASE keep it in alphabetical order for each role!
+
+```
+/* Note because I'm an idiot and I guess some others might not realize as well, don't put capital letters or spaces in names in the flairs, otherwise it doesn't work (so like, Pnn Wepm would be pnn-wepm in the name url) */
+ 
+:root {
+   --link-admin: 3, 169, 244;
+   --link-moderator: 221, 28, 94;
+   --link-jstaff: 255, 152, 0;
+   --link-greenlighter: 69, 189, 58;
+   --link-langcustodian: 195, 5, 248;
+}
+ 
+.printuser a { --visited-link-color: var(--link-color); }
+.printuser a::after {
+    content: var(--after-content);
+    height: var(--after-height);
+    display: inline-block;
+    width: var(--after-height);
+    background: var(--after-background);
+    background-size: 100%;
+    margin-left: 2px;
+}
+.printuser.avatarhover a:first-of-type:after { display: none; }
+ 
+/* ADMIN FLAIRS */
+.printuser a[href="http://www.wikidot.com/user:info/bluesignet"],
+.printuser a[href="http://www.wikidot.com/user:info/divineatlas"], 
+.printuser a[href="http://www.wikidot.com/user:info/drakimoto"],
+.printuser a[href="http://www.wikidot.com/user:info/praetor3005"] /* last: no comma */ {
+    --link-color: var(--link-admin);
+    --hover-link-color: var(--link-admin);
+    --after-content: "";
+    --after-height: 1em;
+    --after-background: url("http://d3g0gp89917ko0.cloudfront.net/v--291054f06006/common--theme/base/images/karma/star.png");
+}
+ 
+/* MODERATOR FLAIRS */
+.printuser a[href="http://www.wikidot.com/user:info/abdallah-amr"],
+.printuser a[href="http://www.wikidot.com/user:info/endrew1"],
+.printuser a[href="http://www.wikidot.com/user:info/ghostchibi"],
+.printuser a[href="http://www.wikidot.com/user:info/laundryfan-04"],
+.printuser a[href="http://www.wikidot.com/user:info/mel-raspberry"],
+.printuser a[href="http://www.wikidot.com/user:info/natheniel-greyger"],
+.printuser a[href="http://www.wikidot.com/user:info/neptunium153"],
+.printuser a[href="http://www.wikidot.com/user:info/pnn-wepm"],
+.printuser a[href="http://www.wikidot.com/user:info/r-a-t-i-f"],
+.printuser a[href="http://www.wikidot.com/user:info/reondesu"],
+.printuser a[href="http://www.wikidot.com/user:info/sinvrh"],
+.printuser a[href="http://www.wikidot.com/user:info/spectre48"],
+.printuser a[href="http://www.wikidot.com/user:info/yourweirdplant"] /* last: no comma */ {
+    --link-color: var(--link-moderator);
+    --hover-link-color: var(--link-moderator);
+    --after-content: "";
+    --after-height: 1em;
+    --after-background: url("http://d3g0gp89917ko0.cloudfront.net/v--291054f06006/common--theme/base/images/karma/star.png");
+}
+ 
+/* JSTAFF */
+.printuser a[href="http://www.wikidot.com/user:info/mudkipped"],
+.printuser a[href="http://www.wikidot.com/user:info/positive123"],
+.printuser a[href="http://www.wikidot.com/user:info/thattwigman"],
+.printuser a[href="http://www.wikidot.com/user:info/vivamusludio"],
+.printuser a[href="http://www.wikidot.com/user:info/xizhenfrog"],
+.printuser a[href="http://www.wikidot.com/user:info/xthelock"] /* last: no comma */ {
+    --link-color: var(--link-jstaff);
+    --hover-link-color: var(--link-jstaff);
+    --after-content: "";
+    --after-height: 1em;
+    --after-background: url("http://d3g0gp89917ko0.cloudfront.net/v--291054f06006/common--theme/base/images/karma/star.png");
+}
+ 
+/* GREENLIGHTER FLAIRS */
+.printuser a[href="http://www.wikidot.com/user:info/c-graph"],
+.printuser a[href="http://www.wikidot.com/user:info/forestiswatching"],
+.printuser a[href="http://www.wikidot.com/user:info/inspectingcritters"],
+.printuser a[href="http://www.wikidot.com/user:info/sariastuff"],
+.printuser a[href="http://www.wikidot.com/user:info/skulldoggery"],
+.printuser a[href="http://www.wikidot.com/user:info/sky3"] /* last: no comma */ {
+    --link-color: var(--link-greenlighter);
+    --hover-link-color: var(--link-greenlighter);
+    --after-content: "";
+    --after-height: 1em;
+    --after-background: url("http://backrooms-wiki.wikidot.com/local--files/component:user-flairs/clover");
+}
+/* LANGUAGE CUSTODIANS FLAIRS */
+.printuser a[href="http://www.wikidot.com/user:info/cpt-foxxler"],
+.printuser a[href="http://www.wikidot.com/user:info/guy777"],
+.printuser a[href="http://www.wikidot.com/user:info/lemme"],
+.printuser a[href="http://www.wikidot.com/user:info/lismatis"],
+.printuser a[href="http://www.wikidot.com/user:info/mokaphorse"] /* last: no comma */ {
+    --link-color: var(--link-langcustodian);
+    --hover-link-color: var(--link-langcustodian);
+    --after-content: "";
+    --after-height: 1em;
+    --after-background: url("http://backrooms-wiki.wikidot.com/local--files/component:user-flairs/int");
+}
+```
+
+---
+
+Source: [https://backrooms-wiki.wikidot.com/component:user-flairs](https://backrooms-wiki.wikidot.com/component:user-flairs)

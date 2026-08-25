@@ -4,11 +4,11 @@
 
 1. richiesta corrente;
 2. decisioni/deroghe in `/docs`;
-3. pagina pertinente della [Backrooms Wiki](https://backrooms-wiki.wikidot.com/);
+3. pagina pertinente nel dump locale `docs/wiki/backrooms-wiki-md/<slug>.md`;
 4. adattamento tecnico minimo;
 5. proposta non canonica, dichiarata.
 
-La wiki cambia nel tempo. Prima di implementare, Codex legge la pagina specifica corrente e non usa altre wiki/canon o ricordi generici.
+Il dump è lo snapshot di progetto della [Backrooms Wiki](https://backrooms-wiki.wikidot.com/), recuperato il 23 agosto 2026. Prima di implementare, leggi quella pagina Markdown. Non usare Fandom, altre wiki o ricordi generici. Se la pagina manca dal dump, segnalalo invece di inventarla.
 
 ## Fondamenti
 
@@ -17,7 +17,7 @@ La wiki cambia nel tempo. Prima di implementare, Codex legge la pagina specifica
 - Objects: cose inanimate ordinarie, create o alterate, pericolose o utili.
 - Informazioni in-universe incomplete non sono automaticamente regole tecniche certe.
 
-Indici: [Levels](https://backrooms-wiki.wikidot.com/normal-levels-i), [Entities](https://backrooms-wiki.wikidot.com/entities), [Objects](https://backrooms-wiki.wikidot.com/objects).
+Indici locali: [`normal-levels-i.md`](wiki/backrooms-wiki-md/normal-levels-i.md), [`entities.md`](wiki/backrooms-wiki-md/entities.md), [`objects.md`](wiki/backrooms-wiki-md/objects.md).
 
 ## Adattamento cooperativo
 
@@ -27,7 +27,7 @@ Questa regola prevale sulle pagine con isolamento assoluto: chat disponibile, av
 
 ## Level 0 — “Threshold”
 
-Fonte: [Level 0](https://backrooms-wiki.wikidot.com/level-0), consultata 23 agosto 2026.
+Fonte: [`docs/wiki/backrooms-wiki-md/level-0.md`](wiki/backrooms-wiki-md/level-0.md) (snapshot 23 agosto 2026).
 
 ### Adottato
 
