@@ -1,4 +1,4 @@
-[gd_scene load_steps=318 format=3]
+[gd_scene load_steps=327 format=3]
 
 [ext_resource type="PackedScene" path="res://scenes/player.tscn" id="1_player"]
 [ext_resource type="Script" path="res://scripts/debug/level_0_debug_view.gd" id="2_debug"]
@@ -9,6 +9,7 @@
 [ext_resource type="Material" path="res://resources/materials/level_0/carpet_variant.tres" id="mat_carpet_var"]
 [ext_resource type="Material" path="res://resources/materials/level_0/ceiling_base.tres" id="mat_ceil"]
 [ext_resource type="Material" path="res://resources/materials/level_0/stair.tres" id="mat_stair"]
+[ext_resource type="Material" path="res://resources/materials/level_0/void_black.tres" id="mat_void"]
 
 
 [sub_resource type="Environment" id="Environment_level0"]
@@ -962,6 +963,32 @@ size = Vector3(2.82, 1.5, 1.2)
 [sub_resource type="BoxShape3D" id="shape_307"]
 size = Vector3(2.82, 1.5, 1.2)
 
+
+[sub_resource type="BoxMesh" id="mesh_gap_patch"]
+size = Vector3(0.6, 0.1, 0.6)
+
+[sub_resource type="BoxShape3D" id="shape_gap_patch"]
+size = Vector3(0.6, 0.1, 0.6)
+
+[sub_resource type="BoxMesh" id="mesh_void_catch"]
+size = Vector3(200, 0.4, 160)
+
+[sub_resource type="BoxShape3D" id="shape_void_catch"]
+size = Vector3(200, 0.4, 160)
+
+
+[sub_resource type="BoxMesh" id="mesh_void_lip_h"]
+size = Vector3(7.2, 0.4, 0.12)
+
+[sub_resource type="BoxShape3D" id="shape_void_lip_h"]
+size = Vector3(7.2, 0.4, 0.12)
+
+[sub_resource type="BoxMesh" id="mesh_void_lip_v"]
+size = Vector3(0.12, 0.4, 8.4)
+
+[sub_resource type="BoxShape3D" id="shape_void_lip_v"]
+size = Vector3(0.12, 0.4, 8.4)
+
 [node name="Level0" type="Node3D"]
 script = ExtResource("2_debug")
 
@@ -1026,6 +1053,7 @@ surface_material_override/0 = ExtResource("mat_ceil")
 
 [node name="Col" type="CollisionShape3D" parent="GroundFloor/_Ceilings/A_SPINE_C0"]
 shape = SubResource("shape_1")
+disabled = true
 
 [node name="A_SPINE_F1" type="StaticBody3D" parent="GroundFloor/GF_A_NORTH_CORRIDOR"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.5, -0.05, 82.5)
@@ -1046,6 +1074,7 @@ surface_material_override/0 = ExtResource("mat_ceil")
 
 [node name="Col" type="CollisionShape3D" parent="GroundFloor/_Ceilings/A_SPINE_C1"]
 shape = SubResource("shape_3")
+disabled = true
 
 [node name="STAIR_A_F0" type="StaticBody3D" parent="GroundFloor/GF_A_NORTH_CORRIDOR"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14.4, -0.05, 92.4)
@@ -1086,6 +1115,7 @@ surface_material_override/0 = ExtResource("mat_ceil")
 
 [node name="Col" type="CollisionShape3D" parent="GroundFloor/_Ceilings/A_R01_C0"]
 shape = SubResource("shape_7")
+disabled = true
 
 [node name="A_R02_F0" type="StaticBody3D" parent="GroundFloor/GF_A_NORTH_CORRIDOR"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 39.6, -0.05, 92.4)
@@ -1106,6 +1136,7 @@ surface_material_override/0 = ExtResource("mat_ceil")
 
 [node name="Col" type="CollisionShape3D" parent="GroundFloor/_Ceilings/A_R02_C0"]
 shape = SubResource("shape_9")
+disabled = true
 
 [node name="A_R03_F0" type="StaticBody3D" parent="GroundFloor/GF_A_NORTH_CORRIDOR"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 66, -0.05, 93)
@@ -1126,6 +1157,7 @@ surface_material_override/0 = ExtResource("mat_ceil")
 
 [node name="Col" type="CollisionShape3D" parent="GroundFloor/_Ceilings/A_R03_C0"]
 shape = SubResource("shape_7")
+disabled = true
 
 [node name="A_R04_F0" type="StaticBody3D" parent="GroundFloor/GF_A_NORTH_CORRIDOR"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 93.6, -0.05, 92.4)
@@ -1146,6 +1178,7 @@ surface_material_override/0 = ExtResource("mat_ceil")
 
 [node name="Col" type="CollisionShape3D" parent="GroundFloor/_Ceilings/A_R04_C0"]
 shape = SubResource("shape_9")
+disabled = true
 
 [node name="A_R_NDEAD_F0" type="StaticBody3D" parent="GroundFloor/GF_A_NORTH_CORRIDOR"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 111, -0.05, 92.4)
@@ -1166,6 +1199,7 @@ surface_material_override/0 = ExtResource("mat_ceil")
 
 [node name="Col" type="CollisionShape3D" parent="GroundFloor/_Ceilings/A_R_NDEAD_C0"]
 shape = SubResource("shape_11")
+disabled = true
 
 [node name="A_R05_F0" type="StaticBody3D" parent="GroundFloor/GF_A_NORTH_CORRIDOR"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15.6, -0.05, 82.5)
@@ -1186,6 +1220,7 @@ surface_material_override/0 = ExtResource("mat_ceil")
 
 [node name="Col" type="CollisionShape3D" parent="GroundFloor/_Ceilings/A_R05_C0"]
 shape = SubResource("shape_13")
+disabled = true
 
 [node name="A_R06_F0" type="StaticBody3D" parent="GroundFloor/GF_A_NORTH_CORRIDOR"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 31.8, -0.05, 84)
@@ -1206,6 +1241,7 @@ surface_material_override/0 = ExtResource("mat_ceil")
 
 [node name="Col" type="CollisionShape3D" parent="GroundFloor/_Ceilings/A_R06_C0"]
 shape = SubResource("shape_15")
+disabled = true
 
 [node name="A_R07_F0" type="StaticBody3D" parent="GroundFloor/GF_A_NORTH_CORRIDOR"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 76.5, -0.05, 82.5)
@@ -1226,6 +1262,7 @@ surface_material_override/0 = ExtResource("mat_ceil")
 
 [node name="Col" type="CollisionShape3D" parent="GroundFloor/_Ceilings/A_R07_C0"]
 shape = SubResource("shape_17")
+disabled = true
 
 [node name="A_STUB_E_F0" type="StaticBody3D" parent="GroundFloor/GF_A_NORTH_CORRIDOR"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 123, -0.05, 88.5)
@@ -1246,6 +1283,7 @@ surface_material_override/0 = ExtResource("mat_ceil")
 
 [node name="Col" type="CollisionShape3D" parent="GroundFloor/_Ceilings/A_STUB_E_C0"]
 shape = SubResource("shape_19")
+disabled = true
 
 [node name="GF_B_WEST_COMPLEX" type="Node3D" parent="GroundFloor"]
 
@@ -1268,6 +1306,7 @@ surface_material_override/0 = ExtResource("mat_ceil")
 
 [node name="Col" type="CollisionShape3D" parent="GroundFloor/_Ceilings/B_VERT_C0"]
 shape = SubResource("shape_21")
+disabled = true
 
 [node name="B_COR_H_F0" type="StaticBody3D" parent="GroundFloor/GF_B_WEST_COMPLEX"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 22.5, -0.05, 61.2)
@@ -1288,6 +1327,7 @@ surface_material_override/0 = ExtResource("mat_ceil")
 
 [node name="Col" type="CollisionShape3D" parent="GroundFloor/_Ceilings/B_COR_H_C0"]
 shape = SubResource("shape_23")
+disabled = true
 
 [node name="B_DEAD_W1_F0" type="StaticBody3D" parent="GroundFloor/GF_B_WEST_COMPLEX"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, -0.05, 57.6)
@@ -1308,6 +1348,7 @@ surface_material_override/0 = ExtResource("mat_ceil")
 
 [node name="Col" type="CollisionShape3D" parent="GroundFloor/_Ceilings/B_DEAD_W1_C0"]
 shape = SubResource("shape_25")
+disabled = true
 
 [node name="B_DEAD_W2_F0" type="StaticBody3D" parent="GroundFloor/GF_B_WEST_COMPLEX"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, -0.05, 45)
@@ -1328,6 +1369,7 @@ surface_material_override/0 = ExtResource("mat_ceil")
 
 [node name="Col" type="CollisionShape3D" parent="GroundFloor/_Ceilings/B_DEAD_W2_C0"]
 shape = SubResource("shape_15")
+disabled = true
 
 [node name="B_DEAD_W3_F0" type="StaticBody3D" parent="GroundFloor/GF_B_WEST_COMPLEX"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, -0.05, 69)
@@ -1348,6 +1390,7 @@ surface_material_override/0 = ExtResource("mat_ceil")
 
 [node name="Col" type="CollisionShape3D" parent="GroundFloor/_Ceilings/B_DEAD_W3_C0"]
 shape = SubResource("shape_15")
+disabled = true
 
 [node name="B_R01_F0" type="StaticBody3D" parent="GroundFloor/GF_B_WEST_COMPLEX"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 13.5, -0.05, 66.9)
@@ -1368,6 +1411,7 @@ surface_material_override/0 = ExtResource("mat_ceil")
 
 [node name="Col" type="CollisionShape3D" parent="GroundFloor/_Ceilings/B_R01_C0"]
 shape = SubResource("shape_17")
+disabled = true
 
 [node name="B_R02_F0" type="StaticBody3D" parent="GroundFloor/GF_B_WEST_COMPLEX"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 23.4, -0.05, 66.9)
@@ -1388,6 +1432,7 @@ surface_material_override/0 = ExtResource("mat_ceil")
 
 [node name="Col" type="CollisionShape3D" parent="GroundFloor/_Ceilings/B_R02_C0"]
 shape = SubResource("shape_27")
+disabled = true
 
 [node name="B_R08_F0" type="StaticBody3D" parent="GroundFloor/GF_B_WEST_COMPLEX"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12.6, -0.05, 74.7)
@@ -1408,6 +1453,7 @@ surface_material_override/0 = ExtResource("mat_ceil")
 
 [node name="Col" type="CollisionShape3D" parent="GroundFloor/_Ceilings/B_R08_C0"]
 shape = SubResource("shape_29")
+disabled = true
 
 [node name="B_R03_F0" type="StaticBody3D" parent="GroundFloor/GF_B_WEST_COMPLEX"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 13.5, -0.05, 54)
@@ -1428,6 +1474,7 @@ surface_material_override/0 = ExtResource("mat_ceil")
 
 [node name="Col" type="CollisionShape3D" parent="GroundFloor/_Ceilings/B_R03_C0"]
 shape = SubResource("shape_31")
+disabled = true
 
 [node name="B_DHALL_F0" type="StaticBody3D" parent="GroundFloor/GF_B_WEST_COMPLEX"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 23.4, -0.05, 54)
@@ -1458,6 +1505,7 @@ surface_material_override/0 = ExtResource("mat_ceil")
 
 [node name="Col" type="CollisionShape3D" parent="GroundFloor/_Ceilings/B_R05_C0"]
 shape = SubResource("shape_33")
+disabled = true
 
 [node name="B_R06_F0" type="StaticBody3D" parent="GroundFloor/GF_B_WEST_COMPLEX"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 24.3, -0.05, 42)
@@ -1478,6 +1526,7 @@ surface_material_override/0 = ExtResource("mat_ceil")
 
 [node name="Col" type="CollisionShape3D" parent="GroundFloor/_Ceilings/B_R06_C0"]
 shape = SubResource("shape_31")
+disabled = true
 
 [node name="B_R07_F0" type="StaticBody3D" parent="GroundFloor/GF_B_WEST_COMPLEX"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 32.4, -0.05, 56.4)
@@ -1498,6 +1547,7 @@ surface_material_override/0 = ExtResource("mat_ceil")
 
 [node name="Col" type="CollisionShape3D" parent="GroundFloor/_Ceilings/B_R07_C0"]
 shape = SubResource("shape_35")
+disabled = true
 
 [node name="B_R09_F0" type="StaticBody3D" parent="GroundFloor/GF_B_WEST_COMPLEX"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 32.4, -0.05, 42)
@@ -1518,6 +1568,7 @@ surface_material_override/0 = ExtResource("mat_ceil")
 
 [node name="Col" type="CollisionShape3D" parent="GroundFloor/_Ceilings/B_R09_C0"]
 shape = SubResource("shape_37")
+disabled = true
 
 [node name="B_TO_C_F0" type="StaticBody3D" parent="GroundFloor/GF_B_WEST_COMPLEX"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 32.4, -0.05, 50.4)
@@ -1538,6 +1589,7 @@ surface_material_override/0 = ExtResource("mat_ceil")
 
 [node name="Col" type="CollisionShape3D" parent="GroundFloor/_Ceilings/B_TO_C_C0"]
 shape = SubResource("shape_9")
+disabled = true
 
 [node name="B_STUB_N_F0" type="StaticBody3D" parent="GroundFloor/GF_B_WEST_COMPLEX"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 31.8, -0.05, 72.9)
@@ -1558,6 +1610,7 @@ surface_material_override/0 = ExtResource("mat_ceil")
 
 [node name="Col" type="CollisionShape3D" parent="GroundFloor/_Ceilings/B_STUB_N_C0"]
 shape = SubResource("shape_19")
+disabled = true
 
 [node name="GF_C_CENTRAL_MAZE" type="Node3D" parent="GroundFloor"]
 
@@ -1580,6 +1633,7 @@ surface_material_override/0 = ExtResource("mat_ceil")
 
 [node name="Col" type="CollisionShape3D" parent="GroundFloor/_Ceilings/C_R00_C0"]
 shape = SubResource("shape_15")
+disabled = true
 
 [node name="C_R01_F0" type="StaticBody3D" parent="GroundFloor/GF_C_CENTRAL_MAZE"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 47.4, -0.05, 51)
@@ -1600,6 +1654,7 @@ surface_material_override/0 = ExtResource("mat_ceil")
 
 [node name="Col" type="CollisionShape3D" parent="GroundFloor/_Ceilings/C_R01_C0"]
 shape = SubResource("shape_15")
+disabled = true
 
 [node name="C_R02_F0" type="StaticBody3D" parent="GroundFloor/GF_C_CENTRAL_MAZE"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 55.8, -0.05, 51)
@@ -1620,6 +1675,7 @@ surface_material_override/0 = ExtResource("mat_ceil")
 
 [node name="Col" type="CollisionShape3D" parent="GroundFloor/_Ceilings/C_R02_C0"]
 shape = SubResource("shape_15")
+disabled = true
 
 [node name="C_R03_F0" type="StaticBody3D" parent="GroundFloor/GF_C_CENTRAL_MAZE"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 64.2, -0.05, 51)
@@ -1640,6 +1696,7 @@ surface_material_override/0 = ExtResource("mat_ceil")
 
 [node name="Col" type="CollisionShape3D" parent="GroundFloor/_Ceilings/C_R03_C0"]
 shape = SubResource("shape_15")
+disabled = true
 
 [node name="C_R10_F0" type="StaticBody3D" parent="GroundFloor/GF_C_CENTRAL_MAZE"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 39, -0.05, 59.4)
@@ -1660,6 +1717,7 @@ surface_material_override/0 = ExtResource("mat_ceil")
 
 [node name="Col" type="CollisionShape3D" parent="GroundFloor/_Ceilings/C_R10_C0"]
 shape = SubResource("shape_15")
+disabled = true
 
 [node name="C_R11_F0" type="StaticBody3D" parent="GroundFloor/GF_C_CENTRAL_MAZE"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 47.4, -0.05, 59.4)
@@ -1680,6 +1738,7 @@ surface_material_override/0 = ExtResource("mat_ceil")
 
 [node name="Col" type="CollisionShape3D" parent="GroundFloor/_Ceilings/C_R11_C0"]
 shape = SubResource("shape_15")
+disabled = true
 
 [node name="C_R12_F0" type="StaticBody3D" parent="GroundFloor/GF_C_CENTRAL_MAZE"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 55.8, -0.05, 59.4)
@@ -1700,6 +1759,7 @@ surface_material_override/0 = ExtResource("mat_ceil")
 
 [node name="Col" type="CollisionShape3D" parent="GroundFloor/_Ceilings/C_R12_C0"]
 shape = SubResource("shape_15")
+disabled = true
 
 [node name="C_R13_F0" type="StaticBody3D" parent="GroundFloor/GF_C_CENTRAL_MAZE"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 64.2, -0.05, 59.4)
@@ -1720,6 +1780,7 @@ surface_material_override/0 = ExtResource("mat_ceil")
 
 [node name="Col" type="CollisionShape3D" parent="GroundFloor/_Ceilings/C_R13_C0"]
 shape = SubResource("shape_15")
+disabled = true
 
 [node name="C_R20_F0" type="StaticBody3D" parent="GroundFloor/GF_C_CENTRAL_MAZE"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 39, -0.05, 67.8)
@@ -1740,6 +1801,7 @@ surface_material_override/0 = ExtResource("mat_ceil")
 
 [node name="Col" type="CollisionShape3D" parent="GroundFloor/_Ceilings/C_R20_C0"]
 shape = SubResource("shape_15")
+disabled = true
 
 [node name="C_R21_F0" type="StaticBody3D" parent="GroundFloor/GF_C_CENTRAL_MAZE"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 47.4, -0.05, 67.8)
@@ -1760,6 +1822,7 @@ surface_material_override/0 = ExtResource("mat_ceil")
 
 [node name="Col" type="CollisionShape3D" parent="GroundFloor/_Ceilings/C_R21_C0"]
 shape = SubResource("shape_15")
+disabled = true
 
 [node name="C_R22_F0" type="StaticBody3D" parent="GroundFloor/GF_C_CENTRAL_MAZE"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 55.8, -0.05, 67.8)
@@ -1780,6 +1843,7 @@ surface_material_override/0 = ExtResource("mat_ceil")
 
 [node name="Col" type="CollisionShape3D" parent="GroundFloor/_Ceilings/C_R22_C0"]
 shape = SubResource("shape_15")
+disabled = true
 
 [node name="C_R23_F0" type="StaticBody3D" parent="GroundFloor/GF_C_CENTRAL_MAZE"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 64.2, -0.05, 67.8)
@@ -1800,6 +1864,7 @@ surface_material_override/0 = ExtResource("mat_ceil")
 
 [node name="Col" type="CollisionShape3D" parent="GroundFloor/_Ceilings/C_R23_C0"]
 shape = SubResource("shape_15")
+disabled = true
 
 [node name="C_R30_F0" type="StaticBody3D" parent="GroundFloor/GF_C_CENTRAL_MAZE"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 39, -0.05, 76.2)
@@ -1820,6 +1885,7 @@ surface_material_override/0 = ExtResource("mat_ceil")
 
 [node name="Col" type="CollisionShape3D" parent="GroundFloor/_Ceilings/C_R30_C0"]
 shape = SubResource("shape_15")
+disabled = true
 
 [node name="C_R31_F0" type="StaticBody3D" parent="GroundFloor/GF_C_CENTRAL_MAZE"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 47.4, -0.05, 76.2)
@@ -1840,6 +1906,7 @@ surface_material_override/0 = ExtResource("mat_ceil")
 
 [node name="Col" type="CollisionShape3D" parent="GroundFloor/_Ceilings/C_R31_C0"]
 shape = SubResource("shape_15")
+disabled = true
 
 [node name="C_R32_F0" type="StaticBody3D" parent="GroundFloor/GF_C_CENTRAL_MAZE"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 55.8, -0.05, 76.2)
@@ -1860,6 +1927,7 @@ surface_material_override/0 = ExtResource("mat_ceil")
 
 [node name="Col" type="CollisionShape3D" parent="GroundFloor/_Ceilings/C_R32_C0"]
 shape = SubResource("shape_15")
+disabled = true
 
 [node name="C_R33_F0" type="StaticBody3D" parent="GroundFloor/GF_C_CENTRAL_MAZE"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 64.2, -0.05, 76.2)
@@ -1880,6 +1948,7 @@ surface_material_override/0 = ExtResource("mat_ceil")
 
 [node name="Col" type="CollisionShape3D" parent="GroundFloor/_Ceilings/C_R33_C0"]
 shape = SubResource("shape_15")
+disabled = true
 
 [node name="C_ALLEY_F0" type="StaticBody3D" parent="GroundFloor/GF_C_CENTRAL_MAZE"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 51.6, -0.05, 55.2)
@@ -1900,6 +1969,7 @@ surface_material_override/0 = ExtResource("mat_ceil")
 
 [node name="Col" type="CollisionShape3D" parent="GroundFloor/_Ceilings/C_ALLEY_C0"]
 shape = SubResource("shape_39")
+disabled = true
 
 [node name="C_ALLEY_F1" type="StaticBody3D" parent="GroundFloor/GF_C_CENTRAL_MAZE"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 51.6, -0.05, 63.6)
@@ -1920,6 +1990,7 @@ surface_material_override/0 = ExtResource("mat_ceil")
 
 [node name="Col" type="CollisionShape3D" parent="GroundFloor/_Ceilings/C_ALLEY_C1"]
 shape = SubResource("shape_39")
+disabled = true
 
 [node name="C_ALLEY_F2" type="StaticBody3D" parent="GroundFloor/GF_C_CENTRAL_MAZE"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 51.6, -0.05, 72)
@@ -1940,6 +2011,7 @@ surface_material_override/0 = ExtResource("mat_ceil")
 
 [node name="Col" type="CollisionShape3D" parent="GroundFloor/_Ceilings/C_ALLEY_C2"]
 shape = SubResource("shape_39")
+disabled = true
 
 [node name="C_ALLEY_F3" type="StaticBody3D" parent="GroundFloor/GF_C_CENTRAL_MAZE"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 43.2, -0.05, 51)
@@ -1960,6 +2032,7 @@ surface_material_override/0 = ExtResource("mat_ceil")
 
 [node name="Col" type="CollisionShape3D" parent="GroundFloor/_Ceilings/C_ALLEY_C3"]
 shape = SubResource("shape_41")
+disabled = true
 
 [node name="C_ALLEY_F4" type="StaticBody3D" parent="GroundFloor/GF_C_CENTRAL_MAZE"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 43.2, -0.05, 59.4)
@@ -1980,6 +2053,7 @@ surface_material_override/0 = ExtResource("mat_ceil")
 
 [node name="Col" type="CollisionShape3D" parent="GroundFloor/_Ceilings/C_ALLEY_C4"]
 shape = SubResource("shape_41")
+disabled = true
 
 [node name="C_ALLEY_F5" type="StaticBody3D" parent="GroundFloor/GF_C_CENTRAL_MAZE"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 43.2, -0.05, 67.8)
@@ -2000,6 +2074,7 @@ surface_material_override/0 = ExtResource("mat_ceil")
 
 [node name="Col" type="CollisionShape3D" parent="GroundFloor/_Ceilings/C_ALLEY_C5"]
 shape = SubResource("shape_41")
+disabled = true
 
 [node name="C_ALLEY_F6" type="StaticBody3D" parent="GroundFloor/GF_C_CENTRAL_MAZE"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 43.2, -0.05, 76.2)
@@ -2020,6 +2095,7 @@ surface_material_override/0 = ExtResource("mat_ceil")
 
 [node name="Col" type="CollisionShape3D" parent="GroundFloor/_Ceilings/C_ALLEY_C6"]
 shape = SubResource("shape_41")
+disabled = true
 
 [node name="C_ALLEY_F7" type="StaticBody3D" parent="GroundFloor/GF_C_CENTRAL_MAZE"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 51.6, -0.05, 51)
@@ -2040,6 +2116,7 @@ surface_material_override/0 = ExtResource("mat_ceil")
 
 [node name="Col" type="CollisionShape3D" parent="GroundFloor/_Ceilings/C_ALLEY_C7"]
 shape = SubResource("shape_41")
+disabled = true
 
 [node name="C_ALLEY_F8" type="StaticBody3D" parent="GroundFloor/GF_C_CENTRAL_MAZE"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 51.6, -0.05, 59.4)
@@ -2060,6 +2137,7 @@ surface_material_override/0 = ExtResource("mat_ceil")
 
 [node name="Col" type="CollisionShape3D" parent="GroundFloor/_Ceilings/C_ALLEY_C8"]
 shape = SubResource("shape_41")
+disabled = true
 
 [node name="C_ALLEY_F9" type="StaticBody3D" parent="GroundFloor/GF_C_CENTRAL_MAZE"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 51.6, -0.05, 67.8)
@@ -2080,6 +2158,7 @@ surface_material_override/0 = ExtResource("mat_ceil")
 
 [node name="Col" type="CollisionShape3D" parent="GroundFloor/_Ceilings/C_ALLEY_C9"]
 shape = SubResource("shape_41")
+disabled = true
 
 [node name="C_ALLEY_F10" type="StaticBody3D" parent="GroundFloor/GF_C_CENTRAL_MAZE"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 51.6, -0.05, 76.2)
@@ -2100,6 +2179,7 @@ surface_material_override/0 = ExtResource("mat_ceil")
 
 [node name="Col" type="CollisionShape3D" parent="GroundFloor/_Ceilings/C_ALLEY_C10"]
 shape = SubResource("shape_41")
+disabled = true
 
 [node name="C_ALLEY_F11" type="StaticBody3D" parent="GroundFloor/GF_C_CENTRAL_MAZE"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 60, -0.05, 51)
@@ -2120,6 +2200,7 @@ surface_material_override/0 = ExtResource("mat_ceil")
 
 [node name="Col" type="CollisionShape3D" parent="GroundFloor/_Ceilings/C_ALLEY_C11"]
 shape = SubResource("shape_41")
+disabled = true
 
 [node name="C_ALLEY_F12" type="StaticBody3D" parent="GroundFloor/GF_C_CENTRAL_MAZE"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 60, -0.05, 59.4)
@@ -2140,6 +2221,7 @@ surface_material_override/0 = ExtResource("mat_ceil")
 
 [node name="Col" type="CollisionShape3D" parent="GroundFloor/_Ceilings/C_ALLEY_C12"]
 shape = SubResource("shape_41")
+disabled = true
 
 [node name="C_ALLEY_F13" type="StaticBody3D" parent="GroundFloor/GF_C_CENTRAL_MAZE"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 60, -0.05, 67.8)
@@ -2160,6 +2242,7 @@ surface_material_override/0 = ExtResource("mat_ceil")
 
 [node name="Col" type="CollisionShape3D" parent="GroundFloor/_Ceilings/C_ALLEY_C13"]
 shape = SubResource("shape_41")
+disabled = true
 
 [node name="C_ALLEY_F14" type="StaticBody3D" parent="GroundFloor/GF_C_CENTRAL_MAZE"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 60, -0.05, 76.2)
@@ -2180,6 +2263,7 @@ surface_material_override/0 = ExtResource("mat_ceil")
 
 [node name="Col" type="CollisionShape3D" parent="GroundFloor/_Ceilings/C_ALLEY_C14"]
 shape = SubResource("shape_41")
+disabled = true
 
 [node name="C_TO_A_F0" type="StaticBody3D" parent="GroundFloor/GF_C_CENTRAL_MAZE"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 43.2, -0.05, 83.1)
@@ -2200,6 +2284,7 @@ surface_material_override/0 = ExtResource("mat_ceil")
 
 [node name="Col" type="CollisionShape3D" parent="GroundFloor/_Ceilings/C_TO_A_C0"]
 shape = SubResource("shape_43")
+disabled = true
 
 [node name="C_R_N1_F0" type="StaticBody3D" parent="GroundFloor/GF_C_CENTRAL_MAZE"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 38.4, -0.05, 83.1)
@@ -2220,6 +2305,7 @@ surface_material_override/0 = ExtResource("mat_ceil")
 
 [node name="Col" type="CollisionShape3D" parent="GroundFloor/_Ceilings/C_R_N1_C0"]
 shape = SubResource("shape_43")
+disabled = true
 
 [node name="C_R_N2_F0" type="StaticBody3D" parent="GroundFloor/GF_C_CENTRAL_MAZE"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 49.2, -0.05, 83.1)
@@ -2240,6 +2326,7 @@ surface_material_override/0 = ExtResource("mat_ceil")
 
 [node name="Col" type="CollisionShape3D" parent="GroundFloor/_Ceilings/C_R_N2_C0"]
 shape = SubResource("shape_45")
+disabled = true
 
 [node name="C_TO_H_F0" type="StaticBody3D" parent="GroundFloor/GF_C_CENTRAL_MAZE"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 43.5, -0.05, 46.5)
@@ -2260,6 +2347,7 @@ surface_material_override/0 = ExtResource("mat_ceil")
 
 [node name="Col" type="CollisionShape3D" parent="GroundFloor/_Ceilings/C_TO_H_C0"]
 shape = SubResource("shape_47")
+disabled = true
 
 [node name="GF_D_CENTRAL_ROOM" type="Node3D" parent="GroundFloor"]
 
@@ -2282,6 +2370,7 @@ surface_material_override/0 = ExtResource("mat_ceil")
 
 [node name="Col" type="CollisionShape3D" parent="GroundFloor/_Ceilings/D_MAIN_C0"]
 shape = SubResource("shape_49")
+disabled = true
 
 [node name="D_ALC_N_F0" type="StaticBody3D" parent="GroundFloor/GF_D_CENTRAL_ROOM"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 72.6, -0.05, 72)
@@ -2302,6 +2391,7 @@ surface_material_override/0 = ExtResource("mat_ceil")
 
 [node name="Col" type="CollisionShape3D" parent="GroundFloor/_Ceilings/D_ALC_N_C0"]
 shape = SubResource("shape_51")
+disabled = true
 
 [node name="D_ALC_E_F0" type="StaticBody3D" parent="GroundFloor/GF_D_CENTRAL_ROOM"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 84.6, -0.05, 62.1)
@@ -2322,6 +2412,7 @@ surface_material_override/0 = ExtResource("mat_ceil")
 
 [node name="Col" type="CollisionShape3D" parent="GroundFloor/_Ceilings/D_ALC_E_C0"]
 shape = SubResource("shape_53")
+disabled = true
 
 [node name="D_LINK_E_F0" type="StaticBody3D" parent="GroundFloor/GF_D_CENTRAL_ROOM"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 89.4, -0.05, 61.5)
@@ -2342,6 +2433,7 @@ surface_material_override/0 = ExtResource("mat_ceil")
 
 [node name="Col" type="CollisionShape3D" parent="GroundFloor/_Ceilings/D_LINK_E_C0"]
 shape = SubResource("shape_55")
+disabled = true
 
 [node name="GF_E_EAST_LARGE_ROOM" type="Node3D" parent="GroundFloor"]
 
@@ -2364,6 +2456,7 @@ surface_material_override/0 = ExtResource("mat_ceil")
 
 [node name="Col" type="CollisionShape3D" parent="GroundFloor/_Ceilings/E_MAIN_C0"]
 shape = SubResource("shape_57")
+disabled = true
 
 [node name="GF_F_NORTHEAST_COMPLEX" type="Node3D" parent="GroundFloor"]
 
@@ -2386,6 +2479,7 @@ surface_material_override/0 = ExtResource("mat_ceil")
 
 [node name="Col" type="CollisionShape3D" parent="GroundFloor/_Ceilings/F_R00_C0"]
 shape = SubResource("shape_15")
+disabled = true
 
 [node name="F_R01_F0" type="StaticBody3D" parent="GroundFloor/GF_F_NORTHEAST_COMPLEX"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 107.4, -0.05, 72)
@@ -2406,6 +2500,7 @@ surface_material_override/0 = ExtResource("mat_ceil")
 
 [node name="Col" type="CollisionShape3D" parent="GroundFloor/_Ceilings/F_R01_C0"]
 shape = SubResource("shape_15")
+disabled = true
 
 [node name="F_R02_F0" type="StaticBody3D" parent="GroundFloor/GF_F_NORTHEAST_COMPLEX"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 115.8, -0.05, 72)
@@ -2426,6 +2521,7 @@ surface_material_override/0 = ExtResource("mat_ceil")
 
 [node name="Col" type="CollisionShape3D" parent="GroundFloor/_Ceilings/F_R02_C0"]
 shape = SubResource("shape_15")
+disabled = true
 
 [node name="F_R10_F0" type="StaticBody3D" parent="GroundFloor/GF_F_NORTHEAST_COMPLEX"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 99, -0.05, 80.4)
@@ -2446,6 +2542,7 @@ surface_material_override/0 = ExtResource("mat_ceil")
 
 [node name="Col" type="CollisionShape3D" parent="GroundFloor/_Ceilings/F_R10_C0"]
 shape = SubResource("shape_15")
+disabled = true
 
 [node name="F_R11_F0" type="StaticBody3D" parent="GroundFloor/GF_F_NORTHEAST_COMPLEX"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 107.4, -0.05, 80.4)
@@ -2466,6 +2563,7 @@ surface_material_override/0 = ExtResource("mat_ceil")
 
 [node name="Col" type="CollisionShape3D" parent="GroundFloor/_Ceilings/F_R11_C0"]
 shape = SubResource("shape_15")
+disabled = true
 
 [node name="F_R12_F0" type="StaticBody3D" parent="GroundFloor/GF_F_NORTHEAST_COMPLEX"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 115.8, -0.05, 80.4)
@@ -2486,6 +2584,7 @@ surface_material_override/0 = ExtResource("mat_ceil")
 
 [node name="Col" type="CollisionShape3D" parent="GroundFloor/_Ceilings/F_R12_C0"]
 shape = SubResource("shape_15")
+disabled = true
 
 [node name="F_ALLEY_F0" type="StaticBody3D" parent="GroundFloor/GF_F_NORTHEAST_COMPLEX"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 107.4, -0.05, 76.2)
@@ -2506,6 +2605,7 @@ surface_material_override/0 = ExtResource("mat_ceil")
 
 [node name="Col" type="CollisionShape3D" parent="GroundFloor/_Ceilings/F_ALLEY_C0"]
 shape = SubResource("shape_59")
+disabled = true
 
 [node name="F_ALLEY_F1" type="StaticBody3D" parent="GroundFloor/GF_F_NORTHEAST_COMPLEX"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 103.2, -0.05, 72)
@@ -2526,6 +2626,7 @@ surface_material_override/0 = ExtResource("mat_ceil")
 
 [node name="Col" type="CollisionShape3D" parent="GroundFloor/_Ceilings/F_ALLEY_C1"]
 shape = SubResource("shape_41")
+disabled = true
 
 [node name="F_ALLEY_F2" type="StaticBody3D" parent="GroundFloor/GF_F_NORTHEAST_COMPLEX"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 103.2, -0.05, 80.4)
@@ -2546,6 +2647,7 @@ surface_material_override/0 = ExtResource("mat_ceil")
 
 [node name="Col" type="CollisionShape3D" parent="GroundFloor/_Ceilings/F_ALLEY_C2"]
 shape = SubResource("shape_41")
+disabled = true
 
 [node name="F_ALLEY_F3" type="StaticBody3D" parent="GroundFloor/GF_F_NORTHEAST_COMPLEX"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 111.6, -0.05, 72)
@@ -2566,6 +2668,7 @@ surface_material_override/0 = ExtResource("mat_ceil")
 
 [node name="Col" type="CollisionShape3D" parent="GroundFloor/_Ceilings/F_ALLEY_C3"]
 shape = SubResource("shape_41")
+disabled = true
 
 [node name="F_ALLEY_F4" type="StaticBody3D" parent="GroundFloor/GF_F_NORTHEAST_COMPLEX"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 111.6, -0.05, 80.4)
@@ -2586,6 +2689,7 @@ surface_material_override/0 = ExtResource("mat_ceil")
 
 [node name="Col" type="CollisionShape3D" parent="GroundFloor/_Ceilings/F_ALLEY_C4"]
 shape = SubResource("shape_41")
+disabled = true
 
 [node name="F_TO_A_F0" type="StaticBody3D" parent="GroundFloor/GF_F_NORTHEAST_COMPLEX"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 103.5, -0.05, 85.2)
@@ -2606,6 +2710,7 @@ surface_material_override/0 = ExtResource("mat_ceil")
 
 [node name="Col" type="CollisionShape3D" parent="GroundFloor/_Ceilings/F_TO_A_C0"]
 shape = SubResource("shape_61")
+disabled = true
 
 [node name="F_DEAD_NE_F0" type="StaticBody3D" parent="GroundFloor/GF_F_NORTHEAST_COMPLEX"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 121.8, -0.05, 76.2)
@@ -2626,6 +2731,7 @@ surface_material_override/0 = ExtResource("mat_ceil")
 
 [node name="Col" type="CollisionShape3D" parent="GroundFloor/_Ceilings/F_DEAD_NE_C0"]
 shape = SubResource("shape_63")
+disabled = true
 
 [node name="GF_G_SOUTHEAST_COMPLEX" type="Node3D" parent="GroundFloor"]
 
@@ -2648,6 +2754,7 @@ surface_material_override/0 = ExtResource("mat_ceil")
 
 [node name="Col" type="CollisionShape3D" parent="GroundFloor/_Ceilings/G_R00_C0"]
 shape = SubResource("shape_15")
+disabled = true
 
 [node name="G_R01_F0" type="StaticBody3D" parent="GroundFloor/GF_G_SOUTHEAST_COMPLEX"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 103.2, -0.05, 24)
@@ -2668,6 +2775,7 @@ surface_material_override/0 = ExtResource("mat_ceil")
 
 [node name="Col" type="CollisionShape3D" parent="GroundFloor/_Ceilings/G_R01_C0"]
 shape = SubResource("shape_15")
+disabled = true
 
 [node name="G_R02_F0" type="StaticBody3D" parent="GroundFloor/GF_G_SOUTHEAST_COMPLEX"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 111.6, -0.05, 24)
@@ -2688,6 +2796,7 @@ surface_material_override/0 = ExtResource("mat_ceil")
 
 [node name="Col" type="CollisionShape3D" parent="GroundFloor/_Ceilings/G_R02_C0"]
 shape = SubResource("shape_15")
+disabled = true
 
 [node name="G_R10_F0" type="StaticBody3D" parent="GroundFloor/GF_G_SOUTHEAST_COMPLEX"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 94.8, -0.05, 32.4)
@@ -2708,6 +2817,7 @@ surface_material_override/0 = ExtResource("mat_ceil")
 
 [node name="Col" type="CollisionShape3D" parent="GroundFloor/_Ceilings/G_R10_C0"]
 shape = SubResource("shape_15")
+disabled = true
 
 [node name="G_R11_F0" type="StaticBody3D" parent="GroundFloor/GF_G_SOUTHEAST_COMPLEX"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 103.2, -0.05, 32.4)
@@ -2728,6 +2838,7 @@ surface_material_override/0 = ExtResource("mat_ceil")
 
 [node name="Col" type="CollisionShape3D" parent="GroundFloor/_Ceilings/G_R11_C0"]
 shape = SubResource("shape_15")
+disabled = true
 
 [node name="G_R12_F0" type="StaticBody3D" parent="GroundFloor/GF_G_SOUTHEAST_COMPLEX"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 111.6, -0.05, 32.4)
@@ -2748,6 +2859,7 @@ surface_material_override/0 = ExtResource("mat_ceil")
 
 [node name="Col" type="CollisionShape3D" parent="GroundFloor/_Ceilings/G_R12_C0"]
 shape = SubResource("shape_15")
+disabled = true
 
 [node name="G_R20_F0" type="StaticBody3D" parent="GroundFloor/GF_G_SOUTHEAST_COMPLEX"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 94.8, -0.05, 40.8)
@@ -2768,6 +2880,7 @@ surface_material_override/0 = ExtResource("mat_ceil")
 
 [node name="Col" type="CollisionShape3D" parent="GroundFloor/_Ceilings/G_R20_C0"]
 shape = SubResource("shape_15")
+disabled = true
 
 [node name="G_R21_F0" type="StaticBody3D" parent="GroundFloor/GF_G_SOUTHEAST_COMPLEX"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 103.2, -0.05, 40.8)
@@ -2788,6 +2901,7 @@ surface_material_override/0 = ExtResource("mat_ceil")
 
 [node name="Col" type="CollisionShape3D" parent="GroundFloor/_Ceilings/G_R21_C0"]
 shape = SubResource("shape_15")
+disabled = true
 
 [node name="G_R22_F0" type="StaticBody3D" parent="GroundFloor/GF_G_SOUTHEAST_COMPLEX"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 111.6, -0.05, 40.8)
@@ -2808,6 +2922,7 @@ surface_material_override/0 = ExtResource("mat_ceil")
 
 [node name="Col" type="CollisionShape3D" parent="GroundFloor/_Ceilings/G_R22_C0"]
 shape = SubResource("shape_15")
+disabled = true
 
 [node name="G_ALLEY_F0" type="StaticBody3D" parent="GroundFloor/GF_G_SOUTHEAST_COMPLEX"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 103.2, -0.05, 28.2)
@@ -2828,6 +2943,7 @@ surface_material_override/0 = ExtResource("mat_ceil")
 
 [node name="Col" type="CollisionShape3D" parent="GroundFloor/_Ceilings/G_ALLEY_C0"]
 shape = SubResource("shape_59")
+disabled = true
 
 [node name="G_ALLEY_F1" type="StaticBody3D" parent="GroundFloor/GF_G_SOUTHEAST_COMPLEX"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 103.2, -0.05, 36.6)
@@ -2848,6 +2964,7 @@ surface_material_override/0 = ExtResource("mat_ceil")
 
 [node name="Col" type="CollisionShape3D" parent="GroundFloor/_Ceilings/G_ALLEY_C1"]
 shape = SubResource("shape_59")
+disabled = true
 
 [node name="G_ALLEY_F2" type="StaticBody3D" parent="GroundFloor/GF_G_SOUTHEAST_COMPLEX"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 99, -0.05, 24)
@@ -2868,6 +2985,7 @@ surface_material_override/0 = ExtResource("mat_ceil")
 
 [node name="Col" type="CollisionShape3D" parent="GroundFloor/_Ceilings/G_ALLEY_C2"]
 shape = SubResource("shape_41")
+disabled = true
 
 [node name="G_ALLEY_F3" type="StaticBody3D" parent="GroundFloor/GF_G_SOUTHEAST_COMPLEX"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 99, -0.05, 32.4)
@@ -2888,6 +3006,7 @@ surface_material_override/0 = ExtResource("mat_ceil")
 
 [node name="Col" type="CollisionShape3D" parent="GroundFloor/_Ceilings/G_ALLEY_C3"]
 shape = SubResource("shape_41")
+disabled = true
 
 [node name="G_ALLEY_F4" type="StaticBody3D" parent="GroundFloor/GF_G_SOUTHEAST_COMPLEX"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 99, -0.05, 40.8)
@@ -2908,6 +3027,7 @@ surface_material_override/0 = ExtResource("mat_ceil")
 
 [node name="Col" type="CollisionShape3D" parent="GroundFloor/_Ceilings/G_ALLEY_C4"]
 shape = SubResource("shape_41")
+disabled = true
 
 [node name="G_ALLEY_F5" type="StaticBody3D" parent="GroundFloor/GF_G_SOUTHEAST_COMPLEX"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 107.4, -0.05, 24)
@@ -2928,6 +3048,7 @@ surface_material_override/0 = ExtResource("mat_ceil")
 
 [node name="Col" type="CollisionShape3D" parent="GroundFloor/_Ceilings/G_ALLEY_C5"]
 shape = SubResource("shape_41")
+disabled = true
 
 [node name="G_ALLEY_F6" type="StaticBody3D" parent="GroundFloor/GF_G_SOUTHEAST_COMPLEX"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 107.4, -0.05, 32.4)
@@ -2948,6 +3069,7 @@ surface_material_override/0 = ExtResource("mat_ceil")
 
 [node name="Col" type="CollisionShape3D" parent="GroundFloor/_Ceilings/G_ALLEY_C6"]
 shape = SubResource("shape_41")
+disabled = true
 
 [node name="G_ALLEY_F7" type="StaticBody3D" parent="GroundFloor/GF_G_SOUTHEAST_COMPLEX"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 107.4, -0.05, 40.8)
@@ -2968,6 +3090,7 @@ surface_material_override/0 = ExtResource("mat_ceil")
 
 [node name="Col" type="CollisionShape3D" parent="GroundFloor/_Ceilings/G_ALLEY_C7"]
 shape = SubResource("shape_41")
+disabled = true
 
 [node name="G_TO_E_F0" type="StaticBody3D" parent="GroundFloor/GF_G_SOUTHEAST_COMPLEX"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 103.5, -0.05, 47.4)
@@ -2988,6 +3111,7 @@ surface_material_override/0 = ExtResource("mat_ceil")
 
 [node name="Col" type="CollisionShape3D" parent="GroundFloor/_Ceilings/G_TO_E_C0"]
 shape = SubResource("shape_65")
+disabled = true
 
 [node name="G_EAST_ARM_F0" type="StaticBody3D" parent="GroundFloor/GF_G_SOUTHEAST_COMPLEX"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 125.4, -0.05, 28.5)
@@ -3008,6 +3132,7 @@ surface_material_override/0 = ExtResource("mat_ceil")
 
 [node name="Col" type="CollisionShape3D" parent="GroundFloor/_Ceilings/G_EAST_ARM_C0"]
 shape = SubResource("shape_67")
+disabled = true
 
 [node name="G_EAST_END_F0" type="StaticBody3D" parent="GroundFloor/GF_G_SOUTHEAST_COMPLEX"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 139.2, -0.05, 28.5)
@@ -3028,6 +3153,7 @@ surface_material_override/0 = ExtResource("mat_ceil")
 
 [node name="Col" type="CollisionShape3D" parent="GroundFloor/_Ceilings/G_EAST_END_C0"]
 shape = SubResource("shape_69")
+disabled = true
 
 [node name="G_DEAD_S_F0" type="StaticBody3D" parent="GroundFloor/GF_G_SOUTHEAST_COMPLEX"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 111, -0.05, 18)
@@ -3048,6 +3174,7 @@ surface_material_override/0 = ExtResource("mat_ceil")
 
 [node name="Col" type="CollisionShape3D" parent="GroundFloor/_Ceilings/G_DEAD_S_C0"]
 shape = SubResource("shape_15")
+disabled = true
 
 [node name="GF_H_SOUTH_CENTRAL" type="Node3D" parent="GroundFloor"]
 
@@ -3070,6 +3197,7 @@ surface_material_override/0 = ExtResource("mat_ceil")
 
 [node name="Col" type="CollisionShape3D" parent="GroundFloor/_Ceilings/H_SQUARE_C0"]
 shape = SubResource("shape_71")
+disabled = true
 
 [node name="H_R06_F0" type="StaticBody3D" parent="GroundFloor/GF_H_SOUTH_CENTRAL"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 44.4, -0.05, 23.4)
@@ -3090,6 +3218,7 @@ surface_material_override/0 = ExtResource("mat_ceil")
 
 [node name="Col" type="CollisionShape3D" parent="GroundFloor/_Ceilings/H_R06_C0"]
 shape = SubResource("shape_73")
+disabled = true
 
 [node name="H_R04_F0" type="StaticBody3D" parent="GroundFloor/GF_H_SOUTH_CENTRAL"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 69.3, -0.05, 23.4)
@@ -3110,6 +3239,7 @@ surface_material_override/0 = ExtResource("mat_ceil")
 
 [node name="Col" type="CollisionShape3D" parent="GroundFloor/_Ceilings/H_R04_C0"]
 shape = SubResource("shape_75")
+disabled = true
 
 [node name="H_R01_F0" type="StaticBody3D" parent="GroundFloor/GF_H_SOUTH_CENTRAL"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 39.6, -0.05, 37.5)
@@ -3130,6 +3260,7 @@ surface_material_override/0 = ExtResource("mat_ceil")
 
 [node name="Col" type="CollisionShape3D" parent="GroundFloor/_Ceilings/H_R01_C0"]
 shape = SubResource("shape_13")
+disabled = true
 
 [node name="H_R02_F0" type="StaticBody3D" parent="GroundFloor/GF_H_SOUTH_CENTRAL"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 47.1, -0.05, 36.9)
@@ -3150,6 +3281,7 @@ surface_material_override/0 = ExtResource("mat_ceil")
 
 [node name="Col" type="CollisionShape3D" parent="GroundFloor/_Ceilings/H_R02_C0"]
 shape = SubResource("shape_77")
+disabled = true
 
 [node name="H_R03_F0" type="StaticBody3D" parent="GroundFloor/GF_H_SOUTH_CENTRAL"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 55.5, -0.05, 36.9)
@@ -3170,6 +3302,7 @@ surface_material_override/0 = ExtResource("mat_ceil")
 
 [node name="Col" type="CollisionShape3D" parent="GroundFloor/_Ceilings/H_R03_C0"]
 shape = SubResource("shape_79")
+disabled = true
 
 [node name="H_R05_F0" type="StaticBody3D" parent="GroundFloor/GF_H_SOUTH_CENTRAL"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 69.3, -0.05, 36.9)
@@ -3190,6 +3323,7 @@ surface_material_override/0 = ExtResource("mat_ceil")
 
 [node name="Col" type="CollisionShape3D" parent="GroundFloor/_Ceilings/H_R05_C0"]
 shape = SubResource("shape_79")
+disabled = true
 
 [node name="H_COR_N_F0" type="StaticBody3D" parent="GroundFloor/GF_H_SOUTH_CENTRAL"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 54.9, -0.05, 43.5)
@@ -3210,6 +3344,7 @@ surface_material_override/0 = ExtResource("mat_ceil")
 
 [node name="Col" type="CollisionShape3D" parent="GroundFloor/_Ceilings/H_COR_N_C0"]
 shape = SubResource("shape_81")
+disabled = true
 
 [node name="H_TO_G_F0" type="StaticBody3D" parent="GroundFloor/GF_H_SOUTH_CENTRAL"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 82.8, -0.05, 28.2)
@@ -3230,6 +3365,7 @@ surface_material_override/0 = ExtResource("mat_ceil")
 
 [node name="Col" type="CollisionShape3D" parent="GroundFloor/_Ceilings/H_TO_G_C0"]
 shape = SubResource("shape_83")
+disabled = true
 
 [node name="GF_I_SOUTHWEST_BRANCH" type="Node3D" parent="GroundFloor"]
 
@@ -3262,6 +3398,7 @@ surface_material_override/0 = ExtResource("mat_ceil")
 
 [node name="Col" type="CollisionShape3D" parent="GroundFloor/_Ceilings/I_SPAWN_C0"]
 shape = SubResource("shape_85")
+disabled = true
 
 [node name="I_R01_F0" type="StaticBody3D" parent="GroundFloor/GF_I_SOUTHWEST_BRANCH"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 17.4, -0.05, 18)
@@ -3282,6 +3419,7 @@ surface_material_override/0 = ExtResource("mat_ceil")
 
 [node name="Col" type="CollisionShape3D" parent="GroundFloor/_Ceilings/I_R01_C0"]
 shape = SubResource("shape_7")
+disabled = true
 
 [node name="I_R02_F0" type="StaticBody3D" parent="GroundFloor/GF_I_SOUTHWEST_BRANCH"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 29.1, -0.05, 18)
@@ -3302,6 +3440,7 @@ surface_material_override/0 = ExtResource("mat_ceil")
 
 [node name="Col" type="CollisionShape3D" parent="GroundFloor/_Ceilings/I_R02_C0"]
 shape = SubResource("shape_87")
+disabled = true
 
 [node name="I_R03_F0" type="StaticBody3D" parent="GroundFloor/GF_I_SOUTHWEST_BRANCH"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 27.9, -0.05, 26.4)
@@ -3322,6 +3461,7 @@ surface_material_override/0 = ExtResource("mat_ceil")
 
 [node name="Col" type="CollisionShape3D" parent="GroundFloor/_Ceilings/I_R03_C0"]
 shape = SubResource("shape_89")
+disabled = true
 
 [node name="I_R04_F0" type="StaticBody3D" parent="GroundFloor/GF_I_SOUTHWEST_BRANCH"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16.8, -0.05, 33)
@@ -3342,6 +3482,7 @@ surface_material_override/0 = ExtResource("mat_ceil")
 
 [node name="Col" type="CollisionShape3D" parent="GroundFloor/_Ceilings/I_R04_C0"]
 shape = SubResource("shape_15")
+disabled = true
 
 [node name="I_R05_F0" type="StaticBody3D" parent="GroundFloor/GF_I_SOUTHWEST_BRANCH"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, -0.05, 27.6)
@@ -3362,6 +3503,7 @@ surface_material_override/0 = ExtResource("mat_ceil")
 
 [node name="Col" type="CollisionShape3D" parent="GroundFloor/_Ceilings/I_R05_C0"]
 shape = SubResource("shape_25")
+disabled = true
 
 [node name="I_DEAD_SW_F0" type="StaticBody3D" parent="GroundFloor/GF_I_SOUTHWEST_BRANCH"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.6, -0.05, 15)
@@ -3382,6 +3524,7 @@ surface_material_override/0 = ExtResource("mat_ceil")
 
 [node name="Col" type="CollisionShape3D" parent="GroundFloor/_Ceilings/I_DEAD_SW_C0"]
 shape = SubResource("shape_7")
+disabled = true
 
 [node name="I_COR_H_F0" type="StaticBody3D" parent="GroundFloor/GF_I_SOUTHWEST_BRANCH"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 24.6, -0.05, 21.9)
@@ -3402,6 +3545,7 @@ surface_material_override/0 = ExtResource("mat_ceil")
 
 [node name="Col" type="CollisionShape3D" parent="GroundFloor/_Ceilings/I_COR_H_C0"]
 shape = SubResource("shape_91")
+disabled = true
 
 [node name="I_TO_H_F0" type="StaticBody3D" parent="GroundFloor/GF_I_SOUTHWEST_BRANCH"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 38.1, -0.05, 21.9)
@@ -3422,6 +3566,7 @@ surface_material_override/0 = ExtResource("mat_ceil")
 
 [node name="Col" type="CollisionShape3D" parent="GroundFloor/_Ceilings/I_TO_H_C0"]
 shape = SubResource("shape_93")
+disabled = true
 
 [node name="UF_A_NORTH_BRANCH" type="Node3D" parent="UpperFloor"]
 
@@ -3446,6 +3591,7 @@ surface_material_override/0 = ExtResource("mat_ceil")
 
 [node name="Col" type="CollisionShape3D" parent="UpperFloor/_Ceilings/UF_A_SPINE_C0"]
 shape = SubResource("shape_95")
+disabled = true
 
 [node name="UF_A_R01_F0" type="StaticBody3D" parent="UpperFloor/UF_A_NORTH_BRANCH"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 22.8, 2.95, 93)
@@ -3466,6 +3612,7 @@ surface_material_override/0 = ExtResource("mat_ceil")
 
 [node name="Col" type="CollisionShape3D" parent="UpperFloor/_Ceilings/UF_A_R01_C0"]
 shape = SubResource("shape_7")
+disabled = true
 
 [node name="UF_A_R02_F0" type="StaticBody3D" parent="UpperFloor/UF_A_NORTH_BRANCH"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 39.6, 2.95, 92.7)
@@ -3486,6 +3633,7 @@ surface_material_override/0 = ExtResource("mat_ceil")
 
 [node name="Col" type="CollisionShape3D" parent="UpperFloor/_Ceilings/UF_A_R02_C0"]
 shape = SubResource("shape_97")
+disabled = true
 
 [node name="UF_A_R03_F0" type="StaticBody3D" parent="UpperFloor/UF_A_NORTH_BRANCH"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 66, 2.95, 93)
@@ -3506,6 +3654,7 @@ surface_material_override/0 = ExtResource("mat_ceil")
 
 [node name="Col" type="CollisionShape3D" parent="UpperFloor/_Ceilings/UF_A_R03_C0"]
 shape = SubResource("shape_7")
+disabled = true
 
 [node name="UF_A_R04_F0" type="StaticBody3D" parent="UpperFloor/UF_A_NORTH_BRANCH"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 88.5, 2.95, 92.4)
@@ -3526,6 +3675,7 @@ surface_material_override/0 = ExtResource("mat_ceil")
 
 [node name="Col" type="CollisionShape3D" parent="UpperFloor/_Ceilings/UF_A_R04_C0"]
 shape = SubResource("shape_99")
+disabled = true
 
 [node name="UF_A_DEAD_F0" type="StaticBody3D" parent="UpperFloor/UF_A_NORTH_BRANCH"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 111.6, 2.95, 92.4)
@@ -3546,6 +3696,7 @@ surface_material_override/0 = ExtResource("mat_ceil")
 
 [node name="Col" type="CollisionShape3D" parent="UpperFloor/_Ceilings/UF_A_DEAD_C0"]
 shape = SubResource("shape_9")
+disabled = true
 
 [node name="UF_A_R05_F0" type="StaticBody3D" parent="UpperFloor/UF_A_NORTH_BRANCH"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 27.6, 2.95, 81)
@@ -3566,6 +3717,7 @@ surface_material_override/0 = ExtResource("mat_ceil")
 
 [node name="Col" type="CollisionShape3D" parent="UpperFloor/_Ceilings/UF_A_R05_C0"]
 shape = SubResource("shape_101")
+disabled = true
 
 [node name="UF_A_R06_F0" type="StaticBody3D" parent="UpperFloor/UF_A_NORTH_BRANCH"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 52.5, 2.95, 81.6)
@@ -3586,6 +3738,7 @@ surface_material_override/0 = ExtResource("mat_ceil")
 
 [node name="Col" type="CollisionShape3D" parent="UpperFloor/_Ceilings/UF_A_R06_C0"]
 shape = SubResource("shape_85")
+disabled = true
 
 [node name="UF_A_DROP_F0" type="StaticBody3D" parent="UpperFloor/UF_A_NORTH_BRANCH"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 75, 2.95, 81.6)
@@ -3606,6 +3759,7 @@ surface_material_override/0 = ExtResource("mat_ceil")
 
 [node name="Col" type="CollisionShape3D" parent="UpperFloor/_Ceilings/UF_A_DROP_C0"]
 shape = SubResource("shape_25")
+disabled = true
 
 [node name="UF_B_WEST_SECTOR" type="Node3D" parent="UpperFloor"]
 
@@ -3628,6 +3782,7 @@ surface_material_override/0 = ExtResource("mat_ceil")
 
 [node name="Col" type="CollisionShape3D" parent="UpperFloor/_Ceilings/UF_B_COR_C0"]
 shape = SubResource("shape_103")
+disabled = true
 
 [node name="UF_B_COR_H_F0" type="StaticBody3D" parent="UpperFloor/UF_B_WEST_SECTOR"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 21, 2.95, 64.8)
@@ -3648,6 +3803,7 @@ surface_material_override/0 = ExtResource("mat_ceil")
 
 [node name="Col" type="CollisionShape3D" parent="UpperFloor/_Ceilings/UF_B_COR_H_C0"]
 shape = SubResource("shape_105")
+disabled = true
 
 [node name="UF_B_R01_F0" type="StaticBody3D" parent="UpperFloor/UF_B_WEST_SECTOR"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 13.5, 2.95, 71.4)
@@ -3668,6 +3824,7 @@ surface_material_override/0 = ExtResource("mat_ceil")
 
 [node name="Col" type="CollisionShape3D" parent="UpperFloor/_Ceilings/UF_B_R01_C0"]
 shape = SubResource("shape_107")
+disabled = true
 
 [node name="UF_B_R02_F0" type="StaticBody3D" parent="UpperFloor/UF_B_WEST_SECTOR"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 23.4, 2.95, 71.4)
@@ -3688,6 +3845,7 @@ surface_material_override/0 = ExtResource("mat_ceil")
 
 [node name="Col" type="CollisionShape3D" parent="UpperFloor/_Ceilings/UF_B_R02_C0"]
 shape = SubResource("shape_109")
+disabled = true
 
 [node name="UF_B_R03_F0" type="StaticBody3D" parent="UpperFloor/UF_B_WEST_SECTOR"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 13.5, 2.95, 57.6)
@@ -3708,6 +3866,7 @@ surface_material_override/0 = ExtResource("mat_ceil")
 
 [node name="Col" type="CollisionShape3D" parent="UpperFloor/_Ceilings/UF_B_R03_C0"]
 shape = SubResource("shape_31")
+disabled = true
 
 [node name="UF_B_R05_F0" type="StaticBody3D" parent="UpperFloor/UF_B_WEST_SECTOR"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 13.5, 2.95, 46.8)
@@ -3728,6 +3887,7 @@ surface_material_override/0 = ExtResource("mat_ceil")
 
 [node name="Col" type="CollisionShape3D" parent="UpperFloor/_Ceilings/UF_B_R05_C0"]
 shape = SubResource("shape_111")
+disabled = true
 
 [node name="UF_B_R06_F0" type="StaticBody3D" parent="UpperFloor/UF_B_WEST_SECTOR"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 24.3, 2.95, 45)
@@ -3748,6 +3908,7 @@ surface_material_override/0 = ExtResource("mat_ceil")
 
 [node name="Col" type="CollisionShape3D" parent="UpperFloor/_Ceilings/UF_B_R06_C0"]
 shape = SubResource("shape_113")
+disabled = true
 
 [node name="UF_B_DEAD_F0" type="StaticBody3D" parent="UpperFloor/UF_B_WEST_SECTOR"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 2.95, 57.6)
@@ -3768,6 +3929,7 @@ surface_material_override/0 = ExtResource("mat_ceil")
 
 [node name="Col" type="CollisionShape3D" parent="UpperFloor/_Ceilings/UF_B_DEAD_C0"]
 shape = SubResource("shape_25")
+disabled = true
 
 [node name="UF_B_STUB_F0" type="StaticBody3D" parent="UpperFloor/UF_B_WEST_SECTOR"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 31.8, 2.95, 74.4)
@@ -3788,6 +3950,7 @@ surface_material_override/0 = ExtResource("mat_ceil")
 
 [node name="Col" type="CollisionShape3D" parent="UpperFloor/_Ceilings/UF_B_STUB_C0"]
 shape = SubResource("shape_11")
+disabled = true
 
 [node name="UF_D_TALL_ROOM" type="Node3D" parent="UpperFloor"]
 
@@ -3840,6 +4003,7 @@ surface_material_override/0 = ExtResource("mat_ceil")
 
 [node name="Col" type="CollisionShape3D" parent="UpperFloor/_Ceilings/UF_D_RING_C0"]
 shape = SubResource("shape_33")
+disabled = true
 
 [node name="UF_C_CENTRAL_MAZE" type="Node3D" parent="UpperFloor"]
 
@@ -3862,6 +4026,7 @@ surface_material_override/0 = ExtResource("mat_ceil")
 
 [node name="Col" type="CollisionShape3D" parent="UpperFloor/_Ceilings/UC_R00_C0"]
 shape = SubResource("shape_123")
+disabled = true
 
 [node name="UC_R01_F0" type="StaticBody3D" parent="UpperFloor/UF_C_CENTRAL_MAZE"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 49.5, 2.95, 48.3)
@@ -3882,6 +4047,7 @@ surface_material_override/0 = ExtResource("mat_ceil")
 
 [node name="Col" type="CollisionShape3D" parent="UpperFloor/_Ceilings/UC_R01_C0"]
 shape = SubResource("shape_123")
+disabled = true
 
 [node name="UC_R02_F0" type="StaticBody3D" parent="UpperFloor/UF_C_CENTRAL_MAZE"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 56.7, 2.95, 48.3)
@@ -3902,6 +4068,7 @@ surface_material_override/0 = ExtResource("mat_ceil")
 
 [node name="Col" type="CollisionShape3D" parent="UpperFloor/_Ceilings/UC_R02_C0"]
 shape = SubResource("shape_123")
+disabled = true
 
 [node name="UC_R03_F0" type="StaticBody3D" parent="UpperFloor/UF_C_CENTRAL_MAZE"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 63.9, 2.95, 48.3)
@@ -3922,6 +4089,7 @@ surface_material_override/0 = ExtResource("mat_ceil")
 
 [node name="Col" type="CollisionShape3D" parent="UpperFloor/_Ceilings/UC_R03_C0"]
 shape = SubResource("shape_123")
+disabled = true
 
 [node name="UC_R10_F0" type="StaticBody3D" parent="UpperFloor/UF_C_CENTRAL_MAZE"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 42.3, 2.95, 55.5)
@@ -3942,6 +4110,7 @@ surface_material_override/0 = ExtResource("mat_ceil")
 
 [node name="Col" type="CollisionShape3D" parent="UpperFloor/_Ceilings/UC_R10_C0"]
 shape = SubResource("shape_123")
+disabled = true
 
 [node name="UC_R11_F0" type="StaticBody3D" parent="UpperFloor/UF_C_CENTRAL_MAZE"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 49.5, 2.95, 55.5)
@@ -3962,6 +4131,7 @@ surface_material_override/0 = ExtResource("mat_ceil")
 
 [node name="Col" type="CollisionShape3D" parent="UpperFloor/_Ceilings/UC_R11_C0"]
 shape = SubResource("shape_123")
+disabled = true
 
 [node name="UC_R12_F0" type="StaticBody3D" parent="UpperFloor/UF_C_CENTRAL_MAZE"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 56.7, 2.95, 55.5)
@@ -3982,6 +4152,7 @@ surface_material_override/0 = ExtResource("mat_ceil")
 
 [node name="Col" type="CollisionShape3D" parent="UpperFloor/_Ceilings/UC_R12_C0"]
 shape = SubResource("shape_123")
+disabled = true
 
 [node name="UC_R13_F0" type="StaticBody3D" parent="UpperFloor/UF_C_CENTRAL_MAZE"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 63.9, 2.95, 55.5)
@@ -4002,6 +4173,7 @@ surface_material_override/0 = ExtResource("mat_ceil")
 
 [node name="Col" type="CollisionShape3D" parent="UpperFloor/_Ceilings/UC_R13_C0"]
 shape = SubResource("shape_123")
+disabled = true
 
 [node name="UC_R20_F0" type="StaticBody3D" parent="UpperFloor/UF_C_CENTRAL_MAZE"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 42.3, 2.95, 62.7)
@@ -4022,6 +4194,7 @@ surface_material_override/0 = ExtResource("mat_ceil")
 
 [node name="Col" type="CollisionShape3D" parent="UpperFloor/_Ceilings/UC_R20_C0"]
 shape = SubResource("shape_123")
+disabled = true
 
 [node name="UC_R21_F0" type="StaticBody3D" parent="UpperFloor/UF_C_CENTRAL_MAZE"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 49.5, 2.95, 62.7)
@@ -4042,6 +4215,7 @@ surface_material_override/0 = ExtResource("mat_ceil")
 
 [node name="Col" type="CollisionShape3D" parent="UpperFloor/_Ceilings/UC_R21_C0"]
 shape = SubResource("shape_123")
+disabled = true
 
 [node name="UC_R22_F0" type="StaticBody3D" parent="UpperFloor/UF_C_CENTRAL_MAZE"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 56.7, 2.95, 62.7)
@@ -4062,6 +4236,7 @@ surface_material_override/0 = ExtResource("mat_ceil")
 
 [node name="Col" type="CollisionShape3D" parent="UpperFloor/_Ceilings/UC_R22_C0"]
 shape = SubResource("shape_123")
+disabled = true
 
 [node name="UC_R23_F0" type="StaticBody3D" parent="UpperFloor/UF_C_CENTRAL_MAZE"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 63.9, 2.95, 62.7)
@@ -4082,6 +4257,7 @@ surface_material_override/0 = ExtResource("mat_ceil")
 
 [node name="Col" type="CollisionShape3D" parent="UpperFloor/_Ceilings/UC_R23_C0"]
 shape = SubResource("shape_123")
+disabled = true
 
 [node name="UC_R30_F0" type="StaticBody3D" parent="UpperFloor/UF_C_CENTRAL_MAZE"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 42.3, 2.95, 69.9)
@@ -4102,6 +4278,7 @@ surface_material_override/0 = ExtResource("mat_ceil")
 
 [node name="Col" type="CollisionShape3D" parent="UpperFloor/_Ceilings/UC_R30_C0"]
 shape = SubResource("shape_123")
+disabled = true
 
 [node name="UC_R31_F0" type="StaticBody3D" parent="UpperFloor/UF_C_CENTRAL_MAZE"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 49.5, 2.95, 69.9)
@@ -4122,6 +4299,7 @@ surface_material_override/0 = ExtResource("mat_ceil")
 
 [node name="Col" type="CollisionShape3D" parent="UpperFloor/_Ceilings/UC_R31_C0"]
 shape = SubResource("shape_123")
+disabled = true
 
 [node name="UC_R32_F0" type="StaticBody3D" parent="UpperFloor/UF_C_CENTRAL_MAZE"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 56.7, 2.95, 69.9)
@@ -4142,6 +4320,7 @@ surface_material_override/0 = ExtResource("mat_ceil")
 
 [node name="Col" type="CollisionShape3D" parent="UpperFloor/_Ceilings/UC_R32_C0"]
 shape = SubResource("shape_123")
+disabled = true
 
 [node name="UC_R33_F0" type="StaticBody3D" parent="UpperFloor/UF_C_CENTRAL_MAZE"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 63.9, 2.95, 69.9)
@@ -4162,6 +4341,7 @@ surface_material_override/0 = ExtResource("mat_ceil")
 
 [node name="Col" type="CollisionShape3D" parent="UpperFloor/_Ceilings/UC_R33_C0"]
 shape = SubResource("shape_123")
+disabled = true
 
 [node name="UC_ALLEY_F0" type="StaticBody3D" parent="UpperFloor/UF_C_CENTRAL_MAZE"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 53.1, 2.95, 51.9)
@@ -4182,6 +4362,7 @@ surface_material_override/0 = ExtResource("mat_ceil")
 
 [node name="Col" type="CollisionShape3D" parent="UpperFloor/_Ceilings/UC_ALLEY_C0"]
 shape = SubResource("shape_125")
+disabled = true
 
 [node name="UC_ALLEY_F1" type="StaticBody3D" parent="UpperFloor/UF_C_CENTRAL_MAZE"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 53.1, 2.95, 59.1)
@@ -4202,6 +4383,7 @@ surface_material_override/0 = ExtResource("mat_ceil")
 
 [node name="Col" type="CollisionShape3D" parent="UpperFloor/_Ceilings/UC_ALLEY_C1"]
 shape = SubResource("shape_125")
+disabled = true
 
 [node name="UC_ALLEY_F2" type="StaticBody3D" parent="UpperFloor/UF_C_CENTRAL_MAZE"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 53.1, 2.95, 66.3)
@@ -4222,6 +4404,7 @@ surface_material_override/0 = ExtResource("mat_ceil")
 
 [node name="Col" type="CollisionShape3D" parent="UpperFloor/_Ceilings/UC_ALLEY_C2"]
 shape = SubResource("shape_125")
+disabled = true
 
 [node name="UC_ALLEY_F3" type="StaticBody3D" parent="UpperFloor/UF_C_CENTRAL_MAZE"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 45.9, 2.95, 48.3)
@@ -4242,6 +4425,7 @@ surface_material_override/0 = ExtResource("mat_ceil")
 
 [node name="Col" type="CollisionShape3D" parent="UpperFloor/_Ceilings/UC_ALLEY_C3"]
 shape = SubResource("shape_127")
+disabled = true
 
 [node name="UC_ALLEY_F4" type="StaticBody3D" parent="UpperFloor/UF_C_CENTRAL_MAZE"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 45.9, 2.95, 55.5)
@@ -4262,6 +4446,7 @@ surface_material_override/0 = ExtResource("mat_ceil")
 
 [node name="Col" type="CollisionShape3D" parent="UpperFloor/_Ceilings/UC_ALLEY_C4"]
 shape = SubResource("shape_127")
+disabled = true
 
 [node name="UC_ALLEY_F5" type="StaticBody3D" parent="UpperFloor/UF_C_CENTRAL_MAZE"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 45.9, 2.95, 62.7)
@@ -4282,6 +4467,7 @@ surface_material_override/0 = ExtResource("mat_ceil")
 
 [node name="Col" type="CollisionShape3D" parent="UpperFloor/_Ceilings/UC_ALLEY_C5"]
 shape = SubResource("shape_127")
+disabled = true
 
 [node name="UC_ALLEY_F6" type="StaticBody3D" parent="UpperFloor/UF_C_CENTRAL_MAZE"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 45.9, 2.95, 69.9)
@@ -4302,6 +4488,7 @@ surface_material_override/0 = ExtResource("mat_ceil")
 
 [node name="Col" type="CollisionShape3D" parent="UpperFloor/_Ceilings/UC_ALLEY_C6"]
 shape = SubResource("shape_127")
+disabled = true
 
 [node name="UC_ALLEY_F7" type="StaticBody3D" parent="UpperFloor/UF_C_CENTRAL_MAZE"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 53.1, 2.95, 48.3)
@@ -4322,6 +4509,7 @@ surface_material_override/0 = ExtResource("mat_ceil")
 
 [node name="Col" type="CollisionShape3D" parent="UpperFloor/_Ceilings/UC_ALLEY_C7"]
 shape = SubResource("shape_127")
+disabled = true
 
 [node name="UC_ALLEY_F8" type="StaticBody3D" parent="UpperFloor/UF_C_CENTRAL_MAZE"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 53.1, 2.95, 55.5)
@@ -4342,6 +4530,7 @@ surface_material_override/0 = ExtResource("mat_ceil")
 
 [node name="Col" type="CollisionShape3D" parent="UpperFloor/_Ceilings/UC_ALLEY_C8"]
 shape = SubResource("shape_127")
+disabled = true
 
 [node name="UC_ALLEY_F9" type="StaticBody3D" parent="UpperFloor/UF_C_CENTRAL_MAZE"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 53.1, 2.95, 62.7)
@@ -4362,6 +4551,7 @@ surface_material_override/0 = ExtResource("mat_ceil")
 
 [node name="Col" type="CollisionShape3D" parent="UpperFloor/_Ceilings/UC_ALLEY_C9"]
 shape = SubResource("shape_127")
+disabled = true
 
 [node name="UC_ALLEY_F10" type="StaticBody3D" parent="UpperFloor/UF_C_CENTRAL_MAZE"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 53.1, 2.95, 69.9)
@@ -4382,6 +4572,7 @@ surface_material_override/0 = ExtResource("mat_ceil")
 
 [node name="Col" type="CollisionShape3D" parent="UpperFloor/_Ceilings/UC_ALLEY_C10"]
 shape = SubResource("shape_127")
+disabled = true
 
 [node name="UC_ALLEY_F11" type="StaticBody3D" parent="UpperFloor/UF_C_CENTRAL_MAZE"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 60.3, 2.95, 48.3)
@@ -4402,6 +4593,7 @@ surface_material_override/0 = ExtResource("mat_ceil")
 
 [node name="Col" type="CollisionShape3D" parent="UpperFloor/_Ceilings/UC_ALLEY_C11"]
 shape = SubResource("shape_127")
+disabled = true
 
 [node name="UC_ALLEY_F12" type="StaticBody3D" parent="UpperFloor/UF_C_CENTRAL_MAZE"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 60.3, 2.95, 55.5)
@@ -4422,6 +4614,7 @@ surface_material_override/0 = ExtResource("mat_ceil")
 
 [node name="Col" type="CollisionShape3D" parent="UpperFloor/_Ceilings/UC_ALLEY_C12"]
 shape = SubResource("shape_127")
+disabled = true
 
 [node name="UC_ALLEY_F13" type="StaticBody3D" parent="UpperFloor/UF_C_CENTRAL_MAZE"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 60.3, 2.95, 62.7)
@@ -4442,6 +4635,7 @@ surface_material_override/0 = ExtResource("mat_ceil")
 
 [node name="Col" type="CollisionShape3D" parent="UpperFloor/_Ceilings/UC_ALLEY_C13"]
 shape = SubResource("shape_127")
+disabled = true
 
 [node name="UC_ALLEY_F14" type="StaticBody3D" parent="UpperFloor/UF_C_CENTRAL_MAZE"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 60.3, 2.95, 69.9)
@@ -4462,6 +4656,7 @@ surface_material_override/0 = ExtResource("mat_ceil")
 
 [node name="Col" type="CollisionShape3D" parent="UpperFloor/_Ceilings/UC_ALLEY_C14"]
 shape = SubResource("shape_127")
+disabled = true
 
 [node name="UC_TO_A_F0" type="StaticBody3D" parent="UpperFloor/UF_C_CENTRAL_MAZE"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 46.8, 2.95, 79.2)
@@ -4482,6 +4677,7 @@ surface_material_override/0 = ExtResource("mat_ceil")
 
 [node name="Col" type="CollisionShape3D" parent="UpperFloor/_Ceilings/UC_TO_A_C0"]
 shape = SubResource("shape_129")
+disabled = true
 
 [node name="UC_TO_H_F0" type="StaticBody3D" parent="UpperFloor/UF_C_CENTRAL_MAZE"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 45.9, 2.95, 43.8)
@@ -4502,6 +4698,7 @@ surface_material_override/0 = ExtResource("mat_ceil")
 
 [node name="Col" type="CollisionShape3D" parent="UpperFloor/_Ceilings/UC_TO_H_C0"]
 shape = SubResource("shape_131")
+disabled = true
 
 [node name="UC_TO_E_F0" type="StaticBody3D" parent="UpperFloor/UF_C_CENTRAL_MAZE"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 69.6, 2.95, 59.1)
@@ -4522,6 +4719,7 @@ surface_material_override/0 = ExtResource("mat_ceil")
 
 [node name="Col" type="CollisionShape3D" parent="UpperFloor/_Ceilings/UC_TO_E_C0"]
 shape = SubResource("shape_133")
+disabled = true
 
 [node name="UF_D_TO_C_F0" type="StaticBody3D" parent="UpperFloor/UF_D_TALL_ROOM"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 34.2, 2.95, 51.9)
@@ -4542,6 +4740,7 @@ surface_material_override/0 = ExtResource("mat_ceil")
 
 [node name="Col" type="CollisionShape3D" parent="UpperFloor/_Ceilings/UF_D_TO_C_C0"]
 shape = SubResource("shape_115")
+disabled = true
 
 [node name="UF_E_EAST_SECTOR" type="Node3D" parent="UpperFloor"]
 
@@ -4564,6 +4763,7 @@ surface_material_override/0 = ExtResource("mat_ceil")
 
 [node name="Col" type="CollisionShape3D" parent="UpperFloor/_Ceilings/UF_E_COR_C0"]
 shape = SubResource("shape_135")
+disabled = true
 
 [node name="UF_E_R01_F0" type="StaticBody3D" parent="UpperFloor/UF_E_EAST_SECTOR"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 81.6, 2.95, 66)
@@ -4584,6 +4784,7 @@ surface_material_override/0 = ExtResource("mat_ceil")
 
 [node name="Col" type="CollisionShape3D" parent="UpperFloor/_Ceilings/UF_E_R01_C0"]
 shape = SubResource("shape_137")
+disabled = true
 
 [node name="UF_E_R02_F0" type="StaticBody3D" parent="UpperFloor/UF_E_EAST_SECTOR"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 93.6, 2.95, 65.4)
@@ -4604,6 +4805,7 @@ surface_material_override/0 = ExtResource("mat_ceil")
 
 [node name="Col" type="CollisionShape3D" parent="UpperFloor/_Ceilings/UF_E_R02_C0"]
 shape = SubResource("shape_139")
+disabled = true
 
 [node name="UF_E_R03_F0" type="StaticBody3D" parent="UpperFloor/UF_E_EAST_SECTOR"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 81, 2.95, 54)
@@ -4624,6 +4826,7 @@ surface_material_override/0 = ExtResource("mat_ceil")
 
 [node name="Col" type="CollisionShape3D" parent="UpperFloor/_Ceilings/UF_E_R03_C0"]
 shape = SubResource("shape_33")
+disabled = true
 
 [node name="UF_E_R04_F0" type="StaticBody3D" parent="UpperFloor/UF_E_EAST_SECTOR"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 94.2, 2.95, 54)
@@ -4644,6 +4847,7 @@ surface_material_override/0 = ExtResource("mat_ceil")
 
 [node name="Col" type="CollisionShape3D" parent="UpperFloor/_Ceilings/UF_E_R04_C0"]
 shape = SubResource("shape_141")
+disabled = true
 
 [node name="UF_E_R05_F0" type="StaticBody3D" parent="UpperFloor/UF_E_EAST_SECTOR"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 105, 2.95, 64.8)
@@ -4664,6 +4868,7 @@ surface_material_override/0 = ExtResource("mat_ceil")
 
 [node name="Col" type="CollisionShape3D" parent="UpperFloor/_Ceilings/UF_E_R05_C0"]
 shape = SubResource("shape_143")
+disabled = true
 
 [node name="UF_E_COR_S_F0" type="StaticBody3D" parent="UpperFloor/UF_E_EAST_SECTOR"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 86.1, 2.95, 46.8)
@@ -4684,6 +4889,7 @@ surface_material_override/0 = ExtResource("mat_ceil")
 
 [node name="Col" type="CollisionShape3D" parent="UpperFloor/_Ceilings/UF_E_COR_S_C0"]
 shape = SubResource("shape_23")
+disabled = true
 
 [node name="UF_F_NORTHEAST" type="Node3D" parent="UpperFloor"]
 
@@ -4706,6 +4912,7 @@ surface_material_override/0 = ExtResource("mat_ceil")
 
 [node name="Col" type="CollisionShape3D" parent="UpperFloor/_Ceilings/UF_R00_C0"]
 shape = SubResource("shape_145")
+disabled = true
 
 [node name="UF_R01_F0" type="StaticBody3D" parent="UpperFloor/UF_F_NORTHEAST"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 109.5, 2.95, 75)
@@ -4726,6 +4933,7 @@ surface_material_override/0 = ExtResource("mat_ceil")
 
 [node name="Col" type="CollisionShape3D" parent="UpperFloor/_Ceilings/UF_R01_C0"]
 shape = SubResource("shape_145")
+disabled = true
 
 [node name="UF_R02_F0" type="StaticBody3D" parent="UpperFloor/UF_F_NORTHEAST"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 116.7, 2.95, 75)
@@ -4746,6 +4954,7 @@ surface_material_override/0 = ExtResource("mat_ceil")
 
 [node name="Col" type="CollisionShape3D" parent="UpperFloor/_Ceilings/UF_R02_C0"]
 shape = SubResource("shape_145")
+disabled = true
 
 [node name="UF_R10_F0" type="StaticBody3D" parent="UpperFloor/UF_F_NORTHEAST"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 102.3, 2.95, 82.8)
@@ -4766,6 +4975,7 @@ surface_material_override/0 = ExtResource("mat_ceil")
 
 [node name="Col" type="CollisionShape3D" parent="UpperFloor/_Ceilings/UF_R10_C0"]
 shape = SubResource("shape_145")
+disabled = true
 
 [node name="UF_R11_F0" type="StaticBody3D" parent="UpperFloor/UF_F_NORTHEAST"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 109.5, 2.95, 82.8)
@@ -4786,6 +4996,7 @@ surface_material_override/0 = ExtResource("mat_ceil")
 
 [node name="Col" type="CollisionShape3D" parent="UpperFloor/_Ceilings/UF_R11_C0"]
 shape = SubResource("shape_145")
+disabled = true
 
 [node name="UF_R12_F0" type="StaticBody3D" parent="UpperFloor/UF_F_NORTHEAST"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 116.7, 2.95, 82.8)
@@ -4806,6 +5017,7 @@ surface_material_override/0 = ExtResource("mat_ceil")
 
 [node name="Col" type="CollisionShape3D" parent="UpperFloor/_Ceilings/UF_R12_C0"]
 shape = SubResource("shape_145")
+disabled = true
 
 [node name="UF_ALLEY_F0" type="StaticBody3D" parent="UpperFloor/UF_F_NORTHEAST"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 109.5, 2.95, 78.9)
@@ -4826,6 +5038,7 @@ surface_material_override/0 = ExtResource("mat_ceil")
 
 [node name="Col" type="CollisionShape3D" parent="UpperFloor/_Ceilings/UF_ALLEY_C0"]
 shape = SubResource("shape_147")
+disabled = true
 
 [node name="UF_ALLEY_F1" type="StaticBody3D" parent="UpperFloor/UF_F_NORTHEAST"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 105.9, 2.95, 75)
@@ -4846,6 +5059,7 @@ surface_material_override/0 = ExtResource("mat_ceil")
 
 [node name="Col" type="CollisionShape3D" parent="UpperFloor/_Ceilings/UF_ALLEY_C1"]
 shape = SubResource("shape_149")
+disabled = true
 
 [node name="UF_ALLEY_F2" type="StaticBody3D" parent="UpperFloor/UF_F_NORTHEAST"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 105.9, 2.95, 82.8)
@@ -4866,6 +5080,7 @@ surface_material_override/0 = ExtResource("mat_ceil")
 
 [node name="Col" type="CollisionShape3D" parent="UpperFloor/_Ceilings/UF_ALLEY_C2"]
 shape = SubResource("shape_149")
+disabled = true
 
 [node name="UF_ALLEY_F3" type="StaticBody3D" parent="UpperFloor/UF_F_NORTHEAST"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 113.1, 2.95, 75)
@@ -4886,6 +5101,7 @@ surface_material_override/0 = ExtResource("mat_ceil")
 
 [node name="Col" type="CollisionShape3D" parent="UpperFloor/_Ceilings/UF_ALLEY_C3"]
 shape = SubResource("shape_149")
+disabled = true
 
 [node name="UF_ALLEY_F4" type="StaticBody3D" parent="UpperFloor/UF_F_NORTHEAST"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 113.1, 2.95, 82.8)
@@ -4906,6 +5122,7 @@ surface_material_override/0 = ExtResource("mat_ceil")
 
 [node name="Col" type="CollisionShape3D" parent="UpperFloor/_Ceilings/UF_ALLEY_C4"]
 shape = SubResource("shape_149")
+disabled = true
 
 [node name="UF_F_DEAD_F0" type="StaticBody3D" parent="UpperFloor/UF_F_NORTHEAST"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 122.4, 2.95, 80.4)
@@ -4926,6 +5143,7 @@ surface_material_override/0 = ExtResource("mat_ceil")
 
 [node name="Col" type="CollisionShape3D" parent="UpperFloor/_Ceilings/UF_F_DEAD_C0"]
 shape = SubResource("shape_25")
+disabled = true
 
 [node name="UF_F_LINK_F0" type="StaticBody3D" parent="UpperFloor/UF_F_NORTHEAST"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 105.6, 2.95, 70.8)
@@ -4946,6 +5164,7 @@ surface_material_override/0 = ExtResource("mat_ceil")
 
 [node name="Col" type="CollisionShape3D" parent="UpperFloor/_Ceilings/UF_F_LINK_C0"]
 shape = SubResource("shape_151")
+disabled = true
 
 [node name="UF_G_SOUTHEAST" type="Node3D" parent="UpperFloor"]
 
@@ -4968,6 +5187,7 @@ surface_material_override/0 = ExtResource("mat_ceil")
 
 [node name="Col" type="CollisionShape3D" parent="UpperFloor/_Ceilings/UG_R00_C0"]
 shape = SubResource("shape_15")
+disabled = true
 
 [node name="UG_R01_F0" type="StaticBody3D" parent="UpperFloor/UF_G_SOUTHEAST"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 95.4, 2.95, 24.6)
@@ -4988,6 +5208,7 @@ surface_material_override/0 = ExtResource("mat_ceil")
 
 [node name="Col" type="CollisionShape3D" parent="UpperFloor/_Ceilings/UG_R01_C0"]
 shape = SubResource("shape_15")
+disabled = true
 
 [node name="UG_R02_F0" type="StaticBody3D" parent="UpperFloor/UF_G_SOUTHEAST"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 103.8, 2.95, 24.6)
@@ -5008,6 +5229,7 @@ surface_material_override/0 = ExtResource("mat_ceil")
 
 [node name="Col" type="CollisionShape3D" parent="UpperFloor/_Ceilings/UG_R02_C0"]
 shape = SubResource("shape_15")
+disabled = true
 
 [node name="UG_R10_F0" type="StaticBody3D" parent="UpperFloor/UF_G_SOUTHEAST"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 87, 2.95, 33)
@@ -5028,6 +5250,7 @@ surface_material_override/0 = ExtResource("mat_ceil")
 
 [node name="Col" type="CollisionShape3D" parent="UpperFloor/_Ceilings/UG_R10_C0"]
 shape = SubResource("shape_15")
+disabled = true
 
 [node name="UG_R11_F0" type="StaticBody3D" parent="UpperFloor/UF_G_SOUTHEAST"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 95.4, 2.95, 33)
@@ -5048,6 +5271,7 @@ surface_material_override/0 = ExtResource("mat_ceil")
 
 [node name="Col" type="CollisionShape3D" parent="UpperFloor/_Ceilings/UG_R11_C0"]
 shape = SubResource("shape_15")
+disabled = true
 
 [node name="UG_R12_F0" type="StaticBody3D" parent="UpperFloor/UF_G_SOUTHEAST"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 103.8, 2.95, 33)
@@ -5068,6 +5292,7 @@ surface_material_override/0 = ExtResource("mat_ceil")
 
 [node name="Col" type="CollisionShape3D" parent="UpperFloor/_Ceilings/UG_R12_C0"]
 shape = SubResource("shape_15")
+disabled = true
 
 [node name="UG_ALLEY_F0" type="StaticBody3D" parent="UpperFloor/UF_G_SOUTHEAST"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 95.4, 2.95, 28.8)
@@ -5088,6 +5313,7 @@ surface_material_override/0 = ExtResource("mat_ceil")
 
 [node name="Col" type="CollisionShape3D" parent="UpperFloor/_Ceilings/UG_ALLEY_C0"]
 shape = SubResource("shape_59")
+disabled = true
 
 [node name="UG_ALLEY_F1" type="StaticBody3D" parent="UpperFloor/UF_G_SOUTHEAST"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 91.2, 2.95, 24.6)
@@ -5108,6 +5334,7 @@ surface_material_override/0 = ExtResource("mat_ceil")
 
 [node name="Col" type="CollisionShape3D" parent="UpperFloor/_Ceilings/UG_ALLEY_C1"]
 shape = SubResource("shape_41")
+disabled = true
 
 [node name="UG_ALLEY_F2" type="StaticBody3D" parent="UpperFloor/UF_G_SOUTHEAST"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 91.2, 2.95, 33)
@@ -5128,6 +5355,7 @@ surface_material_override/0 = ExtResource("mat_ceil")
 
 [node name="Col" type="CollisionShape3D" parent="UpperFloor/_Ceilings/UG_ALLEY_C2"]
 shape = SubResource("shape_41")
+disabled = true
 
 [node name="UG_ALLEY_F3" type="StaticBody3D" parent="UpperFloor/UF_G_SOUTHEAST"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 99.6, 2.95, 24.6)
@@ -5148,6 +5376,7 @@ surface_material_override/0 = ExtResource("mat_ceil")
 
 [node name="Col" type="CollisionShape3D" parent="UpperFloor/_Ceilings/UG_ALLEY_C3"]
 shape = SubResource("shape_41")
+disabled = true
 
 [node name="UG_ALLEY_F4" type="StaticBody3D" parent="UpperFloor/UF_G_SOUTHEAST"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 99.6, 2.95, 33)
@@ -5168,6 +5397,7 @@ surface_material_override/0 = ExtResource("mat_ceil")
 
 [node name="Col" type="CollisionShape3D" parent="UpperFloor/_Ceilings/UG_ALLEY_C4"]
 shape = SubResource("shape_41")
+disabled = true
 
 [node name="UG_EAST_ARM_F0" type="StaticBody3D" parent="UpperFloor/UF_G_SOUTHEAST"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 119.4, 2.95, 29.1)
@@ -5188,6 +5418,7 @@ surface_material_override/0 = ExtResource("mat_ceil")
 
 [node name="Col" type="CollisionShape3D" parent="UpperFloor/_Ceilings/UG_EAST_ARM_C0"]
 shape = SubResource("shape_153")
+disabled = true
 
 [node name="UG_EAST_END_F0" type="StaticBody3D" parent="UpperFloor/UF_G_SOUTHEAST"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 135.6, 2.95, 28.8)
@@ -5208,6 +5439,7 @@ surface_material_override/0 = ExtResource("mat_ceil")
 
 [node name="Col" type="CollisionShape3D" parent="UpperFloor/_Ceilings/UG_EAST_END_C0"]
 shape = SubResource("shape_35")
+disabled = true
 
 [node name="UG_DEAD_F0" type="StaticBody3D" parent="UpperFloor/UF_G_SOUTHEAST"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 99, 2.95, 18.6)
@@ -5228,6 +5460,7 @@ surface_material_override/0 = ExtResource("mat_ceil")
 
 [node name="Col" type="CollisionShape3D" parent="UpperFloor/_Ceilings/UG_DEAD_C0"]
 shape = SubResource("shape_15")
+disabled = true
 
 [node name="UG_TO_E_F0" type="StaticBody3D" parent="UpperFloor/UF_G_SOUTHEAST"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 91.5, 2.95, 40.8)
@@ -5248,6 +5481,7 @@ surface_material_override/0 = ExtResource("mat_ceil")
 
 [node name="Col" type="CollisionShape3D" parent="UpperFloor/_Ceilings/UG_TO_E_C0"]
 shape = SubResource("shape_155")
+disabled = true
 
 [node name="UF_H_SOUTH_BRANCH" type="Node3D" parent="UpperFloor"]
 
@@ -5270,6 +5504,7 @@ surface_material_override/0 = ExtResource("mat_ceil")
 
 [node name="Col" type="CollisionShape3D" parent="UpperFloor/_Ceilings/UF_H_COR_C0"]
 shape = SubResource("shape_157")
+disabled = true
 
 [node name="UF_H_R01_F0" type="StaticBody3D" parent="UpperFloor/UF_H_SOUTH_BRANCH"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 43.2, 2.95, 30)
@@ -5290,6 +5525,7 @@ surface_material_override/0 = ExtResource("mat_ceil")
 
 [node name="Col" type="CollisionShape3D" parent="UpperFloor/_Ceilings/UF_H_R01_C0"]
 shape = SubResource("shape_37")
+disabled = true
 
 [node name="UF_H_R02_F0" type="StaticBody3D" parent="UpperFloor/UF_H_SOUTH_BRANCH"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 51.3, 2.95, 30)
@@ -5310,6 +5546,7 @@ surface_material_override/0 = ExtResource("mat_ceil")
 
 [node name="Col" type="CollisionShape3D" parent="UpperFloor/_Ceilings/UF_H_R02_C0"]
 shape = SubResource("shape_31")
+disabled = true
 
 [node name="UF_H_R03_F0" type="StaticBody3D" parent="UpperFloor/UF_H_SOUTH_BRANCH"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 59.4, 2.95, 30)
@@ -5330,6 +5567,7 @@ surface_material_override/0 = ExtResource("mat_ceil")
 
 [node name="Col" type="CollisionShape3D" parent="UpperFloor/_Ceilings/UF_H_R03_C0"]
 shape = SubResource("shape_37")
+disabled = true
 
 [node name="UF_H_R04_F0" type="StaticBody3D" parent="UpperFloor/UF_H_SOUTH_BRANCH"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 67.5, 2.95, 29.4)
@@ -5350,6 +5588,7 @@ surface_material_override/0 = ExtResource("mat_ceil")
 
 [node name="Col" type="CollisionShape3D" parent="UpperFloor/_Ceilings/UF_H_R04_C0"]
 shape = SubResource("shape_107")
+disabled = true
 
 [node name="UF_H_R05_F0" type="StaticBody3D" parent="UpperFloor/UF_H_SOUTH_BRANCH"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 53.4, 2.95, 19.8)
@@ -5370,6 +5609,7 @@ surface_material_override/0 = ExtResource("mat_ceil")
 
 [node name="Col" type="CollisionShape3D" parent="UpperFloor/_Ceilings/UF_H_R05_C0"]
 shape = SubResource("shape_159")
+disabled = true
 
 [node name="UF_H_R06_F0" type="StaticBody3D" parent="UpperFloor/UF_H_SOUTH_BRANCH"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 64.5, 2.95, 19.8)
@@ -5390,6 +5630,7 @@ surface_material_override/0 = ExtResource("mat_ceil")
 
 [node name="Col" type="CollisionShape3D" parent="UpperFloor/_Ceilings/UF_H_R06_C0"]
 shape = SubResource("shape_161")
+disabled = true
 
 [node name="UF_H_NARROW_F0" type="StaticBody3D" parent="UpperFloor/UF_H_SOUTH_BRANCH"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 78, 2.95, 29.7)
@@ -5410,6 +5651,7 @@ surface_material_override/0 = ExtResource("mat_ceil")
 
 [node name="Col" type="CollisionShape3D" parent="UpperFloor/_Ceilings/UF_H_NARROW_C0"]
 shape = SubResource("shape_163")
+disabled = true
 
 [node name="UF_H_WIDE_F0" type="StaticBody3D" parent="UpperFloor/UF_H_SOUTH_BRANCH"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 77.4, 2.95, 25.2)
@@ -5430,6 +5672,7 @@ surface_material_override/0 = ExtResource("mat_ceil")
 
 [node name="Col" type="CollisionShape3D" parent="UpperFloor/_Ceilings/UF_H_WIDE_C0"]
 shape = SubResource("shape_165")
+disabled = true
 
 [node name="UF_I_SOUTHWEST" type="Node3D" parent="UpperFloor"]
 
@@ -5452,6 +5695,7 @@ surface_material_override/0 = ExtResource("mat_ceil")
 
 [node name="Col" type="CollisionShape3D" parent="UpperFloor/_Ceilings/UF_I_LAND_C0"]
 shape = SubResource("shape_7")
+disabled = true
 
 [node name="UF_I_COR_F0" type="StaticBody3D" parent="UpperFloor/UF_I_SOUTHWEST"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.5, 2.95, 31.8)
@@ -5472,6 +5716,7 @@ surface_material_override/0 = ExtResource("mat_ceil")
 
 [node name="Col" type="CollisionShape3D" parent="UpperFloor/_Ceilings/UF_I_COR_C0"]
 shape = SubResource("shape_167")
+disabled = true
 
 [node name="UF_I_S_F0" type="StaticBody3D" parent="UpperFloor/UF_I_SOUTHWEST"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11.4, 2.95, 27.6)
@@ -5492,6 +5737,7 @@ surface_material_override/0 = ExtResource("mat_ceil")
 
 [node name="Col" type="CollisionShape3D" parent="UpperFloor/_Ceilings/UF_I_S_C0"]
 shape = SubResource("shape_5")
+disabled = true
 
 [node name="UF_I_N_F0" type="StaticBody3D" parent="UpperFloor/UF_I_SOUTHWEST"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11.4, 2.95, 38.4)
@@ -5512,6 +5758,7 @@ surface_material_override/0 = ExtResource("mat_ceil")
 
 [node name="Col" type="CollisionShape3D" parent="UpperFloor/_Ceilings/UF_I_N_C0"]
 shape = SubResource("shape_169")
+disabled = true
 
 [node name="UF_I_R01_F0" type="StaticBody3D" parent="UpperFloor/UF_I_SOUTHWEST"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 18.3, 2.95, 25.8)
@@ -5532,6 +5779,7 @@ surface_material_override/0 = ExtResource("mat_ceil")
 
 [node name="Col" type="CollisionShape3D" parent="UpperFloor/_Ceilings/UF_I_R01_C0"]
 shape = SubResource("shape_161")
+disabled = true
 
 [node name="UF_I_R02_F0" type="StaticBody3D" parent="UpperFloor/UF_I_SOUTHWEST"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 27.3, 2.95, 25.8)
@@ -5552,6 +5800,7 @@ surface_material_override/0 = ExtResource("mat_ceil")
 
 [node name="Col" type="CollisionShape3D" parent="UpperFloor/_Ceilings/UF_I_R02_C0"]
 shape = SubResource("shape_161")
+disabled = true
 
 [node name="UF_I_R03_F0" type="StaticBody3D" parent="UpperFloor/UF_I_SOUTHWEST"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 17.4, 2.95, 18.3)
@@ -5572,6 +5821,7 @@ surface_material_override/0 = ExtResource("mat_ceil")
 
 [node name="Col" type="CollisionShape3D" parent="UpperFloor/_Ceilings/UF_I_R03_C0"]
 shape = SubResource("shape_29")
+disabled = true
 
 [node name="UF_I_DEAD_F0" type="StaticBody3D" parent="UpperFloor/UF_I_SOUTHWEST"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 2.95, 27.6)
@@ -5592,6 +5842,7 @@ surface_material_override/0 = ExtResource("mat_ceil")
 
 [node name="Col" type="CollisionShape3D" parent="UpperFloor/_Ceilings/UF_I_DEAD_C0"]
 shape = SubResource("shape_25")
+disabled = true
 
 [node name="UF_I_TO_H_F0" type="StaticBody3D" parent="UpperFloor/UF_I_SOUTHWEST"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 35.7, 2.95, 25.2)
@@ -5612,6 +5863,7 @@ surface_material_override/0 = ExtResource("mat_ceil")
 
 [node name="Col" type="CollisionShape3D" parent="UpperFloor/_Ceilings/UF_I_TO_H_C0"]
 shape = SubResource("shape_171")
+disabled = true
 
 [node name="_Ceilings" type="Node3D" parent="Stairwells"]
 
@@ -5624,6 +5876,7 @@ surface_material_override/0 = ExtResource("mat_ceil")
 
 [node name="Col" type="CollisionShape3D" parent="Stairwells/_Ceilings/STAIR_A_Roof"]
 shape = SubResource("shape_5")
+disabled = true
 
 [node name="STAIR_B_Roof" type="StaticBody3D" parent="Stairwells/_Ceilings"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 55.2, 6.05, 92.4)
@@ -5634,6 +5887,7 @@ surface_material_override/0 = ExtResource("mat_ceil")
 
 [node name="Col" type="CollisionShape3D" parent="Stairwells/_Ceilings/STAIR_B_Roof"]
 shape = SubResource("shape_5")
+disabled = true
 
 [node name="STAIR_C_Roof" type="StaticBody3D" parent="Stairwells/_Ceilings"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11.4, 6.05, 32.4)
@@ -5644,6 +5898,7 @@ surface_material_override/0 = ExtResource("mat_ceil")
 
 [node name="Col" type="CollisionShape3D" parent="Stairwells/_Ceilings/STAIR_C_Roof"]
 shape = SubResource("shape_5")
+disabled = true
 
 [node name="W1" type="StaticBody3D" parent="GroundFloor/GF_I_SOUTHWEST_BRANCH"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.6, 1.5, 12)
@@ -16040,4 +16295,68 @@ transform = Transform3D(0, 0, -1, 0, 1, 0, 1, 0, 0, 3, 5.97, 27.6)
 
 [node name="Fix_428" parent="Fluorescents" instance=ExtResource("3_fix")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 35.7, 5.97, 25.2)
+
+[node name="UF_GAP_PATCH_F0" type="StaticBody3D" parent="UpperFloor/UF_A_NORTH_BRANCH"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 48.3, 2.95, 85.5)
+
+[node name="Mesh" type="MeshInstance3D" parent="UpperFloor/UF_A_NORTH_BRANCH/UF_GAP_PATCH_F0"]
+mesh = SubResource("mesh_gap_patch")
+surface_material_override/0 = ExtResource("mat_carpet_main")
+
+[node name="Col" type="CollisionShape3D" parent="UpperFloor/UF_A_NORTH_BRANCH/UF_GAP_PATCH_F0"]
+shape = SubResource("shape_gap_patch")
+
+[node name="UF_GAP_PATCH_C0" type="StaticBody3D" parent="UpperFloor/_Ceilings"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 48.3, 6.05, 85.5)
+
+[node name="Mesh" type="MeshInstance3D" parent="UpperFloor/_Ceilings/UF_GAP_PATCH_C0"]
+mesh = SubResource("mesh_gap_patch")
+surface_material_override/0 = ExtResource("mat_ceil")
+
+[node name="Col" type="CollisionShape3D" parent="UpperFloor/_Ceilings/UF_GAP_PATCH_C0"]
+shape = SubResource("shape_gap_patch")
+disabled = true
+
+[node name="TemporaryVoidCatch" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 70, -8.2, 48)
+
+[node name="Mesh" type="MeshInstance3D" parent="TemporaryVoidCatch"]
+mesh = SubResource("mesh_void_catch")
+surface_material_override/0 = ExtResource("mat_void")
+cast_shadow = 0
+
+[node name="Col" type="CollisionShape3D" parent="TemporaryVoidCatch"]
+shape = SubResource("shape_void_catch")
+
+[node name="DH_HOLE_LIP_N" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 23.4, 2.8, 58.14)
+
+[node name="Mesh" type="MeshInstance3D" parent="DH_HOLE_LIP_N"]
+mesh = SubResource("mesh_void_lip_h")
+surface_material_override/0 = ExtResource("mat_void")
+cast_shadow = 0
+
+[node name="DH_HOLE_LIP_S" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 23.4, 2.8, 49.86)
+
+[node name="Mesh" type="MeshInstance3D" parent="DH_HOLE_LIP_S"]
+mesh = SubResource("mesh_void_lip_h")
+surface_material_override/0 = ExtResource("mat_void")
+cast_shadow = 0
+
+[node name="DH_HOLE_LIP_W" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 19.86, 2.8, 54)
+
+[node name="Mesh" type="MeshInstance3D" parent="DH_HOLE_LIP_W"]
+mesh = SubResource("mesh_void_lip_v")
+surface_material_override/0 = ExtResource("mat_void")
+cast_shadow = 0
+
+[node name="DH_HOLE_LIP_E" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 26.94, 2.8, 54)
+
+[node name="Mesh" type="MeshInstance3D" parent="DH_HOLE_LIP_E"]
+mesh = SubResource("mesh_void_lip_v")
+surface_material_override/0 = ExtResource("mat_void")
+cast_shadow = 0
 

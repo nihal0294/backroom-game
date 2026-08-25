@@ -15,6 +15,7 @@ uniform vec3 uv1_scale = vec3(0.5, 0.5, 0.5);
 uniform float triplanar_sharpness : hint_range(1.0, 16.0) = 6.0;
 uniform bool suppress_baked_lights = false;
 uniform bool discard_downfacing = false;
+uniform bool discard_upfacing = false;
 uniform vec4 emission : source_color = vec4(0.0, 0.0, 0.0, 1.0);
 uniform float emission_energy : hint_range(0.0, 20.0) = 0.0;
 
@@ -51,6 +52,9 @@ vec4 triplanar_sample(sampler2D tex, vec3 pos, vec3 nrm, vec3 scale) {
 void fragment() {
 	vec3 n = normalize(v_world_normal);
 	if (discard_downfacing && n.y < -0.35) {
+		discard;
+	}
+	if (discard_upfacing && n.y > 0.35) {
 		discard;
 	}
 	vec4 alb = triplanar_sample(texture_albedo, v_world_pos, n, uv1_scale);

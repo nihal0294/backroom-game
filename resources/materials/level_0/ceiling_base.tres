@@ -21,5 +21,6 @@ shader_parameter/uv1_scale = Vector3(0.275, 0.275, 0.275)
 shader_parameter/triplanar_sharpness = 10.0
 shader_parameter/suppress_baked_lights = true
 shader_parameter/discard_downfacing = false
+shader_parameter/discard_upfacing = true
 shader_parameter/emission = Color(0, 0, 0, 1)
 shader_parameter/emission_energy = 0.0
