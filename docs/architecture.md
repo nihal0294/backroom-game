@@ -150,7 +150,7 @@ Creare solo durante il milestone relativo.
 - Input Map in `project.godot`;
 - inventario locale che non pausa lo SceneTree;
 - nessuna lobby, rete, chat o persistenza;
-- Level 0 deterministico a due piani (`docs/levels/level-0-layout.md`);
+- Level 0 deterministico dalla master map 71-days (`docs/levels/level-0-final-manifest.md`); la mappa a due piani precedente è deprecata;
 - nessun Object/Entity wiki implementato.
 
 Player e blockout sono prototipi network-first: stato sul personaggio, UI locale, niente `Global.player`.

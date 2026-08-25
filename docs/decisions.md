@@ -18,24 +18,27 @@ Le sezioni “Aperte” non autorizzano scelte arbitrarie.
 - Look fluorescente giallo-beige con tint separati.
 - Player e test level sono prototipi di scala/navigazione, non architettura single-player da estendere.
 
-## 2026-08-25 — Level 0 rifatto (solo geometria)
+## 2026-08-25 — Level 0 master map 71-days
 
-Il blockout kit 3×3 (occupancy-fill, ~57×48 m) è **fallito** come level design: open space, muri kit, scale senza pozzo, fluorescenti per cella.
-Sostituito da:
+**La mappa a due piani (BR Movie + 17-days come piani separati) è DEPRECATA.** Occupancy-fill, kit 3×3, `add_maze` e i blueprint ASCII non sono più fonte di verità.
 
-- Blueprint: `docs/levels/level-0-blueprint.md` (trascrizione delle due piante).
-- Generatore: `tools/generate_level_0_blockout.py` (grafo stanze+corridoi, BoxMesh 0.12 m).
-- GF ~142×84 m, UF ~139×81 m, Y 0 / 3 / 6.
-- Tre stairwell switchback (alzata 0.167 / pedata 0.28), foro UF, headroom ≥ 3.0 m sul percorso.
-- Nessun materiale PBR, nessuna fluorescente, nessun prop. Placeholder + una DirectionalLight di debug.
-- Vista ortografica F9/F10/F11.
+Nuovo blueprint geometrico autoritativo:
 
-## 2026-08-23 — Level 0 due piani
+- Reference: `docs/reference/level-0/level-0-final-map.png` (*The currently mapped areas of the Backrooms — 71 days after arrival*, 3800×3700).
+- Manifest: `docs/levels/level-0-final-manifest.md`
+- Trace: `docs/levels/level-0-final-trace.json` (polilinee/occupancy dalla PNG, non stanze-rettangolo).
+- Scala congelata: 0.173846 m/px, origin pixel (0,0) → world (0,0), snap 0.5 m.
+- AABB stimata: 658.25 × 642.0 m.
+- 3D in questo milestone: **solo** `sector_001` (cluster centrale 17-days). Non costruire Sector 2 senza approvazione.
+- Generatore: `tools/trace_level_0_from_reference.py` + `tools/generate_level_0_from_trace.py`. Non è procedural generation.
 
-- Layout deterministico (niente procedural generation).
-- **Superseded 2026-08-25** (vedi sopra). Storico: piano terra ~57×48 m, kit BackroomsLikeAsset2.
-- Label delle mappe di reference non canoniche non sono contenuti di gioco.
-Vedi `docs/levels/level-0-blueprint.md`.
+## 2026-08-25 — Level 0 rifatto (solo geometria) — SUPERSEDED
+
+Il tentativo a due piani (blueprint BR Movie + 17-days, BoxMesh GF/UF, stairwell) è **fallito** come level design rispetto alla master map unica. Conservato solo in Git.
+
+## 2026-08-23 — Level 0 due piani — SUPERSEDED
+
+Layout deterministico a due piani, griglia 3×3. Sostituito il 2026-08-25 (71-days).
 
 ## 2026-08-23 — Co-op come fondazione
 

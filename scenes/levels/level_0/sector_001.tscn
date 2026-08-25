@@ -1,0 +1,5 @@
+[gd_scene format=3]
+
+[node name="Sector001" type="Node3D"]
+; Built into res://scenes/levels/level_0_test.tscn for the pilot milestone.
+; Future sectors will be real PackedScene children.

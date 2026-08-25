@@ -90,9 +90,9 @@ Gli oggetti includono strumenti, consumabili, armi, artefatti, decorazioni e ogg
 ## Level 0
 
 - main scene corrente: `res://scenes/levels/level_0_test.tscn`;
-- layout deterministico a due piani, vedi [`levels/level-0-layout.md`](levels/level-0-layout.md);
-- scala 1 unità Godot = 1 metro;
-- griglia 3 × 3 m, snap 1,5 m, soffitto 3 m / piano superiore a 3 m;
+- layout deterministico dalla master map *71 days after arrival*, vedi [`levels/level-0-final-manifest.md`](levels/level-0-final-manifest.md);
+- scala 1 unità Godot = 1 metro; pixel→metri congelata 0.173846 m/px, snap 0.5 m;
+- soffitto prevalente 3 m, con eccezioni locali della reference (tall / low / no ceiling);
 - look giallo-beige, moquette umida, fluorescenti e ronzio;
 - monotonia e geometrie plausibili organizzate in modo errato;
 - variazioni lore: archi, pilastri, buche, blackout, Red Rooms (pericolose), layout changes;
@@ -101,7 +101,7 @@ Gli oggetti includono strumenti, consumabili, armi, artefatti, decorazioni e ogg
 - entità non confermate (wiki: unknown); non inserirle;
 - uscita wiki di riferimento: parete tremolante/instabile verso Level 1.
 
-Il blockout esistente è un prototipo di scala/ambiente da convertire nel primo banco multiplayer, non da ampliare come gioco single-player.
+Il settore pilota di `level_0_test.tscn` valida il metodo trace→occupancy. Non ampliarlo come gioco single-player e non costruire Sector 2 senza approvazione.
 
 ## Piattaforme
 

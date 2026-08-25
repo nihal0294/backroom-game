@@ -11,7 +11,7 @@ Questa cartella è la fonte di verità di `backroom-game`, dopo la richiesta cor
 5. [`content-system.md`](content-system.md) — modello per Levels, Entities, Objects ed Exits.
 6. [`lore.md`](lore.md) — canone Backrooms adottato e deroghe.
 7. [`development-plan.md`](development-plan.md) — ordine di implementazione e test.
-8. [`levels/level-0-layout.md`](levels/level-0-layout.md) — mappa Level 0 a due piani.
+8. [`levels/level-0-final-manifest.md`](levels/level-0-final-manifest.md) — Level 0: master map 71-days, trace e settore pilota. La mappa a due piani precedente è **deprecata**.
 
 ## Interpretazione
 
