@@ -1,0 +1,82 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://scripts/debug/level_0_golden_room.gd" id="1_script"]
+
+[sub_resource type="Environment" id="Environment_golden"]
+background_mode = 1
+background_color = Color(0.035, 0.032, 0.024, 1)
+ambient_light_source = 2
+ambient_light_color = Color(0.58, 0.56, 0.48, 1)
+ambient_light_energy = 0.68
+reflected_light_source = 2
+tonemap_mode = 2
+tonemap_exposure = 1.32
+glow_enabled = true
+glow_intensity = 0.18
+
+[node name="Level0GoldenRoom" type="Node3D"]
+script = ExtResource("1_script")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_golden")
+
+[node name="Camera3D" type="Camera3D" parent="."]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.62, -3.8)
+current = true
+fov = 69.0
+
+[node name="VisualGeometry" type="Node3D" parent="."]
+
+[node name="FloorVisual" type="MeshInstance3D" parent="VisualGeometry"]
+unique_name_in_owner = true
+
+[node name="WallVisual" type="MeshInstance3D" parent="VisualGeometry"]
+unique_name_in_owner = true
+
+[node name="CeilingVisual" type="MeshInstance3D" parent="VisualGeometry"]
+unique_name_in_owner = true
+
+[node name="FluorescentFixtures" type="MultiMeshInstance3D" parent="VisualGeometry"]
+unique_name_in_owner = true
+
+[node name="Collision" type="Node3D" parent="."]
+
+[node name="FloorBody" type="StaticBody3D" parent="Collision"]
+
+[node name="FloorCollision" type="CollisionShape3D" parent="Collision/FloorBody"]
+unique_name_in_owner = true
+
+[node name="WallBody" type="StaticBody3D" parent="Collision"]
+
+[node name="WallCollision" type="CollisionShape3D" parent="Collision/WallBody"]
+unique_name_in_owner = true
+
+[node name="SparseLights" type="Node3D" parent="."]
+
+[node name="RoomLight" type="OmniLight3D" parent="SparseLights"]
+position = Vector3(0, 2.68, -0.5)
+light_color = Color(1, 0.98, 0.88, 1)
+light_energy = 1.35
+light_specular = 0.12
+omni_range = 7.5
+omni_attenuation = 1.55
+shadow_enabled = false
+
+[node name="CorridorLight" type="OmniLight3D" parent="SparseLights"]
+position = Vector3(0, 2.68, 9)
+light_color = Color(0.98, 0.97, 0.87, 1)
+light_energy = 1.12
+light_specular = 0.1
+omni_range = 7.0
+omni_attenuation = 1.65
+shadow_enabled = false
+
+[node name="CornerLight" type="OmniLight3D" parent="SparseLights"]
+position = Vector3(3.7, 2.68, 15.5)
+light_color = Color(0.99, 0.97, 0.85, 1)
+light_energy = 1.18
+light_specular = 0.1
+omni_range = 6.5
+omni_attenuation = 1.6
+shadow_enabled = false

@@ -2,8 +2,8 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://brhighfja4gl7"
-path.s3tc="res://.godot/imported/BRW_A_Normal_1K.png-3f98033e1b2df291cf9f99147509f2b1.s3tc.ctex"
+uid="uid://dfd1bbj403o0g"
+path.s3tc="res://.godot/imported/Carpet011_1K_NormalGL.jpg-a80c821b686dd356cf1b409e7a33e1dc.s3tc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
@@ -11,8 +11,8 @@ metadata={
 
 [deps]
 
-source_file="res://assets/textures/environment/BackroomsLikeAsset2/Textures/BRW_A/BRW_A_Normal_1K.png"
-dest_files=["res://.godot/imported/BRW_A_Normal_1K.png-3f98033e1b2df291cf9f99147509f2b1.s3tc.ctex"]
+source_file="res://assets/textures/environment/ambientcg/Carpet011/Carpet011_1K_NormalGL.jpg"
+dest_files=["res://.godot/imported/Carpet011_1K_NormalGL.jpg-a80c821b686dd356cf1b409e7a33e1dc.s3tc.ctex"]
 
 [params]
 

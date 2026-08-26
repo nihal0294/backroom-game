@@ -1,0 +1,20 @@
+[gd_resource type="ShaderMaterial" load_steps=5 format=3]
+
+[ext_resource type="Shader" path="res://resources/materials/level_0/golden/golden_wall.gdshader" id="1_shader"]
+[ext_resource type="Texture2D" path="res://assets/textures/environment/BackroomsLikeAsset2/Textures/BRW_A/BRW_A_Diffuse_1K.png" id="2_albedo"]
+[ext_resource type="Texture2D" path="res://assets/textures/environment/BackroomsLikeAsset2/Textures/BRW_A/BRW_A_Normal_1K.png" id="3_normal"]
+[ext_resource type="Texture2D" path="res://assets/textures/environment/BackroomsLikeAsset2/Textures/BRW_A/BRW_A_ORM_1K.png" id="4_orm"]
+
+[resource]
+render_priority = 0
+shader = ExtResource("1_shader")
+shader_parameter/albedo_texture = ExtResource("2_albedo")
+shader_parameter/normal_texture = ExtResource("3_normal")
+shader_parameter/orm_texture = ExtResource("4_orm")
+shader_parameter/wall_tint = Color(0.96, 0.92, 0.76, 1)
+shader_parameter/uv_scale = Vector2(0.8, 0.8)
+shader_parameter/saturation = 0.40
+shader_parameter/contrast = 0.88
+shader_parameter/roughness_multiplier = 1.08
+shader_parameter/normal_strength = 0.42
+shader_parameter/specular_level = 0.12

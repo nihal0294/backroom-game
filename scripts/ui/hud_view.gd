@@ -2,8 +2,6 @@ extends Control
 
 const CharacterStatusScript := preload("res://scripts/characters/character_status.gd")
 const InventoryRuntimeScript := preload("res://scripts/characters/inventory_runtime.gd")
-const UiStyle := preload("res://scripts/ui/ui_style.gd")
-
 @export var warning_threshold: float = 35.0
 @export var critical_threshold: float = 18.0
 @export var stamina_hide_delay: float = 1.2

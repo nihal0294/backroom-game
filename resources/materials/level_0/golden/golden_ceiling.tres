@@ -1,0 +1,11 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=3]
+
+[ext_resource type="Shader" path="res://resources/materials/level_0/golden/golden_ceiling.gdshader" id="1_shader"]
+
+[resource]
+render_priority = 0
+shader = ExtResource("1_shader")
+shader_parameter/panel_color = Color(0.84, 0.82, 0.74, 1)
+shader_parameter/seam_color = Color(0.62, 0.60, 0.53, 1)
+shader_parameter/panel_size = Vector2(1.2, 0.6)
+shader_parameter/seam_width = 0.011

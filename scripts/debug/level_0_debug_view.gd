@@ -406,7 +406,7 @@ func _run_physics_test() -> void:
 		fails += 1
 
 	fails += await _seam_test(body, space)
-	fails += await _a096_passage_test(body, space)
+	fails += _a096_passage_test(body, space)
 	fails += await _st01_test(body, space)
 	fails += await _st04_test(body, space)
 	fails += _resource_check()
@@ -520,9 +520,9 @@ func _a096_passage_test(body: CharacterBody3D, space: PhysicsDirectSpaceState3D)
 	capsule.radius = 0.32
 	capsule.height = 1.8
 	var free := {}
-	var seed := Vector2i.ZERO
-	var seed_found := false
-	var seed_distance := INF
+	var start_cell := Vector2i.ZERO
+	var start_cell_found := false
+	var start_cell_distance := INF
 	for iz in range(-HALF_CELLS, HALF_CELLS + 1):
 		for ix in range(-HALF_CELLS, HALF_CELLS + 1):
 			var point := centre + Vector2(ix, iz) * STEP
@@ -549,15 +549,15 @@ func _a096_passage_test(body: CharacterBody3D, space: PhysicsDirectSpaceState3D)
 			var key := Vector2i(ix, iz)
 			free[key] = true
 			var distance := point.distance_squared_to(centre)
-			if distance < seed_distance:
-				seed = key
-				seed_distance = distance
-				seed_found = true
-	if not seed_found:
+			if distance < start_cell_distance:
+				start_cell = key
+				start_cell_distance = distance
+				start_cell_found = true
+	if not start_cell_found:
 		print("PHYS_FAIL A096 no capsule-clear point near annotation")
 		return 1
-	var queue: Array[Vector2i] = [seed]
-	var visited := {seed: true}
+	var queue: Array[Vector2i] = [start_cell]
+	var visited := {start_cell: true}
 	var reached_boundary := false
 	var head := 0
 	while head < queue.size():
@@ -571,14 +571,14 @@ func _a096_passage_test(body: CharacterBody3D, space: PhysicsDirectSpaceState3D)
 			if free.has(next) and not visited.has(next):
 				visited[next] = true
 				queue.append(next)
-	print("PHYS A096 seed=", centre + Vector2(seed) * STEP, " capsule_radius=0.32 visited=", visited.size(), " reaches_8m_boundary=", reached_boundary)
+	print("PHYS A096 start=", centre + Vector2(start_cell) * STEP, " capsule_radius=0.32 visited=", visited.size(), " reaches_8m_boundary=", reached_boundary)
 	if not reached_boundary:
 		print("PHYS_FAIL A096 tiny entrances closed to player capsule")
 		return 1
 	return 0
 
 
-func _st01_test(body: CharacterBody3D, space: PhysicsDirectSpaceState3D) -> int:
+func _st01_test(body: CharacterBody3D, _space: PhysicsDirectSpaceState3D) -> int:
 	var f := FileAccess.open("res://resources/generated/level_0/sector_001/bake.json", FileAccess.READ)
 	if f == null:
 		print("PHYS_FAIL missing bake.json")

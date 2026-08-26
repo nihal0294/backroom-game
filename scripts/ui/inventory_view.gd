@@ -2,8 +2,6 @@ extends Control
 
 const CharacterStatusScript := preload("res://scripts/characters/character_status.gd")
 const InventoryRuntimeScript := preload("res://scripts/characters/inventory_runtime.gd")
-const UiStyle := preload("res://scripts/ui/ui_style.gd")
-
 var _status: CharacterStatusScript
 var _inventory: InventoryRuntimeScript
 var _sanity_bar: ProgressBar
