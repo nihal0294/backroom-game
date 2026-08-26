@@ -1,0 +1,151 @@
+{
+  "sector_id": "sector_002",
+  "m_box": [
+    2.0,
+    0.0,
+    134.0,
+    128.5
+  ],
+  "px_box": [
+    11.504,
+    0.0,
+    770.797,
+    739.16
+  ],
+  "grid": [
+    0,
+    0
+  ],
+  "occupied_cells": 20434,
+  "stair_cells": 94,
+  "floor_rects": 563,
+  "wall_segments": 1248,
+  "overlap_cells": 0,
+  "missing_walkable_cells": 0,
+  "extra_floor_cells": 0,
+  "unintentional_overlaps": 0,
+  "unclassified_walkable_gaps": 0,
+  "artificial_sector_boundary_walls": 0,
+  "orphan_white_meshes": 0,
+  "unintended_transparent_floor": 0,
+  "borders": {
+    "NORTH": [],
+    "EAST": [
+      {
+        "world": [
+          134.0,
+          57.5
+        ],
+        "width_m": 34.0,
+        "floor_y": 0.0,
+        "ceiling_y": 3.0,
+        "surface": "carpet",
+        "expected_neighbor": "sector_003"
+      },
+      {
+        "world": [
+          134.0,
+          104.0
+        ],
+        "width_m": 12.0,
+        "floor_y": 0.0,
+        "ceiling_y": 3.0,
+        "surface": "carpet",
+        "expected_neighbor": "sector_003"
+      }
+    ],
+    "SOUTH": [
+      {
+        "world": [
+          18.5,
+          128.5
+        ],
+        "width_m": 29.0,
+        "floor_y": 0.0,
+        "ceiling_y": 3.0,
+        "surface": "carpet",
+        "expected_neighbor": "sector_007"
+      },
+      {
+        "world": [
+          37.5,
+          128.5
+        ],
+        "width_m": 4.0,
+        "floor_y": 0.0,
+        "ceiling_y": 3.0,
+        "surface": "carpet",
+        "expected_neighbor": "sector_007"
+      },
+      {
+        "world": [
+          99.5,
+          128.5
+        ],
+        "width_m": 58.0,
+        "floor_y": 0.0,
+        "ceiling_y": 3.0,
+        "surface": "carpet",
+        "expected_neighbor": "sector_007"
+      }
+    ],
+    "WEST": []
+  },
+  "counts": {
+    "boxes": 2393,
+    "chunks": 15,
+    "fixtures_on": 95,
+    "fixtures_off": 0,
+    "fixtures_flicker": 0,
+    "lights": 30,
+    "stair_ramp_tris": 8
+  },
+  "stair": {
+    "id": "ST04",
+    "path_m": [
+      [
+        97.70145,
+        59.80302
+      ],
+      [
+        100.83068,
+        59.28149
+      ],
+      [
+        103.95991,
+        58.84687
+      ],
+      [
+        107.08914,
+        58.41226
+      ]
+    ],
+    "path_px": [
+      [
+        562.0,
+        344.0
+      ],
+      [
+        580.0,
+        341.0
+      ],
+      [
+        598.0,
+        338.5
+      ],
+      [
+        616.0,
+        336.0
+      ]
+    ],
+    "length_m": 9.49092,
+    "width_m": 3.12923,
+    "angle_deg": 98.427,
+    "y_start": 0.8,
+    "y_end": 0.0,
+    "drop_m": 0.8,
+    "nstep": 8,
+    "rise_m": 0.1,
+    "tread_m": 1.18637
+  }
+}

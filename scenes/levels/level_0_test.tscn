@@ -1,8 +1,9 @@
-[gd_scene load_steps=5 format=3]
+[gd_scene load_steps=6 format=3]
 
 [ext_resource type="PackedScene" path="res://scenes/player.tscn" id="1_player"]
 [ext_resource type="Script" path="res://scripts/debug/level_0_debug_view.gd" id="2_debug"]
 [ext_resource type="PackedScene" path="res://scenes/levels/level_0/sector_001.tscn" id="3_s1"]
+[ext_resource type="PackedScene" path="res://scenes/levels/level_0/sector_002.tscn" id="3_s2"]
 
 [sub_resource type="Environment" id="Environment_level0"]
 background_mode = 1
@@ -30,6 +31,8 @@ environment = SubResource("Environment_level0")
 
 [node name="Sector001" parent="." instance=ExtResource("3_s1")]
 
+[node name="Sector002" parent="." instance=ExtResource("3_s2")]
+
 [node name="Player" parent="." instance=ExtResource("1_player")]
 transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, 304.0, 0.1, 344.0)
 
@@ -39,5 +42,12 @@ transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, 304.0, 0.1, 344.0)
 transform = Transform3D(1, 0, 0, 0, 0, 1, 0, -1, 0, 345.0, 180, 386.0)
 projection = 1
 size = 170
+far = 500.0
+current = false
+
+[node name="TopDownS2" type="Camera3D" parent="DebugViews"]
+transform = Transform3D(1, 0, 0, 0, 0, 1, 0, -1, 0, 68.0, 180, 64.0)
+projection = 1
+size = 160
 far = 400.0
 current = false

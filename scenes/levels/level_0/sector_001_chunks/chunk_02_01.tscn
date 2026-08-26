@@ -1,13 +1,11 @@
-[gd_scene load_steps=13 format=3]
+[gd_scene load_steps=11 format=3]
 
 [ext_resource type="ArrayMesh" path="res://resources/generated/level_0/sector_001/chunk_02_01_mat_carpet.res" id="m_mat_carpet"]
 [ext_resource type="ArrayMesh" path="res://resources/generated/level_0/sector_001/chunk_02_01_mat_ceil.res" id="m_mat_ceil"]
-[ext_resource type="ArrayMesh" path="res://resources/generated/level_0/sector_001/chunk_02_01_mat_conc.res" id="m_mat_conc"]
 [ext_resource type="ArrayMesh" path="res://resources/generated/level_0/sector_001/chunk_02_01_mat_green.res" id="m_mat_green"]
 [ext_resource type="ArrayMesh" path="res://resources/generated/level_0/sector_001/chunk_02_01_mat_wall.res" id="m_mat_wall"]
 [ext_resource type="Material" path="res://resources/materials/level_0/carpet_main.tres" id="mat_carpet"]
 [ext_resource type="Material" path="res://resources/materials/level_0/ceiling_base.tres" id="mat_ceil"]
-[ext_resource type="Material" path="res://resources/materials/level_0/concrete_floor.tres" id="mat_conc"]
 [ext_resource type="Material" path="res://resources/materials/level_0/carpet_green.tres" id="mat_green"]
 [ext_resource type="Material" path="res://resources/materials/level_0/wall_main.tres" id="mat_wall"]
 [ext_resource type="ConcavePolygonShape3D" path="res://resources/generated/level_0/sector_001/chunk_02_01_col_floor.res" id="s_col_floor"]
@@ -29,10 +27,6 @@ surface_material_override/0 = ExtResource("mat_carpet")
 mesh = ExtResource("m_mat_ceil")
 surface_material_override/0 = ExtResource("mat_ceil")
 cast_shadow = 0
-
-[node name="conc" type="MeshInstance3D" parent="Floors"]
-mesh = ExtResource("m_mat_conc")
-surface_material_override/0 = ExtResource("mat_conc")
 
 [node name="green" type="MeshInstance3D" parent="Floors"]
 mesh = ExtResource("m_mat_green")

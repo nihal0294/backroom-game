@@ -5,6 +5,7 @@ extends Node3D
 const CAPTURE_DIR := "res://captures"
 
 @onready var _cam_plan: Camera3D = $DebugViews/TopDownPlan
+@onready var _cam_s2: Camera3D = get_node_or_null("DebugViews/TopDownS2")
 @onready var _player: Node3D = $Player
 
 var _mode := "player"
@@ -25,7 +26,7 @@ func _ready() -> void:
 		await _capture_all()
 		get_tree().quit()
 		return
-	if OS.get_environment("LEVEL0_PHYSICS_TEST") == "1":
+	if OS.get_environment("LEVEL0_PHYSICS_TEST") == "1" or OS.get_environment("LEVEL0_PHYSICS_TEST") == "2":
 		await _run_physics_test()
 		get_tree().quit()
 		return
@@ -88,13 +89,14 @@ func _unhandled_input(event: InputEvent) -> void:
 
 
 func _set_ceilings_visible(vis: bool) -> void:
-	var sector := get_node_or_null("Sector001")
-	if sector == null:
-		return
-	for child in sector.get_children():
-		var ceilings := child.get_node_or_null("Ceilings")
-		if ceilings:
-			ceilings.visible = vis
+	for sname in ["Sector001", "Sector002"]:
+		var sector := get_node_or_null(sname)
+		if sector == null:
+			continue
+		for child in sector.get_children():
+			var ceilings := child.get_node_or_null("Ceilings")
+			if ceilings:
+				ceilings.visible = vis
 
 
 func _set_player_ui_visible(vis: bool) -> void:
@@ -138,6 +140,19 @@ func _capture_all() -> void:
 		print("Level0 debug: saved plan capture")
 	else:
 		print("Level0 debug: no viewport texture for plan capture")
+	if _cam_s2:
+		_set_ceilings_visible(false)
+		if _cam_plan:
+			_cam_plan.current = false
+		_cam_s2.current = true
+		await get_tree().process_frame
+		await get_tree().process_frame
+		tex = get_viewport().get_texture()
+		img = tex.get_image() if tex else null
+		if img:
+			img.save_png(CAPTURE_DIR + "/level_0_topdown_sector002.png")
+			print("Level0 debug: saved Sector002 plan capture")
+		_cam_s2.current = false
 	_set_mode("player")
 	await get_tree().process_frame
 
@@ -246,6 +261,7 @@ func _run_physics_test() -> void:
 
 	fails += await _seam_test(body, space)
 	fails += await _st01_test(body, space)
+	fails += await _st04_test(body, space)
 	fails += _resource_check()
 
 	body.global_position = spawn
@@ -399,6 +415,53 @@ func _st01_test(body: CharacterBody3D, space: PhysicsDirectSpaceState3D) -> int:
 	return 0
 
 
+func _st04_test(body: CharacterBody3D, space: PhysicsDirectSpaceState3D) -> int:
+	var f := FileAccess.open("res://resources/generated/level_0/sector_002/bake.json", FileAccess.READ)
+	if f == null:
+		print("PHYS ST04 skipped (no sector_002 bake)")
+		return 0
+	var data: Dictionary = JSON.parse_string(f.get_as_text())
+	var st: Dictionary = data.get("stair", {})
+	if st.is_empty() or str(st.get("id", "")) != "ST04":
+		print("PHYS_FAIL bake.json has no ST04")
+		return 1
+	var path: Array = st["path_m"]
+	var p0: Array = path[0]
+	var p_end: Array = path[path.size() - 1]
+	var start := Vector3(float(p0[0]), float(st.get("y_start", 0.8)) + 0.15, float(p0[1]))
+	var dir := Vector3(float(p_end[0]) - float(p0[0]), 0, float(p_end[1]) - float(p0[1])).normalized()
+	body.global_position = start
+	body.velocity = Vector3.ZERO
+	_drive_horiz = Vector3.ZERO
+	await get_tree().physics_frame
+	await get_tree().physics_frame
+	var y_start := body.global_position.y
+	var min_y := y_start
+	var max_y := y_start
+	_drive_horiz = dir * 3.5
+	for n in 220:
+		await get_tree().physics_frame
+		min_y = minf(min_y, body.global_position.y)
+		max_y = maxf(max_y, body.global_position.y)
+		if body.global_position.y < -4.0:
+			print("PHYS_FAIL ST04 fall-through")
+			_drive_horiz = Vector3.ZERO
+			return 1
+	_drive_horiz = Vector3.ZERO
+	# walk back up
+	_drive_horiz = -dir * 3.5
+	for n in 220:
+		await get_tree().physics_frame
+	_drive_horiz = Vector3.ZERO
+	var drop := y_start - min_y
+	print("PHYS ST04 drop=", drop, " min_y=", min_y, " max_y=", max_y, " end_y=", body.global_position.y, " on_floor=", body.is_on_floor())
+	print("PHYS ST04 expected length=", st.get("length_m"), " drop_m=", st.get("drop_m"))
+	if drop < 0.65:
+		print("PHYS_FAIL ST04 did not descend ~0.8 m (drop=", drop, ")")
+		return 1
+	return 0
+
+
 func _resource_check() -> int:
 	var missing := 0
 	var dir := DirAccess.open("res://resources/generated/level_0/sector_001")
@@ -415,6 +478,7 @@ func _resource_check() -> int:
 		"res://resources/materials/level_0/trim.tres",
 		"res://scenes/player.tscn",
 		"res://scenes/levels/level_0/sector_001.tscn",
+		"res://resources/materials/level_0/poster_closing.tres",
 	]
 	for p in mats:
 		if not ResourceLoader.exists(p):

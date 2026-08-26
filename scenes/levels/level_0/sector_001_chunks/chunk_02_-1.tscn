@@ -1,21 +1,17 @@
-[gd_scene load_steps=11 format=3]
+[gd_scene load_steps=9 format=3]
 
 [ext_resource type="ArrayMesh" path="res://resources/generated/level_0/sector_001/chunk_02_-1_mat_carpet.res" id="m_mat_carpet"]
 [ext_resource type="ArrayMesh" path="res://resources/generated/level_0/sector_001/chunk_02_-1_mat_ceil.res" id="m_mat_ceil"]
 [ext_resource type="ArrayMesh" path="res://resources/generated/level_0/sector_001/chunk_02_-1_mat_stair.res" id="m_mat_stair"]
-[ext_resource type="ArrayMesh" path="res://resources/generated/level_0/sector_001/chunk_02_-1_mat_wall.res" id="m_mat_wall"]
 [ext_resource type="Material" path="res://resources/materials/level_0/carpet_main.tres" id="mat_carpet"]
 [ext_resource type="Material" path="res://resources/materials/level_0/ceiling_base.tres" id="mat_ceil"]
 [ext_resource type="Material" path="res://resources/materials/level_0/stair.tres" id="mat_stair"]
-[ext_resource type="Material" path="res://resources/materials/level_0/wall_main.tres" id="mat_wall"]
 [ext_resource type="ConcavePolygonShape3D" path="res://resources/generated/level_0/sector_001/chunk_02_-1_col_walls.res" id="s_col_walls"]
 [ext_resource type="ConcavePolygonShape3D" path="res://resources/generated/level_0/sector_001/chunk_02_-1_col_stairs.res" id="s_col_stairs"]
 
 [node name="chunk_02_-1" type="Node3D"]
 
 [node name="Floors" type="Node3D" parent="."]
-
-[node name="Walls" type="Node3D" parent="."]
 
 [node name="Ceilings" type="Node3D" parent="."]
 
@@ -33,10 +29,6 @@ cast_shadow = 0
 [node name="stair" type="MeshInstance3D" parent="Stairs"]
 mesh = ExtResource("m_mat_stair")
 surface_material_override/0 = ExtResource("mat_stair")
-
-[node name="wall" type="MeshInstance3D" parent="Walls"]
-mesh = ExtResource("m_mat_wall")
-surface_material_override/0 = ExtResource("mat_wall")
 
 [node name="CollisionWalls" type="StaticBody3D" parent="."]
 

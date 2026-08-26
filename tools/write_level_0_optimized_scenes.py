@@ -6,10 +6,6 @@ import json
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-BAKE = ROOT / "resources" / "generated" / "level_0" / "sector_001" / "bake.json"
-RES = "res://resources/generated/level_0/sector_001"
-CHUNK_DIR = ROOT / "scenes" / "levels" / "level_0" / "sector_001_chunks"
-SECTOR = ROOT / "scenes" / "levels" / "level_0" / "sector_001.tscn"
 MAIN = ROOT / "scenes" / "levels" / "level_0_test.tscn"
 
 MAT_EXT = {
@@ -23,6 +19,7 @@ MAT_EXT = {
     "mat_void": ("mat_void", "res://resources/materials/level_0/void_black.tres"),
     "mat_stair": ("mat_stair", "res://resources/materials/level_0/stair.tres"),
     "mat_trim": ("mat_trim", "res://resources/materials/level_0/trim.tres"),
+    "mat_poster": ("mat_poster", "res://resources/materials/level_0/poster_closing.tres"),
 }
 GROUP_OF = {
     "mat_carpet": "Floors",
@@ -35,22 +32,36 @@ GROUP_OF = {
     "mat_water": "Water",
     "mat_stair": "Stairs",
     "mat_trim": "Special",
+    "mat_poster": "Special",
 }
 NO_SHADOW = {"mat_ceil", "mat_water"}
 
 
-def res_exists(name: str) -> bool:
-    return (ROOT / "resources" / "generated" / "level_0" / "sector_001" / name).exists()
+def paths_for(sector_id: str) -> dict:
+    folder = sector_id
+    return {
+        "bake": ROOT / "resources" / "generated" / "level_0" / folder / "bake.json",
+        "res_rel": f"res://resources/generated/level_0/{folder}",
+        "res_fs": ROOT / "resources" / "generated" / "level_0" / folder,
+        "chunk_dir": ROOT / "scenes" / "levels" / "level_0" / f"{folder}_chunks",
+        "sector": ROOT / "scenes" / "levels" / "level_0" / f"{folder}.tscn",
+        "node": "Sector001" if sector_id == "sector_001" else "Sector002",
+    }
 
 
-def write_chunk(chunk: dict) -> Path:
+def res_exists(p: dict, name: str) -> bool:
+    return (p["res_fs"] / name).exists()
+
+
+def write_chunk(p: dict, chunk: dict) -> Path:
     cid = chunk["id"]
-    ext: list[tuple[str, str, str]] = []  # type, path, id
+    RES = p["res_rel"]
+    ext: list[tuple[str, str, str]] = []
     used_mats = []
     mesh_ids = {}
     for mat in chunk["visual"]:
         fname = f"{cid}_{mat}.res"
-        if not res_exists(fname):
+        if not res_exists(p, fname):
             continue
         eid = f"m_{mat}"
         ext.append(("ArrayMesh", f"{RES}/{fname}", eid))
@@ -64,7 +75,7 @@ def write_chunk(chunk: dict) -> Path:
     shape_ids = {}
     for col in ("col_floor", "col_walls", "col_stairs"):
         fname = f"{cid}_{col}.res"
-        if res_exists(fname):
+        if res_exists(p, fname):
             eid = f"s_{col}"
             ext.append(("ConcavePolygonShape3D", f"{RES}/{fname}", eid))
             shape_ids[col] = eid
@@ -83,7 +94,8 @@ def write_chunk(chunk: dict) -> Path:
         node = mat.replace("mat_", "")
         lines.append(f'[node name="{node}" type="MeshInstance3D" parent="{grp}"]\n')
         lines.append(f'mesh = ExtResource("{eid}")\n')
-        lines.append(f'surface_material_override/0 = ExtResource("{MAT_EXT[mat][0]}")\n')
+        if mat in MAT_EXT:
+            lines.append(f'surface_material_override/0 = ExtResource("{MAT_EXT[mat][0]}")\n')
         if mat in NO_SHADOW:
             lines.append("cast_shadow = 0\n")
         lines.append("\n")
@@ -97,34 +109,37 @@ def write_chunk(chunk: dict) -> Path:
         lines.append(f'[node name="{body}" type="StaticBody3D" parent="."]\n\n')
         lines.append(f'[node name="Shape" type="CollisionShape3D" parent="{body}"]\n')
         lines.append(f'shape = ExtResource("{eid}")\n\n')
-    CHUNK_DIR.mkdir(parents=True, exist_ok=True)
-    path = CHUNK_DIR / f"{cid}.tscn"
+    p["chunk_dir"].mkdir(parents=True, exist_ok=True)
+    path = p["chunk_dir"] / f"{cid}.tscn"
     path.write_text("".join(lines), encoding="utf-8")
     return path
 
 
-def write_sector(chunk_paths: list[Path], data: dict) -> None:
+def write_sector(p: dict, chunk_paths: list[Path], data: dict) -> None:
+    RES = p["res_rel"]
+    fs = p["res_fs"]
     lines = []
-    n_ext = len(chunk_paths) + 6
+    n_ext = len(chunk_paths) + 8
     lines.append(f"[gd_scene load_steps={n_ext} format=3]\n\n")
     lines.append('[ext_resource type="PackedScene" path="res://scenes/environment/fluorescent_fixture.tscn" id="3_fix"]\n')
     lines.append('[ext_resource type="Material" path="res://resources/materials/level_0/fixture_housing.tres" id="mat_house"]\n')
     lines.append('[ext_resource type="Material" path="res://resources/materials/level_0/fluorescent_emissive.tres" id="mat_on"]\n')
     lines.append('[ext_resource type="Material" path="res://resources/materials/level_0/fluorescent_off.tres" id="mat_off"]\n')
-    if (ROOT / "resources/generated/level_0/sector_001/mm_fixtures_on_house.res").exists():
+    if (fs / "mm_fixtures_on_house.res").exists():
         lines.append(f'[ext_resource type="MultiMesh" path="{RES}/mm_fixtures_on_house.res" id="mm_on_h"]\n')
         lines.append(f'[ext_resource type="MultiMesh" path="{RES}/mm_fixtures_on_tube.res" id="mm_on_t"]\n')
-    if (ROOT / "resources/generated/level_0/sector_001/mm_fixtures_off_house.res").exists():
+    if (fs / "mm_fixtures_off_house.res").exists():
         lines.append(f'[ext_resource type="MultiMesh" path="{RES}/mm_fixtures_off_house.res" id="mm_off_h"]\n')
         lines.append(f'[ext_resource type="MultiMesh" path="{RES}/mm_fixtures_off_tube.res" id="mm_off_t"]\n')
-    for i, p in enumerate(chunk_paths, 1):
-        rel = f"res://scenes/levels/level_0/sector_001_chunks/{p.name}"
+    folder = p["chunk_dir"].name
+    for i, cp in enumerate(chunk_paths, 1):
+        rel = f"res://scenes/levels/level_0/{folder}/{cp.name}"
         lines.append(f'[ext_resource type="PackedScene" path="{rel}" id="ch_{i:03d}"]\n')
-    lines.append("\n[node name=\"Sector001\" type=\"Node3D\"]\n\n")
-    for i, p in enumerate(chunk_paths, 1):
-        lines.append(f'[node name="{p.stem}" parent="." instance=ExtResource("ch_{i:03d}")]\n\n')
+    lines.append(f'\n[node name="{p["node"]}" type="Node3D"]\n\n')
+    for i, cp in enumerate(chunk_paths, 1):
+        lines.append(f'[node name="{cp.stem}" parent="." instance=ExtResource("ch_{i:03d}")]\n\n')
     lines.append('[node name="Fixtures" type="Node3D" parent="."]\n\n')
-    if (ROOT / "resources/generated/level_0/sector_001/mm_fixtures_on_house.res").exists():
+    if (fs / "mm_fixtures_on_house.res").exists():
         lines.append('[node name="MM_On_House" type="MultiMeshInstance3D" parent="Fixtures"]\n')
         lines.append('multimesh = ExtResource("mm_on_h")\n')
         lines.append('material_override = ExtResource("mat_house")\n')
@@ -133,7 +148,7 @@ def write_sector(chunk_paths: list[Path], data: dict) -> None:
         lines.append('multimesh = ExtResource("mm_on_t")\n')
         lines.append('material_override = ExtResource("mat_on")\n')
         lines.append("cast_shadow = 0\n\n")
-    if (ROOT / "resources/generated/level_0/sector_001/mm_fixtures_off_house.res").exists():
+    if (fs / "mm_fixtures_off_house.res").exists():
         lines.append('[node name="MM_Off_House" type="MultiMeshInstance3D" parent="Fixtures"]\n')
         lines.append('multimesh = ExtResource("mm_off_h")\n')
         lines.append('material_override = ExtResource("mat_house")\n')
@@ -142,45 +157,47 @@ def write_sector(chunk_paths: list[Path], data: dict) -> None:
         lines.append('multimesh = ExtResource("mm_off_t")\n')
         lines.append('material_override = ExtResource("mat_off")\n')
         lines.append("cast_shadow = 0\n\n")
-    for i, p in enumerate(data.get("fixtures_on", [])):
-        x, y, z = p
+    for i, pt in enumerate(data.get("fixtures_flicker", [])):
+        x, y, z = pt
+        lines.append(f'[node name="Flicker_{i:03d}" parent="Fixtures" instance=ExtResource("3_fix")]\n')
+        lines.append(f"transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, {x}, {y}, {z})\n")
+        lines.append("flicker = true\n\n")
+    for i, pt in enumerate(data.get("lights", [])):
+        x, y, z = pt[0], pt[1], pt[2]
         lines.append(f'[node name="L_{i:03d}" type="OmniLight3D" parent="Fixtures"]\n')
-        lines.append(f"transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, {x}, {y - 0.12}, {z})\n")
+        lines.append(f"transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, {x}, {y}, {z})\n")
         lines.append("light_color = Color(1, 0.96, 0.8, 1)\n")
         lines.append("light_energy = 2.35\n")
         lines.append("light_specular = 0.22\n")
         lines.append("shadow_enabled = false\n")
         lines.append("omni_range = 8.4\n")
         lines.append("omni_attenuation = 1.35\n\n")
-    for i, p in enumerate(data.get("fixtures_flicker", [])):
-        x, y, z = p
-        lines.append(f'[node name="Flicker_{i:03d}" parent="Fixtures" instance=ExtResource("3_fix")]\n')
-        lines.append(f"transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, {x}, {y}, {z})\n")
-        lines.append("flicker = true\n\n")
-    ox, oy, oz = data["orange"]
-    lines.append('[node name="OrangeBulb" type="OmniLight3D" parent="Fixtures"]\n')
-    lines.append(f"transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, {ox}, {oy}, {oz})\n")
-    lines.append("light_color = Color(1, 0.45, 0.12, 1)\n")
-    lines.append("light_energy = 2.8\n")
-    lines.append("omni_range = 7.5\n")
-    lines.append("omni_attenuation = 1.4\n")
-    lines.append("shadow_enabled = true\n")
-    SECTOR.parent.mkdir(parents=True, exist_ok=True)
-    SECTOR.write_text("".join(lines), encoding="utf-8")
+    if data.get("orange"):
+        ox, oy, oz = data["orange"]
+        lines.append('[node name="OrangeBulb" type="OmniLight3D" parent="Fixtures"]\n')
+        lines.append(f"transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, {ox}, {oy}, {oz})\n")
+        lines.append("light_color = Color(1, 0.45, 0.12, 1)\n")
+        lines.append("light_energy = 2.8\n")
+        lines.append("omni_range = 7.5\n")
+        lines.append("omni_attenuation = 1.4\n")
+        lines.append("shadow_enabled = true\n")
+    p["sector"].parent.mkdir(parents=True, exist_ok=True)
+    p["sector"].write_text("".join(lines), encoding="utf-8")
 
 
-def write_main(data: dict) -> None:
-    sx, sz = data["spawn"]
-    wx0, wz0 = data["wx0"], data["wz0"]
-    # camera over sector 001
-    cx = wx0 + 75.5
-    cz = wz0 + 62.5
+def write_main() -> None:
+    s1 = ROOT / "scenes" / "levels" / "level_0" / "sector_001.tscn"
+    s2 = ROOT / "scenes" / "levels" / "level_0" / "sector_002.tscn"
+    load = 4 + (1 if s1.exists() else 0) + (1 if s2.exists() else 0)
     lines = []
-    lines.append("[gd_scene load_steps=5 format=3]\n\n")
+    lines.append(f"[gd_scene load_steps={load} format=3]\n\n")
     lines.append('[ext_resource type="PackedScene" path="res://scenes/player.tscn" id="1_player"]\n')
     lines.append('[ext_resource type="Script" path="res://scripts/debug/level_0_debug_view.gd" id="2_debug"]\n')
-    lines.append('[ext_resource type="PackedScene" path="res://scenes/levels/level_0/sector_001.tscn" id="3_s1"]\n\n')
-    lines.append("[sub_resource type=\"Environment\" id=\"Environment_level0\"]\n")
+    if s1.exists():
+        lines.append('[ext_resource type="PackedScene" path="res://scenes/levels/level_0/sector_001.tscn" id="3_s1"]\n')
+    if s2.exists():
+        lines.append('[ext_resource type="PackedScene" path="res://scenes/levels/level_0/sector_002.tscn" id="3_s2"]\n')
+    lines.append("\n[sub_resource type=\"Environment\" id=\"Environment_level0\"]\n")
     lines.append("background_mode = 1\n")
     lines.append("background_color = Color(0.04, 0.04, 0.035, 1)\n")
     lines.append("ambient_light_source = 2\n")
@@ -201,36 +218,51 @@ def write_main(data: dict) -> None:
     lines.append('script = ExtResource("2_debug")\n\n')
     lines.append('[node name="WorldEnvironment" type="WorldEnvironment" parent="."]\n')
     lines.append("environment = SubResource(\"Environment_level0\")\n\n")
-    lines.append('[node name="Sector001" parent="." instance=ExtResource("3_s1")]\n\n')
+    if s1.exists():
+        lines.append('[node name="Sector001" parent="." instance=ExtResource("3_s1")]\n\n')
+    if s2.exists():
+        lines.append('[node name="Sector002" parent="." instance=ExtResource("3_s2")]\n\n')
     lines.append('[node name="Player" parent="." instance=ExtResource("1_player")]\n')
-    lines.append(f"transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, {sx}, 0.1, {sz})\n\n")
+    lines.append("transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, 304.0, 0.1, 344.0)\n\n")
     lines.append('[node name="DebugViews" type="Node3D" parent="."]\n\n')
     lines.append('[node name="TopDownPlan" type="Camera3D" parent="DebugViews"]\n')
-    lines.append(f"transform = Transform3D(1, 0, 0, 0, 0, 1, 0, -1, 0, {cx}, 180, {cz})\n")
+    lines.append("transform = Transform3D(1, 0, 0, 0, 0, 1, 0, -1, 0, 345.0, 180, 386.0)\n")
     lines.append("projection = 1\n")
     lines.append("size = 170\n")
+    lines.append("far = 500.0\n")
+    lines.append("current = false\n\n")
+    lines.append('[node name="TopDownS2" type="Camera3D" parent="DebugViews"]\n')
+    lines.append("transform = Transform3D(1, 0, 0, 0, 0, 1, 0, -1, 0, 68.0, 180, 64.0)\n")
+    lines.append("projection = 1\n")
+    lines.append("size = 160\n")
     lines.append("far = 400.0\n")
     lines.append("current = false\n")
     MAIN.write_text("".join(lines), encoding="utf-8")
 
 
-def main() -> None:
-    data = json.loads(BAKE.read_text(encoding="utf-8"))
-    if CHUNK_DIR.exists():
-        for old in CHUNK_DIR.glob("*.tscn"):
+def write_one(sector_id: str) -> None:
+    p = paths_for(sector_id)
+    data = json.loads(p["bake"].read_text(encoding="utf-8"))
+    if p["chunk_dir"].exists():
+        for old in p["chunk_dir"].glob("*.tscn"):
             old.unlink()
-    paths = [write_chunk(c) for c in data["chunks"]]
-    write_sector(paths, data)
-    write_main(data)
-    print("chunks", len(paths))
-    print("sector", SECTOR, SECTOR.stat().st_size, "lines", SECTOR.read_text(encoding="utf-8").count("\n"))
-    print("main", MAIN, MAIN.stat().st_size, "lines", MAIN.read_text(encoding="utf-8").count("\n"))
-    total_res = 0
-    n_res = 0
-    for p in (ROOT / "resources/generated/level_0/sector_001").glob("*.res"):
-        total_res += p.stat().st_size
-        n_res += 1
-    print("res files", n_res, "bytes", total_res)
+    chunk_paths = [write_chunk(p, c) for c in data["chunks"]]
+    write_sector(p, chunk_paths, data)
+    print("chunks", len(chunk_paths), sector_id)
+    print("sector", p["sector"], p["sector"].stat().st_size)
+    total_res = sum(f.stat().st_size for f in p["res_fs"].glob("*.res"))
+    print("res bytes", total_res)
+
+
+def main() -> None:
+    import sys
+
+    sector_id = "sector_001"
+    if len(sys.argv) > 1 and sys.argv[1].startswith("sector_"):
+        sector_id = sys.argv[1]
+    write_one(sector_id)
+    write_main()
+    print("main", MAIN, MAIN.stat().st_size)
 
 
 if __name__ == "__main__":

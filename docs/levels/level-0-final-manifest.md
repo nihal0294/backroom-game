@@ -1,6 +1,6 @@
 # Level 0 — final map manifest
 
-Stato: **blueprint e settore pilota**. Il resto della mappa è tracciato, non costruito in 3D.
+Stato: **blueprint, Sector001 (pilota) e Sector002 (NW) costruiti**. Altri settori tracciati, non in 3D.
 
 ## Fonte autoritativa
 
@@ -107,7 +107,9 @@ Il pilota è `sector_001` (17-days-core).
 
 px_box `[1550, 1860, 2420, 2580]` → m_box circa `[269.5, 323.5, 420.5, 448.5]`.
 
-Gli altri settori (~160 m) sono prenotati nel JSON con `built: false`. Non costruirli senza approvazione.
+`sector_002` è la cella NW `grid [0,0]`, `m_box [2.0, 0.0, 134.0, 128.5]`. Gli altri settori (~160 m) restano `built: false`. Non costruire Sector003+ senza approvazione.
+
+Rigenerazione: `python tools/build_level_0_optimized.py sector_001` oppure `... sector_002`.
 
 ## Pilota — contenuto 3D
 
@@ -120,6 +122,13 @@ Gli altri settori (~160 m) sono prenotati nel JSON con `built: false`. Non costr
 - PackedScene: `scenes/levels/level_0/sector_001.tscn` + 16 chunk da 40 m
 - Geometria statica: ArrayMesh + ConcavePolygonShape3D in `resources/generated/level_0/sector_001/*.res`
 - Fluorescenti identiche: MultiMesh; flicker resta nodo; OmniLight restano nodi
-- Rigenerazione: `python tools/build_level_0_optimized.py` (stesso occupancy, niente tscn da 90k righe)
+- Rigenerazione: `python tools/build_level_0_optimized.py sector_001`
 
-Non procedere al Sector 2 senza approvazione.
+## Sector002 — NW
+
+- PackedScene: `scenes/levels/level_0/sector_002.tscn`
+- m_box `[2.0, 0.0, 134.0, 128.5]` (half-open); px derivato `[11.5, 0, 770.8, 739.2]`
+- Bordo tecnico ≠ muro: occupancy globale + halo; floor ownership `[x0,x1) × [z0,z1)`
+- A001 zigzag unexplored; A002 poster CLOSING DOWN SALE; A003 partition 2.15 m (SOURCE_APPROXIMATE); A004 soffitto 7.0 m + porte alte; ST04 hatch drop 0.8 m; A005 house footprint/pink, lift/ST03 fuori
+- Luci: MultiMesh fixture + OmniLight sparse (~13.5 m)
+- Audit: `docs/levels/level-0-sector-002-audit.json`

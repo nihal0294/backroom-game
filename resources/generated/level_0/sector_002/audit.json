@@ -1,0 +1,31 @@
+{
+  "sector_id": "sector_002",
+  "m_box": [
+    2.0,
+    0.0,
+    134.0,
+    128.5
+  ],
+  "px_box": [
+    11.504,
+    0.0,
+    770.797,
+    739.16
+  ],
+  "grid": [
+    0,
+    0
+  ],
+  "occupied_cells": 20434,
+  "stair_cells": 94,
+  "floor_rects": 563,
+  "wall_segments": 1248,
+  "overlap_cells": 0,
+  "missing_walkable_cells": 0,
+  "extra_floor_cells": 0,
+  "unintentional_overlaps": 0,
+  "unclassified_walkable_gaps": 0,
+  "artificial_sector_boundary_walls": 0,
+  "orphan_white_meshes": 0,
+  "unintended_transparent_floor": 0
+}

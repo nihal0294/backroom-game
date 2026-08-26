@@ -23,6 +23,8 @@ from level_0_annotations import (
     STAIRS,
     ST01_PATH_PX,
     ST01_WIDTH_PX,
+    ST04_PATH_PX,
+    ST04_WIDTH_PX,
 )
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -169,6 +171,26 @@ def patch_trace(trace: dict) -> dict:
     return trace
 
 
+def clean_floor_mask(rgb: np.ndarray, floor_bin: np.ndarray) -> np.ndarray:
+    """Remove white annotation ink and tiny blobs (text), keep real rooms/corridors.
+
+    Isolated near-white pixels in the floor mask were meshed as floating white
+    tiles in Sector001. The zigzag unexplored spur stays because it is connected
+    to the main occupancy component.
+    """
+    bgr = cv2.cvtColor(rgb, cv2.COLOR_RGB2BGR)
+    hsv = cv2.cvtColor(bgr, cv2.COLOR_BGR2HSV)
+    S, V = hsv[:, :, 1], hsv[:, :, 2]
+    out = floor_bin.copy()
+    ink = (V >= 225) & (S <= 45)
+    out[ink] = 0
+    nlab, lab, stats, _ = cv2.connectedComponentsWithStats((out > 0).astype(np.uint8), 8)
+    for i in range(1, nlab):
+        if int(stats[i, cv2.CC_STAT_AREA]) < 250:
+            out[lab == i] = 0
+    return out
+
+
 def extract_color_masks(rgb: np.ndarray, floor: np.ndarray) -> dict:
     bgr = cv2.cvtColor(rgb, cv2.COLOR_RGB2BGR)
     hsv = cv2.cvtColor(bgr, cv2.COLOR_BGR2HSV)
@@ -180,12 +202,16 @@ def extract_color_masks(rgb: np.ndarray, floor: np.ndarray) -> dict:
     return {"water": water, "green": green, "pink": pink, "grey": grey}
 
 
-def build_grid(floor, colors, mpp, px_box):
-    x0, y0, x1, y1 = px_box
-    wx0, wz0 = snap_m(x0 * mpp), snap_m(y0 * mpp)
-    wx1, wz1 = snap_m(x1 * mpp), snap_m(y1 * mpp)
-    nx = int(round((wx1 - wx0) / SNAP))
-    nz = int(round((wz1 - wz0) / SNAP))
+def build_grid_m(floor, colors, mpp, m_box, halo_m: float = 0.0):
+    """Occupancy grid covering m_box plus an optional halo (for true walls vs sector seams)."""
+    wx0, wz0, wx1, wz1 = [float(v) for v in m_box]
+    g0x = snap_m(wx0 - halo_m)
+    g0z = snap_m(wz0 - halo_m)
+    g1x = snap_m(wx1 + halo_m)
+    g1z = snap_m(wz1 + halo_m)
+    nx = int(round((g1x - g0x) / SNAP))
+    nz = int(round((g1z - g0z) / SNAP))
+    wx0, wz0 = g0x, g0z
     grid = np.zeros((nz, nx), np.uint8)
     h, w = floor.shape
     for iz in range(nz):
@@ -226,6 +252,20 @@ def build_grid(floor, colors, mpp, px_box):
             if 0 <= cz - 1 < nz:
                 grid[cz - 1, cx] = EMPTY
     return grid, wx0, wz0, nx, nz
+
+
+def build_grid(floor, colors, mpp, px_box):
+    wx0, wz0 = snap_m(px_box[0] * mpp), snap_m(px_box[1] * mpp)
+    wx1, wz1 = snap_m(px_box[2] * mpp), snap_m(px_box[3] * mpp)
+    return build_grid_m(floor, colors, mpp, [wx0, wz0, wx1, wz1], halo_m=0.0)
+
+
+def cell_center(ix: int, iz: int, wx0: float, wz0: float):
+    return wx0 + (ix + 0.5) * SNAP, wz0 + (iz + 0.5) * SNAP
+
+
+def in_half_open(mx: float, mz: float, m_box) -> bool:
+    return m_box[0] <= mx < m_box[2] and m_box[1] <= mz < m_box[3]
 
 
 def greedy_rects(grid: np.ndarray, wanted: set[int]):
@@ -300,9 +340,8 @@ def in_box_m(mx, mz, box):
     return box[0] <= mx <= box[2] and box[1] <= mz <= box[3]
 
 
-def st01_spec(mpp: float) -> dict:
-    """World-space ST01 path from the master-map hatch. Y drops 1.5 m NW -> SE."""
-    path_m = [(p[0] * mpp, p[1] * mpp) for p in ST01_PATH_PX]
+def stair_spec_from_path(path_px, width_px: float, mpp: float, y_start: float, y_end: float, drop_m: float) -> dict:
+    path_m = [(p[0] * mpp, p[1] * mpp) for p in path_px]
     segs = []
     length = 0.0
     for i in range(1, len(path_m)):
@@ -311,7 +350,7 @@ def st01_spec(mpp: float) -> dict:
         sl = math.hypot(dx, dz)
         segs.append((path_m[i - 1], path_m[i], sl, dx, dz))
         length += sl
-    width_m = ST01_WIDTH_PX * mpp
+    width_m = float(width_px) * mpp
     dx = path_m[-1][0] - path_m[0][0]
     dz = path_m[-1][1] - path_m[0][1]
     return {
@@ -320,10 +359,20 @@ def st01_spec(mpp: float) -> dict:
         "length_m": length,
         "width_m": width_m,
         "angle_rad": math.atan2(dx, dz),
-        "y_start": 1.5,
-        "y_end": 0.0,
-        "drop_m": 1.5,
+        "y_start": float(y_start),
+        "y_end": float(y_end),
+        "drop_m": float(drop_m),
     }
+
+
+def st01_spec(mpp: float) -> dict:
+    """World-space ST01 path from the master-map hatch. Y drops 1.5 m NW -> SE."""
+    return stair_spec_from_path(ST01_PATH_PX, ST01_WIDTH_PX, mpp, 1.5, 0.0, 1.5)
+
+
+def st04_spec(mpp: float) -> dict:
+    """ST04 hatch south of the tall-room cluster. Drop 0.8 m west -> east."""
+    return stair_spec_from_path(ST04_PATH_PX, ST04_WIDTH_PX, mpp, 0.8, 0.0, 0.8)
 
 
 def _project_polyline(x: float, z: float, segs) -> tuple[float, float]:
@@ -346,14 +395,11 @@ def _project_polyline(x: float, z: float, segs) -> tuple[float, float]:
     return best, best_s
 
 
-def paint_st01_cells(grid, wx0: float, wz0: float, spec: dict) -> int:
-    """Mark hatch cells as STAIR so floor rects do not fill the flight.
-
-    Skip the last ~1.2 m so the maze floor at the south T stays at Y=0.
-    """
+def paint_stair_cells(grid, wx0: float, wz0: float, spec: dict, skip_end_m: float = 1.2) -> int:
+    """Mark hatch cells as STAIR so floor rects do not fill the flight."""
     nz, nx = grid.shape
     half = spec["width_m"] * 0.42
-    s_max = spec["length_m"] - 1.2
+    s_max = spec["length_m"] - skip_end_m
     n = 0
     for iz in range(nz):
         cz = wz0 + (iz + 0.5) * SNAP
@@ -366,6 +412,10 @@ def paint_st01_cells(grid, wx0: float, wz0: float, spec: dict) -> int:
                 grid[iz, ix] = STAIR
                 n += 1
     return n
+
+
+def paint_st01_cells(grid, wx0: float, wz0: float, spec: dict) -> int:
+    return paint_stair_cells(grid, wx0, wz0, spec, skip_end_m=1.2)
 
 
 def point_on_path(spec: dict, s: float) -> tuple[float, float, float, float]:

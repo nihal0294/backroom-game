@@ -2,11 +2,18 @@ extends SceneTree
 ## Headless baker: bake.json -> ArrayMesh/ConcavePolygonShape3D/MultiMesh .res
 ## Run: godot --headless --path . -s res://scripts/debug/bake_level_0_sector.gd
 
-const BAKE := "res://resources/generated/level_0/sector_001/bake.json"
-const OUT := "res://resources/generated/level_0/sector_001/"
+var BAKE := "res://resources/generated/level_0/sector_001/bake.json"
+var OUT := "res://resources/generated/level_0/sector_001/"
 
 
 func _init() -> void:
+	var env_bake := OS.get_environment("LEVEL0_BAKE_JSON")
+	var env_out := OS.get_environment("LEVEL0_BAKE_OUT")
+	if env_bake != "":
+		BAKE = env_bake
+	if env_out != "":
+		OUT = env_out
+	print("Level0 bake src ", BAKE, " out ", OUT)
 	var err := _bake()
 	if err != OK:
 		push_error("Level0 bake failed: %s" % err)

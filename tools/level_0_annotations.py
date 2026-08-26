@@ -207,6 +207,25 @@ ST01_PATH_PX = [
 ]
 ST01_WIDTH_PX = 13.18
 
+# ST04 hatch digitized from the striped corridor south of the tall-room cluster
+# on level-0-final-map.png (not the A004/ST04 annotation pixel, which sits in charcoal).
+# Path west (tall-room mouth) -> east (adjacent beige). Descent 0.8 m.
+# Tall-room pocket floor is raised to Y=0.8 so the west mouth meets the flight top.
+# SOURCE_APPROXIMATE orientation: map has a label-arrow; descent is out of the tall room.
+ST04_PATH_PX = [
+    [562.0, 344.0],
+    [580.0, 341.0],
+    [598.0, 338.5],
+    [616.0, 336.0],
+]
+ST04_WIDTH_PX = 18.0
+
+# SOURCE_APPROXIMATE: wiki/map give no millimetric height.
+PARTITION_GAP_H = 2.15  # A003 partitions; ceiling stays 3.0; gap ~0.85 m, not climbable
+TALL_ROOM_CEILING_M = 7.0  # A004, within transcribed 6-8 m range
+TALL_ROOM_PX_BOX = [500, 150, 648, 318]  # cluster under the tall-room label, north of ST04
+POSTER_WALL_PX = [198, 250, 228, 360]  # A002 west wall of the large irregular room (x,z range in px)
+
 STAIRS = [
     {
         "id": "ST01",
@@ -222,7 +241,18 @@ STAIRS = [
     },
     {"id": "ST02", "text": "staircase down (south-east of The End)", "px": [2480, 2820], "kind": "flight_down", "drop_m": 1.2, "in_pilot": False},
     {"id": "ST03", "text": "house stairs down from lift/house", "px": [780, 720], "kind": "flight_down", "drop_m": 1.0, "in_pilot": False},
-    {"id": "ST04", "text": "NW tall-room stairs", "px": [620, 240], "kind": "flight_down", "drop_m": 0.8, "in_pilot": False},
+    {
+        "id": "ST04",
+        "text": "NW tall-room stairs",
+        "px": [620, 240],
+        "kind": "flight_down",
+        "drop_m": 0.8,
+        "in_pilot": False,
+        "path_px": ST04_PATH_PX,
+        "width_px": ST04_WIDTH_PX,
+        "y_start": 0.8,
+        "y_end": 0.0,
+    },
     {"id": "ST05", "text": "pool-table stairs", "px": [2480, 360], "kind": "flight", "drop_m": 0.8, "in_pilot": False},
     {"id": "ST06", "text": "non-Euclidean stair cluster", "px": [2100, 180], "kind": "flight", "drop_m": 1.5, "in_pilot": False},
 ]
