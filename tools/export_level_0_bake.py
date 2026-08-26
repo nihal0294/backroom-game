@@ -33,6 +33,7 @@ from generate_level_0_from_trace import (
     SNAP,
     STAIR,
     TRACE,
+    WALL_NAV_FACE_T,
     WALL_T,
     WATER,
     build_grid_m,
@@ -86,8 +87,11 @@ def out_dir_for(sector_id: str) -> Path:
 
 
 def chunk_key(cx: float, cz: float, wx0: float, wz0: float) -> str:
-    ix = int(math.floor((cx - wx0) / CHUNK_M))
-    iz = int(math.floor((cz - wz0) / CHUNK_M))
+    # Outward-only wall thickness may put a wall centre a few centimetres past
+    # the sector AABB. Keep that owned geometry in the edge chunk rather than
+    # creating negative technical chunk IDs.
+    ix = max(0, int(math.floor((cx - wx0) / CHUNK_M)))
+    iz = max(0, int(math.floor((cz - wz0) / CHUNK_M)))
     return f"chunk_{ix:02d}_{iz:02d}"
 
 
@@ -131,6 +135,22 @@ def collect(sector_id: str = "sector_001") -> tuple[dict, dict]:
     floor_bin = clean_floor_mask(rgb, floor_bin)
     colors = extract_color_masks(rgb, floor_bin)
     grid, gx0, gz0, nx, nz = build_grid_m(floor_bin, colors, mpp, m_box, halo_m=HALO_M)
+
+    # The source image contains unrelated blue drafting marks outside E01. The
+    # broad colour classifier used to turn 25 normal floor rectangles into
+    # transparent water. E01 is the documented flooded region, so only blue
+    # cells inside that source-derived region may retain the WATER surface.
+    cleared_water_cells = 0
+    if sector_id == "sector_001":
+        e01_box = elev["E01"]["m_box"]
+        for iz in range(nz):
+            for ix in range(nx):
+                if grid[iz, ix] != WATER:
+                    continue
+                cx, cz = cell_center(ix, iz, gx0, gz0)
+                if not in_box_m(cx, cz, e01_box):
+                    grid[iz, ix] = FLOOR
+                    cleared_water_cells += 1
 
     stairs_built = []
     ramp_tris: list[list[float]] = []
@@ -176,6 +196,7 @@ def collect(sector_id: str = "sector_001") -> tuple[dict, dict]:
         "artificial_sector_boundary_walls": 0,
         "orphan_white_meshes": 0,
         "unintended_transparent_floor": 0,
+        "corrected_false_water_cells": cleared_water_cells,
     }
 
     tall_box_m = None
@@ -194,7 +215,7 @@ def collect(sector_id: str = "sector_001") -> tuple[dict, dict]:
             fy = 0.8
         return fy
 
-    def ceil_h_at(cx, cz) -> float:
+    def ceiling_y_at(cx, cz) -> float | None:
         if sector_id == "sector_001":
             none_box = elev["E03"]["m_box"]
             low_box = elev["E02"]["m_box"]
@@ -204,7 +225,7 @@ def collect(sector_id: str = "sector_001") -> tuple[dict, dict]:
                 return 1.15
             return ROOM_H
         if tall_box_m and in_box_m(cx, cz, tall_box_m):
-            return TALL_ROOM_CEILING_M
+            return 0.8 + TALL_ROOM_CEILING_M
         return ROOM_H
 
     def is_partition_wall(cx, cz) -> bool:
@@ -240,7 +261,6 @@ def collect(sector_id: str = "sector_001") -> tuple[dict, dict]:
     poor_box = elev.get("E04", {}).get("m_box", [0, 0, 0, 0])
     orange_box = elev.get("E05", {}).get("m_box", [0, 0, 0, 0])
 
-    fixture_spots = []
     for x, z, w, h, t in floor_rects:
         sx = w * SNAP
         sz = h * SNAP
@@ -250,80 +270,120 @@ def collect(sector_id: str = "sector_001") -> tuple[dict, dict]:
         add("floor", mat_for[t], cx, fy - FLOOR_T / 2, cz, sx, FLOOR_T, sz, True)
         if t == WATER:
             add("water", "mat_water", cx, fy + 0.22, cz, sx * 0.98, 0.06, sz * 0.98, False, False)
-        ch = ceil_h_at(cx, cz)
-        if ch is not None:
-            add("ceil", "mat_ceil", cx, fy + ch + CEIL_T / 2, cz, sx, CEIL_T, sz, False, False)
-            if t != WATER:
-                poor = sector_id == "sector_001" and in_box_m(cx, cz, poor_box)
-                orange = sector_id == "sector_001" and in_box_m(cx, cz, orange_box)
-                fixture_spots.append((cx, fy + ch - 0.08, cz, poor, orange))
 
-    n_artif = 0
+    # Ceiling rectangles are generated from an explicit height-profile grid,
+    # independent of floor/material greedy rectangles. This prevents a floor
+    # rectangle's centre from assigning an arbitrary height to cells across an
+    # annotated boundary.
+    ceiling_profile = np.zeros_like(work, dtype=np.uint8)
+    for iz in range(nz):
+        for ix in range(nx):
+            if not owned[iz, ix] or grid[iz, ix] in (EMPTY, STAIR):
+                continue
+            cx, cz = cell_center(ix, iz, gx0, gz0)
+            cy = ceiling_y_at(cx, cz)
+            if cy is None:
+                continue
+            ceiling_profile[iz, ix] = 2 if abs(cy - 1.15) < 0.01 else (3 if cy > ROOM_H + 0.1 else 1)
+    ceiling_rects = greedy_rects(ceiling_profile, {1, 2, 3})
+    ceiling_y_by_profile = {1: ROOM_H, 2: 1.15, 3: 0.8 + TALL_ROOM_CEILING_M}
+    for x, z, w, h, profile in ceiling_rects:
+        sx = w * SNAP
+        sz = h * SNAP
+        cx = gx0 + (x + w / 2) * SNAP
+        cz = gz0 + (z + h / 2) * SNAP
+        cy = ceiling_y_by_profile[profile]
+        add("ceil", "mat_ceil", cx, cy + CEIL_T / 2, cz, sx, CEIL_T, sz, False, False)
+
+    fixture_spots = []
+    fixture_stride = max(1, int(round(2.0 / SNAP)))
+    for iz in range(0, nz, fixture_stride):
+        for ix in range(0, nx, fixture_stride):
+            if not owned[iz, ix] or grid[iz, ix] in (EMPTY, STAIR, WATER):
+                continue
+            cx, cz = cell_center(ix, iz, gx0, gz0)
+            cy = ceiling_y_at(cx, cz)
+            if cy is None:
+                continue
+            poor = sector_id == "sector_001" and in_box_m(cx, cz, poor_box)
+            orange = sector_id == "sector_001" and in_box_m(cx, cz, orange_box)
+            fixture_spots.append((cx, cy - 0.08, cz, poor, orange))
+
+    # Split only where the source-derived height/material profile changes, then
+    # merge adjacent equal units again. Walls grow from 0.12 m to 0.24 m solely
+    # toward the non-walkable side, preserving the former walkable face and all
+    # passage clearances.
     owned_walls = []
-    for kind, a, b, length in walls_all:
-        if kind == "x":
-            sx, sz = length * SNAP, WALL_T
-            cx = gx0 + (a + length / 2) * SNAP
-            cz = gz0 + b * SNAP
-            # Occupied side: cell iz=b (south) or iz=b-1 (north)
-            south = b < nz and bool(grid[b, min(a, nx - 1)] != EMPTY) if 0 <= b < nz else False
-            north = b - 1 >= 0 and bool(grid[b - 1, min(a, nx - 1)] != EMPTY) if b - 1 < nz else False
-        else:
-            sx, sz = WALL_T, length * SNAP
-            cx = gx0 + a * SNAP
-            cz = gz0 + (b + length / 2) * SNAP
-            east = a < nx and bool(grid[min(b, nz - 1), a] != EMPTY) if 0 <= a < nx else False
-            west = a - 1 >= 0 and bool(grid[min(b, nz - 1), a - 1] != EMPTY) if a - 1 < nx else False
-            south = east
-            north = west
-        # Continuation across the technical boundary: both sides occupied globally -> no wall.
-        if north and south:
-            continue
-        occ_here = north or south
-        if not occ_here:
-            continue
-        # Owner = the occupied cell. Emit only if that cell's center is in this sector.
-        if kind == "x":
-            iz_occ = b if south else b - 1
-            ix_occ = min(max(a, 0), nx - 1)
-        else:
-            ix_occ = a if south else a - 1  # south reused as "positive side"
-            iz_occ = min(max(b, 0), nz - 1)
-        if not (0 <= iz_occ < nz and 0 <= ix_occ < nx):
-            continue
-        ocx, ocz = cell_center(ix_occ, iz_occ, gx0, gz0)
-        if not in_half_open(ocx, ocz, m_box):
-            continue
-        # Technical seam: occupied in-sector, occupied halo outside -> skip (already handled by north and south)
-        owned_walls.append((kind, a, b, length, cx, cz, sx, sz))
+    outward_offset = (WALL_T - WALL_NAV_FACE_T) * 0.5
+    st01 = stairs_built[0][1] if sector_id == "sector_001" and stairs_built else None
 
-    if sector_id == "sector_001":
-        st01 = stairs_built[0][1] if stairs_built else None
-        if st01:
-            filtered = []
-            for item in owned_walls:
-                kind, a, b, length, cx, cz, sx, sz = item
-                if kind == "x" and abs(cz - m_box[1]) < 0.3:
-                    d, s = _project_polyline(cx, cz, st01["segs"])
-                    if d <= st01["width_m"] * 0.7 and s < st01["length_m"] - 0.5:
-                        continue
-                filtered.append(item)
-            owned_walls = filtered
+    for kind, a, b, length in walls_all:
+        runs = []
+        run_start = None
+        run_key = None
+        for offset in range(length):
+            if kind == "x":
+                ix_line, iz_line = a + offset, b
+                positive = iz_line < nz and grid[iz_line, ix_line] != EMPTY
+                negative = iz_line > 0 and grid[iz_line - 1, ix_line] != EMPTY
+                ix_occ = ix_line
+                iz_occ = iz_line if positive else iz_line - 1
+                ux = gx0 + (ix_line + 0.5) * SNAP
+                uz = gz0 + iz_line * SNAP
+            else:
+                ix_line, iz_line = a, b + offset
+                positive = ix_line < nx and grid[iz_line, ix_line] != EMPTY
+                negative = ix_line > 0 and grid[iz_line, ix_line - 1] != EMPTY
+                ix_occ = ix_line if positive else ix_line - 1
+                iz_occ = iz_line
+                ux = gx0 + ix_line * SNAP
+                uz = gz0 + (iz_line + 0.5) * SNAP
+
+            key = None
+            if positive != negative and 0 <= iz_occ < nz and 0 <= ix_occ < nx:
+                ocx, ocz = cell_center(ix_occ, iz_occ, gx0, gz0)
+                if in_half_open(ocx, ocz, m_box):
+                    skip_stair_opening = False
+                    if st01 and kind == "x" and abs(uz - m_box[1]) < 0.3:
+                        d, s = _project_polyline(ux, uz, st01["segs"])
+                        skip_stair_opening = d <= st01["width_m"] * 0.7 and s < st01["length_m"] - 0.5
+                    if not skip_stair_opening:
+                        surface = int(grid[iz_occ, ix_occ])
+                        fy = floor_y_at(ocx, ocz, surface)
+                        if is_partition_wall(ocx, ocz):
+                            top_y = fy + PARTITION_GAP_H
+                        else:
+                            ceiling_y = ceiling_y_at(ocx, ocz)
+                            top_y = fy + 12.0 if ceiling_y is None else ceiling_y
+                        key = (bool(positive), round(fy, 4), round(top_y, 4))
+
+            if key != run_key:
+                if run_start is not None:
+                    runs.append((run_start, offset, run_key))
+                run_start = offset if key is not None else None
+                run_key = key
+            elif key is None:
+                run_start = None
+        if run_start is not None:
+            runs.append((run_start, length, run_key))
+
+        for start, end, key in runs:
+            positive, fy, top_y = key
+            run_length = end - start
+            if kind == "x":
+                cx = gx0 + (a + start + run_length / 2) * SNAP
+                cz = gz0 + b * SNAP + (-outward_offset if positive else outward_offset)
+                sx, sz = run_length * SNAP, WALL_T
+            else:
+                cx = gx0 + a * SNAP + (-outward_offset if positive else outward_offset)
+                cz = gz0 + (b + start + run_length / 2) * SNAP
+                sx, sz = WALL_T, run_length * SNAP
+            owned_walls.append((kind, cx, cz, sx, sz, fy, top_y))
 
     audit["wall_segments"] = len(owned_walls)
-    for kind, a, b, length, cx, cz, sx, sz in owned_walls:
-        fy = floor_y_at(cx, cz, FLOOR)
-        if is_partition_wall(cx, cz):
-            hh = PARTITION_GAP_H
-            mat = "mat_wall"
-            add("wall", mat, cx, fy + hh / 2, cz, sx, hh, sz, True)
-            continue
-        ch = ceil_h_at(cx, cz)
-        hh = 12.0 if (sector_id == "sector_001" and in_box_m(cx, cz, none_box)) else (ch or ROOM_H)
-        if tall_box_m and in_box_m(cx, cz, tall_box_m):
-            hh = TALL_ROOM_CEILING_M
-        mat = "mat_void" if hh > 8 else "mat_wall"
-        add("wall", mat, cx, fy + hh / 2, cz, sx, hh, sz, True)
+    for kind, cx, cz, sx, sz, fy, top_y in owned_walls:
+        hh = top_y - fy
+        add("wall", "mat_wall", cx, fy + hh / 2, cz, sx, hh, sz, True)
 
     # --- sector-specific features ---
     if sector_id == "sector_001":
@@ -377,7 +437,7 @@ def collect(sector_id: str = "sector_001") -> tuple[dict, dict]:
         nstep = rise_out = tread_out = 0
         st = None
 
-    # Fixtures: visual MultiMesh always; OmniLights sparse except Sector001 (keep existing density).
+    # Visual fixtures stay dense and batched; actual OmniLights are sparse.
     placed = []
     fixtures_on = []
     fixtures_off = []
@@ -385,7 +445,7 @@ def collect(sector_id: str = "sector_001") -> tuple[dict, dict]:
     lights = []
     flicker_left, off_left = (1, 2) if sector_id == "sector_001" else (0, 0)
     vis_spacing = 5.8
-    light_spacing = 5.6 if sector_id == "sector_001" else 13.5
+    light_spacing = 11.5
     placed_l = []
     for cx, cy, cz, poor, orange in fixture_spots:
         if orange:

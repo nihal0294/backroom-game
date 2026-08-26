@@ -27,10 +27,10 @@ cast_shadow = 0
 
 [node name="Light" type="OmniLight3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.12, 0)
-light_color = Color(1, 0.96, 0.8, 1)
-light_energy = 2.35
-light_specular = 0.22
+light_color = Color(0.96, 0.95, 0.84, 1)
+light_energy = 1.4
+light_specular = 0.14
 light_volumetric_fog_energy = 0.0
 shadow_enabled = false
-omni_range = 8.4
-omni_attenuation = 1.35
+omni_range = 8.5
+omni_attenuation = 1.5

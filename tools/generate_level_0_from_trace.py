@@ -38,7 +38,10 @@ AUDIT_PATH = ROOT / "docs" / "levels" / "level-0-pilot-audit.json"
 OVERLAY_PATH = ROOT / "docs" / "reference" / "level-0" / "level-0-pilot-overlay.png"
 
 SNAP = 0.5
-WALL_T = 0.12
+# The original 0.12 m wall face remains the navigation contract. The calibrated
+# mass extends only into the non-walkable side in export_level_0_bake.py.
+WALL_NAV_FACE_T = 0.12
+WALL_T = 0.24
 FLOOR_T = 0.10
 CEIL_T = 0.10
 ROOM_H = 3.0
@@ -74,6 +77,11 @@ def load_trace() -> dict:
 def patch_trace(trace: dict) -> dict:
     mpp = trace["scale"]["meters_per_pixel"]
     trace["scale"]["snap_m"] = SNAP
+    previous_built = {
+        str(s.get("id")): bool(s.get("built"))
+        for s in trace.get("sectors", [])
+        if s.get("id")
+    }
 
     def to_m(px):
         return [snap_m(px[0] * mpp), snap_m(px[1] * mpp)]
@@ -153,7 +161,8 @@ def patch_trace(trace: dict) -> dict:
                     snap_m(aabb[0] + (ix + 1) * dx),
                     snap_m(aabb[1] + (iz + 1) * dz),
                 ],
-                "built": False,
+                "built": bool(previous_built.get(f"sector_{sid:03d}", False))
+                or (SECTOR_DIR / f"sector_{sid:03d}.tscn").exists(),
             })
             sid += 1
     trace["sectors"] = [

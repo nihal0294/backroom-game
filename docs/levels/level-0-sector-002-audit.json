@@ -19,7 +19,7 @@
   "occupied_cells": 20434,
   "stair_cells": 94,
   "floor_rects": 563,
-  "wall_segments": 1248,
+  "wall_segments": 1251,
   "overlap_cells": 0,
   "missing_walkable_cells": 0,
   "extra_floor_cells": 0,
@@ -28,6 +28,7 @@
   "artificial_sector_boundary_walls": 0,
   "orphan_white_meshes": 0,
   "unintended_transparent_floor": 0,
+  "corrected_false_water_cells": 0,
   "borders": {
     "NORTH": [],
     "EAST": [
@@ -92,12 +93,12 @@
     "WEST": []
   },
   "counts": {
-    "boxes": 2393,
-    "chunks": 15,
-    "fixtures_on": 95,
+    "boxes": 2298,
+    "chunks": 14,
+    "fixtures_on": 161,
     "fixtures_off": 0,
     "fixtures_flicker": 0,
-    "lights": 30,
+    "lights": 50,
     "stair_ramp_tris": 8
   },
   "stair": {

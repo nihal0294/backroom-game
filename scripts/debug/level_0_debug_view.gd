@@ -30,6 +30,15 @@ func _ready() -> void:
 		await _run_physics_test()
 		get_tree().quit()
 		return
+	if OS.get_environment("LEVEL0_DETAIL_CAPTURE") == "1":
+		await _capture_details()
+		get_tree().quit()
+		return
+	if OS.get_environment("LEVEL0_METRICS") == "1":
+		await get_tree().process_frame
+		_print_level_metrics()
+		get_tree().quit()
+		return
 	if OS.get_environment("LEVEL0_WALK_TEST") == "1":
 		await get_tree().physics_frame
 		await get_tree().physics_frame
@@ -157,6 +166,143 @@ func _capture_all() -> void:
 	await get_tree().process_frame
 
 
+func _capture_details() -> void:
+	DirAccess.make_dir_recursive_absolute(ProjectSettings.globalize_path(CAPTURE_DIR))
+	_set_player_ui_visible(false)
+	var player_cam := _player.get_node_or_null("Camera3D") if _player else null
+	if player_cam:
+		player_cam.current = false
+	var camera := Camera3D.new()
+	camera.name = "DetailCaptureCamera"
+	camera.fov = 72.0
+	camera.far = 120.0
+	$DebugViews.add_child(camera)
+	camera.current = true
+	var samples := _load_all_walk_samples()
+	var requested := [
+		["normal_room", Vector2(304.0, 344.0), 0.0],
+		["corridor", Vector2(348.0, 389.0), 0.0],
+		["carpet_closeup", Vector2(304.0, 344.0), -0.62],
+		["ceiling_closeup", Vector2(304.0, 344.0), 0.58],
+		["fluorescent_lighting", Vector2(379.0, 414.0), 0.3],
+		["narrow_passage_a096", Vector2(344.0, 351.0), 0.0],
+		["no_ceiling_a100", Vector2(403.5, 372.0), 0.48],
+		["tall_room_a004", Vector2(108.0, 28.0), 0.45],
+		["short_walls_a003", Vector2(75.0, 68.0), 0.3],
+		["house_area_a005", Vector2(125.0, 90.5), 0.0],
+		["poor_lighting_a105", Vector2(379.0, 414.0), 0.0],
+	]
+	var space := get_world_3d().direct_space_state
+	for item in requested:
+		var label: String = item[0]
+		var sample := _nearest_walk_sample(item[1], samples)
+		var floor_y := 0.8 if label == "tall_room_a004" else 0.0
+		var camera_position := Vector3(sample.x, floor_y + 1.58, sample.y)
+		var direction := _best_capture_direction(space, camera_position)
+		direction.y = float(item[2])
+		direction = direction.normalized()
+		camera.global_position = camera_position
+		camera.look_at(camera_position + direction * 8.0, Vector3.UP)
+		await get_tree().process_frame
+		await get_tree().process_frame
+		await RenderingServer.frame_post_draw
+		var texture := get_viewport().get_texture()
+		var image := texture.get_image() if texture else null
+		if image:
+			var path := CAPTURE_DIR + "/level_0_%s.png" % label
+			var error := image.save_png(path)
+			print("DETAIL_CAPTURE label=", label, " at=", camera_position, " error=", error)
+		else:
+			print("DETAIL_CAPTURE_FAIL label=", label)
+	camera.queue_free()
+
+
+func _load_all_walk_samples() -> Array[Vector2]:
+	var out: Array[Vector2] = []
+	for path in [
+		"res://scenes/levels/level_0/walk_samples_sector_001.json",
+		"res://scenes/levels/level_0/walk_samples_sector_002.json",
+	]:
+		var file := FileAccess.open(path, FileAccess.READ)
+		if file == null:
+			continue
+		var parsed = JSON.parse_string(file.get_as_text())
+		if not parsed is Array:
+			continue
+		for sample in parsed:
+			out.append(Vector2(float(sample[1]), float(sample[2])))
+	return out
+
+
+func _nearest_walk_sample(target: Vector2, samples: Array[Vector2]) -> Vector2:
+	var best := target
+	var best_distance := INF
+	for sample in samples:
+		var distance := sample.distance_squared_to(target)
+		if distance < best_distance:
+			best = sample
+			best_distance = distance
+	return best
+
+
+func _best_capture_direction(space: PhysicsDirectSpaceState3D, origin: Vector3) -> Vector3:
+	var best := Vector3(0, 0, -1)
+	var best_distance := -1.0
+	for direction in [
+		Vector3(1, 0, 0), Vector3(-1, 0, 0), Vector3(0, 0, 1), Vector3(0, 0, -1),
+		Vector3(1, 0, 1).normalized(), Vector3(-1, 0, 1).normalized(),
+		Vector3(1, 0, -1).normalized(), Vector3(-1, 0, -1).normalized(),
+	]:
+		var query := PhysicsRayQueryParameters3D.create(origin, origin + direction * 18.0)
+		var hit := space.intersect_ray(query)
+		var distance := 18.0 if hit.is_empty() else origin.distance_to(hit["position"])
+		if distance > best_distance:
+			best = direction
+			best_distance = distance
+	return best
+
+
+func _print_level_metrics() -> void:
+	var counts := {
+		"static_node_count": 0,
+		"mesh_instance_3d": 0,
+		"array_mesh": 0,
+		"static_body_3d": 0,
+		"collision_shape_3d": 0,
+		"multimesh_instance_3d": 0,
+		"light_3d": 0,
+		"lights_with_shadows": 0,
+	}
+	var unique_array_meshes := {}
+	for sector_name in ["Sector001", "Sector002"]:
+		var sector := get_node_or_null(sector_name)
+		if sector:
+			_collect_level_metrics(sector, counts, unique_array_meshes)
+	counts["array_mesh"] = unique_array_meshes.size()
+	print("LEVEL0_METRICS ", JSON.stringify(counts))
+
+
+func _collect_level_metrics(node: Node, counts: Dictionary, unique_array_meshes: Dictionary) -> void:
+	counts["static_node_count"] += 1
+	if node is MultiMeshInstance3D:
+		counts["multimesh_instance_3d"] += 1
+	elif node is MeshInstance3D:
+		counts["mesh_instance_3d"] += 1
+		var mesh := (node as MeshInstance3D).mesh
+		if mesh is ArrayMesh:
+			unique_array_meshes[mesh.get_instance_id()] = true
+	if node is StaticBody3D:
+		counts["static_body_3d"] += 1
+	if node is CollisionShape3D:
+		counts["collision_shape_3d"] += 1
+	if node is Light3D:
+		counts["light_3d"] += 1
+		if (node as Light3D).shadow_enabled:
+			counts["lights_with_shadows"] += 1
+	for child in node.get_children():
+		_collect_level_metrics(child, counts, unique_array_meshes)
+
+
 func _physics_process(delta: float) -> void:
 	if not _drive or _drive_body == null:
 		return
@@ -260,6 +406,7 @@ func _run_physics_test() -> void:
 		fails += 1
 
 	fails += await _seam_test(body, space)
+	fails += await _a096_passage_test(body, space)
 	fails += await _st01_test(body, space)
 	fails += await _st04_test(body, space)
 	fails += _resource_check()
@@ -359,6 +506,75 @@ func _seam_test(body: CharacterBody3D, space: PhysicsDirectSpaceState3D) -> int:
 		return 1
 	# Remaining snags are occupancy-edge / water-adjacent samples, not coplanar rect seams.
 	print("PHYS seam_edge_blocks=", snags, " (not counted as floor-rect snags)")
+	return 0
+
+
+func _a096_passage_test(body: CharacterBody3D, space: PhysicsDirectSpaceState3D) -> int:
+	# A096 is explicitly a room with tiny entrances. Verify that a full-size
+	# player capsule can reach outside an 8 m neighbourhood; this catches a
+	# visible opening accidentally closed by generated collision.
+	const STEP := 0.25
+	const HALF_CELLS := 32
+	var centre := Vector2(344.0, 351.0)
+	var capsule := CapsuleShape3D.new()
+	capsule.radius = 0.32
+	capsule.height = 1.8
+	var free := {}
+	var seed := Vector2i.ZERO
+	var seed_found := false
+	var seed_distance := INF
+	for iz in range(-HALF_CELLS, HALF_CELLS + 1):
+		for ix in range(-HALF_CELLS, HALF_CELLS + 1):
+			var point := centre + Vector2(ix, iz) * STEP
+			var floor_query := PhysicsRayQueryParameters3D.create(
+				Vector3(point.x, 1.0, point.y), Vector3(point.x, -1.0, point.y)
+			)
+			floor_query.exclude = [body.get_rid()]
+			if space.intersect_ray(floor_query).is_empty():
+				continue
+			var shape_query := PhysicsShapeQueryParameters3D.new()
+			shape_query.shape = capsule
+			shape_query.transform = Transform3D(Basis.IDENTITY, Vector3(point.x, 0.95, point.y))
+			shape_query.exclude = [body.get_rid()]
+			shape_query.collide_with_areas = false
+			var blocked := false
+			for hit in space.intersect_shape(shape_query, 16):
+				var collider: Node = hit.get("collider")
+				var path := str(collider.get_path()) if collider else ""
+				if "Wall" in path or "Special" in path:
+					blocked = true
+					break
+			if blocked:
+				continue
+			var key := Vector2i(ix, iz)
+			free[key] = true
+			var distance := point.distance_squared_to(centre)
+			if distance < seed_distance:
+				seed = key
+				seed_distance = distance
+				seed_found = true
+	if not seed_found:
+		print("PHYS_FAIL A096 no capsule-clear point near annotation")
+		return 1
+	var queue: Array[Vector2i] = [seed]
+	var visited := {seed: true}
+	var reached_boundary := false
+	var head := 0
+	while head < queue.size():
+		var here := queue[head]
+		head += 1
+		if absi(here.x) == HALF_CELLS or absi(here.y) == HALF_CELLS:
+			reached_boundary = true
+			break
+		for delta in [Vector2i.RIGHT, Vector2i.LEFT, Vector2i.DOWN, Vector2i.UP]:
+			var next: Vector2i = here + delta
+			if free.has(next) and not visited.has(next):
+				visited[next] = true
+				queue.append(next)
+	print("PHYS A096 seed=", centre + Vector2(seed) * STEP, " capsule_radius=0.32 visited=", visited.size(), " reaches_8m_boundary=", reached_boundary)
+	if not reached_boundary:
+		print("PHYS_FAIL A096 tiny entrances closed to player capsule")
+		return 1
 	return 0
 
 

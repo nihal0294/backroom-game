@@ -15,8 +15,8 @@
   "grid": null,
   "occupied_cells": 28246,
   "stair_cells": 109,
-  "floor_rects": 2327,
-  "wall_segments": 4259,
+  "floor_rects": 2295,
+  "wall_segments": 4353,
   "overlap_cells": 0,
   "missing_walkable_cells": 0,
   "extra_floor_cells": 0,
@@ -24,5 +24,6 @@
   "unclassified_walkable_gaps": 0,
   "artificial_sector_boundary_walls": 0,
   "orphan_white_meshes": 0,
-  "unintended_transparent_floor": 0
+  "unintended_transparent_floor": 0,
+  "corrected_false_water_cells": 218
 }

@@ -12,7 +12,7 @@ extends Node3D
 const _ON := preload("res://resources/materials/level_0/fluorescent_emissive.tres")
 const _OFF := preload("res://resources/materials/level_0/fluorescent_off.tres")
 
-var _base_energy: float = 2.35
+var _base_energy: float = 1.4
 var _t: float = 0.0
 
 

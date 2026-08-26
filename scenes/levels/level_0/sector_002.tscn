@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=3]
+[gd_scene load_steps=22 format=3]
 
 [ext_resource type="PackedScene" path="res://scenes/environment/fluorescent_fixture.tscn" id="3_fix"]
 [ext_resource type="Material" path="res://resources/materials/level_0/fixture_housing.tres" id="mat_house"]
@@ -20,7 +20,6 @@
 [ext_resource type="PackedScene" path="res://scenes/levels/level_0/sector_002_chunks/chunk_02_03.tscn" id="ch_012"]
 [ext_resource type="PackedScene" path="res://scenes/levels/level_0/sector_002_chunks/chunk_03_01.tscn" id="ch_013"]
 [ext_resource type="PackedScene" path="res://scenes/levels/level_0/sector_002_chunks/chunk_03_02.tscn" id="ch_014"]
-[ext_resource type="PackedScene" path="res://scenes/levels/level_0/sector_002_chunks/chunk_03_03.tscn" id="ch_015"]
 
 [node name="Sector002" type="Node3D"]
 
@@ -52,8 +51,6 @@
 
 [node name="chunk_03_02" parent="." instance=ExtResource("ch_014")]
 
-[node name="chunk_03_03" parent="." instance=ExtResource("ch_015")]
-
 [node name="Fixtures" type="Node3D" parent="."]
 
 [node name="MM_On_House" type="MultiMeshInstance3D" parent="Fixtures"]
@@ -67,272 +64,452 @@ material_override = ExtResource("mat_on")
 cast_shadow = 0
 
 [node name="L_000" type="OmniLight3D" parent="Fixtures"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 24.25, 2.8, 16.5)
-light_color = Color(1, 0.96, 0.8, 1)
-light_energy = 2.35
-light_specular = 0.22
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 24.25, 2.8, 16.25)
+light_color = Color(0.96, 0.95, 0.84, 1)
+light_energy = 1.4
+light_specular = 0.14
 shadow_enabled = false
-omni_range = 8.4
-omni_attenuation = 1.35
+omni_range = 8.5
+omni_attenuation = 1.5
 
 [node name="L_001" type="OmniLight3D" parent="Fixtures"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 32.25, 2.8, 32.75)
-light_color = Color(1, 0.96, 0.8, 1)
-light_energy = 2.35
-light_specular = 0.22
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 28.25, 2.8, 28.25)
+light_color = Color(0.96, 0.95, 0.84, 1)
+light_energy = 1.4
+light_specular = 0.14
 shadow_enabled = false
-omni_range = 8.4
-omni_attenuation = 1.35
+omni_range = 8.5
+omni_attenuation = 1.5
 
 [node name="L_002" type="OmniLight3D" parent="Fixtures"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 77.5, 2.8, 41.0)
-light_color = Color(1, 0.96, 0.8, 1)
-light_energy = 2.35
-light_specular = 0.22
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 78.25, 2.8, 34.25)
+light_color = Color(0.96, 0.95, 0.84, 1)
+light_energy = 1.4
+light_specular = 0.14
 shadow_enabled = false
-omni_range = 8.4
-omni_attenuation = 1.35
+omni_range = 8.5
+omni_attenuation = 1.5
 
 [node name="L_003" type="OmniLight3D" parent="Fixtures"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 90.5, 7.6, 45.25)
-light_color = Color(1, 0.96, 0.8, 1)
-light_energy = 2.35
-light_specular = 0.22
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 90.25, 7.6, 38.25)
+light_color = Color(0.96, 0.95, 0.84, 1)
+light_energy = 1.4
+light_specular = 0.14
 shadow_enabled = false
-omni_range = 8.4
-omni_attenuation = 1.35
+omni_range = 8.5
+omni_attenuation = 1.5
 
 [node name="L_004" type="OmniLight3D" parent="Fixtures"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 133.75, 2.8, 57.5)
-light_color = Color(1, 0.96, 0.8, 1)
-light_energy = 2.35
-light_specular = 0.22
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 28.25, 2.8, 40.25)
+light_color = Color(0.96, 0.95, 0.84, 1)
+light_energy = 1.4
+light_specular = 0.14
 shadow_enabled = false
-omni_range = 8.4
-omni_attenuation = 1.35
+omni_range = 8.5
+omni_attenuation = 1.5
 
 [node name="L_005" type="OmniLight3D" parent="Fixtures"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 127.75, 2.8, 43.25)
-light_color = Color(1, 0.96, 0.8, 1)
-light_energy = 2.35
-light_specular = 0.22
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 128.25, 2.8, 42.25)
+light_color = Color(0.96, 0.95, 0.84, 1)
+light_energy = 1.4
+light_specular = 0.14
 shadow_enabled = false
-omni_range = 8.4
-omni_attenuation = 1.35
+omni_range = 8.5
+omni_attenuation = 1.5
 
 [node name="L_006" type="OmniLight3D" parent="Fixtures"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 29.75, 2.8, 48.25)
-light_color = Color(1, 0.96, 0.8, 1)
-light_energy = 2.35
-light_specular = 0.22
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 76.25, 2.8, 46.25)
+light_color = Color(0.96, 0.95, 0.84, 1)
+light_energy = 1.4
+light_specular = 0.14
 shadow_enabled = false
-omni_range = 8.4
-omni_attenuation = 1.35
+omni_range = 8.5
+omni_attenuation = 1.5
 
 [node name="L_007" type="OmniLight3D" parent="Fixtures"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 118.5, 2.8, 61.5)
-light_color = Color(1, 0.96, 0.8, 1)
-light_energy = 2.35
-light_specular = 0.22
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 112.25, 7.6, 48.25)
+light_color = Color(0.96, 0.95, 0.84, 1)
+light_energy = 1.4
+light_specular = 0.14
 shadow_enabled = false
-omni_range = 8.4
-omni_attenuation = 1.35
+omni_range = 8.5
+omni_attenuation = 1.5
 
 [node name="L_008" type="OmniLight3D" parent="Fixtures"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 49.75, 2.8, 75.0)
-light_color = Color(1, 0.96, 0.8, 1)
-light_energy = 2.35
-light_specular = 0.22
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 50.25, 2.8, 50.25)
+light_color = Color(0.96, 0.95, 0.84, 1)
+light_energy = 1.4
+light_specular = 0.14
 shadow_enabled = false
-omni_range = 8.4
-omni_attenuation = 1.35
+omni_range = 8.5
+omni_attenuation = 1.5
 
 [node name="L_009" type="OmniLight3D" parent="Fixtures"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 33.75, 2.8, 64.75)
-light_color = Color(1, 0.96, 0.8, 1)
-light_energy = 2.35
-light_specular = 0.22
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 88.25, 7.6, 50.25)
+light_color = Color(0.96, 0.95, 0.84, 1)
+light_energy = 1.4
+light_specular = 0.14
 shadow_enabled = false
-omni_range = 8.4
-omni_attenuation = 1.35
+omni_range = 8.5
+omni_attenuation = 1.5
 
 [node name="L_010" type="OmniLight3D" parent="Fixtures"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 38.75, 2.8, 90.25)
-light_color = Color(1, 0.96, 0.8, 1)
-light_energy = 2.35
-light_specular = 0.22
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 30.25, 2.8, 52.25)
+light_color = Color(0.96, 0.95, 0.84, 1)
+light_energy = 1.4
+light_specular = 0.14
 shadow_enabled = false
-omni_range = 8.4
-omni_attenuation = 1.35
+omni_range = 8.5
+omni_attenuation = 1.5
 
 [node name="L_011" type="OmniLight3D" parent="Fixtures"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 87.25, 2.8, 58.75)
-light_color = Color(1, 0.96, 0.8, 1)
-light_energy = 2.35
-light_specular = 0.22
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 100.25, 7.6, 54.25)
+light_color = Color(0.96, 0.95, 0.84, 1)
+light_energy = 1.4
+light_specular = 0.14
 shadow_enabled = false
-omni_range = 8.4
-omni_attenuation = 1.35
+omni_range = 8.5
+omni_attenuation = 1.5
 
 [node name="L_012" type="OmniLight3D" parent="Fixtures"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 101.75, 2.8, 62.0)
-light_color = Color(1, 0.96, 0.8, 1)
-light_energy = 2.35
-light_specular = 0.22
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 124.25, 2.8, 54.25)
+light_color = Color(0.96, 0.95, 0.84, 1)
+light_energy = 1.4
+light_specular = 0.14
 shadow_enabled = false
-omni_range = 8.4
-omni_attenuation = 1.35
+omni_range = 8.5
+omni_attenuation = 1.5
 
 [node name="L_013" type="OmniLight3D" parent="Fixtures"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 57.75, 2.8, 63.25)
-light_color = Color(1, 0.96, 0.8, 1)
-light_energy = 2.35
-light_specular = 0.22
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40.25, 2.8, 60.25)
+light_color = Color(0.96, 0.95, 0.84, 1)
+light_energy = 1.4
+light_specular = 0.14
 shadow_enabled = false
-omni_range = 8.4
-omni_attenuation = 1.35
+omni_range = 8.5
+omni_attenuation = 1.5
 
 [node name="L_014" type="OmniLight3D" parent="Fixtures"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 74.5, 2.8, 65.25)
-light_color = Color(1, 0.96, 0.8, 1)
-light_energy = 2.35
-light_specular = 0.22
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 78.25, 2.8, 62.25)
+light_color = Color(0.96, 0.95, 0.84, 1)
+light_energy = 1.4
+light_specular = 0.14
 shadow_enabled = false
-omni_range = 8.4
-omni_attenuation = 1.35
+omni_range = 8.5
+omni_attenuation = 1.5
 
 [node name="L_015" type="OmniLight3D" parent="Fixtures"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 110.0, 2.8, 75.5)
-light_color = Color(1, 0.96, 0.8, 1)
-light_energy = 2.35
-light_specular = 0.22
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 110.25, 2.8, 62.25)
+light_color = Color(0.96, 0.95, 0.84, 1)
+light_energy = 1.4
+light_specular = 0.14
 shadow_enabled = false
-omni_range = 8.4
-omni_attenuation = 1.35
+omni_range = 8.5
+omni_attenuation = 1.5
 
 [node name="L_016" type="OmniLight3D" parent="Fixtures"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 133.75, 2.8, 79.0)
-light_color = Color(1, 0.96, 0.8, 1)
-light_energy = 2.35
-light_specular = 0.22
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 52.25, 2.8, 64.25)
+light_color = Color(0.96, 0.95, 0.84, 1)
+light_energy = 1.4
+light_specular = 0.14
 shadow_enabled = false
-omni_range = 8.4
-omni_attenuation = 1.35
+omni_range = 8.5
+omni_attenuation = 1.5
 
 [node name="L_017" type="OmniLight3D" parent="Fixtures"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 71.25, 2.8, 82.75)
-light_color = Color(1, 0.96, 0.8, 1)
-light_energy = 2.35
-light_specular = 0.22
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 94.25, 2.8, 64.25)
+light_color = Color(0.96, 0.95, 0.84, 1)
+light_energy = 1.4
+light_specular = 0.14
 shadow_enabled = false
-omni_range = 8.4
-omni_attenuation = 1.35
+omni_range = 8.5
+omni_attenuation = 1.5
 
 [node name="L_018" type="OmniLight3D" parent="Fixtures"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 37.25, 2.8, 106.5)
-light_color = Color(1, 0.96, 0.8, 1)
-light_energy = 2.35
-light_specular = 0.22
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 122.25, 2.8, 66.25)
+light_color = Color(0.96, 0.95, 0.84, 1)
+light_energy = 1.4
+light_specular = 0.14
 shadow_enabled = false
-omni_range = 8.4
-omni_attenuation = 1.35
+omni_range = 8.5
+omni_attenuation = 1.5
 
 [node name="L_019" type="OmniLight3D" parent="Fixtures"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 120.0, 2.8, 89.75)
-light_color = Color(1, 0.96, 0.8, 1)
-light_energy = 2.35
-light_specular = 0.22
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 68.25, 2.8, 70.25)
+light_color = Color(0.96, 0.95, 0.84, 1)
+light_energy = 1.4
+light_specular = 0.14
 shadow_enabled = false
-omni_range = 8.4
-omni_attenuation = 1.35
+omni_range = 8.5
+omni_attenuation = 1.5
 
 [node name="L_020" type="OmniLight3D" parent="Fixtures"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 53.5, 2.8, 92.75)
-light_color = Color(1, 0.96, 0.8, 1)
-light_energy = 2.35
-light_specular = 0.22
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 32.25, 2.8, 72.25)
+light_color = Color(0.96, 0.95, 0.84, 1)
+light_energy = 1.4
+light_specular = 0.14
 shadow_enabled = false
-omni_range = 8.4
-omni_attenuation = 1.35
+omni_range = 8.5
+omni_attenuation = 1.5
 
 [node name="L_021" type="OmniLight3D" parent="Fixtures"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 118.5, 2.8, 104.75)
-light_color = Color(1, 0.96, 0.8, 1)
-light_energy = 2.35
-light_specular = 0.22
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 132.25, 2.8, 72.25)
+light_color = Color(0.96, 0.95, 0.84, 1)
+light_energy = 1.4
+light_specular = 0.14
 shadow_enabled = false
-omni_range = 8.4
-omni_attenuation = 1.35
+omni_range = 8.5
+omni_attenuation = 1.5
 
 [node name="L_022" type="OmniLight3D" parent="Fixtures"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 88.0, 2.8, 106.0)
-light_color = Color(1, 0.96, 0.8, 1)
-light_energy = 2.35
-light_specular = 0.22
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 44.25, 2.8, 74.25)
+light_color = Color(0.96, 0.95, 0.84, 1)
+light_energy = 1.4
+light_specular = 0.14
 shadow_enabled = false
-omni_range = 8.4
-omni_attenuation = 1.35
+omni_range = 8.5
+omni_attenuation = 1.5
 
 [node name="L_023" type="OmniLight3D" parent="Fixtures"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12.0, 2.8, 115.75)
-light_color = Color(1, 0.96, 0.8, 1)
-light_energy = 2.35
-light_specular = 0.22
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 110.25, 2.8, 76.25)
+light_color = Color(0.96, 0.95, 0.84, 1)
+light_energy = 1.4
+light_specular = 0.14
 shadow_enabled = false
-omni_range = 8.4
-omni_attenuation = 1.35
+omni_range = 8.5
+omni_attenuation = 1.5
 
 [node name="L_024" type="OmniLight3D" parent="Fixtures"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 75.5, 2.8, 111.5)
-light_color = Color(1, 0.96, 0.8, 1)
-light_energy = 2.35
-light_specular = 0.22
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 56.25, 2.8, 78.25)
+light_color = Color(0.96, 0.95, 0.84, 1)
+light_energy = 1.4
+light_specular = 0.14
 shadow_enabled = false
-omni_range = 8.4
-omni_attenuation = 1.35
+omni_range = 8.5
+omni_attenuation = 1.5
 
 [node name="L_025" type="OmniLight3D" parent="Fixtures"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 132.75, 2.8, 108.5)
-light_color = Color(1, 0.96, 0.8, 1)
-light_energy = 2.35
-light_specular = 0.22
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 68.25, 2.8, 82.25)
+light_color = Color(0.96, 0.95, 0.84, 1)
+light_energy = 1.4
+light_specular = 0.14
 shadow_enabled = false
-omni_range = 8.4
-omni_attenuation = 1.35
+omni_range = 8.5
+omni_attenuation = 1.5
 
 [node name="L_026" type="OmniLight3D" parent="Fixtures"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 97.25, 2.8, 118.0)
-light_color = Color(1, 0.96, 0.8, 1)
-light_energy = 2.35
-light_specular = 0.22
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 38.25, 2.8, 86.25)
+light_color = Color(0.96, 0.95, 0.84, 1)
+light_energy = 1.4
+light_specular = 0.14
 shadow_enabled = false
-omni_range = 8.4
-omni_attenuation = 1.35
+omni_range = 8.5
+omni_attenuation = 1.5
 
 [node name="L_027" type="OmniLight3D" parent="Fixtures"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 123.0, 2.8, 119.0)
-light_color = Color(1, 0.96, 0.8, 1)
-light_energy = 2.35
-light_specular = 0.22
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 50.25, 2.8, 90.25)
+light_color = Color(0.96, 0.95, 0.84, 1)
+light_energy = 1.4
+light_specular = 0.14
 shadow_enabled = false
-omni_range = 8.4
-omni_attenuation = 1.35
+omni_range = 8.5
+omni_attenuation = 1.5
 
 [node name="L_028" type="OmniLight3D" parent="Fixtures"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 63.75, 2.8, 120.75)
-light_color = Color(1, 0.96, 0.8, 1)
-light_energy = 2.35
-light_specular = 0.22
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 116.25, 2.8, 90.25)
+light_color = Color(0.96, 0.95, 0.84, 1)
+light_energy = 1.4
+light_specular = 0.14
 shadow_enabled = false
-omni_range = 8.4
-omni_attenuation = 1.35
+omni_range = 8.5
+omni_attenuation = 1.5
 
 [node name="L_029" type="OmniLight3D" parent="Fixtures"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 27.5, 2.8, 125.0)
-light_color = Color(1, 0.96, 0.8, 1)
-light_energy = 2.35
-light_specular = 0.22
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 30.25, 2.8, 98.25)
+light_color = Color(0.96, 0.95, 0.84, 1)
+light_energy = 1.4
+light_specular = 0.14
 shadow_enabled = false
-omni_range = 8.4
-omni_attenuation = 1.35
+omni_range = 8.5
+omni_attenuation = 1.5
+
+[node name="L_030" type="OmniLight3D" parent="Fixtures"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 126.25, 2.8, 98.25)
+light_color = Color(0.96, 0.95, 0.84, 1)
+light_energy = 1.4
+light_specular = 0.14
+shadow_enabled = false
+omni_range = 8.5
+omni_attenuation = 1.5
+
+[node name="L_031" type="OmniLight3D" parent="Fixtures"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 88.25, 2.8, 100.25)
+light_color = Color(0.96, 0.95, 0.84, 1)
+light_energy = 1.4
+light_specular = 0.14
+shadow_enabled = false
+omni_range = 8.5
+omni_attenuation = 1.5
+
+[node name="L_032" type="OmniLight3D" parent="Fixtures"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 42.25, 2.8, 102.25)
+light_color = Color(0.96, 0.95, 0.84, 1)
+light_energy = 1.4
+light_specular = 0.14
+shadow_enabled = false
+omni_range = 8.5
+omni_attenuation = 1.5
+
+[node name="L_033" type="OmniLight3D" parent="Fixtures"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 114.25, 2.8, 102.25)
+light_color = Color(0.96, 0.95, 0.84, 1)
+light_energy = 1.4
+light_specular = 0.14
+shadow_enabled = false
+omni_range = 8.5
+omni_attenuation = 1.5
+
+[node name="L_034" type="OmniLight3D" parent="Fixtures"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8.25, 2.8, 104.25)
+light_color = Color(0.96, 0.95, 0.84, 1)
+light_energy = 1.4
+light_specular = 0.14
+shadow_enabled = false
+omni_range = 8.5
+omni_attenuation = 1.5
+
+[node name="L_035" type="OmniLight3D" parent="Fixtures"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 76.25, 2.8, 104.25)
+light_color = Color(0.96, 0.95, 0.84, 1)
+light_energy = 1.4
+light_specular = 0.14
+shadow_enabled = false
+omni_range = 8.5
+omni_attenuation = 1.5
+
+[node name="L_036" type="OmniLight3D" parent="Fixtures"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 128.25, 2.8, 110.25)
+light_color = Color(0.96, 0.95, 0.84, 1)
+light_energy = 1.4
+light_specular = 0.14
+shadow_enabled = false
+omni_range = 8.5
+omni_attenuation = 1.5
+
+[node name="L_037" type="OmniLight3D" parent="Fixtures"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 34.25, 2.8, 112.25)
+light_color = Color(0.96, 0.95, 0.84, 1)
+light_energy = 1.4
+light_specular = 0.14
+shadow_enabled = false
+omni_range = 8.5
+omni_attenuation = 1.5
+
+[node name="L_038" type="OmniLight3D" parent="Fixtures"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 62.25, 2.8, 112.25)
+light_color = Color(0.96, 0.95, 0.84, 1)
+light_energy = 1.4
+light_specular = 0.14
+shadow_enabled = false
+omni_range = 8.5
+omni_attenuation = 1.5
+
+[node name="L_039" type="OmniLight3D" parent="Fixtures"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 88.25, 2.8, 112.25)
+light_color = Color(0.96, 0.95, 0.84, 1)
+light_energy = 1.4
+light_specular = 0.14
+shadow_enabled = false
+omni_range = 8.5
+omni_attenuation = 1.5
+
+[node name="L_040" type="OmniLight3D" parent="Fixtures"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 100.25, 2.8, 112.25)
+light_color = Color(0.96, 0.95, 0.84, 1)
+light_energy = 1.4
+light_specular = 0.14
+shadow_enabled = false
+omni_range = 8.5
+omni_attenuation = 1.5
+
+[node name="L_041" type="OmniLight3D" parent="Fixtures"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14.25, 2.8, 114.25)
+light_color = Color(0.96, 0.95, 0.84, 1)
+light_energy = 1.4
+light_specular = 0.14
+shadow_enabled = false
+omni_range = 8.5
+omni_attenuation = 1.5
+
+[node name="L_042" type="OmniLight3D" parent="Fixtures"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 114.25, 2.8, 114.25)
+light_color = Color(0.96, 0.95, 0.84, 1)
+light_energy = 1.4
+light_specular = 0.14
+shadow_enabled = false
+omni_range = 8.5
+omni_attenuation = 1.5
+
+[node name="L_043" type="OmniLight3D" parent="Fixtures"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 74.25, 2.8, 116.25)
+light_color = Color(0.96, 0.95, 0.84, 1)
+light_energy = 1.4
+light_specular = 0.14
+shadow_enabled = false
+omni_range = 8.5
+omni_attenuation = 1.5
+
+[node name="L_044" type="OmniLight3D" parent="Fixtures"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 26.25, 2.8, 122.25)
+light_color = Color(0.96, 0.95, 0.84, 1)
+light_energy = 1.4
+light_specular = 0.14
+shadow_enabled = false
+omni_range = 8.5
+omni_attenuation = 1.5
+
+[node name="L_045" type="OmniLight3D" parent="Fixtures"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 124.25, 2.8, 122.25)
+light_color = Color(0.96, 0.95, 0.84, 1)
+light_energy = 1.4
+light_specular = 0.14
+shadow_enabled = false
+omni_range = 8.5
+omni_attenuation = 1.5
+
+[node name="L_046" type="OmniLight3D" parent="Fixtures"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 88.25, 2.8, 124.25)
+light_color = Color(0.96, 0.95, 0.84, 1)
+light_energy = 1.4
+light_specular = 0.14
+shadow_enabled = false
+omni_range = 8.5
+omni_attenuation = 1.5
+
+[node name="L_047" type="OmniLight3D" parent="Fixtures"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 100.25, 2.8, 124.25)
+light_color = Color(0.96, 0.95, 0.84, 1)
+light_energy = 1.4
+light_specular = 0.14
+shadow_enabled = false
+omni_range = 8.5
+omni_attenuation = 1.5
+
+[node name="L_048" type="OmniLight3D" parent="Fixtures"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12.25, 2.8, 126.25)
+light_color = Color(0.96, 0.95, 0.84, 1)
+light_energy = 1.4
+light_specular = 0.14
+shadow_enabled = false
+omni_range = 8.5
+omni_attenuation = 1.5
+
+[node name="L_049" type="OmniLight3D" parent="Fixtures"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 112.25, 2.8, 126.25)
+light_color = Color(0.96, 0.95, 0.84, 1)
+light_energy = 1.4
+light_specular = 0.14
+shadow_enabled = false
+omni_range = 8.5
+omni_attenuation = 1.5
 

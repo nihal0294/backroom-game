@@ -26,6 +26,12 @@ def main() -> None:
     print("1) export bake.json")
     subprocess.check_call([sys.executable, "tools/export_level_0_bake.py", sector_id])
     print("2) Godot bake meshes")
+    generated_dir = ROOT / "resources" / "generated" / "level_0" / sector_id
+    expected_parent = ROOT / "resources" / "generated" / "level_0"
+    if generated_dir.parent != expected_parent:
+        raise RuntimeError(f"Refusing generated-resource cleanup outside {expected_parent}: {generated_dir}")
+    for old_resource in generated_dir.glob("*.res"):
+        old_resource.unlink()
     env = os.environ.copy()
     env["LEVEL0_BAKE_JSON"] = f"res://resources/generated/level_0/{sector_id}/bake.json"
     env["LEVEL0_BAKE_OUT"] = f"res://resources/generated/level_0/{sector_id}/"
