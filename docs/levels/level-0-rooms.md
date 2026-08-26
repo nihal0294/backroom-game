@@ -1,6 +1,6 @@
 # Level 0 — room-by-room authoring manifest
 
-Status: **active authoring workflow; repository prepared; no room implemented**.
+Status: **active authoring workflow; S01-R01 implemented; no other room implemented**.
 
 The authoritative topology remains docs/reference/level-0/level-0-final-map.png. Measurements and annotations remain in docs/levels/level-0-final-trace.json. The trace is a reference and measurement aid; it does not authorize a whole-map or whole-sector bake.
 
@@ -9,7 +9,7 @@ The authoritative topology remains docs/reference/level-0/level-0-final-map.png.
 - Main scene: res://scenes/levels/level_0.tscn
 - Room parent: Level0/Rooms
 - Player scene: unchanged at res://scenes/player.tscn
-- Placeholder spawn: world origin until the first approved crop supplies an exact position
+- Active spawn: `(20.861520, 0.1, 608.461000)`, inside S01-R01 and facing northeast into the hall
 - Visual laboratory: res://scenes/debug/level_0_golden_room.tscn
 
 The golden room is retained for visual comparison but is **not visually approved**. Its materials, dimensions, environment, and lighting must not be copied into room scenes until the developer approves them.
@@ -92,13 +92,13 @@ Allowed statuses:
 
 | Sector | Geographic scope | Source bounds px | Units | Status | Specification |
 | --- | --- | --- | --- | --- | --- |
-| `S01` | Lower-left A141-A146 cluster | `[23,2945,690,3693]` | R01-R11, C01 | `PLANNED` | [level-0-sector-01.md](level-0-sector-01.md) / [JSON](level-0-sector-01.json) |
+| `S01` | Lower-left A141-A146 cluster | `[23,2945,690,3693]` | R01-R11, C01 | `IN_PROGRESS` (R01 only) | [level-0-sector-01.md](level-0-sector-01.md) / [JSON](level-0-sector-01.json) |
 
-### S01 planned units
+### S01 units
 
 | ID | Name | Status | Immediate connections |
 | --- | --- | --- | --- |
-| `S01-R01` | Main Empty Hall | `PLANNED` | R02 `VISIBLE_BLOCKED`; R09 `TRAVERSABLE` |
+| `S01-R01` | Main Empty Hall | `IMPLEMENTED` | R02 `VISIBLE_BLOCKED`; R09 `TRAVERSABLE` |
 | `S01-R02` | Unreachable Glass Room | `PLANNED` | R01 `VISIBLE_BLOCKED` |
 | `S01-R03` | Torn Wallpaper Room | `PLANNED` | R09 `TRAVERSABLE`; external E02 `SECTOR_EXIT` |
 | `S01-R04` | Shrinking Room 01 | `PLANNED` | R09, R05 `TRAVERSABLE` |
@@ -111,7 +111,7 @@ Allowed statuses:
 | `S01-R11` | West Dead-End Room B | `PLANNED` | R10 `TRAVERSABLE`; physical `DEAD_END` |
 | `S01-C01` | Death Corridor | `PLANNED`; placement open | R10 `TRAVERSABLE`; physical `DEAD_END` |
 
-These are documentation records only. No room or corridor has been implemented, visually approved, or gameplay approved. The two candidate placements for C01, the R02 source-footprint conflict, and the A144 surface-color conflict remain open in the sector specification.
+Only S01-R01 is implemented. It is not `VISUALLY_APPROVED` or `GAMEPLAY_APPROVED`; those statuses require developer review. Every other room and corridor remains documentation-only. The two candidate placements for C01 and the R02 source-footprint conflict remain open in the sector specification. For this first implementation, the developer's normal-yellow instruction resolves R01's A144 surface choice without changing the annotation transcription.
 
 ## Legacy generated implementation
 

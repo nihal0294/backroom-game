@@ -1,0 +1,57 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/levels/level_0/s01_r01.gd" id="1_script"]
+
+[node name="S01_R01" type="Node3D"]
+script = ExtResource("1_script")
+
+[node name="Geometry" type="Node3D" parent="."]
+
+[node name="FloorVisual" type="MeshInstance3D" parent="Geometry"]
+unique_name_in_owner = true
+
+[node name="WallVisual" type="MeshInstance3D" parent="Geometry"]
+unique_name_in_owner = true
+
+[node name="CeilingVisual" type="MeshInstance3D" parent="Geometry"]
+unique_name_in_owner = true
+
+[node name="Fixtures" type="Node3D" parent="."]
+
+[node name="FluorescentFixtures" type="MultiMeshInstance3D" parent="Fixtures"]
+unique_name_in_owner = true
+cast_shadow = 0
+
+[node name="SparseLights" type="Node3D" parent="Fixtures"]
+unique_name_in_owner = true
+
+[node name="Collision" type="Node3D" parent="."]
+
+[node name="FloorBody" type="StaticBody3D" parent="Collision"]
+
+[node name="FloorCollision" type="CollisionShape3D" parent="Collision/FloorBody"]
+unique_name_in_owner = true
+
+[node name="WallBody" type="StaticBody3D" parent="Collision"]
+
+[node name="WallCollision" type="CollisionShape3D" parent="Collision/WallBody"]
+unique_name_in_owner = true
+
+[node name="Interfaces" type="Node3D" parent="."]
+
+[node name="X01_R09" type="Marker3D" parent="Interfaces"]
+unique_name_in_owner = true
+
+[node name="X02_R02" type="Marker3D" parent="Interfaces"]
+unique_name_in_owner = true
+
+[node name="TemporaryX02Barrier" type="Node3D" parent="Interfaces"]
+
+[node name="TemporaryX02BarrierVisual" type="MeshInstance3D" parent="Interfaces/TemporaryX02Barrier"]
+unique_name_in_owner = true
+cast_shadow = 0
+
+[node name="TemporaryX02BarrierBody" type="StaticBody3D" parent="Interfaces/TemporaryX02Barrier"]
+
+[node name="TemporaryX02BarrierCollision" type="CollisionShape3D" parent="Interfaces/TemporaryX02Barrier/TemporaryX02BarrierBody"]
+unique_name_in_owner = true

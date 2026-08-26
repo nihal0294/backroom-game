@@ -1,6 +1,6 @@
 # Level 0 - Sector 01 authoring specification
 
-Status: **PLANNED; topology defined; no 3D geometry exists**.
+Status: **IN PROGRESS; S01-R01 is IMPLEMENTED; R02-R11 and C01 remain PLANNED**.
 
 Sector `S01` is a human-authored geographic group for the lower-left cluster of the master map. It is not a generation, bake, chunk, or streaming unit. A room remains the smallest implementation and review unit.
 
@@ -73,11 +73,21 @@ The shrinking envelopes reduce numerically in the required order: `413.0 > 251.8
 
 ### S01-R01 - Main Empty Hall
 
+- Status: `IMPLEMENTED`; not `VISUALLY_APPROVED`; not `GAMEPLAY_APPROVED`.
+- Scene: `res://scenes/levels/level_0/rooms/s01_r01.tscn`, instanced under `Level0/Rooms` at world transform `(4.172304, 0, 560.305658)`.
+- Geometry: the 30-point source silhouette is triangulated directly into 28 triangles for one floor ArrayMesh and one matching ceiling ArrayMesh. A single mitered ArrayMesh follows the real boundary for walls. Floor and wall collisions are aggregated `ConcavePolygonShape3D` resources.
+- Floor: one continuous `Y = 0` surface using the legally imported ambientCG Carpet011 maps through `res://resources/materials/level_0/rooms/s01_r01_carpet.tres`.
+- Walls: BRW_A-based calibrated wallpaper in `res://resources/materials/level_0/rooms/s01_r01_wall.tres`; thickness `0.24 m`, extending toward non-walkable space.
+- Ceiling: one coherent underside at `Y = 3.0 m` using `res://resources/materials/level_0/ceiling_base.tres`; no per-tile nodes.
+- Lighting: 64 flush visual panels in one MultiMesh and 13 sparse, shadowless OmniLight3D nodes.
+- Spawn: `(20.861520, 0.1, 608.461000)`, facing northeast into the hall.
+- X01: geometrically and physically open. R09 geometry is not present.
+- X02: no R02 geometry is present. The source boundary opening `[310,3563]` to `[288,3583]` is closed by the clearly named temporary transparent `TemporaryX02Barrier`, including collision.
 - Source geometry: the enormous concave orange/tan hall dominating the crop. Its map-derived exterior outline encloses approximately `2589.0 m2`; the bounds above include its concavity.
 - Openings: `S01-X01` to R09; `S01-X02` to R02 is visibility-only through the future barrier.
 - Connections: `TRAVERSABLE -> S01-R09`; `VISIBLE_BLOCKED -> S01-R02`.
 - Environment: completely empty. No furniture, props, or decorative objects.
-- Surface decision: `OPEN`. A144 explicitly says "orange area" and the PNG uses a distinct orange/tan fill. The developer describes a standard yellow Level 0 room. Neither source authorizes silently resolving the conflict.
+- Surface decision for R01 implementation: `STANDARD_LEVEL_0_YELLOW`, resolved by the explicit implementation request. A144 and the PNG's orange/tan drafting fill remain preserved as source evidence rather than being rewritten.
 - Provenance: geometry `MASTER_MAP_GEOMETRY`; emptiness `MASTER_MAP_ANNOTATION` + `EXISTING_TRANSCRIPTION`; normal-yellow proposal `USER_REQUEST`.
 
 ### S01-R02 - Unreachable Glass Room
@@ -185,7 +195,7 @@ Spans are measured between approximate map endpoints. They must be rechecked aga
 | ID | From | To | Type | Approximate source span px | Width m |
 | --- | --- | --- | --- | --- | --- |
 | `S01-X01` | R01 | R09 | `TRAVERSABLE` | `[313,3223]` to `[338,3364]` | `24.89` |
-| `S01-X02` | R01 | R02 | `VISIBLE_BLOCKED` | `[276,3571]` to `[291,3586]` | `3.69` |
+| `S01-X02` | R01 | R02 | `VISIBLE_BLOCKED` | `[310,3563]` to `[288,3583]` | `5.17` |
 | `S01-X03` | R09 | R04 | `TRAVERSABLE` | `[373,3108]` to `[428,3076]` | `11.06` |
 | `S01-X04` | R04 | R05 | `TRAVERSABLE` | `[440,3070]` to `[462,3064]` | `3.96` |
 | `S01-X05` | R05 | R06 | `TRAVERSABLE` | `[440,3037]` to `[458,3031]` | `3.30` |
@@ -217,12 +227,12 @@ Normal rooms inherit the supplied visual-reference direction: warm yellow/beige 
 
 This is `VISUAL_REFERENCE`, not topology and not implemented material work. No supplied look image is used to infer a wall, room, or opening.
 
-## Open decisions and conflicts
+## Decisions and remaining conflicts
 
-1. `S01-OD01 SURFACE_COLOR_DECISION = OPEN`: A144 and the PNG support orange/tan; the current developer description supports standard yellow. No material choice is made.
+1. `S01-OD01 SURFACE_COLOR_DECISION = RESOLVED_FOR_R01`: the explicit implementation request selects standard yellow for R01. The orange/tan source evidence is retained.
 2. `S01-OD02 C01_PLACEMENT = OPEN`: north spur candidate A and southwest spur candidate B are equally plausible from the master map.
 3. `S01-OD03 R02_FOOTPRINT = OPEN`: the source envelope is much larger and more lobed than the perceived `~3 x 3 m` room. Do not rescale the map to force the estimate.
 4. `S01-OD04 ROOM_SPLITS = OPEN_FOR_BUILD_RECHECK`: R04-R08 order is stable, but exact wall-centerline polygons must be rechecked one room at a time because the PNG has no semantic room layer.
 5. `S01-OD05 A143_SCOPE = OPEN_INTERPRETATION`: primary ownership is the shrinking sequence, with secondary relevance to R01; the handwriting itself does not prove a single-room owner.
 
-No room scene, geometry, material, prop, player change, generator output, commit, or push belongs to this specification milestone.
+S01-R01 is the only implemented room. This milestone adds no R02/R09 geometry, prop, generator output, gameplay approval, visual approval, commit, or push.
