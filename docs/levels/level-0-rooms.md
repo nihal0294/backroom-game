@@ -34,6 +34,15 @@ The golden room is retained for visual comparison but is **not visually approved
 
 Do not reposition rooms by eye. A room scene uses global master-map coordinates or an explicitly documented room-local origin plus an exact global transform.
 
+## Authoring vocabulary
+
+- **Sector**: a human-authored geographic group of adjacent rooms. It is not an automatic geometry-generation unit. A sector may support streaming later only through a separate approved decision.
+- **Room**: the smallest implementation and review unit.
+- **Corridor**: a connection space with its own ID only when it has an independent identity or special behavior.
+- **Connection**: an explicit typed relationship. Allowed types are `TRAVERSABLE`, `VISIBLE_BLOCKED`, `DEAD_END`, `UNEXPLORED`, and `SECTOR_EXIT`.
+
+IDs use `S01`, `S01-R01`, and `S01-C01`. Do not reuse the historical generated names `sector_001`/`sector_002` as authoring-sector IDs.
+
 ## Room scene convention
 
 Proposed path: res://scenes/levels/level_0/rooms/room_<id>.tscn.
@@ -79,7 +88,30 @@ Allowed statuses:
 
 ## Room records
 
-None. Room_001 is the next requested unit, but no `PLANNED` record or geometry is created because its exact source crop and immediate connections have not yet been supplied.
+### Sector registry
+
+| Sector | Geographic scope | Source bounds px | Units | Status | Specification |
+| --- | --- | --- | --- | --- | --- |
+| `S01` | Lower-left A141-A146 cluster | `[23,2945,690,3693]` | R01-R11, C01 | `PLANNED` | [level-0-sector-01.md](level-0-sector-01.md) / [JSON](level-0-sector-01.json) |
+
+### S01 planned units
+
+| ID | Name | Status | Immediate connections |
+| --- | --- | --- | --- |
+| `S01-R01` | Main Empty Hall | `PLANNED` | R02 `VISIBLE_BLOCKED`; R09 `TRAVERSABLE` |
+| `S01-R02` | Unreachable Glass Room | `PLANNED` | R01 `VISIBLE_BLOCKED` |
+| `S01-R03` | Torn Wallpaper Room | `PLANNED` | R09 `TRAVERSABLE`; external E02 `SECTOR_EXIT` |
+| `S01-R04` | Shrinking Room 01 | `PLANNED` | R09, R05 `TRAVERSABLE` |
+| `S01-R05` | Shrinking Room 02 | `PLANNED` | R04, R06 `TRAVERSABLE` |
+| `S01-R06` | Shrinking Room 03 | `PLANNED` | R05, R07 `TRAVERSABLE` |
+| `S01-R07` | Shrinking Room 04 | `PLANNED` | R06, R08 `TRAVERSABLE` |
+| `S01-R08` | Shrinking Room 05 / Map Room | `PLANNED` | R07 `TRAVERSABLE` |
+| `S01-R09` | Column Hall | `PLANNED` | R01, R03, R04, R10 `TRAVERSABLE` |
+| `S01-R10` | West Dead-End Room A | `PLANNED` | R09, R11, C01 `TRAVERSABLE`; external E01 `UNEXPLORED` |
+| `S01-R11` | West Dead-End Room B | `PLANNED` | R10 `TRAVERSABLE`; physical `DEAD_END` |
+| `S01-C01` | Death Corridor | `PLANNED`; placement open | R10 `TRAVERSABLE`; physical `DEAD_END` |
+
+These are documentation records only. No room or corridor has been implemented, visually approved, or gameplay approved. The two candidate placements for C01, the R02 source-footprint conflict, and the A144 surface-color conflict remain open in the sector specification.
 
 ## Legacy generated implementation
 
@@ -118,4 +150,4 @@ Their audit documents and screenshots remain historical evidence. Removal or arc
 
 ## Milestone rule
 
-The next milestone may implement only the exact first room/crop supplied by the developer, plus documentation of its immediate connections. Stop for geometry, gameplay, and visual approval before creating the next physically adjacent room.
+After developer review of the S01 specification, the next implementation milestone may build only one explicitly selected `PLANNED` room or corridor, plus its documented immediate interfaces. No S01 unit is automatically approved for geometry by being listed here. Stop for geometry, gameplay, and visual approval before creating the next physically adjacent unit.
