@@ -15,7 +15,15 @@ import cv2
 import numpy as np
 from PIL import Image
 
-from level_0_annotations import ANNOTATIONS, CANON_CONFLICTS, ELEVATION, PILOT, STAIRS
+from level_0_annotations import (
+    ANNOTATIONS,
+    CANON_CONFLICTS,
+    ELEVATION,
+    PILOT,
+    STAIRS,
+    ST01_PATH_PX,
+    ST01_WIDTH_PX,
+)
 
 ROOT = Path(__file__).resolve().parents[1]
 REF = ROOT / "docs" / "reference" / "level-0" / "level-0-final-map.png"
@@ -38,6 +46,7 @@ WATER = 2
 GREEN = 3
 GREY = 4
 PINK = 5
+STAIR = 6
 
 
 def fmt(v: float) -> str:
@@ -77,6 +86,25 @@ def patch_trace(trace: dict) -> dict:
     for s in STAIRS:
         item = dict(s)
         item["m"] = to_m(s["px"])
+        path_px = s.get("path_px")
+        if path_px:
+            item["path_px"] = path_px
+            item["path_m"] = [[round(p[0] * mpp, 5), round(p[1] * mpp, 5)] for p in path_px]
+            length_px = 0.0
+            for i in range(1, len(path_px)):
+                length_px += math.hypot(path_px[i][0] - path_px[i - 1][0], path_px[i][1] - path_px[i - 1][1])
+            dx = path_px[-1][0] - path_px[0][0]
+            dy = path_px[-1][1] - path_px[0][1]
+            item["length_px"] = round(length_px, 3)
+            item["length_m"] = round(length_px * mpp, 5)
+            item["width_m"] = round(float(s.get("width_px", ST01_WIDTH_PX)) * mpp, 5)
+            item["angle_deg_from_plus_z"] = round(math.degrees(math.atan2(dx, dy)), 3)
+            item["start_px"] = list(path_px[0])
+            item["end_px"] = list(path_px[-1])
+            item["start_m"] = item["path_m"][0]
+            item["end_m"] = item["path_m"][-1]
+            item["y_start"] = s.get("y_start", 1.5)
+            item["y_end"] = s.get("y_end", 0.0)
         stairs.append(item)
     trace["stairs"] = stairs
     elev = []
@@ -272,6 +300,158 @@ def in_box_m(mx, mz, box):
     return box[0] <= mx <= box[2] and box[1] <= mz <= box[3]
 
 
+def st01_spec(mpp: float) -> dict:
+    """World-space ST01 path from the master-map hatch. Y drops 1.5 m NW -> SE."""
+    path_m = [(p[0] * mpp, p[1] * mpp) for p in ST01_PATH_PX]
+    segs = []
+    length = 0.0
+    for i in range(1, len(path_m)):
+        dx = path_m[i][0] - path_m[i - 1][0]
+        dz = path_m[i][1] - path_m[i - 1][1]
+        sl = math.hypot(dx, dz)
+        segs.append((path_m[i - 1], path_m[i], sl, dx, dz))
+        length += sl
+    width_m = ST01_WIDTH_PX * mpp
+    dx = path_m[-1][0] - path_m[0][0]
+    dz = path_m[-1][1] - path_m[0][1]
+    return {
+        "path_m": path_m,
+        "segs": segs,
+        "length_m": length,
+        "width_m": width_m,
+        "angle_rad": math.atan2(dx, dz),
+        "y_start": 1.5,
+        "y_end": 0.0,
+        "drop_m": 1.5,
+    }
+
+
+def _project_polyline(x: float, z: float, segs) -> tuple[float, float]:
+    """Return (distance, arc_length) of the nearest point on the polyline."""
+    best = 1e9
+    best_s = 0.0
+    acc = 0.0
+    for (x0, z0), (x1, z1), sl, dx, dz in segs:
+        if sl < 1e-9:
+            d = math.hypot(x - x0, z - z0)
+            s = acc
+        else:
+            t = max(0.0, min(1.0, ((x - x0) * dx + (z - z0) * dz) / (sl * sl)))
+            d = math.hypot(x - (x0 + t * dx), z - (z0 + t * dz))
+            s = acc + t * sl
+        if d < best:
+            best = d
+            best_s = s
+        acc += sl
+    return best, best_s
+
+
+def paint_st01_cells(grid, wx0: float, wz0: float, spec: dict) -> int:
+    """Mark hatch cells as STAIR so floor rects do not fill the flight.
+
+    Skip the last ~1.2 m so the maze floor at the south T stays at Y=0.
+    """
+    nz, nx = grid.shape
+    half = spec["width_m"] * 0.42
+    s_max = spec["length_m"] - 1.2
+    n = 0
+    for iz in range(nz):
+        cz = wz0 + (iz + 0.5) * SNAP
+        for ix in range(nx):
+            if grid[iz, ix] == EMPTY:
+                continue
+            cx = wx0 + (ix + 0.5) * SNAP
+            d, s = _project_polyline(cx, cz, spec["segs"])
+            if d <= half and 0.0 <= s <= s_max:
+                grid[iz, ix] = STAIR
+                n += 1
+    return n
+
+
+def point_on_path(spec: dict, s: float) -> tuple[float, float, float, float]:
+    """Return (x, z, yaw, y) at arc-length s along ST01. y goes 1.5 -> 0."""
+    target = max(0.0, min(spec["length_m"], s))
+    acc = 0.0
+    y_start, y_end, length = spec["y_start"], spec["y_end"], spec["length_m"]
+    for (x0, z0), (x1, z1), sl, dx, dz in spec["segs"]:
+        if acc + sl >= target or sl < 1e-9:
+            t = 0.0 if sl < 1e-9 else (target - acc) / sl
+            x = x0 + t * dx
+            z = z0 + t * dz
+            yaw = math.atan2(dx, dz) if sl > 1e-9 else spec["angle_rad"]
+            y = y_start + (y_end - y_start) * (target / length)
+            return x, z, yaw, y
+        acc += sl
+    x, z = spec["path_m"][-1]
+    return x, z, spec["angle_rad"], y_end
+
+
+def st01_visual_steps(spec: dict, nstep: int = 20):
+    """Oriented step boxes along the hatch. Collision uses the ramp, not these."""
+    length = spec["length_m"]
+    rise = spec["drop_m"] / nstep
+    tread = length / nstep
+    width = spec["width_m"] * 0.92
+    steps = []
+    for i in range(nstep):
+        s = (i + 0.5) * tread
+        x, z, yaw, y_along = point_on_path(spec, s)
+        # top of step i is at y_start - (i+1)*rise; center is half a rise below that.
+        y_top = spec["y_start"] - (i + 1) * rise
+        y_c = y_top - rise * 0.5
+        steps.append((x, y_c, z, width, rise, tread * 0.98, yaw))
+    return steps, rise, tread
+
+
+def st01_ramp_tris(spec: dict, width: float | None = None):
+    """Walkable ramp strip following the hatch. Two tris per segment."""
+    if width is None:
+        width = spec["width_m"] * 1.02
+    half = width * 0.5
+    path = list(spec["path_m"])
+    yaw0 = spec["angle_rad"]
+    # short upper pad so the north T is standable at Y=1.5
+    path = [(path[0][0] - math.sin(yaw0) * 0.8, path[0][1] - math.cos(yaw0) * 0.8)] + path
+    flight_len = spec["length_m"]
+    y0, y1 = spec["y_start"], spec["y_end"]
+    pts = []
+    acc = 0.0
+    for i, (x, z) in enumerate(path):
+        if i == 0:
+            dx = path[1][0] - x
+            dz = path[1][1] - z
+        else:
+            dx = x - path[i - 1][0]
+            dz = z - path[i - 1][1]
+            acc += math.hypot(dx, dz)
+            if i + 1 < len(path):
+                dx = path[i + 1][0] - path[i - 1][0]
+                dz = path[i + 1][1] - path[i - 1][1]
+        n = math.hypot(dx, dz) or 1.0
+        px, pz = -dz / n, dx / n
+        along = max(0.0, acc - 0.8)
+        y = y0 + (y1 - y0) * (along / flight_len)
+        pts.append((x + px * half, y, z + pz * half, x - px * half, y, z - pz * half))
+    tris = []
+    for i in range(len(pts) - 1):
+        l0x, l0y, l0z, r0x, r0y, r0z = pts[i]
+        l1x, l1y, l1z, r1x, r1y, r1z = pts[i + 1]
+        # two tris, normal generally +Y
+        tris.append([l0x, l0y, l0z, r0x, r0y, r0z, r1x, r1y, r1z])
+        tris.append([l0x, l0y, l0z, r1x, r1y, r1z, l1x, l1y, l1z])
+    return tris
+
+
+def st01_top_landing(spec: dict):
+    """Small upper pad at the north T so the flight has a standable start at Y=1.5."""
+    x, z = spec["path_m"][0]
+    yaw = spec["angle_rad"]
+    # step backward 0.7 m along -direction onto the T
+    x -= math.sin(yaw) * 0.7
+    z -= math.cos(yaw) * 0.7
+    return (x, spec["y_start"] - 0.05, z, spec["width_m"] + 0.4, 0.10, 1.6, yaw)
+
+
 def main() -> None:
     print("patching trace annotations")
     trace = load_trace()
@@ -415,24 +595,7 @@ def main() -> None:
     add_box("Special", "FanBladeA", fan_m[0], 2.62, fan_m[1], 2.2, 0.04, 0.28, "mat_trim", False)
     add_box("Special", "FanBladeB", fan_m[0], 2.62, fan_m[1], 0.28, 0.04, 2.2, "mat_trim", False)
 
-    # Long stairway down ST01: flight of 8, rise 0.15, tread 0.32, heading +Z
-    st = [snap_m(2080 * mpp), snap_m(1980 * mpp)]
-    rise, tread, nstep = 0.15, 0.32, 10
-    for i in range(nstep):
-        add_box(
-            "Stairs",
-            f"Step_{i}",
-            st[0],
-            rise * i + rise / 2,
-            st[1] + i * tread,
-            1.4,
-            rise,
-            tread,
-            "mat_stair",
-            True,
-        )
-    # Lower landing at theatre
-    add_box("Stairs", "LandingLow", st[0], -0.05, st[1] + nstep * tread + 1.0, 2.4, 0.1, 2.0, "mat_carpet", True)
+    # ST01 is built by tools/export_level_0_bake.py from the hatch polyline.
 
     # Fixtures: keep ~5.5 m spacing; poor lighting much sparser
     placed = []

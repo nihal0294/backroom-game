@@ -1,6 +1,14 @@
 # Godot 4+
 .godot/
+.godot_old/
+.godot_backup*
 /android/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+.Python
 
 # Export credentials (may contain secrets). Keep export_presets.cfg tracked.
 export_credentials.cfg

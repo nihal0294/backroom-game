@@ -174,8 +174,52 @@ ANNOTATIONS = [
     {"id": "A162", "text": "Theoretical interconnected unlit region", "px": [1700, 2100], "confidence": "HIGH", "category": "lighting", "geom": "dashed void between mapped rooms; NOT walkable", "visual": "unlit", "gameplay": "wiki blackout compatible; keep empty"},
 ]
 
+# ST01 centerline digitized from the hatched "Long stairway down" on
+# docs/reference/level-0/level-0-final-map.png (not the A095 annotation pixel).
+# Direction: NW (top landing) -> SE (maze T-junction). Arrow on the map points down this flight.
+# Width from floor-mask distance transform along the thin hatch (~13.2 px).
+ST01_PATH_PX = [
+    [2117.4, 1813.6],
+    [2120.4, 1819.1],
+    [2124.0, 1824.1],
+    [2125.6, 1829.4],
+    [2128.5, 1833.8],
+    [2131.6, 1839.2],
+    [2136.1, 1844.9],
+    [2138.3, 1850.5],
+    [2140.9, 1855.1],
+    [2144.0, 1859.1],
+    [2146.8, 1864.5],
+    [2150.4, 1869.4],
+    [2152.6, 1875.2],
+    [2155.1, 1879.7],
+    [2158.7, 1884.6],
+    [2161.1, 1890.2],
+    [2164.8, 1895.1],
+    [2167.7, 1900.5],
+    [2170.4, 1905.9],
+    [2173.5, 1911.2],
+    [2176.0, 1915.8],
+    [2178.9, 1921.0],
+    [2181.7, 1925.4],
+    [2185.0, 1931.5],
+    [2188.2, 1936.9],
+]
+ST01_WIDTH_PX = 13.18
+
 STAIRS = [
-    {"id": "ST01", "text": "Long stairway down", "px": [2080, 1980], "kind": "flight_down", "drop_m": 1.5, "in_pilot": True},
+    {
+        "id": "ST01",
+        "text": "Long stairway down",
+        "px": [2080, 1980],
+        "kind": "flight_down",
+        "drop_m": 1.5,
+        "in_pilot": True,
+        "path_px": ST01_PATH_PX,
+        "width_px": ST01_WIDTH_PX,
+        "y_start": 1.5,
+        "y_end": 0.0,
+    },
     {"id": "ST02", "text": "staircase down (south-east of The End)", "px": [2480, 2820], "kind": "flight_down", "drop_m": 1.2, "in_pilot": False},
     {"id": "ST03", "text": "house stairs down from lift/house", "px": [780, 720], "kind": "flight_down", "drop_m": 1.0, "in_pilot": False},
     {"id": "ST04", "text": "NW tall-room stairs", "px": [620, 240], "kind": "flight_down", "drop_m": 0.8, "in_pilot": False},

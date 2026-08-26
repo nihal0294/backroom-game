@@ -27,6 +27,7 @@ from generate_level_0_from_trace import (
     ROOM_H,
     ROOT,
     SNAP,
+    STAIR,
     TRACE,
     WALL_T,
     WATER,
@@ -34,7 +35,15 @@ from generate_level_0_from_trace import (
     extract_color_masks,
     greedy_rects,
     in_box_m,
+    load_trace,
+    paint_st01_cells,
+    patch_trace,
     snap_m,
+    _project_polyline,
+    st01_ramp_tris,
+    st01_spec,
+    st01_top_landing,
+    st01_visual_steps,
     wall_segments,
 )
 from level_0_annotations import PILOT
@@ -74,18 +83,22 @@ def collect() -> dict:
     floor_bin = (floor > 127).astype(np.uint8) * 255
     colors = extract_color_masks(rgb, floor_bin)
     grid, wx0, wz0, nx, nz = build_grid(floor_bin, colors, mpp, px_box)
+    st01 = st01_spec(mpp)
+    n_stair = paint_st01_cells(grid, wx0, wz0, st01)
     floor_rects = greedy_rects(grid, {FLOOR, WATER, GREEN, GREY, PINK})
     walls = wall_segments(grid)
 
     cover = np.zeros_like(grid, dtype=np.int16)
     for x, z, w, h, t in floor_rects:
         cover[z : z + h, x : x + w] += 1
+    floor_wanted = (grid != EMPTY) & (grid != STAIR)
     audit = {
         "occupied_cells": int((grid != EMPTY).sum()),
+        "stair_cells": int(n_stair),
         "floor_rects": len(floor_rects),
         "wall_segments": len(walls),
         "overlap_cells": int((cover > 1).sum()),
-        "missing_walkable_cells": int(((grid != EMPTY) & (cover == 0)).sum()),
+        "missing_walkable_cells": int((floor_wanted & (cover == 0)).sum()),
         "extra_floor_cells": int(((grid == EMPTY) & (cover > 0)).sum()),
     }
 
@@ -104,17 +117,18 @@ def collect() -> dict:
 
     boxes = []  # dicts
 
-    def add(kind, mat, cx, cy, cz, sx, sy, sz, collide, shadow=True):
-        boxes.append(
-            {
-                "k": kind,
-                "m": mat,
-                "c": [round(cx, 5), round(cy, 5), round(cz, 5)],
-                "s": [round(sx, 5), round(sy, 5), round(sz, 5)],
-                "col": 1 if collide else 0,
-                "sh": 0 if not shadow else 1,
-            }
-        )
+    def add(kind, mat, cx, cy, cz, sx, sy, sz, collide, shadow=True, yaw=0.0):
+        rec = {
+            "k": kind,
+            "m": mat,
+            "c": [round(cx, 5), round(cy, 5), round(cz, 5)],
+            "s": [round(sx, 5), round(sy, 5), round(sz, 5)],
+            "col": 1 if collide else 0,
+            "sh": 0 if not shadow else 1,
+        }
+        if abs(yaw) > 1e-6:
+            rec["yaw"] = round(yaw, 5)
+        boxes.append(rec)
 
     fixture_spots = []
     for x, z, w, h, t in floor_rects:
@@ -141,6 +155,11 @@ def collect() -> dict:
             sx, sz = WALL_T, length * SNAP
             cx = wx0 + a * SNAP
             cz = wz0 + (b + length / 2) * SNAP
+        # Occupancy north rim would wall-off ST01 where the hatch enters the sector.
+        if kind == "x" and b == 0:
+            d, s = _project_polyline(cx, cz, st01["segs"])
+            if d <= st01["width_m"] * 0.7 and s < st01["length_m"] - 0.5:
+                continue
         hh = 12.0 if in_box_m(cx, cz, none_box) else ROOM_H
         mat = "mat_void" if hh > 4 else "mat_wall"
         add("wall", mat, cx, hh / 2, cz, sx, hh, sz, True)
@@ -150,11 +169,41 @@ def collect() -> dict:
     add("special", "mat_trim", fan[0], 2.62, fan[1], 2.2, 0.04, 0.28, False)
     add("special", "mat_trim", fan[0], 2.62, fan[1], 0.28, 0.04, 2.2, False)
 
-    st = [snap_m(2080 * mpp), snap_m(1980 * mpp)]
-    rise, tread, nstep = 0.15, 0.32, 10
-    for i in range(nstep):
-        add("stair", "mat_stair", st[0], rise * i + rise / 2, st[1] + i * tread, 1.4, rise, tread, True)
-    add("stair", "mat_carpet", st[0], -0.05, st[1] + nstep * tread + 1.0, 2.4, 0.1, 2.0, True)
+    steps, rise, tread = st01_visual_steps(st01, nstep=20)
+    for i, (cx, cy, cz, sx, sy, sz, yaw) in enumerate(steps):
+        add("stair_vis", "mat_stair", cx, cy, cz, sx, sy, sz, False, yaw=yaw)
+        # ceiling follows the flight (room height above the step surface)
+        add("stair_vis", "mat_ceil", cx, cy + sy / 2 + ROOM_H + CEIL_T / 2, cz, sx, CEIL_T, sz, False, False, yaw=yaw)
+    lx, ly, lz, lsx, lsy, lsz, lyaw = st01_top_landing(st01)
+    add("stair_vis", "mat_carpet", lx, ly, lz, lsx, lsy, lsz, False, yaw=lyaw)
+    add("stair_vis", "mat_ceil", lx, st01["y_start"] + ROOM_H + CEIL_T / 2, lz, lsx, CEIL_T, lsz, False, False, yaw=lyaw)
+    # Side walls for the north extension outside the occupancy grid (z < wz0).
+    half_w = st01["width_m"] * 0.5 + WALL_T * 0.5
+    acc = 0.0
+    for (x0, z0), (x1, z1), sl, dx, dz in st01["segs"]:
+        if z1 < wz0 - 0.2 or z0 < wz0:
+            nrm = sl or 1.0
+            px, pz = -dz / nrm, dx / nrm
+            mid_x = (x0 + x1) * 0.5
+            mid_z = (z0 + z1) * 0.5
+            y_mid = st01["y_start"] + (st01["y_end"] - st01["y_start"]) * ((acc + sl * 0.5) / st01["length_m"])
+            wall_h = ROOM_H + 0.2
+            yaw = math.atan2(dx, dz)
+            for sign in (-1.0, 1.0):
+                add(
+                    "wall",
+                    "mat_wall",
+                    mid_x + px * sign * half_w,
+                    y_mid + wall_h * 0.5 - 0.1,
+                    mid_z + pz * sign * half_w,
+                    WALL_T,
+                    wall_h,
+                    sl + 0.05,
+                    True,
+                    yaw=yaw,
+                )
+        acc += sl
+    ramp_tris = st01_ramp_tris(st01)
 
     placed = []
     fixtures_on = []
@@ -188,14 +237,25 @@ def collect() -> dict:
     for b in boxes:
         key = chunk_key(b["c"][0], b["c"][2], wx0, wz0)
         rec = [b["c"][0], b["c"][1], b["c"][2], b["s"][0], b["s"][1], b["s"][2], b["sh"]]
+        if "yaw" in b:
+            rec.append(b["yaw"])
         chunks[key]["visual"][b["m"]].append(rec)
         if b["col"]:
             if b["k"] in ("floor",):
                 chunks[key]["col_floor"].append(rec[:6])
             elif b["k"] in ("wall", "special"):
-                chunks[key]["col_walls"].append(rec[:6])
+                col = rec[:6]
+                if "yaw" in b:
+                    col.extend([0, b["yaw"]])
+                chunks[key]["col_walls"].append(col)
             elif b["k"] == "stair":
                 chunks[key]["col_stairs"].append(rec[:6])
+
+    for tri in ramp_tris:
+        cx = (tri[0] + tri[3] + tri[6]) / 3.0
+        cz = (tri[2] + tri[5] + tri[8]) / 3.0
+        key = chunk_key(cx, cz, wx0, wz0)
+        chunks[key]["col_stairs"].append([round(v, 5) for v in tri])
 
     chunk_list = []
     for key in sorted(chunks):
@@ -223,12 +283,25 @@ def collect() -> dict:
         "fixtures_off": fixtures_off,
         "fixtures_flicker": fixtures_flicker,
         "orange": orange,
+        "st01": {
+            "path_m": [[round(p[0], 5), round(p[1], 5)] for p in st01["path_m"]],
+            "length_m": round(st01["length_m"], 5),
+            "width_m": round(st01["width_m"], 5),
+            "angle_deg": round(math.degrees(st01["angle_rad"]), 3),
+            "y_start": st01["y_start"],
+            "y_end": st01["y_end"],
+            "drop_m": st01["drop_m"],
+            "nstep": 20,
+            "rise_m": round(rise, 5),
+            "tread_m": round(tread, 5),
+        },
         "counts": {
             "boxes": len(boxes),
             "chunks": len(chunk_list),
             "fixtures_on": len(fixtures_on),
             "fixtures_off": len(fixtures_off),
             "fixtures_flicker": len(fixtures_flicker),
+            "stair_ramp_tris": len(ramp_tris),
         },
     }
     return data, audit, grid, wx0, wz0
@@ -236,6 +309,8 @@ def collect() -> dict:
 
 def main() -> None:
     os.chdir(ROOT)
+    print("patching ST01 path into trace")
+    patch_trace(load_trace())
     data, audit, grid, wx0, wz0 = collect()
     OUT_DIR.mkdir(parents=True, exist_ok=True)
     out = OUT_DIR / "bake.json"

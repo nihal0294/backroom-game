@@ -49,7 +49,7 @@ Nel pilota:
 - water floor Y = −0.30 m
 - ceiling too low to pass ≈ 1.15 m
 - no ceiling: pareti a 12 m, void_black, nessun soffitto
-- long stairway down: 10 pedate, alzata 0.15 m, pedata 0.32 m
+- long stairway down (ST01): polyline dalla hatch della master (NW→SE, ~24.7 m, larghezza ~2.29 m, drop 1.5 m). Gradini visivi + rampa di collisione; il floor del labirinto a Y=0 è la quota inferiore. Non è un secondo piano.
 
 ## Water
 
@@ -112,7 +112,7 @@ Gli altri settori (~160 m) sono prenotati nel JSON con `built: false`. Non costr
 ## Pilota — contenuto 3D
 
 - Stanze/passaggi: cluster allagato, verde, grigio poor-lighting, beige adiacente, theatre/boiler a nord, pinch + fan a sud-ovest
-- Dislivelli: water −0.30, low ceiling 1.15, no-ceiling 12 m, stair −1.5
+- Dislivelli: water −0.30, low ceiling 1.15, no-ceiling 12 m, ST01 da Y=+1.5 a Y=0 lungo la hatch
 - Acqua sì; colonne no (weird pillars è fuori pilota)
 - Audit occupancy: overlap 0, walkable gap 0, extra 0
 - Fixture: fluorescenti esistenti + 1 flicker + 2 off + 1 orange bulb
