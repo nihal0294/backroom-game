@@ -1,6 +1,6 @@
-# Level 0 visual specification — Sector001 and Sector002
+# Level 0 visual specification — historical Sector001/Sector002 calibration
 
-Status: calibrated implementation standard for the current Sector001/Sector002 milestone. This document does not authorize Sector003 or change the final master map.
+Status: **historical, inactive, and not an approved room-by-room visual standard**. It records the deprecated Sector001/Sector002 calibration and does not authorize Sector003, room materials, or changes to the final master map. The golden room is also awaiting developer visual approval.
 
 ## Value classification
 
@@ -54,7 +54,7 @@ The two linked videos are art direction only. No value estimated from a video is
 
 ## External reference asset decision
 
-No external file was imported in this pass.
+No external file was imported during the historical Sector001/Sector002 pass. Carpet011 was later imported under `assets/textures/environment/ambientcg/Carpet011/` for the unapproved golden-room experiment; that import does not make it the approved default for future rooms.
 
 The only texture set expected to provide a substantial improvement over the calibrated current asset is the ambientCG `Carpet011` set:
 

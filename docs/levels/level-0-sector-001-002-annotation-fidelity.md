@@ -1,4 +1,6 @@
-# Level 0 annotation fidelity — Sector001 and Sector002
+# Level 0 annotation fidelity — Sector001 and Sector002 (historical)
+
+Status: **inactive audit of the deprecated generated sectors**. Preserve as evidence only; it is not a room-by-room implementation manifest. Active room status belongs in `docs/levels/level-0-rooms.md`.
 
 This matrix audits what the player can actually see or collide with. Presence in `level-0-final-trace.json` alone is not implementation.
 

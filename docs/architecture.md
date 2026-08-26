@@ -145,12 +145,12 @@ Creare solo durante il milestone relativo.
 
 ## Stato corrente
 
-- `res://scenes/levels/level_0_test.tscn` come main scene;
+- `res://scenes/levels/level_0.tscn` come main scene leggera, con `Rooms` inizialmente vuoto e authoring room-by-room;
 - `res://scenes/player.tscn` con movimento, flashlight, CharacterStatus, InventoryRuntime e UI locale;
 - Input Map in `project.godot`;
 - inventario locale che non pausa lo SceneTree;
 - nessuna lobby, rete, chat o persistenza;
-- Level 0 deterministico dalla master map 71-days (`docs/levels/level-0-final-manifest.md`); la mappa a due piani precedente è deprecata;
+- Level 0 dalla master map 71-days (`docs/levels/level-0-final-manifest.md`), implementato una stanza alla volta secondo `docs/levels/level-0-rooms.md`; il precedente bake Sector001/Sector002 è storico inattivo;
 - nessun Object/Entity wiki implementato.
 
 Player e blockout sono prototipi network-first: stato sul personaggio, UI locale, niente `Global.player`.

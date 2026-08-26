@@ -1,6 +1,8 @@
 # Level 0 — final map manifest
 
-Stato: **blueprint, Sector001 (pilota) e Sector002 (NW) costruiti**. Altri settori tracciati, non in 3D.
+Stato: **blueprint/trace preservati; precedente Sector001/Sector002 deprecato e inattivo**. Nessuna stanza del nuovo workflow room-by-room è ancora implementata.
+
+Workflow attivo: [`level-0-rooms.md`](level-0-rooms.md). Le sezioni su settori, chunk, bake e rigenerazione qui sotto documentano il tentativo storico e non autorizzano più l'esecuzione dei generatori. I flag `built` nel trace descrivono soltanto quell'output precedente.
 
 ## Fonte autoritativa
 
@@ -101,7 +103,7 @@ Vedi anche `canon_conflicts` nel JSON.
 4. **Windows + city + red sun** vs Level 0 solo interno → finestre finte, niente skybox urbano canonico.
 5. **Mannequin / nest / caveman / horse skull** vs entità non confermate → niente AI.
 
-## Settori
+## Settori generati — storico inattivo
 
 Il pilota è `sector_001` (17-days-core).
 
@@ -109,9 +111,9 @@ px_box `[1550, 1860, 2420, 2580]` → m_box circa `[269.5, 323.5, 420.5, 448.5]`
 
 `sector_002` è la cella NW `grid [0,0]`, `m_box [2.0, 0.0, 134.0, 128.5]`. Gli altri settori (~160 m) restano `built: false`. Non costruire Sector003+ senza approvazione.
 
-Rigenerazione: `python tools/build_level_0_optimized.py sector_001` oppure `... sector_002`.
+Comandi storici di rigenerazione: `python tools/build_level_0_optimized.py sector_001` oppure `... sector_002`. **Non eseguire nel workflow room-by-room.**
 
-## Pilota — contenuto 3D
+## Pilota — contenuto 3D storico
 
 - Stanze/passaggi: cluster allagato, verde, grigio poor-lighting, beige adiacente, theatre/boiler a nord, pinch + fan a sud-ovest
 - Dislivelli: water −0.30, low ceiling 1.15, no-ceiling 12 m, ST01 da Y=+1.5 a Y=0 lungo la hatch
@@ -122,9 +124,9 @@ Rigenerazione: `python tools/build_level_0_optimized.py sector_001` oppure `... 
 - PackedScene: `scenes/levels/level_0/sector_001.tscn` + 16 chunk da 40 m
 - Geometria statica: ArrayMesh + ConcavePolygonShape3D in `resources/generated/level_0/sector_001/*.res`
 - Fluorescenti identiche: MultiMesh; flicker resta nodo; OmniLight restano nodi
-- Rigenerazione: `python tools/build_level_0_optimized.py sector_001`
+- Rigenerazione storica: `python tools/build_level_0_optimized.py sector_001` (**deprecata; non eseguire**)
 
-## Sector002 — NW
+## Sector002 — NW, storico
 
 - PackedScene: `scenes/levels/level_0/sector_002.tscn`
 - m_box `[2.0, 0.0, 134.0, 128.5]` (half-open); px derivato `[11.5, 0, 770.8, 739.2]`

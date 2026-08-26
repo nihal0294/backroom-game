@@ -10,6 +10,16 @@ Le sezioni “Aperte” non autorizzano scelte arbitrarie.
 - Git LFS per `*.blend`, `*.fbx`, `*.glb`, `*.psd`, `*.kra`, `*.wav`.
 - `.godot/` e percorsi locali editor non tracciati.
 
+## 2026-08-26 — Level 0 room-by-room
+
+- L'authoring automatico a settori completi è abbandonato.
+- `Sector001`, `Sector002`, chunk e risorse generate restano storico inattivo e non sono una base da riparare o rigenerare.
+- La master map 71-days, il trace, scala/origine, annotazioni e audit restano fonti di riferimento.
+- Main scene di sviluppo: `res://scenes/levels/level_0.tscn`, con contenitore `Rooms` inizialmente vuoto.
+- Ogni milestone implementa una sola stanza/corridoio definito da crop esatto, con review geometrica, gameplay e visiva prima della stanza fisicamente adiacente.
+- La golden room resta laboratorio non approvato; non autorizza materiali o impostazioni globali.
+- Questa decisione supersede il workflow attivo di generazione Sector001/Sector002 descritto nella decisione 2026-08-25, ma non supersede la master map né il suo contratto metrico.
+
 ## 2026-08-23 — Level 0 blockout
 
 - Griglia 3 × 3 m, snap 1,5 m, soffitto 3 m.

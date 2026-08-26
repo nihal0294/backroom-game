@@ -89,8 +89,8 @@ Gli oggetti includono strumenti, consumabili, armi, artefatti, decorazioni e ogg
 
 ## Level 0
 
-- main scene corrente: `res://scenes/levels/level_0_test.tscn`;
-- layout deterministico dalla master map *71 days after arrival*, vedi [`levels/level-0-final-manifest.md`](levels/level-0-final-manifest.md);
+- main scene corrente: `res://scenes/levels/level_0.tscn`;
+- authoring incrementale room-by-room dalla master map *71 days after arrival*, vedi [`levels/level-0-rooms.md`](levels/level-0-rooms.md) e [`levels/level-0-final-manifest.md`](levels/level-0-final-manifest.md);
 - scala 1 unità Godot = 1 metro; pixel→metri congelata 0.173846 m/px, snap 0.5 m;
 - soffitto prevalente 3 m, con eccezioni locali della reference (tall / low / no ceiling);
 - look giallo-beige, moquette umida, fluorescenti e ronzio;
@@ -101,7 +101,7 @@ Gli oggetti includono strumenti, consumabili, armi, artefatti, decorazioni e ogg
 - entità non confermate (wiki: unknown); non inserirle;
 - uscita wiki di riferimento: parete tremolante/instabile verso Level 1.
 
-Il settore pilota di `level_0_test.tscn` valida il metodo trace→occupancy. Non ampliarlo come gioco single-player e non costruire Sector 2 senza approvazione.
+Il precedente `level_0_test.tscn` con Sector001/Sector002 è storico inattivo. Non ripararlo, rigenerarlo o usarlo come fondazione. Il trace resta un ausilio di misura; ogni nuovo ambiente viene implementato e approvato come unità room-by-room.
 
 ## Piattaforme
 
