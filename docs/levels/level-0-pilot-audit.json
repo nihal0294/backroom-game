@@ -42,5 +42,14 @@
     658.25,
     642.0
   ],
-  "spawn_yaw": "180 deg, looking +Z"
+  "spawn_yaw": "180 deg, looking +Z",
+  "optimization": {
+    "method": "chunked ArrayMesh + ConcavePolygonShape3D + MultiMesh fixtures",
+    "chunk_m": 40,
+    "chunks": 16,
+    "overlap_cells": 0,
+    "missing_walkable_cells": 0,
+    "extra_floor_cells": 0,
+    "walk_samples_ok": 1145
+  }
 }

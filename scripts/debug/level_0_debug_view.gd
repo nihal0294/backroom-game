@@ -21,6 +21,33 @@ func _ready() -> void:
 		await _capture_all()
 		get_tree().quit()
 		return
+	if OS.get_environment("LEVEL0_WALK_TEST") == "1":
+		await get_tree().physics_frame
+		await get_tree().physics_frame
+		var space := get_world_3d().direct_space_state
+		var fails := 0
+		var ok := 0
+		var f := FileAccess.open("res://scenes/levels/level_0/walk_samples.json", FileAccess.READ)
+		if f == null:
+			print("WALK_FAIL missing walk_samples.json")
+			get_tree().quit()
+			return
+		var samples: Array = JSON.parse_string(f.get_as_text())
+		for sample in samples:
+			var x := float(sample[1])
+			var z := float(sample[2])
+			var q := PhysicsRayQueryParameters3D.create(Vector3(x, 4.0, z), Vector3(x, -2.0, z))
+			q.collide_with_areas = false
+			var hit := space.intersect_ray(q)
+			if hit.is_empty():
+				fails += 1
+				if fails <= 8:
+					print("WALK_FAIL no floor at ", x, ",", z)
+			else:
+				ok += 1
+		print("Level0 walk: ok=", ok, " fail=", fails)
+		get_tree().quit()
+		return
 	if OS.get_environment("LEVEL0_FPS_SHOT") == "1":
 		await get_tree().process_frame
 		await get_tree().process_frame
@@ -53,9 +80,13 @@ func _unhandled_input(event: InputEvent) -> void:
 
 
 func _set_ceilings_visible(vis: bool) -> void:
-	var n := get_node_or_null("Sector001/Ceilings")
-	if n:
-		n.visible = vis
+	var sector := get_node_or_null("Sector001")
+	if sector == null:
+		return
+	for child in sector.get_children():
+		var ceilings := child.get_node_or_null("Ceilings")
+		if ceilings:
+			ceilings.visible = vis
 
 
 func _set_player_ui_visible(vis: bool) -> void:

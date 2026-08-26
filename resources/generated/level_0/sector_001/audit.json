@@ -1,0 +1,8 @@
+{
+  "occupied_cells": 28865,
+  "floor_rects": 2625,
+  "wall_segments": 4534,
+  "overlap_cells": 0,
+  "missing_walkable_cells": 0,
+  "extra_floor_cells": 0
+}

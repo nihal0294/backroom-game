@@ -450,6 +450,12 @@ def main() -> None:
         placed.append((cx, cz))
         n_fix += 1
 
+    # Optimized output is tools/build_level_0_optimized.py (batched ArrayMesh).
+    # Do not emit thousands of BoxMesh nodes into the main scene.
+    print("Refusing to write a 90k-line tscn.")
+    print("Run: python tools/build_level_0_optimized.py")
+    return
+
     # Write sector + main as one scene (pilot-only milestone: sector instanced)
     SECTOR_DIR.mkdir(parents=True, exist_ok=True)
 

@@ -116,7 +116,10 @@ Gli altri settori (~160 m) sono prenotati nel JSON con `built: false`. Non costr
 - Acqua sì; colonne no (weird pillars è fuori pilota)
 - Audit occupancy: overlap 0, walkable gap 0, extra 0
 - Fixture: fluorescenti esistenti + 1 flicker + 2 off + 1 orange bulb
-- Entry: `scenes/levels/level_0_test.tscn` contiene `Sector001`
-- Stub: `scenes/levels/level_0/sector_001.tscn`
+- Entry: `scenes/levels/level_0_test.tscn` istanzia `sector_001.tscn` (root snello)
+- PackedScene: `scenes/levels/level_0/sector_001.tscn` + 16 chunk da 40 m
+- Geometria statica: ArrayMesh + ConcavePolygonShape3D in `resources/generated/level_0/sector_001/*.res`
+- Fluorescenti identiche: MultiMesh; flicker resta nodo; OmniLight restano nodi
+- Rigenerazione: `python tools/build_level_0_optimized.py` (stesso occupancy, niente tscn da 90k righe)
 
 Non procedere al Sector 2 senza approvazione.
