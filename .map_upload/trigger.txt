@@ -1,1 +1,1 @@
-generate Level 0 map assets
+generate Level 0 map assets retry 2
