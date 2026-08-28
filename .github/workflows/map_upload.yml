@@ -29,224 +29,160 @@ jobs:
           from PIL import Image, ImageDraw, ImageFont
           import numpy as np, cv2, math, os, shutil
 
-          source = 'docs/reference/level-0/level-0-final-map.png'
-          outdir = 'assets/level_0/maps'
+          source='docs/reference/level-0/level-0-final-map.png'
+          outdir='assets/level_0/maps'
           shutil.rmtree(outdir, ignore_errors=True)
           os.makedirs(outdir, exist_ok=True)
 
-          # Normalize to the exact working raster used to define the 48 sectors.
-          original = Image.open(source).convert('RGB')
-          working_pil = original.resize((2048, 1994), Image.Resampling.LANCZOS)
-          raw = np.array(working_pil)
-          H, W = raw.shape[:2]
-          bg = np.array([86, 86, 86], dtype=np.uint8)
+          original=Image.open(source).convert('RGB')
+          working=original.resize((2048,1994), Image.Resampling.LANCZOS)
+          raw=np.array(working)
+          H,W=raw.shape[:2]
+          bg=np.array([86,86,86],dtype=np.uint8)
 
-          # Remove detached handwritten annotations while preserving the actual connected map.
-          distance = np.linalg.norm(raw.astype(int) - bg.astype(int), axis=2)
-          foreground = (distance > 25).astype('uint8')
-          count, labels, stats, _ = cv2.connectedComponentsWithStats(foreground, 8)
-          largest = 1 + int(np.argmax(stats[1:, cv2.CC_STAT_AREA]))
-          map_mask = (labels == largest).astype('uint8')
-          map_mask = cv2.dilate(map_mask, np.ones((3, 3), np.uint8), iterations=1)
-          clean = np.tile(bg, (H, W, 1))
-          clean[map_mask.astype(bool)] = raw[map_mask.astype(bool)]
+          # Keep the connected map; discard detached handwritten notes for sector crops.
+          dist=np.linalg.norm(raw.astype(int)-bg.astype(int),axis=2)
+          fg=(dist>25).astype('uint8')
+          _,labels,stats,_=cv2.connectedComponentsWithStats(fg,8)
+          largest=1+int(np.argmax(stats[1:,cv2.CC_STAT_AREA]))
+          map_mask=(labels==largest).astype('uint8')
+          map_mask=cv2.dilate(map_mask,np.ones((3,3),np.uint8),iterations=1)
+          clean=np.tile(bg,(H,W,1))
+          clean[map_mask.astype(bool)]=raw[map_mask.astype(bool)]
 
-          # Recover the 48 already-defined color sectors from the clean map.
-          colors, counts = np.unique(clean.reshape(-1, 3), axis=0, return_counts=True)
-          sectors = []
-          for color, pixel_count in zip(colors, counts):
-              if tuple(color) == tuple(bg) or pixel_count < 500:
+          # Collect color-connected regions and use the 48 largest real map regions.
+          colors,counts=np.unique(clean.reshape(-1,3),axis=0,return_counts=True)
+          candidates=[]
+          for color,pixel_count in zip(colors,counts):
+              if tuple(color)==tuple(bg) or pixel_count<150:
                   continue
-              mask0 = np.all(clean == color, axis=2).astype('uint8')
-              n, component_labels, component_stats, centroids = cv2.connectedComponentsWithStats(mask0, 8)
-              for i in range(1, n):
-                  area = int(component_stats[i, cv2.CC_STAT_AREA])
-                  if area < 3950:
+              m0=np.all(clean==color,axis=2).astype('uint8')
+              n,clabels,cstats,centroids=cv2.connectedComponentsWithStats(m0,8)
+              for i in range(1,n):
+                  area=int(cstats[i,cv2.CC_STAT_AREA])
+                  if area<350:
                       continue
-                  mask = (component_labels == i).astype('uint8')
-                  mask = cv2.morphologyEx(mask, cv2.MORPH_CLOSE, np.ones((5, 5), np.uint8))
-                  flood = (mask * 255).astype('uint8')
-                  flooded = flood.copy()
-                  ffmask = np.zeros((H + 2, W + 2), np.uint8)
-                  cv2.floodFill(flooded, ffmask, (0, 0), 128)
-                  holes = flooded == 0
-                  mask = ((mask > 0) | holes).astype('uint8')
-                  x, y, w, h = map(int, component_stats[i, :4])
-                  contours, _ = cv2.findContours((mask * 255).astype('uint8'), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_NONE)
-                  points = np.vstack([c[:, 0, :] for c in contours]).astype(np.int32)
-                  points = points[::max(1, len(points) // 700)]
-                  sectors.append({
-                      'mask': mask.astype(bool),
-                      'bbox': (x, y, w, h),
-                      'centroid': np.array(centroids[i], dtype=float),
-                      'points': points,
-                  })
+                  candidates.append((area,color.copy(),clabels==i,cstats[i,:4].copy(),centroids[i].copy()))
 
-          if len(sectors) != 48:
-              raise RuntimeError(f'Expected 48 Level 0 sectors, found {len(sectors)}')
+          candidates.sort(key=lambda item:item[0],reverse=True)
+          if len(candidates)<48:
+              raise RuntimeError(f'Only {len(candidates)} candidate regions found')
+          candidates=candidates[:48]
 
-          # Determine physical sector-to-sector contacts from boundary proximity.
+          sectors=[]
+          for area,color,base_mask,bbox,centroid in candidates:
+              mask=base_mask.astype('uint8')
+              mask=cv2.morphologyEx(mask,cv2.MORPH_CLOSE,np.ones((5,5),np.uint8))
+              x,y,w,h=map(int,bbox)
+              contours,_=cv2.findContours((mask*255).astype('uint8'),cv2.RETR_EXTERNAL,cv2.CHAIN_APPROX_NONE)
+              if not contours:
+                  continue
+              points=np.vstack([c[:,0,:] for c in contours]).astype(np.int32)
+              points=points[::max(1,len(points)//700)]
+              sectors.append({'mask':mask.astype(bool),'bbox':(x,y,w,h),'centroid':np.array(centroid,dtype=float),'points':points,'area':area})
+
+          if len(sectors)!=48:
+              raise RuntimeError(f'Expected 48 sectors after filtering, got {len(sectors)}')
+
           for s in sectors:
-              x, y, w, h = s['bbox']
-              s['x1'], s['y1'], s['x2'], s['y2'] = x, y, x + w, y + h
+              x,y,w,h=s['bbox']; s['x1']=x; s['y1']=y; s['x2']=x+w; s['y2']=y+h
 
-          adjacency = {i: set() for i in range(48)}
-          contacts = {}
-          threshold = 32
+          adjacency={i:set() for i in range(48)}
+          contacts={}
+          threshold=40
           for i in range(48):
-              a = sectors[i]
-              ap = a['points'].astype(np.float32)
-              for j in range(i + 1, 48):
-                  b = sectors[j]
-                  dx = max(a['x1'] - b['x2'], b['x1'] - a['x2'], 0)
-                  dy = max(a['y1'] - b['y2'], b['y1'] - a['y2'], 0)
-                  if math.hypot(dx, dy) > threshold + 20:
+              a=sectors[i]; ap=a['points'].astype(np.float32)
+              for j in range(i+1,48):
+                  b=sectors[j]
+                  dx=max(a['x1']-b['x2'],b['x1']-a['x2'],0)
+                  dy=max(a['y1']-b['y2'],b['y1']-a['y2'],0)
+                  if math.hypot(dx,dy)>threshold+20:
                       continue
-                  bp = b['points'].astype(np.float32)
-                  d2 = ((ap[:, None, :] - bp[None, :, :]) ** 2).sum(axis=2)
-                  pair = np.unravel_index(np.argmin(d2), d2.shape)
-                  minimum = float(math.sqrt(d2[pair]))
-                  if minimum <= threshold:
-                      p1, p2 = ap[pair[0]], bp[pair[1]]
-                      contact = (p1 + p2) / 2.0
-                      direction = b['centroid'] - a['centroid']
-                      direction /= np.linalg.norm(direction) + 1e-6
-                      contacts[(i, j)] = (contact, direction)
-                      contacts[(j, i)] = (contact, -direction)
-                      adjacency[i].add(j)
-                      adjacency[j].add(i)
+                  bp=b['points'].astype(np.float32)
+                  d2=((ap[:,None,:]-bp[None,:,:])**2).sum(axis=2)
+                  pair=np.unravel_index(np.argmin(d2),d2.shape)
+                  md=float(math.sqrt(d2[pair]))
+                  if md<=threshold:
+                      p1,p2=ap[pair[0]],bp[pair[1]]
+                      contact=(p1+p2)/2.0
+                      direction=b['centroid']-a['centroid']
+                      direction/=np.linalg.norm(direction)+1e-6
+                      contacts[(i,j)]=(contact,direction)
+                      contacts[(j,i)]=(contact,-direction)
+                      adjacency[i].add(j); adjacency[j].add(i)
 
-          # Preserve the accepted southwest-first traversal numbering.
-          unassigned = set(range(48))
-          order = []
+          # Southwest-first serpentine/graph traversal used by the accepted maps.
+          unassigned=set(range(48)); order=[]
           while unassigned:
-              start = min(unassigned, key=lambda k: (-sectors[k]['centroid'][1], sectors[k]['centroid'][0]))
-              stack = [start]
+              start=min(unassigned,key=lambda k:(-sectors[k]['centroid'][1],sectors[k]['centroid'][0]))
+              stack=[start]
               while stack:
-                  current = stack.pop()
-                  if current not in unassigned:
-                      continue
-                  unassigned.remove(current)
-                  order.append(current)
-                  center = sectors[current]['centroid']
-                  neighbors = [n for n in adjacency[current] if n in unassigned]
+                  cur=stack.pop()
+                  if cur not in unassigned: continue
+                  unassigned.remove(cur); order.append(cur)
+                  center=sectors[cur]['centroid']
+                  neighbors=[n for n in adjacency[cur] if n in unassigned]
                   def angle(n):
-                      vector = sectors[n]['centroid'] - center
-                      return (math.atan2(vector[1], vector[0]) + 2 * math.pi) % (2 * math.pi)
-                  stack.extend(sorted(neighbors, key=angle, reverse=True))
-
-          number_of = {idx: number + 1 for number, idx in enumerate(order)}
+                      v=sectors[n]['centroid']-center
+                      return (math.atan2(v[1],v[0])+2*math.pi)%(2*math.pi)
+                  stack.extend(sorted(neighbors,key=angle,reverse=True))
+          number_of={idx:n+1 for n,idx in enumerate(order)}
 
           try:
-              title_font = ImageFont.truetype('/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf', 34)
-              link_font = ImageFont.truetype('/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf', 25)
+              title_font=ImageFont.truetype('/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf',34)
+              link_font=ImageFont.truetype('/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf',25)
           except OSError:
-              title_font = ImageFont.load_default()
-              link_font = ImageFont.load_default()
+              title_font=ImageFont.load_default(); link_font=ImageFont.load_default()
 
-          # Full master map with the same sector numbering.
-          master = working_pil.copy()
-          draw = ImageDraw.Draw(master)
-          for idx, sector in enumerate(sectors):
-              number = number_of[idx]
-              cx, cy = sector['centroid']
-              radius = 18
-              draw.ellipse((cx - radius, cy - radius, cx + radius, cy + radius), fill=(205, 0, 0), outline='white', width=2)
-              text = str(number)
-              box = draw.textbbox((0, 0), text, font=link_font)
-              tw, th = box[2] - box[0], box[3] - box[1]
-              draw.text((cx - tw / 2, cy - th / 2 - 1), text, font=link_font, fill='white')
-          master = master.quantize(colors=256, method=Image.Quantize.MEDIANCUT)
-          master.save(os.path.join(outdir, 'level0_master_numbered.png'), optimize=True)
+          # Complete numbered master map.
+          master=working.copy(); draw=ImageDraw.Draw(master)
+          for idx,s in enumerate(sectors):
+              num=number_of[idx]; cx,cy=s['centroid']; r=18
+              draw.ellipse((cx-r,cy-r,cx+r,cy+r),fill=(205,0,0),outline='white',width=2)
+              text=str(num); bb=draw.textbbox((0,0),text,font=link_font); tw,th=bb[2]-bb[0],bb[3]-bb[1]
+              draw.text((cx-tw/2,cy-th/2-1),text,font=link_font,fill='white')
+          master.quantize(colors=256,method=Image.Quantize.MEDIANCUT).save(os.path.join(outdir,'level0_master_numbered.png'),optimize=True)
 
-          # 48 isolated sector maps with the sector ID and inter-sector connection labels.
-          for sector_number in range(1, 49):
-              idx = order[sector_number - 1]
-              sector = sectors[idx]
-              mask = sector['mask']
-              ys, xs = np.where(mask)
-              min_x, max_x = int(xs.min()), int(xs.max())
-              min_y, max_y = int(ys.min()), int(ys.max())
-              contact_points = [contacts[(idx, n)][0] for n in adjacency[idx] if (idx, n) in contacts]
-              if contact_points:
-                  cp = np.array(contact_points)
-                  min_x = min(min_x, int(cp[:, 0].min()))
-                  max_x = max(max_x, int(cp[:, 0].max()))
-                  min_y = min(min_y, int(cp[:, 1].min()))
-                  max_y = max(max_y, int(cp[:, 1].max()))
+          # Individual isolated sectors.
+          for sn in range(1,49):
+              idx=order[sn-1]; s=sectors[idx]; mask=s['mask']
+              ys,xs=np.where(mask); minx,maxx=int(xs.min()),int(xs.max()); miny,maxy=int(ys.min()),int(ys.max())
+              cps=[contacts[(idx,n)][0] for n in adjacency[idx] if (idx,n) in contacts]
+              if cps:
+                  cp=np.array(cps); minx=min(minx,int(cp[:,0].min())); maxx=max(maxx,int(cp[:,0].max())); miny=min(miny,int(cp[:,1].min())); maxy=max(maxy,int(cp[:,1].max()))
+              pad=90; minx=max(0,minx-pad); miny=max(0,miny-pad); maxx=min(W-1,maxx+pad); maxy=min(H-1,maxy+pad)
+              side=max(maxx-minx+1,maxy-miny+1); cx=(minx+maxx)//2; cy=(miny+maxy)//2
+              left=max(0,cx-side//2); top=max(0,cy-side//2); right=min(W,left+side); bottom=min(H,top+side); left=max(0,right-side); top=max(0,bottom-side)
+              crop=clean[top:bottom,left:right].copy(); cm=mask[top:bottom,left:right]
+              isolated=np.tile(bg,(crop.shape[0],crop.shape[1],1)); isolated[cm]=crop[cm]
+              canvas=Image.fromarray(isolated); draw=ImageDraw.Draw(canvas)
+              title=f'Sector {sn:02d}'; bb=draw.textbbox((0,0),title,font=title_font); tw,th=bb[2]-bb[0],bb[3]-bb[1]
+              draw.rounded_rectangle((10,10,24+tw,18+th),radius=7,fill=(205,0,0),outline='white',width=2); draw.text((17,12),title,font=title_font,fill='white')
+              for neighbor in sorted(adjacency[idx],key=lambda n:number_of[n]):
+                  linked=number_of[neighbor]; contact,normal=contacts[(idx,neighbor)]
+                  point=np.array([contact[0]-left,contact[1]-top],dtype=float); tangent=np.array([-normal[1],normal[0]],dtype=float)
+                  for off in (-10,0,10):
+                      center=point+tangent*off; p1=center-tangent*6; p2=center+tangent*6
+                      draw.line((float(p1[0]),float(p1[1]),float(p2[0]),float(p2[1])),fill='white',width=2)
+                  label=point+normal*36; text=str(linked); tbb=draw.textbbox((0,0),text,font=link_font); ltw,lth=tbb[2]-tbb[0],tbb[3]-tbb[1]
+                  draw.rounded_rectangle((label[0]-6,label[1]-5,label[0]+ltw+10,label[1]+lth+6),radius=5,fill=(205,0,0),outline='white',width=1)
+                  draw.text((label[0]+2,label[1]-1),text,font=link_font,fill='white')
+              canvas=canvas.resize((1024,1024),Image.Resampling.LANCZOS)
+              canvas.convert('RGB').quantize(colors=128,method=Image.Quantize.MEDIANCUT).save(os.path.join(outdir,f'sector_{sn:02d}.png'),optimize=True)
 
-              pad = 85
-              min_x, min_y = max(0, min_x - pad), max(0, min_y - pad)
-              max_x, max_y = min(W - 1, max_x + pad), min(H - 1, max_y + pad)
-              crop_w, crop_h = max_x - min_x + 1, max_y - min_y + 1
-              side = max(crop_w, crop_h)
-              cx, cy = (min_x + max_x) // 2, (min_y + max_y) // 2
-              left, top = max(0, cx - side // 2), max(0, cy - side // 2)
-              right, bottom = min(W, left + side), min(H, top + side)
-              left, top = max(0, right - side), max(0, bottom - side)
-
-              crop = clean[top:bottom, left:right].copy()
-              crop_mask = mask[top:bottom, left:right]
-              isolated = np.tile(bg, (crop.shape[0], crop.shape[1], 1))
-              isolated[crop_mask] = crop[crop_mask]
-              canvas = Image.fromarray(isolated)
-              draw = ImageDraw.Draw(canvas)
-
-              title = f'Sector {sector_number:02d}'
-              box = draw.textbbox((0, 0), title, font=title_font)
-              tw, th = box[2] - box[0], box[3] - box[1]
-              draw.rounded_rectangle((10, 10, 24 + tw, 18 + th), radius=7, fill=(205, 0, 0), outline='white', width=2)
-              draw.text((17, 12), title, font=title_font, fill='white')
-
-              for neighbor in sorted(adjacency[idx], key=lambda n: number_of[n]):
-                  linked = number_of[neighbor]
-                  contact, normal = contacts[(idx, neighbor)]
-                  point = np.array([contact[0] - left, contact[1] - top], dtype=float)
-                  tangent = np.array([-normal[1], normal[0]], dtype=float)
-
-                  # Three perpendicular marks at every map boundary connection.
-                  for offset in (-10, 0, 10):
-                      center = point + tangent * offset
-                      p1 = center - tangent * 6
-                      p2 = center + tangent * 6
-                      draw.line((float(p1[0]), float(p1[1]), float(p2[0]), float(p2[1])), fill='white', width=2)
-
-                  label = point + normal * 36
-                  text = str(linked)
-                  tbox = draw.textbbox((0, 0), text, font=link_font)
-                  ltw, lth = tbox[2] - tbox[0], tbox[3] - tbox[1]
-                  draw.rounded_rectangle((label[0] - 6, label[1] - 5, label[0] + ltw + 10, label[1] + lth + 6), radius=5, fill=(205, 0, 0), outline='white', width=1)
-                  draw.text((label[0] + 2, label[1] - 1), text, font=link_font, fill='white')
-
-              canvas = canvas.resize((1024, 1024), Image.Resampling.LANCZOS)
-              canvas = canvas.convert('RGB').quantize(colors=128, method=Image.Quantize.MEDIANCUT)
-              canvas.save(os.path.join(outdir, f'sector_{sector_number:02d}.png'), optimize=True)
-
-          # Four aggregate sheets containing the same generated sector maps and connections.
+          # Four aggregate connection sheets.
           for page in range(4):
-              first = page * 12 + 1
-              last = first + 11
-              thumb = 360
-              sheet = Image.new('RGB', (3 * thumb, 4 * thumb), (45, 45, 45))
-              for offset, sector_number in enumerate(range(first, last + 1)):
-                  panel = Image.open(os.path.join(outdir, f'sector_{sector_number:02d}.png')).convert('RGB')
-                  panel.thumbnail((thumb, thumb), Image.Resampling.LANCZOS)
-                  x = (offset % 3) * thumb + (thumb - panel.width) // 2
-                  y = (offset // 3) * thumb + (thumb - panel.height) // 2
-                  sheet.paste(panel, (x, y))
-              sheet = sheet.quantize(colors=128, method=Image.Quantize.MEDIANCUT)
-              sheet.save(os.path.join(outdir, f'sectors_{first:02d}_{last:02d}_connections.png'), optimize=True)
+              first=page*12+1; last=first+11; thumb=360
+              sheet=Image.new('RGB',(3*thumb,4*thumb),(45,45,45))
+              for offset,sn in enumerate(range(first,last+1)):
+                  panel=Image.open(os.path.join(outdir,f'sector_{sn:02d}.png')).convert('RGB'); panel.thumbnail((thumb,thumb),Image.Resampling.LANCZOS)
+                  x=(offset%3)*thumb+(thumb-panel.width)//2; y=(offset//3)*thumb+(thumb-panel.height)//2; sheet.paste(panel,(x,y))
+              sheet.quantize(colors=128,method=Image.Quantize.MEDIANCUT).save(os.path.join(outdir,f'sectors_{first:02d}_{last:02d}_connections.png'),optimize=True)
 
-          expected = ['level0_master_numbered.png'] + [f'sector_{i:02d}.png' for i in range(1, 49)] + [
-              'sectors_01_12_connections.png',
-              'sectors_13_24_connections.png',
-              'sectors_25_36_connections.png',
-              'sectors_37_48_connections.png',
-          ]
-          missing = [name for name in expected if not os.path.exists(os.path.join(outdir, name))]
-          if missing:
-              raise RuntimeError(f'Missing generated assets: {missing}')
-          print(f'Generated {len(expected)} Level 0 map assets in {outdir}')
+          expected=['level0_master_numbered.png']+[f'sector_{i:02d}.png' for i in range(1,49)]+['sectors_01_12_connections.png','sectors_13_24_connections.png','sectors_25_36_connections.png','sectors_37_48_connections.png']
+          missing=[f for f in expected if not os.path.exists(os.path.join(outdir,f))]
+          if missing: raise RuntimeError(f'Missing assets: {missing}')
+          print(f'Generated {len(expected)} files')
           PY
 
       - name: Commit only final map assets
