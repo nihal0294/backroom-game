@@ -1,0 +1,39 @@
+name: Level 0 map asset upload
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.map_upload/trigger.txt'
+
+permissions:
+  contents: write
+
+jobs:
+  unpack-and-commit:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Reconstruct map archive
+        shell: bash
+        run: |
+          set -euo pipefail
+          cat .map_upload/chunk_*.txt | base64 -d > /tmp/level0_maps.tar.gz
+          mkdir -p assets/level_0/maps
+          rm -rf assets/level_0/maps/*
+          tar -xzf /tmp/level0_maps.tar.gz -C assets/level_0/maps
+          rm -rf .map_upload
+
+      - name: Commit generated assets
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add assets/level_0/maps .map_upload
+          git commit -m "assets: add Level 0 sector maps"
+          git push origin HEAD:main
