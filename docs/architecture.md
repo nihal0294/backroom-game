@@ -145,12 +145,13 @@ Creare solo durante il milestone relativo.
 
 ## Stato corrente
 
-- `res://scenes/levels/level_0.tscn` come main scene leggera, con `Rooms` inizialmente vuoto e authoring room-by-room;
+- `res://scenes/levels/level_0.tscn` come main scene leggera, con contenitore `Sectors` e Sector 04 attivo;
+- `res://scenes/levels/level_0/sector_04.tscn` costruisce deterministicamente la sagoma di `assets/level_0/maps/sector_04.png` con il kit metrico/visivo derivato da Backrooms VR;
 - `res://scenes/player.tscn` con movimento, flashlight, CharacterStatus, InventoryRuntime e UI locale;
 - Input Map in `project.godot`;
 - inventario locale che non pausa lo SceneTree;
 - nessuna lobby, rete, chat o persistenza;
-- Level 0 dalla master map 71-days (`docs/levels/level-0-final-manifest.md`), implementato una stanza alla volta secondo `docs/levels/level-0-rooms.md`; il precedente bake Sector001/Sector002 è storico inattivo;
+- Level 0 dalla master map numerata a 48 settori (`assets/level_0/maps/level0_master_numbered.png`); Sector 04 è il primo settore attivo, mentre S01-R01 e il precedente bake Sector001/Sector002 sono storici inattivi;
 - nessun Object/Entity wiki implementato.
 
 Player e blockout sono prototipi network-first: stato sul personaggio, UI locale, niente `Global.player`.

@@ -2,6 +2,16 @@
 
 Le sezioni “Aperte” non autorizzano scelte arbitrarie.
 
+## 2026-08-29 — Level 0: mappa a 48 settori e kit Backrooms VR
+
+- La topologia attiva del Level 0 è la mappa numerata in `assets/level_0/maps/level0_master_numbered.png`, divisa nelle 48 immagini `sector_01.png`–`sector_48.png` e nei relativi fogli connessioni.
+- Le immagini di settore definiscono esclusivamente sagoma calpestabile, proporzioni e connessioni; non possono essere sostituite dal layout del modello VR.
+- `assets/backrooms_vr/scene.gltf` è il riferimento architettonico principale per scala e presentazione: altezza, spessore e finitura delle pareti, controsoffitto, lampade, battiscopa, prese, stipiti, porte, colori e illuminazione.
+- Il modello VR non è la mappa di gioco e le sue texture atlas con illuminazione cotta non vengono stese sulla nuova geometria procedurale.
+- Primo settore attivo: Sector 04. La sua sagoma è tracciata deterministicamente e costruita con geometria/collisioni aggregate e dettagli ripetuti in MultiMesh.
+- Questa decisione supersede il workflow attivo room-by-room del 2026-08-26. S01-R01 resta un prototipo storico conservato, non la main scene.
+- Nessun altro settore è autorizzato implicitamente da questa decisione.
+
 ## 2026-08-23 — Setup
 
 - Cartelle iniziali: `assets/`, `scenes/`, `scripts/`, `resources/`, `shaders/`, `docs/`.

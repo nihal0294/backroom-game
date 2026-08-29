@@ -1,10 +1,10 @@
-# Level 0 — room-by-room authoring manifest
+# Level 0 — historical room-by-room authoring manifest
 
-Status: **active authoring workflow; S01-R01 implemented; no other room implemented**.
+Status: **inactive; superseded on 2026-08-29 by the numbered 48-sector workflow**. S01-R01 remains a preserved prototype and is no longer loaded by the main scene. Current work is documented in [level-0-sector-04.md](level-0-sector-04.md).
 
 The authoritative topology remains docs/reference/level-0/level-0-final-map.png. Measurements and annotations remain in docs/levels/level-0-final-trace.json. The trace is a reference and measurement aid; it does not authorize a whole-map or whole-sector bake.
 
-## Active root
+## Historical root
 
 - Main scene: res://scenes/levels/level_0.tscn
 - Room parent: Level0/Rooms
@@ -14,7 +14,7 @@ The authoritative topology remains docs/reference/level-0/level-0-final-map.png.
 
 The golden room is retained for visual comparison but is **not visually approved**. Its materials, dimensions, environment, and lighting must not be copied into room scenes until the developer approves them.
 
-## Workflow
+## Historical workflow
 
 1. Select one exact room or corridor crop from the master map.
 2. Record its metric specification and source annotations.
@@ -113,6 +113,8 @@ Allowed statuses:
 
 Only S01-R01 is implemented. It is not `VISUALLY_APPROVED` or `GAMEPLAY_APPROVED`; those statuses require developer review. Every other room and corridor remains documentation-only. The two candidate placements for C01 and the R02 source-footprint conflict remain open in the sector specification. For this first implementation, the developer's normal-yellow instruction resolves R01's A144 surface choice without changing the annotation transcription.
 
+S01-R01's verified future interfaces are development-capped while their adjacent rooms remain unimplemented. X01/R09 and X02/R02 therefore look and collide like ordinary walls in the current playable scene; the clearly named temporary caps are removed only alongside the corresponding future room/interface implementation. This development presentation does not change either connection's documented topology or type.
+
 ## Legacy generated implementation
 
 Sector001/Sector002 and their chunks/resources are historical output, not active Level 0 authoring sources.
@@ -148,6 +150,6 @@ The following paths are classified REMOVE_GENERATED_ONLY. They are retained for 
 
 Their audit documents and screenshots remain historical evidence. Removal or archival movement can be reviewed separately; none of these files should be repaired or regenerated.
 
-## Milestone rule
+## Historical milestone rule
 
 After developer review of the S01 specification, the next implementation milestone may build only one explicitly selected `PLANNED` room or corridor, plus its documented immediate interfaces. No S01 unit is automatically approved for geometry by being listed here. Stop for geometry, gameplay, and visual approval before creating the next physically adjacent unit.

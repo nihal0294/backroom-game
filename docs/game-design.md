@@ -90,9 +90,9 @@ Gli oggetti includono strumenti, consumabili, armi, artefatti, decorazioni e ogg
 ## Level 0
 
 - main scene corrente: `res://scenes/levels/level_0.tscn`;
-- authoring incrementale room-by-room dalla master map *71 days after arrival*, vedi [`levels/level-0-rooms.md`](levels/level-0-rooms.md) e [`levels/level-0-final-manifest.md`](levels/level-0-final-manifest.md);
-- scala 1 unità Godot = 1 metro; pixel→metri congelata 0.173846 m/px, snap 0.5 m;
-- soffitto prevalente 3 m, con eccezioni locali della reference (tall / low / no ceiling);
+- topologia attiva: master numerata e 48 immagini di settore in `assets/level_0/maps/`; implementazione progressiva un settore esplicitamente richiesto alla volta;
+- scala 1 unità Godot = 1 metro; la scala di ciascun ritaglio normalizzato viene documentata dal relativo trace e calibrata sul kit architettonico Backrooms VR;
+- standard architettonico corrente: pareti da 0,30 m estruse fuori dalla sagoma calpestabile e controsoffitto a circa 2,866 m, salvo future eccezioni esplicite della mappa;
 - look giallo-beige, moquette umida, fluorescenti e ronzio;
 - monotonia e geometrie plausibili organizzate in modo errato;
 - variazioni lore: archi, pilastri, buche, blackout, Red Rooms (pericolose), layout changes;
@@ -101,7 +101,7 @@ Gli oggetti includono strumenti, consumabili, armi, artefatti, decorazioni e ogg
 - entità non confermate (wiki: unknown); non inserirle;
 - uscita wiki di riferimento: parete tremolante/instabile verso Level 1.
 
-Il precedente `level_0_test.tscn` con Sector001/Sector002 è storico inattivo. Non ripararlo, rigenerarlo o usarlo come fondazione. Il trace resta un ausilio di misura; ogni nuovo ambiente viene implementato e approvato come unità room-by-room.
+Il precedente `level_0_test.tscn` con Sector001/Sector002 e il prototipo S01-R01 sono storici inattivi. Non ripararli, rigenerarli o usarli come fondazione. Sector 04 è il primo ambiente della nuova mappa a 48 settori; Backrooms VR definisce il linguaggio costruttivo, non la topologia.
 
 ## Piattaforme
 

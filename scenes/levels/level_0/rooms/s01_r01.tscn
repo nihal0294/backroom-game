@@ -22,6 +22,10 @@ unique_name_in_owner = true
 unique_name_in_owner = true
 cast_shadow = 0
 
+[node name="FluorescentFixturesOff" type="MultiMeshInstance3D" parent="Fixtures"]
+unique_name_in_owner = true
+cast_shadow = 0
+
 [node name="SparseLights" type="Node3D" parent="Fixtures"]
 unique_name_in_owner = true
 
@@ -45,13 +49,22 @@ unique_name_in_owner = true
 [node name="X02_R02" type="Marker3D" parent="Interfaces"]
 unique_name_in_owner = true
 
-[node name="TemporaryX02Barrier" type="Node3D" parent="Interfaces"]
+[node name="TemporaryX01WallCap" type="Node3D" parent="Interfaces"]
 
-[node name="TemporaryX02BarrierVisual" type="MeshInstance3D" parent="Interfaces/TemporaryX02Barrier"]
+[node name="TemporaryX01WallCapVisual" type="MeshInstance3D" parent="Interfaces/TemporaryX01WallCap"]
 unique_name_in_owner = true
-cast_shadow = 0
 
-[node name="TemporaryX02BarrierBody" type="StaticBody3D" parent="Interfaces/TemporaryX02Barrier"]
+[node name="TemporaryX01WallCapBody" type="StaticBody3D" parent="Interfaces/TemporaryX01WallCap"]
 
-[node name="TemporaryX02BarrierCollision" type="CollisionShape3D" parent="Interfaces/TemporaryX02Barrier/TemporaryX02BarrierBody"]
+[node name="TemporaryX01WallCapCollision" type="CollisionShape3D" parent="Interfaces/TemporaryX01WallCap/TemporaryX01WallCapBody"]
+unique_name_in_owner = true
+
+[node name="TemporaryX02WallCap" type="Node3D" parent="Interfaces"]
+
+[node name="TemporaryX02WallCapVisual" type="MeshInstance3D" parent="Interfaces/TemporaryX02WallCap"]
+unique_name_in_owner = true
+
+[node name="TemporaryX02WallCapBody" type="StaticBody3D" parent="Interfaces/TemporaryX02WallCap"]
+
+[node name="TemporaryX02WallCapCollision" type="CollisionShape3D" parent="Interfaces/TemporaryX02WallCap/TemporaryX02WallCapBody"]
 unique_name_in_owner = true

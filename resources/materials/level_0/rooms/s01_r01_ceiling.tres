@@ -1,0 +1,21 @@
+[gd_resource type="ShaderMaterial" load_steps=5 format=3]
+
+[ext_resource type="Shader" path="res://resources/materials/level_0/rooms/s01_r01_ceiling.gdshader" id="1_shader"]
+[ext_resource type="Texture2D" path="res://assets/textures/environment/level_0/backrooms.png" id="2_atlas"]
+[ext_resource type="Texture2D" path="res://assets/textures/environment/ambientcg/Plastic010/Plastic010_1K_Roughness.jpg" id="3_roughness"]
+[ext_resource type="Texture2D" path="res://assets/textures/environment/ambientcg/Plastic010/Plastic010_1K_NormalGL.jpg" id="4_normal"]
+
+[resource]
+render_priority = 0
+shader = ExtResource("1_shader")
+shader_parameter/tile_atlas = ExtResource("2_atlas")
+shader_parameter/roughness_texture = ExtResource("3_roughness")
+shader_parameter/normal_texture = ExtResource("4_normal")
+shader_parameter/ceiling_tint = Color(0.73, 0.65, 0.58, 1)
+shader_parameter/divider_color = Color(0.42, 0.39, 0.32, 1)
+shader_parameter/texture_scale = Vector2(0.62, 0.62)
+shader_parameter/module_size_m = 0.6
+shader_parameter/divider_half_width_m = 0.008
+shader_parameter/dirty_block_rate = 0.14
+shader_parameter/normal_strength = 0.18
+shader_parameter/indirect_emission = 0.48

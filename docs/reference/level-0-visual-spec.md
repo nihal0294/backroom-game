@@ -1,6 +1,6 @@
-# Level 0 visual specification — historical Sector001/Sector002 calibration
+# Level 0 visual specification
 
-Status: **historical, inactive, and not an approved room-by-room visual standard**. It records the deprecated Sector001/Sector002 calibration and does not authorize Sector003, room materials, or changes to the final master map. The golden room is also awaiting developer visual approval.
+Status: **active Backrooms VR-derived construction standard for Sector 04; awaiting developer visual approval**. It does not authorize another sector automatically.
 
 ## Value classification
 
@@ -10,7 +10,28 @@ Status: **historical, inactive, and not an approved room-by-room visual standard
 
 The two linked videos are art direction only. No value estimated from a video is classified as `SOURCE_EXACT`.
 
-## Standard materials and dimensions
+## Active Sector 04 standard
+
+| Property | Chosen standard | Classification | Basis |
+| --- | ---: | --- | --- |
+| Architectural source | `assets/backrooms_vr/scene.gltf` | `SOURCE_EXACT` | The local CC BY 4.0 model is the developer-selected construction reference. Its room layout is not copied. |
+| Topology source | `assets/level_0/maps/sector_04.png` | `SOURCE_EXACT` | The sector image defines the occupied silhouette and proportions. |
+| Wall material | `res://resources/materials/level_0/vr_kit/wallpaper.tres`; BRW_B maps | `SOURCE_DERIVED` | Existing tileable asset calibrated to the baked VR palette; VR wall atlases are mesh-specific and unsuitable for the new topology. |
+| Wall tint / UV | `Color(0.79, 0.65, 0.36, 1)` / `Vector2(0.20, 0.20)` | `SOURCE_DERIVED` | The prior controlled capture measured `#896C1F` in-game versus `#8A6B24` in the VR preview. |
+| Wall height | `2.866 m` | `SOURCE_DERIVED` | Difference between recurrent VR floor and ceiling planes. |
+| Wall thickness | `0.30 m`, entirely outside the walkable polygon | `SOURCE_DERIVED` | Recurrent glTF wall depth is approximately 0.296–0.305 m. |
+| Carpet | `res://resources/materials/level_0/vr_kit/carpet.tres`; ambientCG Carpet011 | `SOURCE_DERIVED` | CC0 tileable PBR carpet, tinted to the VR target; opaque, metallic 0, minimum roughness 0.88. |
+| Ceiling | `res://resources/materials/level_0/vr_kit/ceiling.tres`; 0.60 m acoustic grid | `SOURCE_DERIVED` | Continuous batched slab with shader grid and atlas variation; no per-tile nodes. |
+| Baseboard | 0.12 m high, 0.035 m visual projection | `VISUAL_APPROXIMATION` | Matches the VR trim language while leaving collision width unchanged. |
+| Socket | plate 0.078 × 0.126 m; centre Y 0.317 m | `SOURCE_DERIVED` | Measured from the local model and emitted as MultiMesh detail. |
+| Door / jamb | approximately 2.20 m high; 1.20 m outer frame | mixed `SOURCE_DERIVED` / `VISUAL_APPROXIMATION` | Height follows the VR model; simplified frame width is calibrated for the game player scale. |
+| Visual fluorescents | 1.20 × 0.60 m; deterministic scattered layout; majority on | `SOURCE_DERIVED` | Dimensions and sparse/non-row presentation follow VR; exact distribution belongs to Sector 04. |
+| Real lights | maximum 8 shadowless OmniLight3D; colour `Color(0.98, 0.96, 0.84, 1)` | `VISUAL_APPROXIMATION` | Visual fixtures and lighting sources remain separate. |
+| Environment | background `Color(0.035, 0.028, 0.012, 1)`; ambient `Color(0.56, 0.52, 0.38, 1)` at 0.50; ACES exposure 1.05 | `SOURCE_DERIVED` | Calibrated in Godot 4.5 Forward+ against the local VR render. |
+
+The source and implementation details are recorded in [`../levels/level-0-sector-04.md`](../levels/level-0-sector-04.md). The VR model’s exact attribution remains in `assets/backrooms_vr/license.txt`.
+
+## Historical Sector001/Sector002 standard materials and dimensions
 
 | Property | Chosen standard | Classification | Basis |
 |---|---:|---|---|
@@ -63,4 +84,42 @@ The only texture set expected to provide a substantial improvement over the cali
 - `Textures/Carpet1/Carpet011_1K_NormalGL.jpg`
 - `Textures/Carpet1/Carpet011_1K_AmbientOcclusion.jpg`
 
-Its independent ambientCG/CC0 provenance is recorded by the reference repository's USDA metadata. `Paper003` and `Plastic010` are also independently CC0 but do not currently offer a substantial enough improvement over BRW_B and BRC_A to justify import. `wall0_2K_Color.png` must not be imported until its independent provenance/license is verified.
+Its independent ambientCG/CC0 provenance is recorded by the reference repository's USDA metadata. The historical generated-sector pass did not consider `Paper003` and `Plastic010` a sufficient improvement over BRW_B and BRC_A. The room-specific S01-R01 correction below supersedes that historical decision for R01 only. `wall0_2K_Color.png` must not be imported until its independent provenance/license is verified.
+
+## S01-R01 calibration override — VR palette, awaiting visual approval
+
+This section records the 2026-08-27 correction pass for the only active room,
+S01-R01. It overrides the historical generated-sector values for that room
+only. Nothing here is yet `VISUALLY_APPROVED` or a standard for later rooms.
+
+| Property | S01-R01 value | Classification | Basis |
+|---|---:|---|---|
+| Wall maps | BackroomsLikeAsset2 BRW_B 2K color, normal, ORM | `SOURCE_DERIVED` | Best match among the existing CC0 assets for the vertical arrow wallpaper visible in the supplied references; the unverified external `wall0_2K_Color.png` remains unused. |
+| Wall tint / UV / pattern | `Color(0.79, 0.65, 0.36, 1)` / `Vector2(0.20, 0.20)` / source saturation `0.55` / pattern contrast `0.20` | `SOURCE_DERIVED` | Calibrated against the local CC BY 4.0 `Backrooms VR` render. The final room sample is `#896C1F`, versus `#8A6B24` in the VR preview. The lower pattern contrast retains the wallpaper identity without the previous oversized, high-contrast arrows. |
+| Wall thickness | `0.15 m` | `VISUAL_APPROXIMATION` | Requested standard partition calibration; extrusion remains on the non-walkable side. |
+| Carpet maps | ambientCG Carpet011 color, roughness, OpenGL normal, AO | `SOURCE_DERIVED` | Existing independently documented CC0 set; no displacement or parallax. |
+| Carpet processing | tint `Color(0.48, 0.36, 0.15, 1)`, source saturation `0.58`, roughness minimum `0.88`, metallic `0`, specular `0.04` | `SOURCE_DERIVED` | Produces the dark old brown carpet of the VR target while retaining the independently sourced Carpet011 PBR response. The final room sample is `#452D07`, versus `#442C09` in the VR preview. |
+| Ceiling maps | existing Level 0 `backrooms.png` clean/dirty tile atlas; ambientCG Plastic010 roughness and OpenGL normal | `SOURCE_DERIVED` | The atlas regions and UVs are taken from the existing `tile_clean.glb` and `tile_dirty.glb` assets. Plastic010 remains only as inexpensive micro-surface detail. |
+| Ceiling underside | world `Y = 3.20 m` | `VISUAL_APPROXIMATION` | Room-specific visual calibration requested after the 3.0 m result read too low/heavy. It is not master-map canon. |
+| Ceiling tint / grid / indirect response | `Color(0.73, 0.65, 0.58, 1)`; `0.60 m` acoustic module; divider `Color(0.42, 0.39, 0.32, 1)` with `0.008 m` half-width; 14% dirty-tile variation; emission factor `0.48` | `SOURCE_DERIVED` | One atlas-sampled acoustic cell per metric module prevents doubled baked/procedural lines. The inexpensive emission term approximates the baked indirect ceiling response of the VR reference without adding Light3D nodes. The final room sample is `#A49983`, versus `#A39784` in the VR preview. |
+| Fixtures / real lights | 60 panels: 52 on and 8 off, split over two MultiMeshes; 12 shadowless OmniLight3D at energy `1.40`/`1.22`, range `11.5 m`, attenuation `1.30` | `VISUAL_APPROXIMATION` | Deterministically scattered 6 m distribution cells are jittered and snapped to the 0.60 m ceiling grid. All fixtures share one axis. Only lit visual fixtures may receive a real light. |
+| Fluorescent colour | panel emission `Color(0.98, 0.96, 0.84, 1)`; real-light colour `Color(0.98, 0.96, 0.84, 1)` | `VISUAL_APPROXIMATION` | Dirty warm-white illumination that remains close to white and does not become the same mustard hue as the walls. |
+| Environment | background `Color(0.035, 0.028, 0.012, 1)`; ambient `Color(0.56, 0.52, 0.38, 1)` at `0.50`; ACES exposure `1.05`; glow `0.06` | `SOURCE_DERIVED` | Preserves readable but substantially darker inter-fixture areas like the VR target instead of filling the entire room with uniform yellow ambient light. |
+
+Final VR-palette capture evidence is stored as
+`captures/s01_r01_*_vr_palette_v7.png`. The values are not approved as a
+standard for later rooms until developer review.
+
+`assets/backrooms_vr/scene.gltf` is a Sketchfab mesh by carlcapu9 licensed
+CC BY 4.0; exact attribution is retained in
+`assets/backrooms_vr/license.txt`. Its `Wall_1...4`, `Moquette_1...4`, and
+`Ceiling_1...4` images are 4K baked UV atlases containing mesh-specific light,
+shadow, seams, and empty regions. They are valid visual/palette evidence but
+are not tileable source maps for the room-by-room geometry. No VR atlas is
+bound by the final S01-R01 materials; the existing tileable BRW_B, Carpet011,
+and ceiling sources remain in use.
+
+Imported ambientCG source records remain stored beside their maps. BRW_B is
+covered by the BackroomsLikeAsset2 CC0 declaration in
+`assets/textures/environment/BackroomsLikeAsset2/README.txt`. Paper003 remains
+available but is no longer used by S01-R01.
