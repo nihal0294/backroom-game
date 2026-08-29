@@ -30,6 +30,20 @@ unique_name_in_owner = true
 [node name="DoorPanels" type="MultiMeshInstance3D" parent="Details"]
 unique_name_in_owner = true
 
+[node name="TornWallpaperVisual" type="MeshInstance3D" parent="Details"]
+unique_name_in_owner = true
+
+[node name="MapPlaceholder" type="MeshInstance3D" parent="Details"]
+unique_name_in_owner = true
+
+[node name="MapLabel" type="Label3D" parent="Details/MapPlaceholder"]
+unique_name_in_owner = true
+text = "MAP"
+font_size = 48
+outline_size = 8
+billboard = 1
+no_depth_test = false
+
 [node name="Fixtures" type="Node3D" parent="."]
 
 [node name="FluorescentFixtures" type="MultiMeshInstance3D" parent="Fixtures"]
@@ -53,6 +67,11 @@ unique_name_in_owner = true
 [node name="WallBody" type="StaticBody3D" parent="Collision"]
 
 [node name="WallCollision" type="CollisionShape3D" parent="Collision/WallBody"]
+unique_name_in_owner = true
+
+[node name="GlassDoorBody" type="StaticBody3D" parent="Collision"]
+
+[node name="GlassDoorCollision" type="CollisionShape3D" parent="Collision/GlassDoorBody"]
 unique_name_in_owner = true
 
 [node name="Markers" type="Node3D" parent="."]

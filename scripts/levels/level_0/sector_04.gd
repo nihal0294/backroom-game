@@ -1,27 +1,26 @@
 extends Node3D
 
-## Sector 04 uses the traced sector silhouette for topology and the imported
-## Backrooms VR package for architectural dimensions and visual language.
-## All repeated geometry stays batched; wall mass grows outside the walkable
-## polygon so the source footprint is not narrowed by the 0.30 m wall standard.
+## Manually authored Sector 04. The numbered map defines room order and
+## connections; Backrooms VR defines the architectural construction standard.
+## This script deliberately has no dependency on sector_04_trace.json.
 
-const TRACE_PATH := "res://assets/level_0/maps/sector_04_trace.json"
 const CEILING_Y := 2.866
 const WALL_THICKNESS := 0.30
 const BASEBOARD_HEIGHT := 0.12
 const BASEBOARD_DEPTH := 0.035
 const SOCKET_CENTER_Y := 0.317
-const CEILING_MODULE := 0.60
-const FIXTURE_Y := CEILING_Y - 0.012
-const FIXTURE_CELL := 3.60
+const FIXTURE_Y := 2.84
 const MAX_REAL_LIGHTS := 8
+const PLAYER_RADIUS := 0.32
 
-const FLOOR_MATERIAL: Material = preload("res://resources/materials/level_0/vr_kit/carpet.tres")
+const FLOOR_MATERIAL: Material = preload("res://resources/materials/level_0/vr_kit/sector_04_orange_carpet.tres")
 const WALL_MATERIAL: Material = preload("res://resources/materials/level_0/vr_kit/wallpaper.tres")
 const CEILING_MATERIAL: Material = preload("res://resources/materials/level_0/vr_kit/ceiling.tres")
 const TRIM_MATERIAL: Material = preload("res://resources/materials/level_0/vr_kit/trim.tres")
-const DOOR_MATERIAL: Material = preload("res://resources/materials/level_0/vr_kit/door_panel.tres")
-const SOCKET_MATERIAL: Material = preload("res://resources/materials/level_0/vr_kit/socket_dark.tres")
+const DARK_MATERIAL: Material = preload("res://resources/materials/level_0/vr_kit/socket_dark.tres")
+const MAP_MATERIAL: Material = preload("res://resources/materials/level_0/vr_kit/door_panel.tres")
+const GLASS_MATERIAL: Material = preload("res://resources/materials/level_0/vr_kit/glass.tres")
+const TORN_WALLPAPER_MATERIAL: Material = preload("res://resources/materials/level_0/vr_kit/torn_wallpaper.tres")
 const FIXTURE_HOUSING_MATERIAL: Material = preload("res://resources/materials/level_0/rooms/s01_r01_fixture_housing.tres")
 const FIXTURE_PANEL_MATERIAL: Material = preload("res://resources/materials/level_0/rooms/s01_r01_fixture_panel.tres")
 const FIXTURE_PANEL_OFF_MATERIAL: Material = preload("res://resources/materials/level_0/rooms/s01_r01_fixture_panel_off.tres")
@@ -35,345 +34,308 @@ const FIXTURE_PANEL_OFF_MATERIAL: Material = preload("res://resources/materials/
 @onready var socket_visuals: MultiMeshInstance3D = %SocketVisuals
 @onready var door_frames: MultiMeshInstance3D = %DoorFrames
 @onready var door_panels: MultiMeshInstance3D = %DoorPanels
+@onready var torn_wallpaper_visual: MeshInstance3D = %TornWallpaperVisual
+@onready var map_placeholder: MeshInstance3D = %MapPlaceholder
+@onready var map_label: Label3D = %MapLabel
 @onready var sparse_lights: Node3D = %SparseLights
 @onready var floor_collision: CollisionShape3D = %FloorCollision
 @onready var wall_collision: CollisionShape3D = %WallCollision
+@onready var glass_door_collision: CollisionShape3D = %GlassDoorCollision
 @onready var player_spawn: Marker3D = %Sector04PlayerSpawn
 @onready var unexplored_exit: Marker3D = %UnexploredExit
 
-var _polygon := PackedVector2Array()
-var _triangles := PackedInt32Array()
-var _source_rotation := 0.0
-var _fixture_positions: Array[Vector2] = []
-var _lit_fixture_positions: Array[Vector2] = []
-var _off_fixture_positions: Array[Vector2] = []
-var _door_transforms: Array[Transform3D] = []
+var _floor_shapes: Array[PackedVector2Array] = []
+var _boundary_walls: Array[Dictionary] = []
+var _partition_walls: Array[Dictionary] = []
+var _fixture_data: Array[Dictionary] = []
+var _lit_fixture_transforms: Array[Transform3D] = []
+var _off_fixture_transforms: Array[Transform3D] = []
 var _socket_transforms: Array[Transform3D] = []
 var _light_count := 0
 
 
 func _ready() -> void:
-	_polygon = _load_and_align_polygon()
-	if _polygon.size() < 3:
-		push_error("Sector04: trace polygon is missing or invalid")
-		return
-	_triangles = Geometry2D.triangulate_polygon(_polygon)
-	if _triangles.is_empty():
-		push_error("Sector04: traced polygon could not be triangulated")
-		return
+	_floor_shapes = _manual_floor_shapes()
+	_boundary_walls = _manual_boundary_walls()
+	_partition_walls = _manual_partition_walls()
+	_fixture_data = _manual_fixture_data()
 	_build_floor_and_collision()
 	_build_ceiling()
-	_build_walls_and_collision()
+	_build_walls_columns_and_collision()
 	_build_baseboards()
-	_build_wall_details()
+	_build_glass_door()
+	_build_fixed_sockets()
+	_build_map_placeholder()
+	_build_torn_wallpaper()
 	_build_fixtures()
 	_build_sparse_lights()
 	_place_markers()
 	_print_performance_audit()
 	print(
-		"SECTOR04_BUILD: points=%d triangles=%d size=%.2fx%.2fm rotation=%.2fdeg walls=%.2fm ceiling=%.3fm fixtures=%d on=%d off=%d lights=%d sockets=%d doors=%d"
-		% [
-			_polygon.size(), int(_triangles.size() / 3.0), _polygon_bounds().size.x,
-			_polygon_bounds().size.y, rad_to_deg(_source_rotation), WALL_THICKNESS,
-			CEILING_Y, _fixture_positions.size(), _lit_fixture_positions.size(),
-			_off_fixture_positions.size(), _light_count, _socket_transforms.size(),
-			_door_transforms.size()
-		]
+		"SECTOR04_MANUAL_BUILD: floor_shapes=%d boundary_walls=%d partition_walls=%d columns=6 fixtures=%d on=%d off=%d lights=%d sockets=%d ceiling=%.3fm wall=%.2fm"
+		% [_floor_shapes.size(), _boundary_walls.size(), _partition_walls.size(), _fixture_data.size(), _lit_fixture_transforms.size(), _off_fixture_transforms.size(), _light_count, _socket_transforms.size(), CEILING_Y, WALL_THICKNESS]
 	)
 	call_deferred("_run_optional_tasks")
 
 
-func _load_and_align_polygon() -> PackedVector2Array:
-	var json_text := FileAccess.get_file_as_string(TRACE_PATH)
-	var parsed: Variant = JSON.parse_string(json_text)
-	if not parsed is Dictionary:
-		return PackedVector2Array()
-	var trace := parsed as Dictionary
-	var raw_points: Variant = trace.get("polygon_m", [])
-	if not raw_points is Array:
-		return PackedVector2Array()
-	var source := PackedVector2Array()
-	for entry: Variant in raw_points:
-		if entry is Array and entry.size() >= 2:
-			source.push_back(Vector2(float(entry[0]), float(entry[1])))
-	if source.size() < 3:
-		return source
+func _manual_floor_shapes() -> Array[PackedVector2Array]:
+	var shapes: Array[PackedVector2Array] = []
+	shapes.push_back(_rect_polygon(-5.40, 0.00, 5.40, 4.80)) # A1
+	shapes.push_back(_rect_polygon(-4.10, 4.80, 4.10, 24.80)) # A2
+	shapes.push_back(_rect_polygon(5.40, 0.70, 8.80, 4.10)) # B
+	shapes.push_back(_rect_polygon(-1.00, -7.50, 1.00, 0.00)) # C01
+	shapes.push_back(_rect_polygon(-1.00, -9.50, 7.00, -7.50)) # C02
+	shapes.push_back(_rect_polygon(5.50, -15.00, 11.00, -9.50)) # C-R01
+	shapes.push_back(_rect_polygon(7.00, -19.00, 11.00, -15.00)) # C-R02
+	shapes.push_back(_rect_polygon(8.00, -22.20, 11.00, -19.00)) # C-R03
+	shapes.push_back(_rect_polygon(-9.30, 13.00, -4.10, 18.00)) # D-R01/D-R02
+	shapes.push_back(_rect_polygon(-17.00, 25.50, -7.00, 34.00)) # E
+	shapes.push_back(PackedVector2Array([ # E diagonal 2.20 m connector
+		Vector2(-4.10, 22.00), Vector2(-4.10, 24.20),
+		Vector2(-7.00, 28.60), Vector2(-7.00, 26.40),
+	]))
+	return shapes
 
-	# The longest traced architectural edge supplies the rigid alignment angle.
-	# This changes presentation only; distances and topology remain untouched.
-	var longest_direction := Vector2.RIGHT
-	var longest_length := 0.0
-	for edge_index in source.size():
-		var edge := source[(edge_index + 1) % source.size()] - source[edge_index]
-		if edge.length_squared() > longest_length * longest_length:
-			longest_length = edge.length()
-			longest_direction = edge.normalized()
-	_source_rotation = -longest_direction.angle()
-	var aligned := PackedVector2Array()
-	for point: Vector2 in source:
-		aligned.push_back(point.rotated(_source_rotation))
-	var bounds := _bounds_for(aligned)
-	for point_index in aligned.size():
-		aligned[point_index] -= bounds.position
-	if _signed_area(aligned) < 0.0:
-		aligned.reverse()
-	return aligned
+
+func _manual_boundary_walls() -> Array[Dictionary]:
+	var walls: Array[Dictionary] = []
+	# A1, with C01, A2 and glass-room interface left open.
+	_add_boundary(walls, Vector2(-5.40, 0.00), Vector2(-1.00, 0.00), Vector2.UP)
+	_add_boundary(walls, Vector2(1.00, 0.00), Vector2(5.40, 0.00), Vector2.UP)
+	_add_boundary(walls, Vector2(5.40, 0.00), Vector2(5.40, 0.70), Vector2.LEFT)
+	_add_boundary(walls, Vector2(5.40, 4.10), Vector2(5.40, 4.80), Vector2.LEFT)
+	_add_boundary(walls, Vector2(5.40, 4.80), Vector2(4.10, 4.80), Vector2.DOWN)
+	_add_boundary(walls, Vector2(-4.10, 4.80), Vector2(-5.40, 4.80), Vector2.DOWN)
+	_add_boundary(walls, Vector2(-5.40, 4.80), Vector2(-5.40, 0.00), Vector2.RIGHT)
+	# B glass room exterior.
+	_add_boundary(walls, Vector2(5.40, 0.70), Vector2(8.80, 0.70), Vector2.UP)
+	_add_boundary(walls, Vector2(8.80, 0.70), Vector2(8.80, 4.10), Vector2.LEFT)
+	_add_boundary(walls, Vector2(8.80, 4.10), Vector2(5.40, 4.10), Vector2.DOWN)
+	# A2, with D-R01 and diagonal connector openings removed.
+	_add_boundary(walls, Vector2(4.10, 4.80), Vector2(4.10, 24.80), Vector2.LEFT)
+	_add_boundary(walls, Vector2(4.10, 24.80), Vector2(-4.10, 24.80), Vector2.DOWN)
+	_add_boundary(walls, Vector2(-4.10, 24.80), Vector2(-4.10, 24.20), Vector2.RIGHT)
+	_add_boundary(walls, Vector2(-4.10, 22.00), Vector2(-4.10, 18.00), Vector2.RIGHT)
+	_add_boundary(walls, Vector2(-4.10, 13.00), Vector2(-4.10, 4.80), Vector2.RIGHT)
+	# D-R01 exterior.
+	_add_boundary(walls, Vector2(-4.10, 13.00), Vector2(-9.30, 13.00), Vector2.UP)
+	_add_boundary(walls, Vector2(-9.30, 13.00), Vector2(-9.30, 18.00), Vector2.RIGHT)
+	_add_boundary(walls, Vector2(-9.30, 18.00), Vector2(-4.10, 18.00), Vector2.DOWN)
+	# C01/C02.
+	_add_boundary(walls, Vector2(-1.00, 0.00), Vector2(-1.00, -7.50), Vector2.RIGHT)
+	_add_boundary(walls, Vector2(1.00, -7.50), Vector2(1.00, 0.00), Vector2.LEFT)
+	_add_boundary(walls, Vector2(1.00, -7.50), Vector2(7.00, -7.50), Vector2.DOWN)
+	_add_boundary(walls, Vector2(7.00, -7.50), Vector2(7.00, -9.50), Vector2.LEFT)
+	_add_boundary(walls, Vector2(5.50, -9.50), Vector2(-1.00, -9.50), Vector2.UP)
+	_add_boundary(walls, Vector2(-1.00, -9.50), Vector2(-1.00, -7.50), Vector2.RIGHT)
+	# Three south rooms.
+	_add_boundary(walls, Vector2(7.00, -9.50), Vector2(11.00, -9.50), Vector2.DOWN)
+	_add_boundary(walls, Vector2(11.00, -9.50), Vector2(11.00, -15.00), Vector2.LEFT)
+	_add_boundary(walls, Vector2(7.00, -15.00), Vector2(5.50, -15.00), Vector2.UP)
+	_add_boundary(walls, Vector2(5.50, -15.00), Vector2(5.50, -9.50), Vector2.RIGHT)
+	_add_boundary(walls, Vector2(7.00, -15.00), Vector2(7.00, -19.00), Vector2.RIGHT)
+	_add_boundary(walls, Vector2(8.00, -19.00), Vector2(7.00, -19.00), Vector2.UP)
+	_add_boundary(walls, Vector2(11.00, -15.00), Vector2(11.00, -19.00), Vector2.LEFT)
+	_add_boundary(walls, Vector2(8.00, -19.00), Vector2(8.00, -22.20), Vector2.RIGHT)
+	_add_boundary(walls, Vector2(11.00, -19.00), Vector2(11.00, -22.20), Vector2.LEFT)
+	_add_boundary(walls, Vector2(11.00, -22.20), Vector2(8.00, -22.20), Vector2.UP)
+	# Diagonal connector and E hall.
+	_add_boundary(walls, Vector2(-4.10, 24.20), Vector2(-7.00, 28.60), Vector2(-0.835, -0.550))
+	_add_boundary(walls, Vector2(-7.00, 26.40), Vector2(-4.10, 22.00), Vector2(0.835, 0.550))
+	_add_boundary(walls, Vector2(-7.00, 28.60), Vector2(-7.00, 34.00), Vector2.LEFT)
+	_add_boundary(walls, Vector2(-7.00, 34.00), Vector2(-17.00, 34.00), Vector2.DOWN)
+	_add_boundary(walls, Vector2(-17.00, 34.00), Vector2(-17.00, 25.50), Vector2.RIGHT)
+	_add_boundary(walls, Vector2(-17.00, 25.50), Vector2(-7.00, 25.50), Vector2.UP)
+	_add_boundary(walls, Vector2(-7.00, 25.50), Vector2(-7.00, 26.40), Vector2.LEFT)
+	return walls
+
+
+func _manual_partition_walls() -> Array[Dictionary]:
+	var walls: Array[Dictionary] = []
+	# Glass door span: X=5.40, Z=1.80..3.00.
+	_add_partition(walls, Vector2(5.40, 0.70), Vector2(5.40, 1.80))
+	_add_partition(walls, Vector2(5.40, 3.00), Vector2(5.40, 4.10))
+	# D-R01 opening: Z=14.80..16.20.
+	_add_partition(walls, Vector2(-4.10, 13.00), Vector2(-4.10, 14.80))
+	_add_partition(walls, Vector2(-4.10, 16.20), Vector2(-4.10, 18.00))
+	# D-R02, with 0.90 m east entrance.
+	_add_partition(walls, Vector2(-8.50, 14.00), Vector2(-6.20, 14.00))
+	_add_partition(walls, Vector2(-6.20, 14.00), Vector2(-6.20, 14.65))
+	_add_partition(walls, Vector2(-6.20, 15.55), Vector2(-6.20, 16.20))
+	_add_partition(walls, Vector2(-6.20, 16.20), Vector2(-8.50, 16.20))
+	_add_partition(walls, Vector2(-8.50, 16.20), Vector2(-8.50, 14.00))
+	# Exact 1.40/1.20/1.20 m room openings.
+	_add_partition(walls, Vector2(5.50, -9.50), Vector2(5.55, -9.50))
+	_add_partition(walls, Vector2(6.95, -9.50), Vector2(7.00, -9.50))
+	_add_partition(walls, Vector2(7.00, -15.00), Vector2(8.40, -15.00))
+	_add_partition(walls, Vector2(9.60, -15.00), Vector2(11.00, -15.00))
+	_add_partition(walls, Vector2(8.00, -19.00), Vector2(8.90, -19.00))
+	_add_partition(walls, Vector2(10.10, -19.00), Vector2(11.00, -19.00))
+	return walls
+
+
+func _manual_fixture_data() -> Array[Dictionary]:
+	return [
+		_fixture(Vector2(-1.2, 2.4), false, 0), _fixture(Vector2(1.0, 7.4), false, 0),
+		_fixture(Vector2(-0.8, 12.4), false, 0), _fixture(Vector2(0.9, 17.4), false, 0),
+		_fixture(Vector2(-0.6, 22.3), true, 0), _fixture(Vector2(7.1, 2.4), false, 1),
+		_fixture(Vector2(0.0, -4.0), false, 0), _fixture(Vector2(3.2, -8.5), true, 0),
+		_fixture(Vector2(8.2, -12.1), false, 1), _fixture(Vector2(9.0, -17.0), false, 0),
+		_fixture(Vector2(9.5, -20.6), false, 1), _fixture(Vector2(-5.3, 16.8), false, 1),
+		_fixture(Vector2(-7.5, 15.1), false, 0), _fixture(Vector2(-14.2, 28.0), false, 0),
+		_fixture(Vector2(-9.8, 28.0), false, 0), _fixture(Vector2(-14.2, 32.0), true, 0),
+		_fixture(Vector2(-9.8, 32.0), false, 0),
+	]
 
 
 func _build_floor_and_collision() -> void:
 	var surface := SurfaceTool.new()
 	surface.begin(Mesh.PRIMITIVE_TRIANGLES)
 	var faces := PackedVector3Array()
-	for triangle_index in range(0, _triangles.size(), 3):
-		var a := _floor_vertex(_polygon[_triangles[triangle_index]])
-		var b := _floor_vertex(_polygon[_triangles[triangle_index + 1]])
-		var c := _floor_vertex(_polygon[_triangles[triangle_index + 2]])
-		_add_triangle(surface, a, b, c, Vector3.UP)
-		faces.append_array(PackedVector3Array([a, b, c]))
+	for shape: PackedVector2Array in _floor_shapes:
+		var triangles := Geometry2D.triangulate_polygon(shape)
+		for triangle_index in range(0, triangles.size(), 3):
+			var a := Vector3(shape[triangles[triangle_index]].x, 0.0, shape[triangles[triangle_index]].y)
+			var b := Vector3(shape[triangles[triangle_index + 1]].x, 0.0, shape[triangles[triangle_index + 1]].y)
+			var c := Vector3(shape[triangles[triangle_index + 2]].x, 0.0, shape[triangles[triangle_index + 2]].y)
+			_add_triangle(surface, a, b, c, Vector3.UP)
+			faces.append_array(PackedVector3Array([a, b, c]))
 	var mesh := surface.commit()
 	mesh.surface_set_material(0, FLOOR_MATERIAL)
 	floor_visual.mesh = mesh
-	var shape := ConcavePolygonShape3D.new()
-	shape.set_faces(faces)
-	shape.backface_collision = true
-	floor_collision.shape = shape
+	var shape_3d := ConcavePolygonShape3D.new()
+	shape_3d.set_faces(faces)
+	shape_3d.backface_collision = true
+	floor_collision.shape = shape_3d
 
 
 func _build_ceiling() -> void:
 	var surface := SurfaceTool.new()
 	surface.begin(Mesh.PRIMITIVE_TRIANGLES)
-	for triangle_index in range(0, _triangles.size(), 3):
-		var a := _ceiling_vertex(_polygon[_triangles[triangle_index]])
-		var b := _ceiling_vertex(_polygon[_triangles[triangle_index + 1]])
-		var c := _ceiling_vertex(_polygon[_triangles[triangle_index + 2]])
-		_add_triangle(surface, c, b, a, Vector3.DOWN)
+	for shape: PackedVector2Array in _floor_shapes:
+		var triangles := Geometry2D.triangulate_polygon(shape)
+		for triangle_index in range(0, triangles.size(), 3):
+			var a := Vector3(shape[triangles[triangle_index]].x, CEILING_Y, shape[triangles[triangle_index]].y)
+			var b := Vector3(shape[triangles[triangle_index + 1]].x, CEILING_Y, shape[triangles[triangle_index + 1]].y)
+			var c := Vector3(shape[triangles[triangle_index + 2]].x, CEILING_Y, shape[triangles[triangle_index + 2]].y)
+			_add_triangle(surface, c, b, a, Vector3.DOWN)
 	var mesh := surface.commit()
 	mesh.surface_set_material(0, CEILING_MATERIAL)
 	ceiling_visual.mesh = mesh
 
 
-func _build_walls_and_collision() -> void:
+func _build_walls_columns_and_collision() -> void:
 	var surface := SurfaceTool.new()
 	surface.begin(Mesh.PRIMITIVE_TRIANGLES)
 	var faces := PackedVector3Array()
-	var outer := _make_outer_vertices()
-	for edge_index in _polygon.size():
-		var next_index := (edge_index + 1) % _polygon.size()
-		var a := _polygon[edge_index]
-		var b := _polygon[next_index]
-		var outer_a := outer[edge_index]
-		var outer_b := outer[next_index]
-		var direction := (b - a).normalized()
-		var inward := Vector2(-direction.y, direction.x)
-		var inner_normal := Vector3(inward.x, 0.0, inward.y)
-		var outer_normal := -inner_normal
-		var a0 := Vector3(a.x, 0.0, a.y)
-		var b0 := Vector3(b.x, 0.0, b.y)
-		var b1 := Vector3(b.x, CEILING_Y, b.y)
-		var a1 := Vector3(a.x, CEILING_Y, a.y)
-		var oa0 := Vector3(outer_a.x, 0.0, outer_a.y)
-		var ob0 := Vector3(outer_b.x, 0.0, outer_b.y)
-		var ob1 := Vector3(outer_b.x, CEILING_Y, outer_b.y)
-		var oa1 := Vector3(outer_a.x, CEILING_Y, outer_a.y)
-		var length := a.distance_to(b)
-		_add_quad(surface, a0, b0, b1, a1, inner_normal, length, CEILING_Y)
-		_add_quad(surface, ob0, oa0, oa1, ob1, outer_normal, length, CEILING_Y)
-		_append_quad_faces(faces, a0, b0, b1, a1)
-		_append_quad_faces(faces, ob0, oa0, oa1, ob1)
-		_add_wall_cap(surface, faces, a0, oa0, oa1, a1)
+	for wall: Dictionary in _boundary_walls:
+		_add_boundary_wall(surface, faces, wall["a"], wall["b"], wall["normal"])
+	for wall: Dictionary in _partition_walls:
+		_add_centered_wall(surface, faces, wall["a"], wall["b"])
+	for center: Vector2 in _column_centers():
+		_add_box_with_faces(surface, faces, Vector3(0.75, CEILING_Y, 0.75), Vector3(center.x, CEILING_Y * 0.5, center.y))
 	var mesh := surface.commit()
 	mesh.surface_set_material(0, WALL_MATERIAL)
 	wall_visual.mesh = mesh
-	var shape := ConcavePolygonShape3D.new()
-	shape.set_faces(faces)
-	shape.backface_collision = true
-	wall_collision.shape = shape
+	var collision_mesh := ConcavePolygonShape3D.new()
+	collision_mesh.set_faces(faces)
+	collision_mesh.backface_collision = true
+	wall_collision.shape = collision_mesh
 
 
 func _build_baseboards() -> void:
 	var surface := SurfaceTool.new()
 	surface.begin(Mesh.PRIMITIVE_TRIANGLES)
-	for edge_index in _polygon.size():
-		var a := _polygon[edge_index]
-		var b := _polygon[(edge_index + 1) % _polygon.size()]
+	for wall: Dictionary in _boundary_walls:
+		_add_baseboard_face(surface, wall["a"], wall["b"], wall["normal"])
+	for wall: Dictionary in _partition_walls:
+		var a: Vector2 = wall["a"]
+		var b: Vector2 = wall["b"]
 		var direction := (b - a).normalized()
-		var inward := Vector2(-direction.y, direction.x)
-		var offset := inward * BASEBOARD_DEPTH
-		var a0 := Vector3(a.x + offset.x, 0.0, a.y + offset.y)
-		var b0 := Vector3(b.x + offset.x, 0.0, b.y + offset.y)
-		var b1 := Vector3(b0.x, BASEBOARD_HEIGHT, b0.z)
-		var a1 := Vector3(a0.x, BASEBOARD_HEIGHT, a0.z)
-		_add_quad(surface, a0, b0, b1, a1, Vector3(inward.x, 0.0, inward.y), a.distance_to(b), BASEBOARD_HEIGHT)
+		var normal := Vector2(-direction.y, direction.x)
+		_add_baseboard_face(surface, a + normal * WALL_THICKNESS * 0.5, b + normal * WALL_THICKNESS * 0.5, normal)
+		_add_baseboard_face(surface, b - normal * WALL_THICKNESS * 0.5, a - normal * WALL_THICKNESS * 0.5, -normal)
+	for center: Vector2 in _column_centers():
+		var half := 0.375
+		_add_baseboard_face(surface, Vector2(center.x - half, center.y - half), Vector2(center.x + half, center.y - half), Vector2.DOWN)
+		_add_baseboard_face(surface, Vector2(center.x + half, center.y - half), Vector2(center.x + half, center.y + half), Vector2.RIGHT)
+		_add_baseboard_face(surface, Vector2(center.x + half, center.y + half), Vector2(center.x - half, center.y + half), Vector2.UP)
+		_add_baseboard_face(surface, Vector2(center.x - half, center.y + half), Vector2(center.x - half, center.y - half), Vector2.LEFT)
 	var mesh := surface.commit()
 	mesh.surface_set_material(0, TRIM_MATERIAL)
 	baseboard_visual.mesh = mesh
 
 
-func _build_wall_details() -> void:
-	_socket_transforms.clear()
-	_door_transforms.clear()
-	var door_candidates: Array[int] = []
-	for edge_index in _polygon.size():
-		var a := _polygon[edge_index]
-		var b := _polygon[(edge_index + 1) % _polygon.size()]
-		var length := a.distance_to(b)
-		if length >= 2.6:
-			var direction := (b - a).normalized()
-			var inward := Vector2(-direction.y, direction.x)
-			var socket_count := maxi(1, floori(length / 7.0))
-			for socket_index in socket_count:
-				var amount := float(socket_index + 1) / float(socket_count + 1)
-				var point := a.lerp(b, amount) + inward * (BASEBOARD_DEPTH + 0.006)
-				_socket_transforms.push_back(_wall_transform(point, direction, SOCKET_CENTER_Y))
-			if length >= 4.0:
-				door_candidates.push_back(edge_index)
-
-	# Two deterministic, widely separated door-like landmarks reproduce the
-	# jamb/exit vocabulary of the VR reference without inventing new openings.
-	if not door_candidates.is_empty():
-		_add_door_on_edge(door_candidates[0])
-	if door_candidates.size() > 1:
-		_add_door_on_edge(door_candidates[door_candidates.size() / 2])
-
-	socket_visuals.multimesh = _make_detail_multimesh(_make_socket_mesh(), _socket_transforms)
-	door_frames.multimesh = _make_detail_multimesh(_make_door_frame_mesh(), _door_transforms)
-	door_panels.multimesh = _make_detail_multimesh(_make_door_panel_mesh(), _door_transforms)
+func _build_glass_door() -> void:
+	var door_transform := _wall_transform(Vector2(5.40, 2.40), Vector2.UP, 0.0)
+	door_frames.multimesh = _make_transform_multimesh(_make_door_frame_mesh(), [door_transform])
+	door_panels.multimesh = _make_transform_multimesh(_make_glass_panel_mesh(), [door_transform])
+	var shape := BoxShape3D.new()
+	shape.size = Vector3(0.04, 2.20, 1.20)
+	glass_door_collision.shape = shape
+	glass_door_collision.position = Vector3(5.40, 1.10, 2.40)
 
 
-func _add_door_on_edge(edge_index: int) -> void:
-	var a := _polygon[edge_index]
-	var b := _polygon[(edge_index + 1) % _polygon.size()]
-	var direction := (b - a).normalized()
-	var inward := Vector2(-direction.y, direction.x)
-	var midpoint := a.lerp(b, 0.5) + inward * 0.018
-	_door_transforms.push_back(_wall_transform(midpoint, direction, 0.0))
+func _build_fixed_sockets() -> void:
+	_socket_transforms = [
+		_wall_transform(Vector2(-3.3, 0.04), Vector2.RIGHT, SOCKET_CENTER_Y),
+		_wall_transform(Vector2(3.1, 0.04), Vector2.RIGHT, SOCKET_CENTER_Y),
+		_wall_transform(Vector2(4.06, 9.0), Vector2.UP, SOCKET_CENTER_Y),
+		_wall_transform(Vector2(4.06, 19.0), Vector2.UP, SOCKET_CENTER_Y),
+		_wall_transform(Vector2(-4.06, 8.0), Vector2.DOWN, SOCKET_CENTER_Y),
+		_wall_transform(Vector2(-9.26, 16.5), Vector2.UP, SOCKET_CENTER_Y),
+		_wall_transform(Vector2(-0.96, -4.5), Vector2.DOWN, SOCKET_CENTER_Y),
+		_wall_transform(Vector2(2.8, -9.46), Vector2.LEFT, SOCKET_CENTER_Y),
+		_wall_transform(Vector2(10.96, -12.0), Vector2.UP, SOCKET_CENTER_Y),
+		_wall_transform(Vector2(10.96, -17.0), Vector2.UP, SOCKET_CENTER_Y),
+		_wall_transform(Vector2(10.96, -20.7), Vector2.UP, SOCKET_CENTER_Y),
+		_wall_transform(Vector2(-16.96, 30.0), Vector2.DOWN, SOCKET_CENTER_Y),
+	]
+	socket_visuals.multimesh = _make_transform_multimesh(_make_socket_mesh(), _socket_transforms)
 
 
-func _make_socket_mesh() -> ArrayMesh:
+func _build_map_placeholder() -> void:
+	map_placeholder.mesh = _make_box_mesh(Vector3(0.08, 0.80, 1.20), MAP_MATERIAL)
+	map_placeholder.position = Vector3(-8.31, 1.35, 15.10)
+	map_label.position = Vector3(0.05, 0.0, 0.0)
+	map_label.rotation = Vector3(0.0, -PI * 0.5, 0.0)
+
+
+func _build_torn_wallpaper() -> void:
 	var surface := SurfaceTool.new()
 	surface.begin(Mesh.PRIMITIVE_TRIANGLES)
-	_add_box(surface, Vector3(0.078, 0.126, 0.008), Vector3(0.0, 0.0, 0.0))
-	_add_box(surface, Vector3(0.032, 0.012, 0.005), Vector3(0.0, 0.021, 0.006))
-	_add_box(surface, Vector3(0.032, 0.012, 0.005), Vector3(0.0, -0.021, 0.006))
+	var x := -4.055
+	var points := [Vector3(x, 0.75, 20.10), Vector3(x, 1.95, 20.00), Vector3(x, 2.05, 20.65), Vector3(x, 1.62, 20.92), Vector3(x, 0.82, 20.78)]
+	for triangle_index in range(1, points.size() - 1):
+		_add_triangle(surface, points[0], points[triangle_index], points[triangle_index + 1], Vector3.RIGHT)
 	var mesh := surface.commit()
-	mesh.surface_set_material(0, SOCKET_MATERIAL)
-	return mesh
-
-
-func _make_door_frame_mesh() -> ArrayMesh:
-	var surface := SurfaceTool.new()
-	surface.begin(Mesh.PRIMITIVE_TRIANGLES)
-	_add_box(surface, Vector3(0.09, 2.20, 0.08), Vector3(-0.555, 1.10, 0.0))
-	_add_box(surface, Vector3(0.09, 2.20, 0.08), Vector3(0.555, 1.10, 0.0))
-	_add_box(surface, Vector3(1.20, 0.09, 0.08), Vector3(0.0, 2.155, 0.0))
-	var mesh := surface.commit()
-	mesh.surface_set_material(0, TRIM_MATERIAL)
-	return mesh
-
-
-func _make_door_panel_mesh() -> ArrayMesh:
-	var surface := SurfaceTool.new()
-	surface.begin(Mesh.PRIMITIVE_TRIANGLES)
-	_add_box(surface, Vector3(1.02, 2.08, 0.025), Vector3(0.0, 1.04, -0.018))
-	var mesh := surface.commit()
-	mesh.surface_set_material(0, DOOR_MATERIAL)
-	return mesh
-
-
-func _make_detail_multimesh(mesh: Mesh, transforms: Array[Transform3D]) -> MultiMesh:
-	var multimesh := MultiMesh.new()
-	multimesh.transform_format = MultiMesh.TRANSFORM_3D
-	multimesh.mesh = mesh
-	multimesh.instance_count = transforms.size()
-	for transform_index in transforms.size():
-		multimesh.set_instance_transform(transform_index, transforms[transform_index])
-	return multimesh
-
-
-func _wall_transform(point: Vector2, direction: Vector2, height: float) -> Transform3D:
-	var x_axis := Vector3(direction.x, 0.0, direction.y)
-	var z_axis := Vector3(-direction.y, 0.0, direction.x)
-	return Transform3D(Basis(x_axis, Vector3.UP, z_axis), Vector3(point.x, height, point.y))
+	mesh.surface_set_material(0, TORN_WALLPAPER_MATERIAL)
+	torn_wallpaper_visual.mesh = mesh
 
 
 func _build_fixtures() -> void:
-	_fixture_positions = _fixture_scattered_positions()
-	for position_2d: Vector2 in _fixture_positions:
-		var module_x := roundi(position_2d.x / CEILING_MODULE)
-		var module_z := roundi(position_2d.y / CEILING_MODULE)
-		if posmod(_layout_hash(module_x, module_z, 43), 7) == 0:
-			_off_fixture_positions.push_back(position_2d)
+	for data: Dictionary in _fixture_data:
+		var point: Vector2 = data["point"]
+		var rotation_index: int = data["rotation"]
+		var fixture_basis := Basis(Vector3.UP, float(rotation_index) * PI * 0.5)
+		var fixture_transform := Transform3D(fixture_basis, Vector3(point.x, FIXTURE_Y, point.y))
+		if data["off"]:
+			_off_fixture_transforms.push_back(fixture_transform)
 		else:
-			_lit_fixture_positions.push_back(position_2d)
-	if _off_fixture_positions.is_empty() and _lit_fixture_positions.size() > 1:
-		_off_fixture_positions.push_back(_lit_fixture_positions.pop_back())
-	fixture_visuals.multimesh = _make_fixture_multimesh(_make_fixture_mesh(FIXTURE_PANEL_MATERIAL), _lit_fixture_positions)
-	fixture_visuals_off.multimesh = _make_fixture_multimesh(_make_fixture_mesh(FIXTURE_PANEL_OFF_MATERIAL), _off_fixture_positions)
-
-
-func _fixture_scattered_positions() -> Array[Vector2]:
-	var result: Array[Vector2] = []
-	var bounds := _polygon_bounds()
-	var maximum_x := ceili(bounds.end.x / FIXTURE_CELL)
-	var maximum_z := ceili(bounds.end.y / FIXTURE_CELL)
-	for cell_z in maximum_z:
-		for cell_x in maximum_x:
-			var layout_hash := _layout_hash(cell_x, cell_z, 17)
-			if posmod(layout_hash, 11) == 0:
-				continue
-			var raw := Vector2(
-				(float(cell_x) + 0.5) * FIXTURE_CELL + float(posmod(layout_hash >> 4, 5) - 2) * CEILING_MODULE,
-				(float(cell_z) + 0.5) * FIXTURE_CELL + float(posmod(layout_hash >> 9, 5) - 2) * CEILING_MODULE
-			)
-			var snapped := Vector2(
-				roundf(raw.x / CEILING_MODULE) * CEILING_MODULE,
-				roundf((raw.y - CEILING_MODULE * 0.5) / CEILING_MODULE) * CEILING_MODULE + CEILING_MODULE * 0.5
-			)
-			if Geometry2D.is_point_in_polygon(snapped, _polygon) and _distance_to_boundary(snapped) >= 0.78:
-				result.push_back(snapped)
-	return result
-
-
-func _make_fixture_mesh(panel_material: Material) -> ArrayMesh:
-	var mesh := ArrayMesh.new()
-	var housing := SurfaceTool.new()
-	housing.begin(Mesh.PRIMITIVE_TRIANGLES)
-	_add_box(housing, Vector3(1.20, 0.035, 0.60), Vector3(0.0, 0.0, 0.0))
-	housing.commit(mesh)
-	var panel := SurfaceTool.new()
-	panel.begin(Mesh.PRIMITIVE_TRIANGLES)
-	_add_quad(panel, Vector3(-0.54, -0.021, -0.24), Vector3(0.54, -0.021, -0.24), Vector3(0.54, -0.021, 0.24), Vector3(-0.54, -0.021, 0.24), Vector3.DOWN, 1.08, 0.48)
-	panel.commit(mesh)
-	mesh.surface_set_material(0, FIXTURE_HOUSING_MATERIAL)
-	mesh.surface_set_material(1, panel_material)
-	return mesh
-
-
-func _make_fixture_multimesh(mesh: Mesh, positions: Array[Vector2]) -> MultiMesh:
-	var multimesh := MultiMesh.new()
-	multimesh.transform_format = MultiMesh.TRANSFORM_3D
-	multimesh.mesh = mesh
-	multimesh.instance_count = positions.size()
-	for position_index in positions.size():
-		var position_2d := positions[position_index]
-		var quarter_turn := posmod(_layout_hash(roundi(position_2d.x), roundi(position_2d.y), 71), 2)
-		var basis := Basis(Vector3.UP, float(quarter_turn) * PI * 0.5)
-		multimesh.set_instance_transform(position_index, Transform3D(basis, Vector3(position_2d.x, FIXTURE_Y, position_2d.y)))
-	return multimesh
+			_lit_fixture_transforms.push_back(fixture_transform)
+	fixture_visuals.multimesh = _make_transform_multimesh(_make_fixture_mesh(FIXTURE_PANEL_MATERIAL), _lit_fixture_transforms)
+	fixture_visuals_off.multimesh = _make_transform_multimesh(_make_fixture_mesh(FIXTURE_PANEL_OFF_MATERIAL), _off_fixture_transforms)
 
 
 func _build_sparse_lights() -> void:
-	if _lit_fixture_positions.is_empty():
-		return
-	var desired_count := mini(MAX_REAL_LIGHTS, _lit_fixture_positions.size())
-	for light_index in desired_count:
-		var fixture_index := floori((float(light_index) + 0.5) * float(_lit_fixture_positions.size()) / float(desired_count))
-		var point := _lit_fixture_positions[fixture_index]
+	var light_points := [Vector2(-1.2, 2.4), Vector2(1.0, 8.0), Vector2(-0.8, 15.0), Vector2(7.1, 2.4), Vector2(8.2, -12.1), Vector2(9.2, -18.0), Vector2(-6.0, 16.0), Vector2(-11.8, 30.0)]
+	for light_index in mini(MAX_REAL_LIGHTS, light_points.size()):
+		var point: Vector2 = light_points[light_index]
 		var light := OmniLight3D.new()
 		light.name = "FluorescentLight_%02d" % light_index
 		light.position = Vector3(point.x, CEILING_Y - 0.24, point.y)
 		light.light_color = Color(0.98, 0.96, 0.84, 1.0)
-		light.light_energy = 1.36 if (light_index % 3) != 0 else 1.16
+		light.light_energy = 1.32 if light_index % 3 != 0 else 1.12
 		light.light_specular = 0.025
 		light.omni_range = 9.5
 		light.omni_attenuation = 1.42
@@ -383,155 +345,83 @@ func _build_sparse_lights() -> void:
 
 
 func _place_markers() -> void:
-	var spawn := _load_source_point("spawn_m", _polygon_bounds().get_center())
-	spawn = _align_source_point(spawn)
-	if not Geometry2D.is_point_in_polygon(spawn, _polygon):
-		spawn = _polygon_bounds().get_center()
-	player_spawn.position = Vector3(spawn.x, 0.10, spawn.y)
-	var target := _interior_target(spawn)
-	player_spawn.look_at(Vector3(target.x, 0.10, target.y), Vector3.UP)
-	if not _door_transforms.is_empty():
-		unexplored_exit.transform = _door_transforms[_door_transforms.size() - 1]
+	player_spawn.position = Vector3(0.0, 0.10, 2.20)
+	player_spawn.rotation = Vector3(0.0, PI, 0.0)
+	# No sector id is supplied by the connection sheet; keep this terminal closed.
+	unexplored_exit.position = Vector3(0.0, 0.0, 24.80)
+	unexplored_exit.rotation = Vector3(0.0, PI, 0.0)
 
 
-func _print_performance_audit() -> void:
-	var mesh_instances := 0
-	var array_meshes := 0
-	var static_bodies := 0
-	var collision_shapes := 0
-	var multimesh_instances := 0
-	var lights := 0
-	var shadow_lights := 0
-	var pending: Array[Node] = [self]
-	while not pending.is_empty():
-		var node: Node = pending.pop_back()
-		pending.append_array(node.get_children())
-		if node is MeshInstance3D:
-			mesh_instances += 1
-			if (node as MeshInstance3D).mesh is ArrayMesh:
-				array_meshes += 1
-		elif node is MultiMeshInstance3D:
-			multimesh_instances += 1
-			var multimesh: MultiMesh = (node as MultiMeshInstance3D).multimesh
-			if multimesh != null and multimesh.mesh is ArrayMesh:
-				array_meshes += 1
-		elif node is StaticBody3D:
-			static_bodies += 1
-		elif node is CollisionShape3D:
-			collision_shapes += 1
-		elif node is Light3D:
-			lights += 1
-			if (node as Light3D).shadow_enabled:
-				shadow_lights += 1
-	print(
-		"SECTOR04_PERFORMANCE: nodes=%d MeshInstance3D=%d ArrayMesh=%d StaticBody3D=%d CollisionShape3D=%d MultiMeshInstance3D=%d Light3D=%d shadow_lights=%d"
-		% [_count_nodes(self), mesh_instances, array_meshes, static_bodies, collision_shapes, multimesh_instances, lights, shadow_lights]
-	)
+func _add_boundary(walls: Array[Dictionary], a: Vector2, b: Vector2, normal: Vector2) -> void:
+	walls.push_back({"a": a, "b": b, "normal": normal.normalized()})
 
 
-func _load_source_point(key: String, fallback: Vector2) -> Vector2:
-	var parsed: Variant = JSON.parse_string(FileAccess.get_file_as_string(TRACE_PATH))
-	if parsed is Dictionary:
-		var value: Variant = (parsed as Dictionary).get(key, [])
-		if value is Array and value.size() >= 2:
-			return Vector2(float(value[0]), float(value[1]))
-	return fallback
+func _add_partition(walls: Array[Dictionary], a: Vector2, b: Vector2) -> void:
+	if a.distance_squared_to(b) > 0.000001:
+		walls.push_back({"a": a, "b": b})
 
 
-func _align_source_point(source_point: Vector2) -> Vector2:
-	var source_polygon := PackedVector2Array()
-	var parsed: Variant = JSON.parse_string(FileAccess.get_file_as_string(TRACE_PATH))
-	if parsed is Dictionary:
-		for entry: Variant in (parsed as Dictionary).get("polygon_m", []):
-			if entry is Array and entry.size() >= 2:
-				source_polygon.push_back(Vector2(float(entry[0]), float(entry[1])).rotated(_source_rotation))
-	var source_bounds := _bounds_for(source_polygon)
-	return source_point.rotated(_source_rotation) - source_bounds.position
+func _fixture(point: Vector2, off: bool, rotation_index: int) -> Dictionary:
+	return {"point": point, "off": off, "rotation": rotation_index}
 
 
-func _interior_target(origin: Vector2) -> Vector2:
-	var candidates := [Vector2.RIGHT, Vector2.LEFT, Vector2.UP, Vector2.DOWN]
-	for direction: Vector2 in candidates:
-		var candidate := origin + direction * 3.0
-		if Geometry2D.is_point_in_polygon(candidate, _polygon):
-			return candidate
-	return _polygon_bounds().get_center()
+func _rect_polygon(min_x: float, min_z: float, max_x: float, max_z: float) -> PackedVector2Array:
+	return PackedVector2Array([Vector2(min_x, min_z), Vector2(max_x, min_z), Vector2(max_x, max_z), Vector2(min_x, max_z)])
 
 
-func _make_outer_vertices() -> PackedVector2Array:
-	var result := PackedVector2Array()
-	for vertex_index in _polygon.size():
-		var previous := _polygon[(vertex_index - 1 + _polygon.size()) % _polygon.size()]
-		var current := _polygon[vertex_index]
-		var next := _polygon[(vertex_index + 1) % _polygon.size()]
-		var previous_direction := (current - previous).normalized()
-		var next_direction := (next - current).normalized()
-		var previous_outward := Vector2(previous_direction.y, -previous_direction.x)
-		var next_outward := Vector2(next_direction.y, -next_direction.x)
-		var miter := previous_outward + next_outward
-		if miter.length_squared() < 0.0001:
-			miter = next_outward
-		else:
-			miter = miter.normalized()
-		var denominator := maxf(absf(miter.dot(next_outward)), 0.25)
-		result.push_back(current + miter * minf(WALL_THICKNESS / denominator, WALL_THICKNESS * 3.0))
-	return result
+func _column_centers() -> Array[Vector2]:
+	return [Vector2(-15.0, 28.25), Vector2(-12.0, 28.25), Vector2(-9.0, 28.25), Vector2(-15.0, 32.25), Vector2(-12.0, 32.25), Vector2(-9.0, 32.25)]
 
 
-func _distance_to_boundary(point: Vector2) -> float:
-	var nearest := INF
-	for edge_index in _polygon.size():
-		var a := _polygon[edge_index]
-		var b := _polygon[(edge_index + 1) % _polygon.size()]
-		var segment := b - a
-		var amount := clampf((point - a).dot(segment) / maxf(segment.length_squared(), 0.0001), 0.0, 1.0)
-		nearest = minf(nearest, point.distance_to(a + segment * amount))
-	return nearest
+func _add_boundary_wall(surface: SurfaceTool, faces: PackedVector3Array, a: Vector2, b: Vector2, walkable_normal: Vector2) -> void:
+	_add_wall_prism(surface, faces, a, b, a - walkable_normal * WALL_THICKNESS, b - walkable_normal * WALL_THICKNESS)
 
 
-func _polygon_bounds() -> Rect2:
-	return _bounds_for(_polygon)
+func _add_centered_wall(surface: SurfaceTool, faces: PackedVector3Array, a: Vector2, b: Vector2) -> void:
+	var direction := (b - a).normalized()
+	var normal := Vector2(-direction.y, direction.x)
+	var half_offset := normal * WALL_THICKNESS * 0.5
+	_add_wall_prism(surface, faces, a + half_offset, b + half_offset, a - half_offset, b - half_offset)
 
 
-func _bounds_for(points: PackedVector2Array) -> Rect2:
-	if points.is_empty():
-		return Rect2()
-	var minimum := points[0]
-	var maximum := points[0]
-	for point: Vector2 in points:
-		minimum = minimum.min(point)
-		maximum = maximum.max(point)
-	return Rect2(minimum, maximum - minimum)
+func _add_wall_prism(surface: SurfaceTool, faces: PackedVector3Array, inner_a: Vector2, inner_b: Vector2, outer_a: Vector2, outer_b: Vector2) -> void:
+	var a0 := Vector3(inner_a.x, 0.0, inner_a.y)
+	var b0 := Vector3(inner_b.x, 0.0, inner_b.y)
+	var b1 := Vector3(inner_b.x, CEILING_Y, inner_b.y)
+	var a1 := Vector3(inner_a.x, CEILING_Y, inner_a.y)
+	var oa0 := Vector3(outer_a.x, 0.0, outer_a.y)
+	var ob0 := Vector3(outer_b.x, 0.0, outer_b.y)
+	var ob1 := Vector3(outer_b.x, CEILING_Y, outer_b.y)
+	var oa1 := Vector3(outer_a.x, CEILING_Y, outer_a.y)
+	var direction := (inner_b - inner_a).normalized()
+	var inner_normal := Vector3(-direction.y, 0.0, direction.x)
+	var length := inner_a.distance_to(inner_b)
+	_add_quad(surface, a0, b0, b1, a1, inner_normal, length, CEILING_Y)
+	_add_quad(surface, ob0, oa0, oa1, ob1, -inner_normal, length, CEILING_Y)
+	_add_quad(surface, a1, b1, ob1, oa1, Vector3.UP, length, WALL_THICKNESS)
+	_add_quad(surface, a0, oa0, ob0, b0, Vector3.DOWN, WALL_THICKNESS, length)
+	_add_quad(surface, a0, a1, oa1, oa0, Vector3(-direction.x, 0.0, -direction.y), WALL_THICKNESS, CEILING_Y)
+	_add_quad(surface, b0, ob0, ob1, b1, Vector3(direction.x, 0.0, direction.y), WALL_THICKNESS, CEILING_Y)
+	_append_quad_faces(faces, a0, b0, b1, a1)
+	_append_quad_faces(faces, ob0, oa0, oa1, ob1)
+	_append_quad_faces(faces, a1, b1, ob1, oa1)
+	_append_quad_faces(faces, a0, oa0, ob0, b0)
+	_append_quad_faces(faces, a0, a1, oa1, oa0)
+	_append_quad_faces(faces, b0, ob0, ob1, b1)
 
 
-func _signed_area(points: PackedVector2Array) -> float:
-	var double_area := 0.0
-	for point_index in points.size():
-		var a := points[point_index]
-		var b := points[(point_index + 1) % points.size()]
-		double_area += a.x * b.y - b.x * a.y
-	return double_area * 0.5
+func _add_baseboard_face(surface: SurfaceTool, a: Vector2, b: Vector2, walkable_normal: Vector2) -> void:
+	var projected_a := a + walkable_normal * BASEBOARD_DEPTH
+	var projected_b := b + walkable_normal * BASEBOARD_DEPTH
+	var a0 := Vector3(projected_a.x, 0.0, projected_a.y)
+	var b0 := Vector3(projected_b.x, 0.0, projected_b.y)
+	var b1 := Vector3(projected_b.x, BASEBOARD_HEIGHT, projected_b.y)
+	var a1 := Vector3(projected_a.x, BASEBOARD_HEIGHT, projected_a.y)
+	var direction := (b - a).normalized()
+	_add_quad(surface, a0, b0, b1, a1, Vector3(-direction.y, 0.0, direction.x), a.distance_to(b), BASEBOARD_HEIGHT)
 
 
-func _layout_hash(cell_x: int, cell_z: int, salt: int) -> int:
-	return absi((cell_x * 73856093) ^ (cell_z * 19349663) ^ (salt * 83492791))
-
-
-func _floor_vertex(point: Vector2) -> Vector3:
-	return Vector3(point.x, 0.0, point.y)
-
-
-func _ceiling_vertex(point: Vector2) -> Vector3:
-	return Vector3(point.x, CEILING_Y, point.y)
-
-
-func _add_wall_cap(surface: SurfaceTool, faces: PackedVector3Array, a: Vector3, b: Vector3, c: Vector3, d: Vector3) -> void:
-	var normal := (b - a).cross(d - a).normalized()
-	_add_quad(surface, a, b, c, d, normal, a.distance_to(b), CEILING_Y)
-	_append_quad_faces(faces, a, b, c, d)
-
-
-func _add_box(surface: SurfaceTool, size: Vector3, center: Vector3) -> void:
+func _add_box_with_faces(surface: SurfaceTool, faces: PackedVector3Array, size: Vector3, center: Vector3) -> void:
 	var half := size * 0.5
 	var p000 := center + Vector3(-half.x, -half.y, -half.z)
 	var p001 := center + Vector3(-half.x, -half.y, half.z)
@@ -547,6 +437,89 @@ func _add_box(surface: SurfaceTool, size: Vector3, center: Vector3) -> void:
 	_add_quad(surface, p101, p100, p110, p111, Vector3.RIGHT, size.z, size.y)
 	_add_quad(surface, p010, p011, p111, p110, Vector3.UP, size.x, size.z)
 	_add_quad(surface, p000, p100, p101, p001, Vector3.DOWN, size.x, size.z)
+	_append_quad_faces(faces, p001, p101, p111, p011)
+	_append_quad_faces(faces, p100, p000, p010, p110)
+	_append_quad_faces(faces, p000, p001, p011, p010)
+	_append_quad_faces(faces, p101, p100, p110, p111)
+	_append_quad_faces(faces, p010, p011, p111, p110)
+	_append_quad_faces(faces, p000, p100, p101, p001)
+
+
+func _make_door_frame_mesh() -> ArrayMesh:
+	var surface := SurfaceTool.new()
+	surface.begin(Mesh.PRIMITIVE_TRIANGLES)
+	_add_box(surface, Vector3(0.09, 2.20, 0.08), Vector3(-0.645, 1.10, 0.0))
+	_add_box(surface, Vector3(0.09, 2.20, 0.08), Vector3(0.645, 1.10, 0.0))
+	_add_box(surface, Vector3(1.38, 0.09, 0.08), Vector3(0.0, 2.155, 0.0))
+	var mesh := surface.commit()
+	mesh.surface_set_material(0, TRIM_MATERIAL)
+	return mesh
+
+
+func _make_glass_panel_mesh() -> ArrayMesh:
+	return _make_box_mesh(Vector3(1.20, 2.10, 0.025), GLASS_MATERIAL, Vector3(0.0, 1.05, 0.0))
+
+
+func _make_socket_mesh() -> ArrayMesh:
+	var mesh := ArrayMesh.new()
+	var plate := SurfaceTool.new()
+	plate.begin(Mesh.PRIMITIVE_TRIANGLES)
+	_add_box(plate, Vector3(0.078, 0.126, 0.008), Vector3.ZERO)
+	plate.commit(mesh)
+	var holes := SurfaceTool.new()
+	holes.begin(Mesh.PRIMITIVE_TRIANGLES)
+	_add_box(holes, Vector3(0.032, 0.012, 0.005), Vector3(0.0, 0.021, 0.006))
+	_add_box(holes, Vector3(0.032, 0.012, 0.005), Vector3(0.0, -0.021, 0.006))
+	holes.commit(mesh)
+	mesh.surface_set_material(0, TRIM_MATERIAL)
+	mesh.surface_set_material(1, DARK_MATERIAL)
+	return mesh
+
+
+func _make_fixture_mesh(panel_material: Material) -> ArrayMesh:
+	var mesh := ArrayMesh.new()
+	var housing := SurfaceTool.new()
+	housing.begin(Mesh.PRIMITIVE_TRIANGLES)
+	_add_box(housing, Vector3(1.20, 0.035, 0.60), Vector3.ZERO)
+	housing.commit(mesh)
+	var panel := SurfaceTool.new()
+	panel.begin(Mesh.PRIMITIVE_TRIANGLES)
+	_add_quad(panel, Vector3(-0.54, -0.021, -0.24), Vector3(0.54, -0.021, -0.24), Vector3(0.54, -0.021, 0.24), Vector3(-0.54, -0.021, 0.24), Vector3.DOWN, 1.08, 0.48)
+	panel.commit(mesh)
+	mesh.surface_set_material(0, FIXTURE_HOUSING_MATERIAL)
+	mesh.surface_set_material(1, panel_material)
+	return mesh
+
+
+func _make_box_mesh(size: Vector3, material: Material, center := Vector3.ZERO) -> ArrayMesh:
+	var surface := SurfaceTool.new()
+	surface.begin(Mesh.PRIMITIVE_TRIANGLES)
+	_add_box(surface, size, center)
+	var mesh := surface.commit()
+	mesh.surface_set_material(0, material)
+	return mesh
+
+
+func _make_transform_multimesh(mesh: Mesh, transforms: Array[Transform3D]) -> MultiMesh:
+	var multimesh := MultiMesh.new()
+	multimesh.transform_format = MultiMesh.TRANSFORM_3D
+	multimesh.mesh = mesh
+	multimesh.instance_count = transforms.size()
+	for transform_index in transforms.size():
+		multimesh.set_instance_transform(transform_index, transforms[transform_index])
+	return multimesh
+
+
+func _wall_transform(point: Vector2, direction: Vector2, height: float) -> Transform3D:
+	var normalized_direction := direction.normalized()
+	var x_axis := Vector3(normalized_direction.x, 0.0, normalized_direction.y)
+	var z_axis := Vector3(-normalized_direction.y, 0.0, normalized_direction.x)
+	return Transform3D(Basis(x_axis, Vector3.UP, z_axis), Vector3(point.x, height, point.y))
+
+
+func _add_box(surface: SurfaceTool, size: Vector3, center: Vector3) -> void:
+	var unused_faces := PackedVector3Array()
+	_add_box_with_faces(surface, unused_faces, size, center)
 
 
 func _add_triangle(surface: SurfaceTool, a: Vector3, b: Vector3, c: Vector3, normal: Vector3) -> void:
@@ -574,6 +547,33 @@ func _append_quad_faces(faces: PackedVector3Array, a: Vector3, b: Vector3, c: Ve
 	faces.append_array(PackedVector3Array([a, b, c, a, c, d]))
 
 
+func _print_performance_audit() -> void:
+	var counts := {"nodes": 0, "mesh": 0, "array": 0, "body": 0, "collision": 0, "multimesh": 0, "lights": 0, "shadows": 0}
+	var pending: Array[Node] = [self]
+	while not pending.is_empty():
+		var node: Node = pending.pop_back()
+		counts["nodes"] += 1
+		pending.append_array(node.get_children())
+		if node is MeshInstance3D:
+			counts["mesh"] += 1
+			if (node as MeshInstance3D).mesh is ArrayMesh:
+				counts["array"] += 1
+		elif node is MultiMeshInstance3D:
+			counts["multimesh"] += 1
+			var multimesh: MultiMesh = (node as MultiMeshInstance3D).multimesh
+			if multimesh != null and multimesh.mesh is ArrayMesh:
+				counts["array"] += 1
+		elif node is StaticBody3D:
+			counts["body"] += 1
+		elif node is CollisionShape3D:
+			counts["collision"] += 1
+		elif node is Light3D:
+			counts["lights"] += 1
+			if (node as Light3D).shadow_enabled:
+				counts["shadows"] += 1
+	print("SECTOR04_MANUAL_PERFORMANCE: nodes=%d MeshInstance3D=%d ArrayMesh=%d StaticBody3D=%d CollisionShape3D=%d MultiMeshInstance3D=%d Light3D=%d shadow_lights=%d" % [counts.nodes, counts.mesh, counts.array, counts.body, counts.collision, counts.multimesh, counts.lights, counts.shadows])
+
+
 func _run_optional_tasks() -> void:
 	await get_tree().process_frame
 	for _frame_index in 5:
@@ -593,61 +593,68 @@ func _run_optional_tasks() -> void:
 func _validate_sector() -> bool:
 	var failures: Array[String] = []
 	if floor_visual.mesh == null or wall_visual.mesh == null or ceiling_visual.mesh == null:
-		failures.push_back("missing visual mesh")
-	if floor_collision.shape == null or wall_collision.shape == null:
-		failures.push_back("missing aggregate collision")
-	if fixture_visuals.multimesh == null or fixture_visuals_off.multimesh == null:
-		failures.push_back("missing fixture MultiMesh")
-	if _lit_fixture_positions.is_empty() or _off_fixture_positions.is_empty():
-		failures.push_back("fixture on/off distribution is invalid")
+		failures.push_back("missing aggregate visual mesh")
+	if floor_collision.shape == null or wall_collision.shape == null or glass_door_collision.shape == null:
+		failures.push_back("missing collision shape")
+	if _lit_fixture_transforms.is_empty() or _off_fixture_transforms.is_empty() or _light_count > MAX_REAL_LIGHTS:
+		failures.push_back("invalid fixture/light distribution")
 	var space := get_world_3d().direct_space_state
-	var floor_point := player_spawn.global_position
-	var floor_query := PhysicsRayQueryParameters3D.create(floor_point + Vector3.UP * 2.0, floor_point + Vector3.DOWN * 1.0, 1)
-	if space.intersect_ray(floor_query).is_empty():
-		failures.push_back("floor ray missed at spawn")
-	var wall_a := _polygon[0]
-	var wall_b := _polygon[1]
-	for edge_index in _polygon.size():
-		var candidate_a := _polygon[edge_index]
-		var candidate_b := _polygon[(edge_index + 1) % _polygon.size()]
-		if candidate_a.distance_to(candidate_b) >= 1.0:
-			wall_a = candidate_a
-			wall_b = candidate_b
-			break
-	var wall_direction := (wall_b - wall_a).normalized()
-	var wall_inward := Vector2(-wall_direction.y, wall_direction.x)
-	var wall_midpoint := wall_a.lerp(wall_b, 0.5)
-	var wall_query := PhysicsRayQueryParameters3D.create(
-		to_global(Vector3(wall_midpoint.x + wall_inward.x, 1.0, wall_midpoint.y + wall_inward.y)),
-		to_global(Vector3(wall_midpoint.x - wall_inward.x, 1.0, wall_midpoint.y - wall_inward.y)),
-		1
-	)
+	var floor_samples := [Vector2(0.0, 2.2), Vector2(0.0, 12.0), Vector2(0.0, -4.0), Vector2(3.0, -8.5), Vector2(8.0, -12.0), Vector2(9.0, -17.0), Vector2(9.5, -20.5), Vector2(-5.2, 15.5), Vector2(-12.0, 30.0), Vector2(7.1, 2.4)]
+	for point: Vector2 in floor_samples:
+		var from := to_global(Vector3(point.x, 1.5, point.y))
+		var query := PhysicsRayQueryParameters3D.create(from, from + Vector3.DOWN * 2.0, 1)
+		if space.intersect_ray(query).is_empty():
+			failures.push_back("floor ray missed at (%.2f, %.2f)" % [point.x, point.y])
+	var glass_query := PhysicsRayQueryParameters3D.create(to_global(Vector3(3.8, 1.1, 2.4)), to_global(Vector3(6.2, 1.1, 2.4)), 1)
+	if space.intersect_ray(glass_query).is_empty():
+		failures.push_back("glass-door collision ray missed")
+	var column_query := PhysicsRayQueryParameters3D.create(to_global(Vector3(-15.0, 1.0, 27.0)), to_global(Vector3(-15.0, 1.0, 29.0)), 1)
+	if space.intersect_ray(column_query).is_empty():
+		failures.push_back("column collision ray missed")
+	var wall_query := PhysicsRayQueryParameters3D.create(to_global(Vector3(3.20, 1.0, 10.0)), to_global(Vector3(4.80, 1.0, 10.0)), 1)
 	if space.intersect_ray(wall_query).is_empty():
-		failures.push_back("wall collision ray missed")
+		failures.push_back("solid east wall collision ray missed")
+	var opening_rays := [
+		{"id": "A1-A2", "from": Vector3(0.0, 1.0, 4.30), "to": Vector3(0.0, 1.0, 5.30)},
+		{"id": "A1-C01", "from": Vector3(0.0, 1.0, 0.50), "to": Vector3(0.0, 1.0, -0.50)},
+		{"id": "C01-C02", "from": Vector3(0.0, 1.0, -7.00), "to": Vector3(0.0, 1.0, -8.00)},
+		{"id": "C02-C-R01", "from": Vector3(6.25, 1.0, -9.00), "to": Vector3(6.25, 1.0, -10.00)},
+		{"id": "C-R01-C-R02", "from": Vector3(9.00, 1.0, -14.50), "to": Vector3(9.00, 1.0, -15.50)},
+		{"id": "C-R02-C-R03", "from": Vector3(9.50, 1.0, -18.50), "to": Vector3(9.50, 1.0, -19.50)},
+		{"id": "A2-D-R01", "from": Vector3(-3.60, 1.0, 15.50), "to": Vector3(-4.60, 1.0, 15.50)},
+		{"id": "A2-E", "from": Vector3(-3.75, 1.0, 23.20), "to": Vector3(-4.85, 1.0, 24.65)},
+	]
+	for opening: Dictionary in opening_rays:
+		var opening_query := PhysicsRayQueryParameters3D.create(to_global(opening["from"]), to_global(opening["to"]), 1)
+		if not space.intersect_ray(opening_query).is_empty():
+			failures.push_back("unexpected collision in opening %s" % String(opening["id"]))
+	for width: float in [2.00, 1.40, 1.20, 1.20, 1.40, 2.20]:
+		if width < 1.20 or width <= PLAYER_RADIUS * 2.0:
+			failures.push_back("invalid opening width %.2f" % width)
 	var player := get_node_or_null("../../Player") as CharacterBody3D
 	var movement_distance := 0.0
 	if player == null:
-		failures.push_back("player missing from active Level 0 root")
+		failures.push_back("player missing")
 	else:
 		if not player.is_on_floor():
-			failures.push_back("player did not settle on Sector04 floor")
-		var movement_start := player.global_position
+			failures.push_back("player did not settle on floor")
+		var start := player.global_position
 		Input.action_press("move_forward")
 		for _frame_index in 30:
 			await get_tree().physics_frame
 		Input.action_release("move_forward")
-		movement_distance = Vector2(player.global_position.x - movement_start.x, player.global_position.z - movement_start.z).length()
+		movement_distance = Vector2(player.global_position.x - start.x, player.global_position.z - start.z).length()
 		if movement_distance < 0.70:
 			failures.push_back("movement advanced only %.3f m" % movement_distance)
 		if player.global_position.y < -0.5:
-			failures.push_back("player fell through Sector04 floor")
-		player.global_position = movement_start
+			failures.push_back("player fell through floor")
+		player.global_position = start
 		player.velocity = Vector3.ZERO
 	if failures.is_empty():
-		print("SECTOR04_VALIDATION: PASS floor walls movement=%.3fm fixtures=%d lights=%d nodes=%d" % [movement_distance, _fixture_positions.size(), _light_count, _count_nodes(self)])
+		print("SECTOR04_MANUAL_VALIDATION: PASS floors walls columns glass movement=%.3fm openings>=1.20m" % movement_distance)
 		return true
 	for failure: String in failures:
-		push_error("SECTOR04_VALIDATION: %s" % failure)
+		push_error("SECTOR04_MANUAL_VALIDATION: %s" % failure)
 	return false
 
 
@@ -657,58 +664,104 @@ func _capture_sector() -> void:
 		player_ui.visible = false
 	var camera := Camera3D.new()
 	camera.current = true
-	camera.fov = 72.0
 	add_child(camera)
-	var spawn := Vector2(player_spawn.position.x, player_spawn.position.z)
-	var center := _polygon_bounds().get_center()
-	var nearest_fixture := _nearest_position(_lit_fixture_positions, spawn)
-	var first_door := _door_transforms[0]
-	var nearest_door := Vector2(first_door.origin.x, first_door.origin.z)
-	var door_inward := Vector2(first_door.basis.z.x, first_door.basis.z.z)
 	var shots := [
-		{"file": "sector_04_spawn_vr_kit_v1.png", "position": Vector3(spawn.x, 1.68, spawn.y), "target": Vector3(_interior_target(spawn).x, 1.45, _interior_target(spawn).y), "fov": 72.0},
-		{"file": "sector_04_wide_vr_kit_v1.png", "position": Vector3(center.x, 1.62, center.y), "target": Vector3(spawn.x, 1.42, spawn.y), "fov": 78.0},
-		{"file": "sector_04_ceiling_vr_kit_v1.png", "position": Vector3(nearest_fixture.x + 1.8, 1.20, nearest_fixture.y + 1.4), "target": Vector3(nearest_fixture.x, CEILING_Y - 0.03, nearest_fixture.y), "fov": 58.0},
-		{"file": "sector_04_door_vr_kit_v1.png", "position": Vector3(nearest_door.x + door_inward.x * 2.2, 1.55, nearest_door.y + door_inward.y * 2.2), "target": Vector3(nearest_door.x, 1.10, nearest_door.y), "fov": 62.0},
-		{"file": "sector_04_topdown_vr_kit_v1.png", "position": Vector3(center.x, 42.0, center.y), "target": Vector3(center.x, 0.0, center.y), "fov": 52.0},
+		{"file": "sector_04_manual_spawn.png", "position": Vector3(0.0, 1.68, 2.2), "target": Vector3(0.2, 1.45, 15.0), "fov": 72.0},
+		{"file": "sector_04_manual_glass_door.png", "position": Vector3(2.8, 1.58, 2.4), "target": Vector3(5.40, 1.10, 2.4), "fov": 62.0},
+		{"file": "sector_04_manual_columns.png", "position": Vector3(-12.0, 1.62, 26.3), "target": Vector3(-12.0, 1.42, 33.0), "fov": 70.0},
 	]
 	var output_dir := ProjectSettings.globalize_path("res://captures")
-	var directory_error := DirAccess.make_dir_recursive_absolute(output_dir)
-	if directory_error != OK:
-		push_error("Sector04 capture directory failed: %s" % error_string(directory_error))
-		return
+	DirAccess.make_dir_recursive_absolute(output_dir)
 	for shot: Dictionary in shots:
+		camera.projection = Camera3D.PROJECTION_PERSPECTIVE
 		camera.position = shot.position
 		camera.fov = float(shot.fov)
-		var up := Vector3.FORWARD if String(shot.file).contains("topdown") else Vector3.UP
-		camera.look_at(shot.target, up)
-		await get_tree().process_frame
-		await RenderingServer.frame_post_draw
-		var image := get_viewport().get_texture().get_image()
-		var output_path: String = output_dir.path_join(String(shot.file))
-		var save_error := image.save_png(output_path)
-		if save_error != OK:
-			push_error("Sector04 capture failed: %s" % error_string(save_error))
-		else:
-			print("SECTOR04_CAPTURE: %s" % output_path)
+		camera.look_at(shot.target, Vector3.UP)
+		await _save_capture(camera, output_dir.path_join(String(shot.file)))
+	ceiling_visual.visible = false
+	fixture_visuals.visible = false
+	fixture_visuals_off.visible = false
+	camera.projection = Camera3D.PROJECTION_ORTHOGONAL
+	camera.size = 66.0
+	camera.position = Vector3(-3.0, 65.0, 6.0)
+	camera.look_at(Vector3(-3.0, 0.0, 6.0), Vector3.FORWARD)
+	await _save_capture(camera, output_dir.path_join("sector_04_manual_topdown.png"))
+	ceiling_visual.visible = true
+	fixture_visuals.visible = true
+	fixture_visuals_off.visible = true
+	_write_manual_overlay(output_dir.path_join("sector_04_manual_overlay.png"))
 	camera.queue_free()
 
 
-func _nearest_position(points: Array[Vector2], target: Vector2) -> Vector2:
-	if points.is_empty():
-		return target
-	var nearest := points[0]
-	var nearest_distance := nearest.distance_squared_to(target)
-	for point: Vector2 in points:
-		var distance := point.distance_squared_to(target)
-		if distance < nearest_distance:
-			nearest = point
-			nearest_distance = distance
-	return nearest
+func _save_capture(_camera: Camera3D, output_path: String) -> void:
+	await get_tree().process_frame
+	await RenderingServer.frame_post_draw
+	var image := get_viewport().get_texture().get_image()
+	var save_error := image.save_png(output_path)
+	if save_error != OK:
+		push_error("Sector04 capture failed: %s" % error_string(save_error))
+	else:
+		print("SECTOR04_MANUAL_CAPTURE: %s" % output_path)
 
 
-func _count_nodes(node: Node) -> int:
-	var total := 1
-	for child: Node in node.get_children():
-		total += _count_nodes(child)
-	return total
+func _write_manual_overlay(output_path: String) -> void:
+	var source := Image.load_from_file(ProjectSettings.globalize_path("res://assets/level_0/maps/sector_04.png"))
+	if source == null or source.is_empty():
+		push_error("Sector04 manual overlay source missing")
+		return
+	source.convert(Image.FORMAT_RGBA8)
+	source.resize(1024, 1024, Image.INTERPOLATE_LANCZOS)
+	var manual := Image.create(1024, 1024, false, Image.FORMAT_RGBA8)
+	manual.fill(Color(0.31, 0.31, 0.31, 1.0))
+	var bounds := Rect2(Vector2(-18.5, -23.7), Vector2(31.0, 59.2))
+	for pixel_y in 1024:
+		for pixel_x in 1024:
+			var world := Vector2(bounds.position.x + float(pixel_x) / 1023.0 * bounds.size.x, bounds.end.y - float(pixel_y) / 1023.0 * bounds.size.y)
+			if _point_on_manual_floor(world):
+				manual.set_pixel(pixel_x, pixel_y, Color(0.76, 0.59, 0.34, 1.0))
+	for wall: Dictionary in _boundary_walls:
+		_draw_world_line(manual, wall["a"], wall["b"], bounds, Color(0.0, 0.95, 0.92, 1.0), 2)
+	for wall: Dictionary in _partition_walls:
+		_draw_world_line(manual, wall["a"], wall["b"], bounds, Color(0.0, 0.95, 0.92, 1.0), 2)
+	_draw_world_line(manual, Vector2(5.40, 1.80), Vector2(5.40, 3.00), bounds, Color(0.2, 0.75, 1.0, 1.0), 3)
+	for center: Vector2 in _column_centers():
+		var pixel := _world_to_overlay(center, bounds)
+		for offset_y in range(-5, 6):
+			for offset_x in range(-5, 6):
+				var target := pixel + Vector2i(offset_x, offset_y)
+				if target.x >= 0 and target.y >= 0 and target.x < 1024 and target.y < 1024:
+					manual.set_pixelv(target, Color(0.18, 0.12, 0.05, 1.0))
+	var comparison := Image.create(2048, 1024, false, Image.FORMAT_RGBA8)
+	comparison.blit_rect(source, Rect2i(0, 0, 1024, 1024), Vector2i.ZERO)
+	comparison.blit_rect(manual, Rect2i(0, 0, 1024, 1024), Vector2i(1024, 0))
+	var save_error := comparison.save_png(output_path)
+	if save_error != OK:
+		push_error("Sector04 overlay failed: %s" % error_string(save_error))
+	else:
+		print("SECTOR04_MANUAL_CAPTURE: %s" % output_path)
+
+
+func _point_on_manual_floor(point: Vector2) -> bool:
+	for shape: PackedVector2Array in _floor_shapes:
+		if Geometry2D.is_point_in_polygon(point, shape):
+			return true
+	return false
+
+
+func _draw_world_line(image: Image, a: Vector2, b: Vector2, bounds: Rect2, color: Color, thickness: int) -> void:
+	var start := _world_to_overlay(a, bounds)
+	var finish := _world_to_overlay(b, bounds)
+	var delta := finish - start
+	var steps := maxi(absi(delta.x), absi(delta.y))
+	for step in steps + 1:
+		var amount := float(step) / float(maxi(steps, 1))
+		var pixel := Vector2i(Vector2(start).lerp(Vector2(finish), amount))
+		for offset_y in range(-thickness, thickness + 1):
+			for offset_x in range(-thickness, thickness + 1):
+				var target := pixel + Vector2i(offset_x, offset_y)
+				if target.x >= 0 and target.y >= 0 and target.x < image.get_width() and target.y < image.get_height():
+					image.set_pixelv(target, color)
+
+
+func _world_to_overlay(point: Vector2, bounds: Rect2) -> Vector2i:
+	return Vector2i(roundi((point.x - bounds.position.x) / bounds.size.x * 1023.0), roundi((bounds.end.y - point.y) / bounds.size.y * 1023.0))

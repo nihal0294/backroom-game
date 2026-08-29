@@ -1,84 +1,113 @@
 # Level 0 — Sector 04
 
-Status: **IMPLEMENTED; awaiting developer visual/gameplay review**.
+Status: **MANUAL IMPLEMENTATION COMPLETE; awaiting developer visual/gameplay review**.
 
-Sector 04 is the first playable sector of the numbered 48-sector Level 0 map. Its topology comes from the map images; its construction language comes from the local Backrooms VR model. The VR room layout is not copied.
+Sector 04 is a controlled, sector-specific plan. Runtime construction does not read `sector_04_trace.json`, trace the PNG, infer a scale, or rotate the sector. The numbered map defines topology and local meaning; Backrooms VR defines the architectural language. The VR scene layout is not copied.
 
-## Sources and responsibility
+## Source responsibilities
 
-| Responsibility | Source | Use |
+| Responsibility | Source | Applied result |
 | --- | --- | --- |
-| Whole-map placement | `assets/level_0/maps/level0_master_numbered.png` | Identifies Sector 04 in the full 48-sector map. |
-| Sector topology | `assets/level_0/maps/sector_04.png` | Exact occupied silhouette and relative proportions. |
-| Connections | `assets/level_0/maps/sectors_01_12_connections.png` | Connection context for sectors 01–12. No additional opening was invented in this milestone. |
-| Runtime trace | `assets/level_0/maps/sector_04_trace.json` | Export-safe metric polygon and spawn. |
-| Audit trace | `docs/levels/level-0-sector-04-trace.json` | Human-reviewable duplicate of the deterministic runtime trace. |
-| Architecture and look | `assets/backrooms_vr/scene.gltf` | Dimensions, wall mass, ceiling, fixture, trim, socket, door and palette reference. |
-| Canon | `docs/wiki/backrooms-wiki-md/level-0.md` | Level facts only; it does not define this local topology. |
+| Whole-map placement | `assets/level_0/maps/level0_master_numbered.png` | Sector 04 identity and placement in the 48-sector master. |
+| Room order and connections | `assets/level_0/maps/sector_04.png` | Long central landmark, south branch, west map room, diagonal north-west branch, column hall and visible inaccessible room. |
+| External connection IDs | `assets/level_0/maps/sectors_01_12_connections.png` | No red external sector ID is attached to Sector 04; no destination was invented. |
+| Local environmental notes | `docs/reference/level-0/level-0-final-map.png` and the matching final trace annotations | Torn wallpaper, found map, progressively emptier space, empty orange area, unreachable room and unexplored continuation. |
+| Architecture and look | `assets/backrooms_vr/scene.gltf` and `assets/backrooms_vr/textures/` | Wall mass, ceiling height and module, trim, sockets, glass-door language, fluorescent proportions and palette. |
+| Canon | `docs/wiki/backrooms-wiki-md/level-0.md` | General Level 0 facts only; it does not provide the local metric plan. |
 
-## Deterministic trace
+`assets/level_0/maps/sector_04_trace.json`, `docs/levels/level-0-sector-04-trace.json`, and `tools/trace_sector_04.gd` are retained as historical audit artefacts only. Nothing in the active Sector 04 scene or builder references them.
 
-- Source image: 1024 × 1024 px.
-- Sampling: 4 px; polygon simplification tolerance: 2.5 sampled cells.
-- Polygon: 78 points, 76 triangles.
-- Raw traced bounds: 24.87 × 30.68 m.
-- Presentation bounds after rigid alignment: 32.94 × 22.12 m.
-- Scale: 0.040372 m/px.
-- Scale basis: the tenth-percentile narrow passage is mapped to 2.15 m, derived from the Backrooms VR circulation proportions; typical traced passage is 3.98 m.
-- Rigid alignment: 45.33° so the longest source wall follows the construction grid. Shape, lengths, connections and topology are unchanged.
-- Trace tool: `tools/trace_sector_04.gd`.
-- Visual check: `captures/sector_04_trace_overlay.png`.
+## Coordinate and construction contract
 
-The scale is `SOURCE_DERIVED`, not an exact measurement supplied by the numbered PNG. The source is a normalized sector image without an explicit metric scale.
+- Local +X is east/right; local +Z is north/up on the authored plan; +Y is vertical.
+- Local origin `(0, 0, 0)` is the centre of the south edge of A1.
+- Floor is Y = 0.000 m.
+- Ceiling and wall height are 2.866 m (`SOURCE_DERIVED` from Backrooms VR).
+- Wall thickness is 0.30 m (`SOURCE_DERIVED` from Backrooms VR). Boundary wall mass grows into non-walkable space; shared internal partitions are centred on their authored boundary.
+- Baseboard is 0.12 m high with a 0.035 m projection (`VISUAL_APPROXIMATION`).
+- Ceiling uses a continuous 0.60 m acoustic-tile shader grid (`SOURCE_DERIVED`). No ceiling tile is a node.
+- Visual fluorescent panels are approximately 1.20 × 0.60 m at Y = 2.84 m (`SOURCE_DERIVED`).
 
-## Backrooms VR architectural kit
+## Manual layout
 
-Measured from the local glTF and used as the current standard:
+All values in this table are `AUTHORING_CHOICE`: they are the explicit controlled dimensions supplied for this milestone, not measurements inferred from the PNG.
 
-| Element | Value / implementation | Classification |
+| ID | Internal bounds / dimensions | Connection |
 | --- | --- | --- |
-| Floor-to-ceiling height | 2.866 m | `SOURCE_DERIVED` |
-| Wall thickness | 0.30 m, extruded toward non-walkable space | `SOURCE_DERIVED` |
-| Door height | approximately 2.20 m | `SOURCE_DERIVED` |
-| Socket plate | 0.078 × 0.126 m; centre 0.317 m above floor | `SOURCE_DERIVED` |
-| Ceiling module | 0.60 m continuous shader grid | `SOURCE_DERIVED` |
-| Fixture | 1.20 × 0.60 m visual module | `SOURCE_DERIVED` |
-| Baseboard | 0.12 m high, 0.035 m visual projection | `VISUAL_APPROXIMATION` |
-| Wallpaper/carpet/ceiling palette | Calibrated tileable project materials sampled against the VR render | `SOURCE_DERIVED` |
-| Fixture layout | Deterministically scattered and snapped to the ceiling module; 10 on, 1 off | `VISUAL_APPROXIMATION` |
-| Real lighting | 8 shadowless OmniLight3D, separated from 11 visual fixtures | `VISUAL_APPROXIMATION` |
+| A1 | X -5.40..5.40, Z 0.00..4.80; 10.80 × 4.80 m | Fully open to A2; 2.00 m south opening to C01. |
+| A2 | X -4.10..4.10, Z 4.80..24.80; 8.20 × 20.00 m | No wall between A1/A2; 1.40 m opening to D-R01 and 2.20 m diagonal connection to E. |
+| B | X 5.40..8.80, Z 0.70..4.10; 3.40 × 3.40 m | 1.20 m transparent, colliding, non-openable glass door centred at Z 2.40. |
+| C01 | X -1.00..1.00, Z -7.50..0.00; 2.00 × 7.50 m | Starts at A1 and remains 2.00 m wide. |
+| C02 | X -1.00..7.00, Z -9.50..-7.50; 8.00 × 2.00 m | Forms the east turn of the L. |
+| C-R01 | X 5.50..11.00, Z -15.00..-9.50; 5.50 × 5.50 m | 1.40 m opening from C02. |
+| C-R02 | X 7.00..11.00, Z -19.00..-15.00; 4.00 × 4.00 m | 1.20 m central opening from R01. |
+| C-R03 | X 8.00..11.00, Z -22.20..-19.00; 3.00 × 3.20 m | 1.20 m central opening from R02; terminal room. |
+| D-R01 | X -9.30..-4.10, Z 13.00..18.00; 5.20 × 5.00 m | 1.40 m opening centred at approximately Z 15.50. |
+| D-R02 | X -8.50..-6.20, Z 14.00..16.20; approximately 2.30 × 2.20 m | 0.90 m non-player-critical entrance; contains only `MapPlaceholder`. |
+| E | X -17.00..-7.00, Z 25.50..34.00; 10.00 × 8.50 m | 2.20 m oblique connector; six 0.75 × 0.75 m full-height columns in a 3 × 2 arrangement. |
 
-The glTF uses mesh-specific 4K baked atlases. They are valid visual evidence but are not tileable over a different topology, so Sector 04 uses the project’s tileable BRW_B, Carpet011 and acoustic-ceiling sources with a VR-calibrated palette. The imported model is “Backrooms VR” by carlcapu9, CC BY 4.0; exact attribution is retained in `assets/backrooms_vr/license.txt`.
+The main hall, south rooms, glass room and column hall contain no invented furniture, decorative doors or gameplay props. `MapPlaceholder` is a 1.20 × 0.08 × 0.80 m panel with a temporary non-interactive “MAP” label.
 
-## Runtime implementation
+## Master-map annotation fidelity
+
+| Annotation | Source meaning | Visible implementation | Status |
+| --- | --- | --- | --- |
+| A141 | Torn wallpaper; touching it caused a cut in the account | Separate torn/peeling wallpaper patch on the long hall wall; no damage system invented. | `IMPLEMENTED_SOURCE_APPROX` |
+| A142 | A sketched map was found here | `MapPlaceholder` inside D-R02; no map content or interaction invented. | `IMPLEMENTED_SOURCE_APPROX` |
+| A143 | “The further I go the less there is” | Long empty main hall and progression into successively smaller empty south rooms. | `IMPLEMENTED_SOURCE_APPROX` |
+| A144 | Orange area completely empty | Sector-specific muted orange/brown opaque Carpet011 material; authored rooms remain empty. | `IMPLEMENTED_SOURCE_APPROX` |
+| A145 | Unreachable room through here | B is visible through a transparent glass door but blocked by explicit collision and has no open interaction. | `IMPLEMENTED_SOURCE_APPROX` |
+| A146 | Unexplored | `UnexploredExit` records the north terminal. It remains physically closed because the connection sheet supplies no destination ID. | `CONTENT_REQUIRED` |
+| A147 | Smell/nest note adjacent to this area | Outside the controlled Sector 04 geometry; no entity or nest was invented. | `NOT_IMPLEMENTED` |
+
+## Map/plan discrepancies
+
+- The source crop is a stylised, rotated drawing without a metric scale. The fixed authoring plan preserves the room sequence, branches and six column marks, but cannot be a pixel overlay without violating the required unrotated coordinate system and fixed dimensions. The side-by-side capture makes this explicit.
+- The connection sheet containing sectors 01–12 shows no numbered red external connection for Sector 04. The north terminal is therefore closed and marked for later authoring instead of guessing a `sector_id` or opening into empty space.
+- The six marks in the north-west room are interpreted as columns as directed by the milestone. Their exact physical size is an authoring choice.
+- The 0.90 m D-R02 doorway is preserved because it is explicitly part of the small map chamber plan. All required gameplay routes are at least 1.20 m; D-R02 is a local detail chamber rather than a main circulation connection.
+
+## Materials and lighting
+
+- Wallpaper, acoustic ceiling and trim use the existing tileable VR-calibrated kit. The glTF 4K textures are baked atlases with mesh-specific UVs and were not stretched over the new topology.
+- Sector 04 uses `sector_04_orange_carpet.tres`, based on the existing Carpet011 albedo/roughness/normal/AO set with a muted orange-brown tint. It is fully opaque, non-metallic and has roughness clamped to 0.88–1.00.
+- The glass door alone uses alpha transparency. Refraction is disabled so the panel remains reliably transparent in both Forward+ and Compatibility renderers.
+- There are 17 visual fluorescent fixtures: 14 on and 3 off. They are batched into MultiMeshes.
+- There are 8 shadowless OmniLight3D nodes. Visual fixtures and actual light sources remain separate.
+- The glass room has one lit visual panel; each south room has one; the map room has two nearby panels; the column hall has four. Placement is fixed and asymmetric rather than generated or random.
+
+## Runtime implementation and validation
 
 - Scene: `res://scenes/levels/level_0/sector_04.tscn`.
 - Builder: `res://scripts/levels/level_0/sector_04.gd`.
-- Shared kit materials: `res://resources/materials/level_0/vr_kit/`.
-- Main scene: `res://scenes/levels/level_0.tscn`.
-- Floor, ceiling, walls and baseboards are four combined ArrayMesh visuals.
-- Floor and walls use two aggregate ConcavePolygonShape3D collisions.
-- Fixtures, unlit fixtures, sockets, door frames and door panels use five MultiMeshes.
-- Wall mass extends outside the traced walkable boundary; increasing thickness does not narrow passages.
-- Door-like landmarks are visual landmarks on closed walls. They do not silently add exits or modify the source topology.
+- Materials: `res://resources/materials/level_0/vr_kit/`.
+- Floor, ceiling, walls/columns and baseboards are aggregate ArrayMesh visuals.
+- Floor and wall/column collisions are aggregate ConcavePolygonShape3D resources. The glass panel uses one separate BoxShape3D collision.
+- Fixtures, off fixtures, sockets, door frame and glass panel use five MultiMeshInstance3D nodes.
+- Safe player spawn is `(0.0, 0.1, 2.2)` inside A1.
 
-## Validation and performance
+Godot 4.5 automated result: `SECTOR04_MANUAL_VALIDATION: PASS`.
 
-Godot 4.5 Forward+ validation result: `PASS`.
-
-- Player settled on floor and moved 1.750 m in the automated movement sample.
-- Floor and wall ray/collision checks passed.
-- No player fall-through occurred.
-- Sector subtree: 30 nodes.
-- MeshInstance3D: 4.
-- ArrayMesh: 9, including the five meshes referenced by MultiMeshes.
-- StaticBody3D: 2.
-- CollisionShape3D: 2.
+- Floor rays passed in A1, A2, B, C01, C02, all three south rooms, D-R01 and E.
+- Glass-door and column collision rays passed.
+- The player settled, moved 1.750 m on the normal floor and did not fall through.
+- Horizontal collision rays passed through all eight principal connections (A1/A2, A1/C01, C01/C02, the three south-room transitions, A2/D-R01 and A2/E), while a control ray correctly hit the solid east wall.
+- Required gameplay openings tested at 1.20–2.20 m; no required route is narrower than 1.20 m.
+- Sector subtree: 35 nodes.
+- MeshInstance3D: 6.
+- ArrayMesh: 11, including meshes referenced by MultiMeshes.
+- StaticBody3D: 3.
+- CollisionShape3D: 3.
 - MultiMeshInstance3D: 5.
 - Light3D: 8; shadow-enabled lights: 0.
-- Generated geometry is runtime ArrayMesh data; no per-wall or per-ceiling-tile resource files are emitted.
-- Runtime trace size: 5,489 bytes; scene declaration: 1,996 bytes; builder script: 30,183 bytes; six shared kit material declarations: 3,875 bytes total. Runtime ArrayMesh buffers are generated in memory and therefore add no generated mesh resource files on disk.
+- Generated mesh data remains in memory; no per-wall, per-tile or per-fixture resource files are emitted.
 
-The previous S01-R01 prototype used 37 nodes, 60 fixture instances and 12 real lights. Sector 04 therefore reduces the comparable subtree by 7 nodes and 4 real lights while adding sockets, doors and doubled wall thickness.
+Validation log: `captures/sector_04_manual_validation.log`.
 
-Validation log: `captures/sector_04_forward_plus.log`. Review captures use the `sector_04_*_vr_kit_v1.png` naming scheme.
+Review captures:
+
+- `captures/sector_04_manual_topdown.png`
+- `captures/sector_04_manual_overlay.png`
+- `captures/sector_04_manual_spawn.png`
+- `captures/sector_04_manual_glass_door.png`
+- `captures/sector_04_manual_columns.png`
