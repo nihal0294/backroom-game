@@ -80,111 +80,122 @@ func _ready() -> void:
 
 func _manual_floor_shapes() -> Array[PackedVector2Array]:
 	var shapes: Array[PackedVector2Array] = []
-	shapes.push_back(_rect_polygon(-5.40, 0.00, 5.40, 4.80)) # A1
-	shapes.push_back(_rect_polygon(-4.10, 4.80, 4.10, 24.80)) # A2
-	shapes.push_back(_rect_polygon(5.40, 0.70, 8.80, 4.10)) # B
-	shapes.push_back(_rect_polygon(-1.00, -7.50, 1.00, 0.00)) # C01
-	shapes.push_back(_rect_polygon(-1.00, -9.50, 7.00, -7.50)) # C02
-	shapes.push_back(_rect_polygon(5.50, -15.00, 11.00, -9.50)) # C-R01
-	shapes.push_back(_rect_polygon(7.00, -19.00, 11.00, -15.00)) # C-R02
-	shapes.push_back(_rect_polygon(8.00, -22.20, 11.00, -19.00)) # C-R03
-	shapes.push_back(_rect_polygon(-9.30, 13.00, -4.10, 18.00)) # D-R01/D-R02
-	shapes.push_back(_rect_polygon(-17.00, 25.50, -7.00, 34.00)) # E
-	shapes.push_back(PackedVector2Array([ # E diagonal 2.20 m connector
-		Vector2(-4.10, 22.00), Vector2(-4.10, 24.20),
-		Vector2(-7.00, 28.60), Vector2(-7.00, 26.40),
+	shapes.push_back(_rect_polygon(-7.00, 0.00, 7.00, 7.00)) # A1
+	shapes.push_back(_rect_polygon(-6.00, 7.00, 6.00, 39.00)) # A2
+	shapes.push_back(_rect_polygon(7.00, 0.70, 10.40, 4.10)) # B
+	shapes.push_back(_rect_polygon(-1.50, -11.00, 1.50, 0.00)) # C01
+	shapes.push_back(_rect_polygon(-1.50, -14.00, 9.50, -11.00)) # C02
+	shapes.push_back(_rect_polygon(6.50, -20.50, 13.00, -14.00)) # C-R01
+	shapes.push_back(_rect_polygon(8.35, -26.00, 11.15, -20.50)) # C03
+	shapes.push_back(_rect_polygon(7.25, -31.00, 12.25, -26.00)) # C-R02
+	shapes.push_back(_rect_polygon(8.35, -36.00, 11.15, -31.00)) # C04
+	shapes.push_back(_rect_polygon(7.75, -40.00, 11.75, -36.00)) # C-R03
+	shapes.push_back(_rect_polygon(-11.50, 22.60, -6.00, 25.40)) # D-C01
+	shapes.push_back(_rect_polygon(-17.50, 21.00, -11.50, 27.00)) # D-R01/D-R02
+	shapes.push_back(PackedVector2Array([ # E-C01: 3.00 m wide, ~8.00 m wall-to-wall
+		Vector2(-5.90, 33.30), Vector2(-4.10, 35.70),
+		Vector2(-12.40, 41.925), Vector2(-14.20, 39.525),
 	]))
+	shapes.push_back(_rect_polygon(-24.40, 39.525, -12.40, 49.525)) # E
 	return shapes
 
 
 func _manual_boundary_walls() -> Array[Dictionary]:
 	var walls: Array[Dictionary] = []
 	# A1, with C01, A2 and glass-room interface left open.
-	_add_boundary(walls, Vector2(-5.40, 0.00), Vector2(-1.00, 0.00), Vector2.UP)
-	_add_boundary(walls, Vector2(1.00, 0.00), Vector2(5.40, 0.00), Vector2.UP)
-	_add_boundary(walls, Vector2(5.40, 0.00), Vector2(5.40, 0.70), Vector2.LEFT)
-	_add_boundary(walls, Vector2(5.40, 4.10), Vector2(5.40, 4.80), Vector2.LEFT)
-	_add_boundary(walls, Vector2(5.40, 4.80), Vector2(4.10, 4.80), Vector2.DOWN)
-	_add_boundary(walls, Vector2(-4.10, 4.80), Vector2(-5.40, 4.80), Vector2.DOWN)
-	_add_boundary(walls, Vector2(-5.40, 4.80), Vector2(-5.40, 0.00), Vector2.RIGHT)
+	_add_boundary(walls, Vector2(-7.00, 0.00), Vector2(-1.50, 0.00), Vector2.UP)
+	_add_boundary(walls, Vector2(1.50, 0.00), Vector2(7.00, 0.00), Vector2.UP)
+	_add_boundary(walls, Vector2(7.00, 0.00), Vector2(7.00, 0.70), Vector2.LEFT)
+	_add_boundary(walls, Vector2(7.00, 4.10), Vector2(7.00, 7.00), Vector2.LEFT)
+	_add_boundary(walls, Vector2(7.00, 7.00), Vector2(6.00, 7.00), Vector2.DOWN)
+	_add_boundary(walls, Vector2(-6.00, 7.00), Vector2(-7.00, 7.00), Vector2.DOWN)
+	_add_boundary(walls, Vector2(-7.00, 7.00), Vector2(-7.00, 0.00), Vector2.RIGHT)
 	# B glass room exterior.
-	_add_boundary(walls, Vector2(5.40, 0.70), Vector2(8.80, 0.70), Vector2.UP)
-	_add_boundary(walls, Vector2(8.80, 0.70), Vector2(8.80, 4.10), Vector2.LEFT)
-	_add_boundary(walls, Vector2(8.80, 4.10), Vector2(5.40, 4.10), Vector2.DOWN)
-	# A2, with D-R01 and diagonal connector openings removed.
-	_add_boundary(walls, Vector2(4.10, 4.80), Vector2(4.10, 24.80), Vector2.LEFT)
-	_add_boundary(walls, Vector2(4.10, 24.80), Vector2(-4.10, 24.80), Vector2.DOWN)
-	_add_boundary(walls, Vector2(-4.10, 24.80), Vector2(-4.10, 24.20), Vector2.RIGHT)
-	_add_boundary(walls, Vector2(-4.10, 22.00), Vector2(-4.10, 18.00), Vector2.RIGHT)
-	_add_boundary(walls, Vector2(-4.10, 13.00), Vector2(-4.10, 4.80), Vector2.RIGHT)
-	# D-R01 exterior.
-	_add_boundary(walls, Vector2(-4.10, 13.00), Vector2(-9.30, 13.00), Vector2.UP)
-	_add_boundary(walls, Vector2(-9.30, 13.00), Vector2(-9.30, 18.00), Vector2.RIGHT)
-	_add_boundary(walls, Vector2(-9.30, 18.00), Vector2(-4.10, 18.00), Vector2.DOWN)
+	_add_boundary(walls, Vector2(7.00, 0.70), Vector2(10.40, 0.70), Vector2.UP)
+	_add_boundary(walls, Vector2(10.40, 0.70), Vector2(10.40, 4.10), Vector2.LEFT)
+	_add_boundary(walls, Vector2(10.40, 4.10), Vector2(7.00, 4.10), Vector2.DOWN)
+	# A2, with D-C01 and E-C01 openings removed.
+	_add_boundary(walls, Vector2(6.00, 7.00), Vector2(6.00, 39.00), Vector2.LEFT)
+	_add_boundary(walls, Vector2(6.00, 39.00), Vector2(-6.00, 39.00), Vector2.DOWN)
+	_add_boundary(walls, Vector2(-6.00, 39.00), Vector2(-6.00, 37.20), Vector2.RIGHT)
+	_add_boundary(walls, Vector2(-6.00, 33.30), Vector2(-6.00, 25.40), Vector2.RIGHT)
+	_add_boundary(walls, Vector2(-6.00, 22.60), Vector2(-6.00, 7.00), Vector2.RIGHT)
+	# D-C01 sides and D-R01 exterior.
+	_add_boundary(walls, Vector2(-6.00, 22.60), Vector2(-11.50, 22.60), Vector2.UP)
+	_add_boundary(walls, Vector2(-11.50, 25.40), Vector2(-6.00, 25.40), Vector2.DOWN)
+	_add_boundary(walls, Vector2(-11.50, 21.00), Vector2(-11.50, 22.60), Vector2.LEFT)
+	_add_boundary(walls, Vector2(-11.50, 25.40), Vector2(-11.50, 27.00), Vector2.LEFT)
+	_add_boundary(walls, Vector2(-11.50, 21.00), Vector2(-17.50, 21.00), Vector2.UP)
+	_add_boundary(walls, Vector2(-17.50, 21.00), Vector2(-17.50, 27.00), Vector2.RIGHT)
+	_add_boundary(walls, Vector2(-17.50, 27.00), Vector2(-11.50, 27.00), Vector2.DOWN)
 	# C01/C02.
-	_add_boundary(walls, Vector2(-1.00, 0.00), Vector2(-1.00, -7.50), Vector2.RIGHT)
-	_add_boundary(walls, Vector2(1.00, -7.50), Vector2(1.00, 0.00), Vector2.LEFT)
-	_add_boundary(walls, Vector2(1.00, -7.50), Vector2(7.00, -7.50), Vector2.DOWN)
-	_add_boundary(walls, Vector2(7.00, -7.50), Vector2(7.00, -9.50), Vector2.LEFT)
-	_add_boundary(walls, Vector2(5.50, -9.50), Vector2(-1.00, -9.50), Vector2.UP)
-	_add_boundary(walls, Vector2(-1.00, -9.50), Vector2(-1.00, -7.50), Vector2.RIGHT)
-	# Three south rooms.
-	_add_boundary(walls, Vector2(7.00, -9.50), Vector2(11.00, -9.50), Vector2.DOWN)
-	_add_boundary(walls, Vector2(11.00, -9.50), Vector2(11.00, -15.00), Vector2.LEFT)
-	_add_boundary(walls, Vector2(7.00, -15.00), Vector2(5.50, -15.00), Vector2.UP)
-	_add_boundary(walls, Vector2(5.50, -15.00), Vector2(5.50, -9.50), Vector2.RIGHT)
-	_add_boundary(walls, Vector2(7.00, -15.00), Vector2(7.00, -19.00), Vector2.RIGHT)
-	_add_boundary(walls, Vector2(8.00, -19.00), Vector2(7.00, -19.00), Vector2.UP)
-	_add_boundary(walls, Vector2(11.00, -15.00), Vector2(11.00, -19.00), Vector2.LEFT)
-	_add_boundary(walls, Vector2(8.00, -19.00), Vector2(8.00, -22.20), Vector2.RIGHT)
-	_add_boundary(walls, Vector2(11.00, -19.00), Vector2(11.00, -22.20), Vector2.LEFT)
-	_add_boundary(walls, Vector2(11.00, -22.20), Vector2(8.00, -22.20), Vector2.UP)
-	# Diagonal connector and E hall.
-	_add_boundary(walls, Vector2(-4.10, 24.20), Vector2(-7.00, 28.60), Vector2(-0.835, -0.550))
-	_add_boundary(walls, Vector2(-7.00, 26.40), Vector2(-4.10, 22.00), Vector2(0.835, 0.550))
-	_add_boundary(walls, Vector2(-7.00, 28.60), Vector2(-7.00, 34.00), Vector2.LEFT)
-	_add_boundary(walls, Vector2(-7.00, 34.00), Vector2(-17.00, 34.00), Vector2.DOWN)
-	_add_boundary(walls, Vector2(-17.00, 34.00), Vector2(-17.00, 25.50), Vector2.RIGHT)
-	_add_boundary(walls, Vector2(-17.00, 25.50), Vector2(-7.00, 25.50), Vector2.UP)
-	_add_boundary(walls, Vector2(-7.00, 25.50), Vector2(-7.00, 26.40), Vector2.LEFT)
+	_add_boundary(walls, Vector2(-1.50, 0.00), Vector2(-1.50, -14.00), Vector2.RIGHT)
+	_add_boundary(walls, Vector2(1.50, -11.00), Vector2(1.50, 0.00), Vector2.LEFT)
+	_add_boundary(walls, Vector2(1.50, -11.00), Vector2(9.50, -11.00), Vector2.DOWN)
+	_add_boundary(walls, Vector2(9.50, -11.00), Vector2(9.50, -14.00), Vector2.LEFT)
+	_add_boundary(walls, Vector2(6.50, -14.00), Vector2(-1.50, -14.00), Vector2.UP)
+	# Three south rooms separated by C03 and C04.
+	_add_boundary(walls, Vector2(9.50, -14.00), Vector2(13.00, -14.00), Vector2.DOWN)
+	_add_boundary(walls, Vector2(13.00, -14.00), Vector2(13.00, -20.50), Vector2.LEFT)
+	_add_boundary(walls, Vector2(13.00, -20.50), Vector2(11.15, -20.50), Vector2.UP)
+	_add_boundary(walls, Vector2(8.35, -20.50), Vector2(6.50, -20.50), Vector2.UP)
+	_add_boundary(walls, Vector2(6.50, -20.50), Vector2(6.50, -14.00), Vector2.RIGHT)
+	_add_boundary(walls, Vector2(8.35, -20.50), Vector2(8.35, -26.00), Vector2.RIGHT)
+	_add_boundary(walls, Vector2(11.15, -26.00), Vector2(11.15, -20.50), Vector2.LEFT)
+	_add_boundary(walls, Vector2(7.25, -26.00), Vector2(8.35, -26.00), Vector2.DOWN)
+	_add_boundary(walls, Vector2(11.15, -26.00), Vector2(12.25, -26.00), Vector2.DOWN)
+	_add_boundary(walls, Vector2(12.25, -26.00), Vector2(12.25, -31.00), Vector2.LEFT)
+	_add_boundary(walls, Vector2(12.25, -31.00), Vector2(11.15, -31.00), Vector2.UP)
+	_add_boundary(walls, Vector2(8.35, -31.00), Vector2(7.25, -31.00), Vector2.UP)
+	_add_boundary(walls, Vector2(7.25, -31.00), Vector2(7.25, -26.00), Vector2.RIGHT)
+	_add_boundary(walls, Vector2(8.35, -31.00), Vector2(8.35, -36.00), Vector2.RIGHT)
+	_add_boundary(walls, Vector2(11.15, -36.00), Vector2(11.15, -31.00), Vector2.LEFT)
+	_add_boundary(walls, Vector2(7.75, -36.00), Vector2(8.35, -36.00), Vector2.DOWN)
+	_add_boundary(walls, Vector2(11.15, -36.00), Vector2(11.75, -36.00), Vector2.DOWN)
+	_add_boundary(walls, Vector2(11.75, -36.00), Vector2(11.75, -40.00), Vector2.LEFT)
+	_add_boundary(walls, Vector2(11.75, -40.00), Vector2(7.75, -40.00), Vector2.UP)
+	_add_boundary(walls, Vector2(7.75, -40.00), Vector2(7.75, -36.00), Vector2.RIGHT)
+	# E-C01 diagonal sides and Column Hall exterior.
+	_add_boundary(walls, Vector2(-5.90, 33.30), Vector2(-14.20, 39.525), Vector2(0.60, 0.80))
+	_add_boundary(walls, Vector2(-4.10, 35.70), Vector2(-12.40, 41.925), Vector2(-0.60, -0.80))
+	_add_boundary(walls, Vector2(-12.40, 41.925), Vector2(-12.40, 49.525), Vector2.LEFT)
+	_add_boundary(walls, Vector2(-12.40, 49.525), Vector2(-24.40, 49.525), Vector2.DOWN)
+	_add_boundary(walls, Vector2(-24.40, 49.525), Vector2(-24.40, 39.525), Vector2.RIGHT)
+	_add_boundary(walls, Vector2(-24.40, 39.525), Vector2(-14.20, 39.525), Vector2.UP)
 	return walls
 
 
 func _manual_partition_walls() -> Array[Dictionary]:
 	var walls: Array[Dictionary] = []
-	# Glass door span: X=5.40, Z=1.80..3.00.
-	_add_partition(walls, Vector2(5.40, 0.70), Vector2(5.40, 1.80))
-	_add_partition(walls, Vector2(5.40, 3.00), Vector2(5.40, 4.10))
-	# D-R01 opening: Z=14.80..16.20.
-	_add_partition(walls, Vector2(-4.10, 13.00), Vector2(-4.10, 14.80))
-	_add_partition(walls, Vector2(-4.10, 16.20), Vector2(-4.10, 18.00))
+	# Glass door span: X=7.00, Z=1.80..3.00.
+	_add_partition(walls, Vector2(7.00, 0.70), Vector2(7.00, 1.80))
+	_add_partition(walls, Vector2(7.00, 3.00), Vector2(7.00, 4.10))
 	# D-R02, with 0.90 m east entrance.
-	_add_partition(walls, Vector2(-8.50, 14.00), Vector2(-6.20, 14.00))
-	_add_partition(walls, Vector2(-6.20, 14.00), Vector2(-6.20, 14.65))
-	_add_partition(walls, Vector2(-6.20, 15.55), Vector2(-6.20, 16.20))
-	_add_partition(walls, Vector2(-6.20, 16.20), Vector2(-8.50, 16.20))
-	_add_partition(walls, Vector2(-8.50, 16.20), Vector2(-8.50, 14.00))
-	# Exact 1.40/1.20/1.20 m room openings.
-	_add_partition(walls, Vector2(5.50, -9.50), Vector2(5.55, -9.50))
-	_add_partition(walls, Vector2(6.95, -9.50), Vector2(7.00, -9.50))
-	_add_partition(walls, Vector2(7.00, -15.00), Vector2(8.40, -15.00))
-	_add_partition(walls, Vector2(9.60, -15.00), Vector2(11.00, -15.00))
-	_add_partition(walls, Vector2(8.00, -19.00), Vector2(8.90, -19.00))
-	_add_partition(walls, Vector2(10.10, -19.00), Vector2(11.00, -19.00))
+	_add_partition(walls, Vector2(-16.70, 22.00), Vector2(-14.40, 22.00))
+	_add_partition(walls, Vector2(-14.40, 22.00), Vector2(-14.40, 22.65))
+	_add_partition(walls, Vector2(-14.40, 23.55), Vector2(-14.40, 24.20))
+	_add_partition(walls, Vector2(-14.40, 24.20), Vector2(-16.70, 24.20))
+	_add_partition(walls, Vector2(-16.70, 24.20), Vector2(-16.70, 22.00))
 	return walls
 
 
 func _manual_fixture_data() -> Array[Dictionary]:
 	return [
-		_fixture(Vector2(-1.2, 2.4), false, 0), _fixture(Vector2(1.0, 7.4), false, 0),
-		_fixture(Vector2(-0.8, 12.4), false, 0), _fixture(Vector2(0.9, 17.4), false, 0),
-		_fixture(Vector2(-0.6, 22.3), true, 0), _fixture(Vector2(7.1, 2.4), false, 1),
-		_fixture(Vector2(0.0, -4.0), false, 0), _fixture(Vector2(3.2, -8.5), true, 0),
-		_fixture(Vector2(8.2, -12.1), false, 1), _fixture(Vector2(9.0, -17.0), false, 0),
-		_fixture(Vector2(9.5, -20.6), false, 1), _fixture(Vector2(-5.3, 16.8), false, 1),
-		_fixture(Vector2(-7.5, 15.1), false, 0), _fixture(Vector2(-14.2, 28.0), false, 0),
-		_fixture(Vector2(-9.8, 28.0), false, 0), _fixture(Vector2(-14.2, 32.0), true, 0),
-		_fixture(Vector2(-9.8, 32.0), false, 0),
+		_fixture(Vector2(-2.0, 3.0), false, 0), _fixture(Vector2(1.8, 8.5), false, 0),
+		_fixture(Vector2(-1.5, 14.0), false, 0), _fixture(Vector2(1.3, 19.5), false, 0),
+		_fixture(Vector2(-1.2, 25.0), true, 0), _fixture(Vector2(1.6, 30.5), false, 0),
+		_fixture(Vector2(-1.0, 35.0), false, 0), _fixture(Vector2(1.2, 38.0), false, 0),
+		_fixture(Vector2(8.7, 2.4), false, 1),
+		_fixture(Vector2(0.0, -3.5), false, 0), _fixture(Vector2(0.3, -8.5), false, 0),
+		_fixture(Vector2(2.5, -12.5), false, 1), _fixture(Vector2(7.5, -12.5), true, 1),
+		_fixture(Vector2(9.75, -17.2), false, 1), _fixture(Vector2(9.75, -23.25), false, 0),
+		_fixture(Vector2(9.75, -28.5), false, 1), _fixture(Vector2(9.75, -33.5), false, 0),
+		_fixture(Vector2(9.75, -38.0), false, 1),
+		_fixture(Vector2(-8.75, 24.0), false, 1), _fixture(Vector2(-13.3, 24.0), false, 1),
+		_fixture(Vector2(-15.7, 22.8), false, 0),
+		_fixture(Vector2(-7.8, 36.6), false, 1), _fixture(Vector2(-10.6, 38.7), false, 1),
+		_fixture(Vector2(-21.0, 42.0), false, 0), _fixture(Vector2(-15.8, 42.0), false, 0),
+		_fixture(Vector2(-21.0, 47.0), true, 0), _fixture(Vector2(-15.8, 47.0), false, 0),
 	]
 
 
@@ -267,36 +278,36 @@ func _build_baseboards() -> void:
 
 
 func _build_glass_door() -> void:
-	var door_transform := _wall_transform(Vector2(5.40, 2.40), Vector2.UP, 0.0)
+	var door_transform := _wall_transform(Vector2(7.00, 2.40), Vector2.UP, 0.0)
 	door_frames.multimesh = _make_transform_multimesh(_make_door_frame_mesh(), [door_transform])
 	door_panels.multimesh = _make_transform_multimesh(_make_glass_panel_mesh(), [door_transform])
 	var shape := BoxShape3D.new()
 	shape.size = Vector3(0.04, 2.20, 1.20)
 	glass_door_collision.shape = shape
-	glass_door_collision.position = Vector3(5.40, 1.10, 2.40)
+	glass_door_collision.position = Vector3(7.00, 1.10, 2.40)
 
 
 func _build_fixed_sockets() -> void:
 	_socket_transforms = [
-		_wall_transform(Vector2(-3.3, 0.04), Vector2.RIGHT, SOCKET_CENTER_Y),
-		_wall_transform(Vector2(3.1, 0.04), Vector2.RIGHT, SOCKET_CENTER_Y),
-		_wall_transform(Vector2(4.06, 9.0), Vector2.UP, SOCKET_CENTER_Y),
-		_wall_transform(Vector2(4.06, 19.0), Vector2.UP, SOCKET_CENTER_Y),
-		_wall_transform(Vector2(-4.06, 8.0), Vector2.DOWN, SOCKET_CENTER_Y),
-		_wall_transform(Vector2(-9.26, 16.5), Vector2.UP, SOCKET_CENTER_Y),
-		_wall_transform(Vector2(-0.96, -4.5), Vector2.DOWN, SOCKET_CENTER_Y),
-		_wall_transform(Vector2(2.8, -9.46), Vector2.LEFT, SOCKET_CENTER_Y),
-		_wall_transform(Vector2(10.96, -12.0), Vector2.UP, SOCKET_CENTER_Y),
-		_wall_transform(Vector2(10.96, -17.0), Vector2.UP, SOCKET_CENTER_Y),
-		_wall_transform(Vector2(10.96, -20.7), Vector2.UP, SOCKET_CENTER_Y),
-		_wall_transform(Vector2(-16.96, 30.0), Vector2.DOWN, SOCKET_CENTER_Y),
+		_wall_transform(Vector2(-4.5, 0.04), Vector2.RIGHT, SOCKET_CENTER_Y),
+		_wall_transform(Vector2(4.2, 0.04), Vector2.RIGHT, SOCKET_CENTER_Y),
+		_wall_transform(Vector2(5.96, 13.0), Vector2.UP, SOCKET_CENTER_Y),
+		_wall_transform(Vector2(5.96, 30.0), Vector2.UP, SOCKET_CENTER_Y),
+		_wall_transform(Vector2(-5.96, 10.0), Vector2.DOWN, SOCKET_CENTER_Y),
+		_wall_transform(Vector2(-17.46, 24.5), Vector2.UP, SOCKET_CENTER_Y),
+		_wall_transform(Vector2(-1.46, -5.5), Vector2.DOWN, SOCKET_CENTER_Y),
+		_wall_transform(Vector2(3.0, -13.96), Vector2.LEFT, SOCKET_CENTER_Y),
+		_wall_transform(Vector2(12.96, -17.0), Vector2.UP, SOCKET_CENTER_Y),
+		_wall_transform(Vector2(12.21, -28.5), Vector2.UP, SOCKET_CENTER_Y),
+		_wall_transform(Vector2(11.71, -38.0), Vector2.UP, SOCKET_CENTER_Y),
+		_wall_transform(Vector2(-24.36, 45.0), Vector2.DOWN, SOCKET_CENTER_Y),
 	]
 	socket_visuals.multimesh = _make_transform_multimesh(_make_socket_mesh(), _socket_transforms)
 
 
 func _build_map_placeholder() -> void:
 	map_placeholder.mesh = _make_box_mesh(Vector3(0.08, 0.80, 1.20), MAP_MATERIAL)
-	map_placeholder.position = Vector3(-8.31, 1.35, 15.10)
+	map_placeholder.position = Vector3(-16.61, 1.35, 23.10)
 	map_label.position = Vector3(0.05, 0.0, 0.0)
 	map_label.rotation = Vector3(0.0, -PI * 0.5, 0.0)
 
@@ -304,8 +315,8 @@ func _build_map_placeholder() -> void:
 func _build_torn_wallpaper() -> void:
 	var surface := SurfaceTool.new()
 	surface.begin(Mesh.PRIMITIVE_TRIANGLES)
-	var x := -4.055
-	var points := [Vector3(x, 0.75, 20.10), Vector3(x, 1.95, 20.00), Vector3(x, 2.05, 20.65), Vector3(x, 1.62, 20.92), Vector3(x, 0.82, 20.78)]
+	var x := -5.955
+	var points := [Vector3(x, 0.75, 28.90), Vector3(x, 1.95, 28.80), Vector3(x, 2.05, 29.45), Vector3(x, 1.62, 29.72), Vector3(x, 0.82, 29.58)]
 	for triangle_index in range(1, points.size() - 1):
 		_add_triangle(surface, points[0], points[triangle_index], points[triangle_index + 1], Vector3.RIGHT)
 	var mesh := surface.commit()
@@ -328,7 +339,7 @@ func _build_fixtures() -> void:
 
 
 func _build_sparse_lights() -> void:
-	var light_points := [Vector2(-1.2, 2.4), Vector2(1.0, 8.0), Vector2(-0.8, 15.0), Vector2(7.1, 2.4), Vector2(8.2, -12.1), Vector2(9.2, -18.0), Vector2(-6.0, 16.0), Vector2(-11.8, 30.0)]
+	var light_points := [Vector2(-2.0, 3.0), Vector2(1.3, 19.5), Vector2(-1.0, 35.0), Vector2(8.7, 2.4), Vector2(2.0, -11.5), Vector2(9.75, -32.0), Vector2(-14.5, 24.0), Vector2(-18.4, 44.5)]
 	for light_index in mini(MAX_REAL_LIGHTS, light_points.size()):
 		var point: Vector2 = light_points[light_index]
 		var light := OmniLight3D.new()
@@ -348,7 +359,7 @@ func _place_markers() -> void:
 	player_spawn.position = Vector3(0.0, 0.10, 2.20)
 	player_spawn.rotation = Vector3(0.0, PI, 0.0)
 	# No sector id is supplied by the connection sheet; keep this terminal closed.
-	unexplored_exit.position = Vector3(0.0, 0.0, 24.80)
+	unexplored_exit.position = Vector3(0.0, 0.0, 39.00)
 	unexplored_exit.rotation = Vector3(0.0, PI, 0.0)
 
 
@@ -370,7 +381,7 @@ func _rect_polygon(min_x: float, min_z: float, max_x: float, max_z: float) -> Pa
 
 
 func _column_centers() -> Array[Vector2]:
-	return [Vector2(-15.0, 28.25), Vector2(-12.0, 28.25), Vector2(-9.0, 28.25), Vector2(-15.0, 32.25), Vector2(-12.0, 32.25), Vector2(-9.0, 32.25)]
+	return [Vector2(-21.4, 42.525), Vector2(-18.4, 42.525), Vector2(-15.4, 42.525), Vector2(-21.4, 46.525), Vector2(-18.4, 46.525), Vector2(-15.4, 46.525)]
 
 
 func _add_boundary_wall(surface: SurfaceTool, faces: PackedVector3Array, a: Vector2, b: Vector2, walkable_normal: Vector2) -> void:
@@ -596,40 +607,49 @@ func _validate_sector() -> bool:
 		failures.push_back("missing aggregate visual mesh")
 	if floor_collision.shape == null or wall_collision.shape == null or glass_door_collision.shape == null:
 		failures.push_back("missing collision shape")
-	if _lit_fixture_transforms.is_empty() or _off_fixture_transforms.is_empty() or _light_count > MAX_REAL_LIGHTS:
+	if _fixture_data.size() != 27 or _lit_fixture_transforms.size() != 24 or _off_fixture_transforms.size() != 3 or _light_count != MAX_REAL_LIGHTS:
 		failures.push_back("invalid fixture/light distribution")
 	var space := get_world_3d().direct_space_state
-	var floor_samples := [Vector2(0.0, 2.2), Vector2(0.0, 12.0), Vector2(0.0, -4.0), Vector2(3.0, -8.5), Vector2(8.0, -12.0), Vector2(9.0, -17.0), Vector2(9.5, -20.5), Vector2(-5.2, 15.5), Vector2(-12.0, 30.0), Vector2(7.1, 2.4)]
+	var floor_samples := [
+		Vector2(0.0, 2.2), Vector2(0.0, 18.0), Vector2(0.0, 37.0), Vector2(8.7, 2.4),
+		Vector2(0.0, -5.5), Vector2(4.0, -12.5), Vector2(9.75, -17.0),
+		Vector2(9.75, -23.25), Vector2(9.75, -28.5), Vector2(9.75, -33.5), Vector2(9.75, -38.0),
+		Vector2(-8.75, 24.0), Vector2(-14.5, 24.0), Vector2(-8.5, 37.2), Vector2(-18.4, 44.5),
+	]
 	for point: Vector2 in floor_samples:
 		var from := to_global(Vector3(point.x, 1.5, point.y))
 		var query := PhysicsRayQueryParameters3D.create(from, from + Vector3.DOWN * 2.0, 1)
 		if space.intersect_ray(query).is_empty():
 			failures.push_back("floor ray missed at (%.2f, %.2f)" % [point.x, point.y])
-	var glass_query := PhysicsRayQueryParameters3D.create(to_global(Vector3(3.8, 1.1, 2.4)), to_global(Vector3(6.2, 1.1, 2.4)), 1)
+	var glass_query := PhysicsRayQueryParameters3D.create(to_global(Vector3(5.4, 1.1, 2.4)), to_global(Vector3(7.8, 1.1, 2.4)), 1)
 	if space.intersect_ray(glass_query).is_empty():
 		failures.push_back("glass-door collision ray missed")
-	var column_query := PhysicsRayQueryParameters3D.create(to_global(Vector3(-15.0, 1.0, 27.0)), to_global(Vector3(-15.0, 1.0, 29.0)), 1)
+	var column_query := PhysicsRayQueryParameters3D.create(to_global(Vector3(-21.4, 1.0, 41.2)), to_global(Vector3(-21.4, 1.0, 43.7)), 1)
 	if space.intersect_ray(column_query).is_empty():
 		failures.push_back("column collision ray missed")
-	var wall_query := PhysicsRayQueryParameters3D.create(to_global(Vector3(3.20, 1.0, 10.0)), to_global(Vector3(4.80, 1.0, 10.0)), 1)
+	var wall_query := PhysicsRayQueryParameters3D.create(to_global(Vector3(5.10, 1.0, 15.0)), to_global(Vector3(6.80, 1.0, 15.0)), 1)
 	if space.intersect_ray(wall_query).is_empty():
 		failures.push_back("solid east wall collision ray missed")
 	var opening_rays := [
-		{"id": "A1-A2", "from": Vector3(0.0, 1.0, 4.30), "to": Vector3(0.0, 1.0, 5.30)},
+		{"id": "A1-A2", "from": Vector3(0.0, 1.0, 6.50), "to": Vector3(0.0, 1.0, 7.50)},
 		{"id": "A1-C01", "from": Vector3(0.0, 1.0, 0.50), "to": Vector3(0.0, 1.0, -0.50)},
-		{"id": "C01-C02", "from": Vector3(0.0, 1.0, -7.00), "to": Vector3(0.0, 1.0, -8.00)},
-		{"id": "C02-C-R01", "from": Vector3(6.25, 1.0, -9.00), "to": Vector3(6.25, 1.0, -10.00)},
-		{"id": "C-R01-C-R02", "from": Vector3(9.00, 1.0, -14.50), "to": Vector3(9.00, 1.0, -15.50)},
-		{"id": "C-R02-C-R03", "from": Vector3(9.50, 1.0, -18.50), "to": Vector3(9.50, 1.0, -19.50)},
-		{"id": "A2-D-R01", "from": Vector3(-3.60, 1.0, 15.50), "to": Vector3(-4.60, 1.0, 15.50)},
-		{"id": "A2-E", "from": Vector3(-3.75, 1.0, 23.20), "to": Vector3(-4.85, 1.0, 24.65)},
+		{"id": "C01-C02", "from": Vector3(0.0, 1.0, -10.50), "to": Vector3(0.0, 1.0, -11.50)},
+		{"id": "C02-C-R01", "from": Vector3(8.0, 1.0, -13.50), "to": Vector3(8.0, 1.0, -14.50)},
+		{"id": "C-R01-C03", "from": Vector3(9.75, 1.0, -20.00), "to": Vector3(9.75, 1.0, -21.00)},
+		{"id": "C03-C-R02", "from": Vector3(9.75, 1.0, -25.50), "to": Vector3(9.75, 1.0, -26.50)},
+		{"id": "C-R02-C04", "from": Vector3(9.75, 1.0, -30.50), "to": Vector3(9.75, 1.0, -31.50)},
+		{"id": "C04-C-R03", "from": Vector3(9.75, 1.0, -35.50), "to": Vector3(9.75, 1.0, -36.50)},
+		{"id": "A2-D-C01", "from": Vector3(-5.50, 1.0, 24.00), "to": Vector3(-6.50, 1.0, 24.00)},
+		{"id": "D-C01-D-R01", "from": Vector3(-11.00, 1.0, 24.00), "to": Vector3(-12.00, 1.0, 24.00)},
+		{"id": "A2-E-C01", "from": Vector3(-5.50, 1.0, 35.10), "to": Vector3(-6.50, 1.0, 35.85)},
+		{"id": "E-C01-E", "from": Vector3(-11.90, 1.0, 39.675), "to": Vector3(-12.90, 1.0, 40.425)},
 	]
 	for opening: Dictionary in opening_rays:
 		var opening_query := PhysicsRayQueryParameters3D.create(to_global(opening["from"]), to_global(opening["to"]), 1)
 		if not space.intersect_ray(opening_query).is_empty():
 			failures.push_back("unexpected collision in opening %s" % String(opening["id"]))
-	for width: float in [2.00, 1.40, 1.20, 1.20, 1.40, 2.20]:
-		if width < 1.20 or width <= PLAYER_RADIUS * 2.0:
+	for width: float in [3.00, 3.00, 3.00, 2.80, 2.80, 2.80, 2.80, 3.00]:
+		if width < 2.60 or width <= PLAYER_RADIUS * 2.0:
 			failures.push_back("invalid opening width %.2f" % width)
 	var player := get_node_or_null("../../Player") as CharacterBody3D
 	var movement_distance := 0.0
@@ -651,7 +671,7 @@ func _validate_sector() -> bool:
 		player.global_position = start
 		player.velocity = Vector3.ZERO
 	if failures.is_empty():
-		print("SECTOR04_MANUAL_VALIDATION: PASS floors walls columns glass movement=%.3fm openings>=1.20m" % movement_distance)
+		print("SECTOR04_MANUAL_VALIDATION: PASS floors walls columns glass movement=%.3fm corridors>=2.60m fixtures=27 lights=8" % movement_distance)
 		return true
 	for failure: String in failures:
 		push_error("SECTOR04_MANUAL_VALIDATION: %s" % failure)
@@ -666,9 +686,14 @@ func _capture_sector() -> void:
 	camera.current = true
 	add_child(camera)
 	var shots := [
-		{"file": "sector_04_manual_spawn.png", "position": Vector3(0.0, 1.68, 2.2), "target": Vector3(0.2, 1.45, 15.0), "fov": 72.0},
-		{"file": "sector_04_manual_glass_door.png", "position": Vector3(2.8, 1.58, 2.4), "target": Vector3(5.40, 1.10, 2.4), "fov": 62.0},
-		{"file": "sector_04_manual_columns.png", "position": Vector3(-12.0, 1.62, 26.3), "target": Vector3(-12.0, 1.42, 33.0), "fov": 70.0},
+		{"file": "sector_04_manual_spawn.png", "position": Vector3(0.0, 1.68, 2.2), "target": Vector3(0.2, 1.45, 25.0), "fov": 76.0},
+		{"file": "sector_04_manual_main_hall_axis.png", "position": Vector3(0.0, 1.68, 37.5), "target": Vector3(0.0, 1.45, 8.0), "fov": 78.0},
+		{"file": "sector_04_manual_c01.png", "position": Vector3(0.0, 1.62, -5.5), "target": Vector3(0.0, 1.40, -11.5), "fov": 70.0},
+		{"file": "sector_04_manual_c03.png", "position": Vector3(9.75, 1.62, -23.25), "target": Vector3(9.75, 1.40, -27.5), "fov": 68.0},
+		{"file": "sector_04_manual_d_c01.png", "position": Vector3(-8.75, 1.62, 24.0), "target": Vector3(-15.8, 1.40, 24.0), "fov": 70.0},
+		{"file": "sector_04_manual_e_c01.png", "position": Vector3(-9.15, 1.62, 37.6125), "target": Vector3(-13.3, 1.40, 40.725), "fov": 70.0},
+		{"file": "sector_04_manual_glass_door.png", "position": Vector3(4.4, 1.58, 2.4), "target": Vector3(7.00, 1.10, 2.4), "fov": 62.0},
+		{"file": "sector_04_manual_columns.png", "position": Vector3(-19.9, 1.62, 40.1), "target": Vector3(-18.4, 1.42, 48.7), "fov": 70.0},
 	]
 	var output_dir := ProjectSettings.globalize_path("res://captures")
 	DirAccess.make_dir_recursive_absolute(output_dir)
@@ -682,9 +707,9 @@ func _capture_sector() -> void:
 	fixture_visuals.visible = false
 	fixture_visuals_off.visible = false
 	camera.projection = Camera3D.PROJECTION_ORTHOGONAL
-	camera.size = 66.0
-	camera.position = Vector3(-3.0, 65.0, 6.0)
-	camera.look_at(Vector3(-3.0, 0.0, 6.0), Vector3.FORWARD)
+	camera.size = 100.0
+	camera.position = Vector3(-5.0, 95.0, 4.75)
+	camera.look_at(Vector3(-5.0, 0.0, 4.75), Vector3.FORWARD)
 	await _save_capture(camera, output_dir.path_join("sector_04_manual_topdown.png"))
 	ceiling_visual.visible = true
 	fixture_visuals.visible = true
@@ -713,7 +738,7 @@ func _write_manual_overlay(output_path: String) -> void:
 	source.resize(1024, 1024, Image.INTERPOLATE_LANCZOS)
 	var manual := Image.create(1024, 1024, false, Image.FORMAT_RGBA8)
 	manual.fill(Color(0.31, 0.31, 0.31, 1.0))
-	var bounds := Rect2(Vector2(-18.5, -23.7), Vector2(31.0, 59.2))
+	var bounds := Rect2(Vector2(-26.0, -41.5), Vector2(41.0, 92.5))
 	for pixel_y in 1024:
 		for pixel_x in 1024:
 			var world := Vector2(bounds.position.x + float(pixel_x) / 1023.0 * bounds.size.x, bounds.end.y - float(pixel_y) / 1023.0 * bounds.size.y)
@@ -723,7 +748,7 @@ func _write_manual_overlay(output_path: String) -> void:
 		_draw_world_line(manual, wall["a"], wall["b"], bounds, Color(0.0, 0.95, 0.92, 1.0), 2)
 	for wall: Dictionary in _partition_walls:
 		_draw_world_line(manual, wall["a"], wall["b"], bounds, Color(0.0, 0.95, 0.92, 1.0), 2)
-	_draw_world_line(manual, Vector2(5.40, 1.80), Vector2(5.40, 3.00), bounds, Color(0.2, 0.75, 1.0, 1.0), 3)
+	_draw_world_line(manual, Vector2(7.00, 1.80), Vector2(7.00, 3.00), bounds, Color(0.2, 0.75, 1.0, 1.0), 3)
 	for center: Vector2 in _column_centers():
 		var pixel := _world_to_overlay(center, bounds)
 		for offset_y in range(-5, 6):
