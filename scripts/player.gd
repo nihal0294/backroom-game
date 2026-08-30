@@ -107,6 +107,7 @@ func _physics_process(delta: float) -> void:
 
 	if is_on_floor() and Input.is_action_just_pressed("jump"):
 		velocity.y = jump_velocity
+		_audio.call("play_jump")
 
 	var input_dir := Input.get_vector("move_left", "move_right", "move_forward", "move_backward")
 	var direction := (transform.basis * Vector3(input_dir.x, 0.0, input_dir.y))

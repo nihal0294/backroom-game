@@ -17,10 +17,13 @@ const FLASHLIGHT_STREAMS := [
 
 @onready var _player := get_parent() as CharacterBody3D
 @onready var _footsteps: AudioStreamPlayer = $Footsteps
+@onready var _movement: AudioStreamPlayer = $Movement
 @onready var _flashlight: AudioStreamPlayer = $Flashlight
 
 var _distance_since_step := 0.0
 var _previous_position := Vector3.ZERO
+var _previous_vertical_velocity := 0.0
+var _was_on_floor := false
 var _random := RandomNumberGenerator.new()
 
 
@@ -30,13 +33,25 @@ func _ready() -> void:
 		return
 	_random.randomize()
 	_previous_position = _player.global_position
+	_previous_vertical_velocity = _player.velocity.y
+	_was_on_floor = _player.is_on_floor()
 
 
 func _physics_process(_delta: float) -> void:
+	var on_floor := _player.is_on_floor()
 	if not _player.is_multiplayer_authority():
 		_distance_since_step = 0.0
 		_previous_position = _player.global_position
+		_previous_vertical_velocity = _player.velocity.y
+		_was_on_floor = on_floor
 		return
+
+	if on_floor and not _was_on_floor:
+		var impact_speed := maxf(-_previous_vertical_velocity, 0.0)
+		if impact_speed >= 1.5:
+			_play_landing(impact_speed)
+	_was_on_floor = on_floor
+	_previous_vertical_velocity = _player.velocity.y
 
 	var current_position := _player.global_position
 	var movement := current_position - _previous_position
@@ -49,7 +64,7 @@ func _physics_process(_delta: float) -> void:
 		return
 
 	var horizontal_speed := Vector2(_player.velocity.x, _player.velocity.z).length()
-	if not _player.is_on_floor() or horizontal_speed < 0.1:
+	if not on_floor or horizontal_speed < 0.1:
 		_distance_since_step = 0.0
 		return
 
@@ -73,8 +88,24 @@ func play_flashlight_toggle() -> void:
 	_flashlight.play()
 
 
+func play_jump() -> void:
+	if _player == null or not _player.is_multiplayer_authority():
+		return
+	_movement.stream = FOOTSTEP_STREAMS[0]
+	_movement.pitch_scale = _random.randf_range(1.08, 1.15)
+	_movement.volume_db = _random.randf_range(-10.0, -8.0)
+	_movement.play()
+
+
 func _play_footstep() -> void:
 	_footsteps.stream = FOOTSTEP_STREAMS[_random.randi_range(0, FOOTSTEP_STREAMS.size() - 1)]
 	_footsteps.pitch_scale = _random.randf_range(0.94, 1.06)
-	_footsteps.volume_db = _random.randf_range(1.0, 3.0)
+	_footsteps.volume_db = _random.randf_range(-9.0, -7.0)
 	_footsteps.play()
+
+
+func _play_landing(impact_speed: float) -> void:
+	_movement.stream = FOOTSTEP_STREAMS[_random.randi_range(1, FOOTSTEP_STREAMS.size() - 1)]
+	_movement.pitch_scale = _random.randf_range(0.84, 0.93)
+	_movement.volume_db = clampf(-9.0 + (impact_speed - 1.5) * 0.7, -9.0, -4.0)
+	_movement.play()

@@ -14,8 +14,8 @@ Attribution is not required by the license, but source information is preserved 
 | `lights/bulb_buzz_loop.ogg` | Foley_Mechanism_Light_Buzz_Short_Loop_Mono_DR05.wav | Nox_Sound | https://freesound.org/s/553075/ | Transcoded from WAV to Ogg Vorbis; metadata removed. |
 | `lights/ceiling_fixture_rattle.ogg` | Ceiling Rattle | itickets | https://freesound.org/s/522618/ | Transcoded from WAV to Ogg Vorbis; metadata removed. |
 | `lights/fluorescent_flicker_on.ogg` | Lights Flicker On.wav | mmaruska | https://freesound.org/s/232447/ | Resampled to 48 kHz, encoded as mono Ogg Vorbis and renamed. |
-| `interactions/door_open_creak.ogg` | Big door creak.wav | jemburyturner | https://freesound.org/s/273466/ | Resampled to 48 kHz, encoded as stereo Ogg Vorbis and renamed. |
-| `interactions/door_close_creak.ogg` | Creaky Door Closing Slowly | Rudmer_Rotteveel | https://freesound.org/s/590950/ | Resampled to 48 kHz, encoded as stereo Ogg Vorbis and renamed. |
+| `interactions/door_open_creak.ogg` | Big door creak.wav | jemburyturner | https://freesound.org/s/273466/ | Resampled to 48 kHz, shortened to 50% duration with pitch-preserving `atempo=2.0`, encoded as stereo Ogg Vorbis and renamed. |
+| `interactions/door_close_creak.ogg` | Creaky Door Closing Slowly | Rudmer_Rotteveel | https://freesound.org/s/590950/ | Resampled to 48 kHz, shortened to 50% duration with pitch-preserving `atempo=2.0`, encoded as stereo Ogg Vorbis and renamed. |
 | `interactions/light_switch_click_01.ogg` through `light_switch_click_08.ogg` | Light Switch Click | HandyGaber | https://freesound.org/s/499771/ | Eight isolated switch actions extracted from the source session; resampled to 48 kHz mono and encoded as Ogg Vorbis. |
 | `footsteps/carpet_recording_session.ogg` | Footsteps_Carpet.wav | mlsulli | https://freesound.org/s/234855/ | Transcoded from the original 48 kHz mono WAV to Ogg Vorbis. Kept as a source session for future one-shot extraction. |
 

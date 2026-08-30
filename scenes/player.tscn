@@ -57,6 +57,9 @@ script = ExtResource("5_audio")
 [node name="Footsteps" type="AudioStreamPlayer" parent="PlayerAudio"]
 bus = &"SFX"
 
+[node name="Movement" type="AudioStreamPlayer" parent="PlayerAudio"]
+bus = &"SFX"
+
 [node name="Flashlight" type="AudioStreamPlayer" parent="PlayerAudio"]
 bus = &"SFX"
 
