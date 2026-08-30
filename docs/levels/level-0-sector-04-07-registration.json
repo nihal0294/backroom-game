@@ -1,51 +1,25 @@
 {
-	"a141_annotation_master_px": [
-		388.04,
-		1498.19
+	"schema": "level_0_sector_04_07_registration_v2",
+	"master_source": "res://assets/level_0/maps/level0_master_numbered.png",
+	"sector_04_seam_world": [-6.0, 29.26],
+	"sector_07_source_anchor_px": [180.0, 323.0],
+	"sector_07_source_anchor_local_m": [0.0, 16.2],
+	"sector_07_meters_per_pixel": 0.09,
+	"candidate_transforms": [
+		{"yaw_deg": 0.0, "position_xz": [-6.0, 13.06], "result": "REJECTED_SECTOR04_OVERLAP"},
+		{"yaw_deg": 180.0, "position_xz": [-6.0, 45.46], "result": "REJECTED_MAP_ROOM_COLLISION"},
+		{"yaw_deg": 203.0, "position_xz": [0.330, 44.172], "result": "REJECTED_MAP_ROOM_COLLISION"},
+		{"yaw_deg": 225.0, "position_xz": [5.45513, 40.71513], "result": "SELECTED"}
 	],
-	"contact": {
-		"distance_from_a141_annotation_px": 161.53,
-		"gap_px": 55.86,
-		"master_px": [
-			289.24,
-			1625.98
-		],
-		"sector_04_master_px": [
-			263.77,
-			1637.45
-		],
-		"sector_04_px": [
-			595.0,
-			219.0
-		],
-		"sector_07_master_px": [
-			314.7,
-			1614.5
-		],
-		"sector_07_px": [
-			241.0,
-			445.0
-		]
+	"selected_transform": {
+		"position": [5.45513, 0.0, 40.71513],
+		"yaw_degrees": 225.0,
+		"anchor_world_result": [-6.0, 29.26],
+		"registration_exclusion": "Sector 07 traced cells and wall segments inside approved Sector 04 footprints are omitted; only the 2.15 m seam surface is shared."
 	},
-	"master_size_px": [
-		2048,
-		1994
-	],
-	"schema": "level_0_sector_04_07_registration_v1",
-	"sector_04": {
-		"offset": [
-			-1.0,
-			1540.0
-		],
-		"scale": 0.445,
-		"score": 0.8423
-	},
-	"sector_07": {
-		"offset": [
-			146.0,
-			1303.0
-		],
-		"scale": 0.7,
-		"score": 0.5757
+	"validation": {
+		"map_room_protected_volume": "PASS",
+		"sector_04_07_collision_overlap_outside_seam": "PASS",
+		"bidirectional_controller_crossing": "PASS"
 	}
 }

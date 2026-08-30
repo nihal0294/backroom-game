@@ -141,6 +141,236 @@ func build(
 	}
 
 
+## Builds a frozen raster trace without polygon union. This path exists for
+## maps whose walkable region contains exterior-connected voids and narrow
+## diagonal branches that Geometry2D.merge_polygons() cannot represent as one
+## simple polygon. Rectangles must be non-overlapping and boundary mass points
+## toward each run's non-walkable normal.
+func build_traced(
+	floor_rects: Array[Rect2],
+	ceiling_rects: Array[Rect2],
+	boundaries: Array[Dictionary],
+	partitions: Array[Dictionary],
+	columns: Array[Dictionary],
+	materials: Dictionary,
+	config: Dictionary,
+	height_profile: Callable
+) -> Dictionary:
+	errors.clear()
+	union_polygons.clear()
+	boundary_runs.assign(boundaries)
+	partition_runs = _sanitize_partitions(partitions)
+	for run: Dictionary in boundary_runs:
+		run["mode"] = "boundary"
+		if not run.has("openings"):
+			run["openings"] = []
+	stats["input_polygons"] = floor_rects.size()
+	stats["union_polygons"] = 0
+	stats["boundary_edges_before"] = boundary_runs.size()
+	stats["boundary_edges_after"] = boundary_runs.size()
+	stats["partition_count"] = partition_runs.size()
+	var floor_result := _build_profiled_rect_mesh(floor_rects, 0.0, true, materials["floor"], height_profile)
+	var ceiling_result := _build_profiled_rect_mesh(ceiling_rects, float(config["ceiling_y"]), false, materials["ceiling"], height_profile)
+	stats["floor_triangles"] = int(floor_result["triangles"])
+	stats["ceiling_triangles"] = int(ceiling_result["triangles"])
+	stats["duplicate_floor_triangles"] = _duplicate_triangle_count(floor_result["mesh"])
+	stats["duplicate_ceiling_triangles"] = _duplicate_triangle_count(ceiling_result["mesh"])
+	var wall_result := _build_profiled_wall_mesh(columns, materials["wall"], config, height_profile)
+	wall_face_runs.assign(wall_result["face_runs"])
+	stats["duplicate_wall_triangles"] = _duplicate_triangle_count(wall_result["mesh"])
+	var baseboard_mesh := _build_profiled_baseboard_mesh(columns, materials["trim"], config, height_profile)
+	if int(stats["duplicate_floor_triangles"]) != 0:
+		errors.push_back("duplicate traced floor triangles: %d" % int(stats["duplicate_floor_triangles"]))
+	if int(stats["duplicate_ceiling_triangles"]) != 0:
+		errors.push_back("duplicate traced ceiling triangles: %d" % int(stats["duplicate_ceiling_triangles"]))
+	if int(stats["duplicate_wall_triangles"]) != 0:
+		errors.push_back("duplicate traced wall triangles: %d" % int(stats["duplicate_wall_triangles"]))
+	return {
+		"floor_mesh": floor_result["mesh"], "floor_faces": floor_result["faces"],
+		"ceiling_mesh": ceiling_result["mesh"], "wall_mesh": wall_result["mesh"],
+		"wall_faces": wall_result["faces"], "baseboard_mesh": baseboard_mesh,
+		"union_polygons": [], "boundary_runs": boundary_runs, "partition_runs": partition_runs,
+		"wall_face_runs": wall_face_runs, "stats": stats.duplicate(true), "errors": errors.duplicate(),
+	}
+
+
+func _build_profiled_rect_mesh(rects: Array[Rect2], vertical_offset: float, upward: bool, material: Material, height_profile: Callable) -> Dictionary:
+	var surface := SurfaceTool.new()
+	surface.begin(Mesh.PRIMITIVE_TRIANGLES)
+	var faces := PackedVector3Array()
+	var triangle_count := 0
+	for rect: Rect2 in rects:
+		if rect.size.x <= POSITION_EPSILON or rect.size.y <= POSITION_EPSILON:
+			continue
+		var columns := maxi(1, ceili(rect.size.x / 0.60))
+		var rows := maxi(1, ceili(rect.size.y / 0.60))
+		for row in rows:
+			var z0 := lerpf(rect.position.y, rect.end.y, float(row) / rows)
+			var z1 := lerpf(rect.position.y, rect.end.y, float(row + 1) / rows)
+			for column in columns:
+				var x0 := lerpf(rect.position.x, rect.end.x, float(column) / columns)
+				var x1 := lerpf(rect.position.x, rect.end.x, float(column + 1) / columns)
+				var a := _profiled_point(Vector2(x0, z0), vertical_offset, height_profile)
+				var b := _profiled_point(Vector2(x1, z0), vertical_offset, height_profile)
+				var c := _profiled_point(Vector2(x1, z1), vertical_offset, height_profile)
+				var d := _profiled_point(Vector2(x0, z1), vertical_offset, height_profile)
+				if upward:
+					var normal_a := (d - a).cross(b - a).normalized()
+					var normal_b := (d - b).cross(c - b).normalized()
+					_emit_triangle(surface, a, d, b, normal_a)
+					_emit_triangle(surface, b, d, c, normal_b)
+					faces.append_array(PackedVector3Array([a, d, b, b, d, c]))
+				else:
+					var normal_a := (b - a).cross(d - a).normalized()
+					var normal_b := (c - b).cross(d - b).normalized()
+					_emit_triangle(surface, a, b, d, normal_a)
+					_emit_triangle(surface, b, c, d, normal_b)
+				triangle_count += 2
+	# The ceiling continues behind full-height wall mass. This visual-only strip
+	# absorbs the maximum 2.50-cell contour simplification without changing the
+	# traced floor, collision, square hole, or the centres of the large voids.
+	if not upward:
+		for run: Dictionary in boundary_runs:
+			var seal_a: Vector2 = run["a"]
+			var seal_b: Vector2 = run["b"]
+			var seal_normal: Vector2 = run["normal"]
+			# Place the seal above the primary underside: the real ceiling wins in
+			# overlap, while the seal remains visible only across a contour seam.
+			var inside_a := _profiled_point(seal_a, vertical_offset + 0.004, height_profile)
+			var inside_b := _profiled_point(seal_b, vertical_offset + 0.004, height_profile)
+			var outside_a := _profiled_point(seal_a + seal_normal, vertical_offset + 0.004, height_profile)
+			var outside_b := _profiled_point(seal_b + seal_normal, vertical_offset + 0.004, height_profile)
+			_emit_triangle(surface, inside_a, outside_a, inside_b, Vector3.DOWN)
+			_emit_triangle(surface, inside_b, outside_a, outside_b, Vector3.DOWN)
+			triangle_count += 2
+	var mesh := surface.commit()
+	mesh.surface_set_material(0, material)
+	return {"mesh": mesh, "faces": faces, "triangles": triangle_count}
+
+
+func _build_profiled_wall_mesh(columns: Array[Dictionary], material: Material, config: Dictionary, height_profile: Callable) -> Dictionary:
+	var surface := SurfaceTool.new()
+	surface.begin(Mesh.PRIMITIVE_TRIANGLES)
+	var faces := PackedVector3Array()
+	var all_runs: Array[Dictionary] = []
+	all_runs.append_array(boundary_runs)
+	all_runs.append_array(partition_runs)
+	var thickness := float(config["wall_thickness"])
+	var ceiling_y := float(config["ceiling_y"])
+	for run: Dictionary in all_runs:
+		_emit_profiled_run(surface, faces, run, thickness, ceiling_y, height_profile)
+	for column: Dictionary in columns:
+		var center: Vector2 = column["center"]
+		var half_x := float(column.get("size_x", column.get("size", 0.75))) * 0.5
+		var half_z := float(column.get("size_z", column.get("size", 0.75))) * 0.5
+		var points := PackedVector2Array([
+			center + Vector2(-half_x, -half_z), center + Vector2(-half_x, half_z),
+			center + Vector2(half_x, half_z), center + Vector2(half_x, -half_z),
+		])
+		for index in points.size():
+			_emit_profiled_face(surface, faces, points[index], points[(index + 1) % points.size()], ceiling_y, height_profile)
+	var mesh := surface.commit()
+	mesh.surface_set_material(0, material)
+	return {"mesh": mesh, "faces": faces, "face_runs": all_runs}
+
+
+func _emit_profiled_run(surface: SurfaceTool, faces: PackedVector3Array, run: Dictionary, thickness: float, ceiling_y: float, height_profile: Callable) -> void:
+	var a: Vector2 = run["a"]
+	var b: Vector2 = run["b"]
+	var length := a.distance_to(b)
+	if length <= MIN_SEGMENT_LENGTH:
+		return
+	var normal: Vector2 = run["normal"]
+	var offset := normal * thickness if String(run.get("mode", "boundary")) == "boundary" else normal * thickness * 0.5
+	var opposite_offset := Vector2.ZERO if String(run.get("mode", "boundary")) == "boundary" else -normal * thickness * 0.5
+	# Each traced segment is capped independently. This closes the outside of
+	# angled raster corners and prevents visible slits at T-junctions.
+	var cap_free_ends := true
+	var segment_count := maxi(1, ceili(length / 0.60))
+	for segment in segment_count:
+		var first := a.lerp(b, float(segment) / segment_count)
+		var second := a.lerp(b, float(segment + 1) / segment_count)
+		_emit_profiled_prism(surface, faces, first + opposite_offset, second + opposite_offset, first + offset, second + offset, ceiling_y, height_profile, cap_free_ends and segment == 0, cap_free_ends and segment == segment_count - 1)
+
+
+func _emit_profiled_prism(surface: SurfaceTool, faces: PackedVector3Array, inner_a: Vector2, inner_b: Vector2, outer_a: Vector2, outer_b: Vector2, ceiling_y: float, height_profile: Callable, cap_start: bool, cap_end: bool) -> void:
+	var ia0 := _profiled_point(inner_a, 0.0, height_profile)
+	var ib0 := _profiled_point(inner_b, 0.0, height_profile)
+	var oa0 := _profiled_point(outer_a, 0.0, height_profile)
+	var ob0 := _profiled_point(outer_b, 0.0, height_profile)
+	var ia1 := _profiled_point(inner_a, ceiling_y, height_profile)
+	var ib1 := _profiled_point(inner_b, ceiling_y, height_profile)
+	var oa1 := _profiled_point(outer_a, ceiling_y, height_profile)
+	var ob1 := _profiled_point(outer_b, ceiling_y, height_profile)
+	_emit_auto_quad(surface, faces, ia0, ib0, ib1, ia1)
+	_emit_auto_quad(surface, faces, ob0, oa0, oa1, ob1)
+	# Floor and suspended-ceiling meshes already close the horizontal planes.
+	# Coplanar wall caps would z-fight them and appear as black floating shards.
+	if cap_start:
+		_emit_auto_quad(surface, faces, oa0, ia0, ia1, oa1)
+	if cap_end:
+		_emit_auto_quad(surface, faces, ib0, ob0, ob1, ib1)
+
+
+func _emit_profiled_face(surface: SurfaceTool, faces: PackedVector3Array, a: Vector2, b: Vector2, ceiling_y: float, height_profile: Callable) -> void:
+	var a0 := _profiled_point(a, 0.0, height_profile)
+	var b0 := _profiled_point(b, 0.0, height_profile)
+	var a1 := _profiled_point(a, ceiling_y, height_profile)
+	var b1 := _profiled_point(b, ceiling_y, height_profile)
+	_emit_auto_quad(surface, faces, a0, b0, b1, a1)
+
+
+func _emit_auto_quad(surface: SurfaceTool, faces: PackedVector3Array, a: Vector3, b: Vector3, c: Vector3, d: Vector3) -> void:
+	var normal := (b - a).cross(d - a).normalized()
+	_emit_quad(surface, faces, a, b, c, d, normal)
+
+
+func _build_profiled_baseboard_mesh(columns: Array[Dictionary], material: Material, config: Dictionary, height_profile: Callable) -> ArrayMesh:
+	var surface := SurfaceTool.new()
+	surface.begin(Mesh.PRIMITIVE_TRIANGLES)
+	var height := float(config["baseboard_height"])
+	var depth := float(config["baseboard_depth"])
+	var runs: Array[Dictionary] = []
+	runs.append_array(boundary_runs)
+	for partition: Dictionary in partition_runs:
+		runs.push_back(partition)
+		var reverse := partition.duplicate(true)
+		reverse["a"] = partition["b"]
+		reverse["b"] = partition["a"]
+		reverse["normal"] = -Vector2(partition["normal"])
+		runs.push_back(reverse)
+	for run: Dictionary in runs:
+		var a: Vector2 = run["a"]
+		var b: Vector2 = run["b"]
+		var normal: Vector2 = run["normal"]
+		var face_offset := Vector2.ZERO if String(run.get("mode", "boundary")) == "boundary" else normal * float(config["wall_thickness"]) * 0.5
+		var projected_a := a + face_offset - normal * depth
+		var projected_b := b + face_offset - normal * depth
+		var a0 := _profiled_point(projected_a, 0.0, height_profile)
+		var b0 := _profiled_point(projected_b, 0.0, height_profile)
+		var a1 := _profiled_point(projected_a, height, height_profile)
+		var b1 := _profiled_point(projected_b, height, height_profile)
+		_emit_visual_quad(surface, a0, b0, b1, a1, Vector3(-normal.x, 0.0, -normal.y))
+	for column: Dictionary in columns:
+		var center: Vector2 = column["center"]
+		var half_x := float(column.get("size_x", column.get("size", 0.75))) * 0.5
+		var half_z := float(column.get("size_z", column.get("size", 0.75))) * 0.5
+		var points := PackedVector2Array([center + Vector2(-half_x, -half_z), center + Vector2(-half_x, half_z), center + Vector2(half_x, half_z), center + Vector2(half_x, -half_z)])
+		for index in points.size():
+			var direction := (points[(index + 1) % points.size()] - points[index]).normalized()
+			var normal := Vector2(-direction.y, direction.x)
+			var a := points[index] - normal * depth
+			var b := points[(index + 1) % points.size()] - normal * depth
+			_emit_visual_quad(surface, _profiled_point(a, 0.0, height_profile), _profiled_point(b, 0.0, height_profile), _profiled_point(b, height, height_profile), _profiled_point(a, height, height_profile), Vector3(-normal.x, 0.0, -normal.y))
+	var mesh := surface.commit()
+	mesh.surface_set_material(0, material)
+	return mesh
+
+
+func _profiled_point(point: Vector2, vertical_offset: float, height_profile: Callable) -> Vector3:
+	return Vector3(point.x, float(height_profile.call(point)) + vertical_offset, point.y)
+
+
 func _union_walkable_shapes(shapes: Array[PackedVector2Array]) -> Array[PackedVector2Array]:
 	var result: Array[PackedVector2Array] = []
 	for source: PackedVector2Array in shapes:

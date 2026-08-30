@@ -11,12 +11,14 @@ const SAMPLE_STEP := 4
 const POLYGON_EPSILON_CELLS := 2.50
 const METERS_PER_PIXEL := 0.09
 const SOURCE_ORIGIN_PX := Vector2(180.0, 143.0)
+const USEFUL_BOUNDS_PX := Rect2(180.0, 143.0, 665.0, 764.0)
 const HOLE_CENTER_PX := Vector2(421.0, 737.0)
 const HOLE_SIZE_PX := 1.20 / METERS_PER_PIXEL
 const NARROW_WIDTH_PX := 2.15 / METERS_PER_PIXEL
 
 const CONNECTORS := [
 	{"id": "C07-ENTRY-04", "a": Vector2(180, 323), "b": Vector2(220, 340), "width_px": NARROW_WIDTH_PX},
+	{"id": "C07-TO-08", "a": Vector2(294, 143), "b": Vector2(320, 286), "width_px": NARROW_WIDTH_PX},
 	{"id": "C07-TO-11", "a": Vector2(680, 388), "b": Vector2(680, 420), "width_px": NARROW_WIDTH_PX},
 	{"id": "C07-SOUTH-01", "a": Vector2(448, 516), "b": Vector2(390, 735), "width_px": NARROW_WIDTH_PX},
 	{"id": "C07-SOUTH-02", "a": Vector2(380, 740), "b": Vector2(300, 840), "width_px": NARROW_WIDTH_PX},
@@ -71,10 +73,11 @@ func _initialize() -> void:
 	var pillars: Array[Rect2] = classification.pillars
 	var voids: Array[Rect2] = classification.voids
 	_fill_rect(occupancy, grid_size, Rect2(HOLE_CENTER_PX - Vector2.ONE * 12.0, Vector2.ONE * 24.0), true)
-	var ceiling_rects := _greedy_rectangles(occupancy, grid_size)
+	var traced_rects := _greedy_rectangles(occupancy, grid_size)
+	var ceiling_rects := traced_rects.duplicate()
 	var exact_hole := Rect2(HOLE_CENTER_PX - Vector2.ONE * HOLE_SIZE_PX * 0.5, Vector2.ONE * HOLE_SIZE_PX)
-	var floor_rects := _subtract_rect_from_all(ceiling_rects, exact_hole)
-	var boundaries := _boundary_runs(occupancy, grid_size)
+	var floor_rects := _subtract_rect_from_all(traced_rects, exact_hole)
+	var boundaries := _contour_runs(occupancy, grid_size)
 	boundaries.append_array(_rect_boundary_runs(exact_hole))
 	var partitions := _trace_partitions(source)
 	var trace := _make_trace(source, floor_rects, ceiling_rects, boundaries, pillars, voids, partitions, exact_hole)
@@ -93,6 +96,9 @@ func _sample_floor(source: Image, grid_size: Vector2i) -> PackedByteArray:
 	occupancy.resize(grid_size.x * grid_size.y)
 	for cell_y in grid_size.y:
 		for cell_x in grid_size.x:
+			var cell_center := (Vector2(cell_x, cell_y) + Vector2.ONE * 0.5) * SAMPLE_STEP
+			if not USEFUL_BOUNDS_PX.has_point(cell_center):
+				continue
 			var hits := 0
 			for offset_y in SAMPLE_STEP:
 				for offset_x in SAMPLE_STEP:
@@ -112,7 +118,7 @@ func _paint_corridor(occupancy: PackedByteArray, size: Vector2i, a_px: Vector2, 
 	for y in range(maxi(0, int(minimum.y)), mini(size.y, int(maximum.y) + 1)):
 		for x in range(maxi(0, int(minimum.x)), mini(size.x, int(maximum.x) + 1)):
 			var center := (Vector2(x, y) + Vector2.ONE * 0.5) * SAMPLE_STEP
-			if _distance_to_segment(center, a_px, b_px) <= width_px * 0.5:
+			if USEFUL_BOUNDS_PX.has_point(center) and _distance_to_segment(center, a_px, b_px) <= width_px * 0.5:
 				occupancy[y * size.x + x] = 1
 
 
@@ -239,14 +245,117 @@ func _boundary_runs(occupancy: PackedByteArray, size: Vector2i) -> Array[Diction
 			var y0 := float(y * SAMPLE_STEP)
 			var y1 := float((y + 1) * SAMPLE_STEP)
 			if y == 0 or occupancy[(y - 1) * size.x + x] == 0:
-				raw.push_back({"a": Vector2(x1, y0), "b": Vector2(x0, y0), "normal": Vector2.DOWN})
+				raw.push_back({"a": Vector2(x0, y0), "b": Vector2(x1, y0), "normal": Vector2.UP})
 			if y == size.y - 1 or occupancy[(y + 1) * size.x + x] == 0:
-				raw.push_back({"a": Vector2(x0, y1), "b": Vector2(x1, y1), "normal": Vector2.UP})
+				raw.push_back({"a": Vector2(x1, y1), "b": Vector2(x0, y1), "normal": Vector2.DOWN})
 			if x == 0 or occupancy[y * size.x + x - 1] == 0:
-				raw.push_back({"a": Vector2(x0, y0), "b": Vector2(x0, y1), "normal": Vector2.RIGHT})
+				raw.push_back({"a": Vector2(x0, y1), "b": Vector2(x0, y0), "normal": Vector2.LEFT})
 			if x == size.x - 1 or occupancy[y * size.x + x + 1] == 0:
-				raw.push_back({"a": Vector2(x1, y1), "b": Vector2(x1, y0), "normal": Vector2.LEFT})
+				raw.push_back({"a": Vector2(x1, y0), "b": Vector2(x1, y1), "normal": Vector2.RIGHT})
 	return _merge_collinear_runs(raw)
+
+
+func _contour_runs(occupancy: PackedByteArray, size: Vector2i) -> Array[Dictionary]:
+	var result: Array[Dictionary] = []
+	for polygon: PackedVector2Array in _grid_boundary_loops(occupancy, size):
+		if polygon.size() < 3:
+			continue
+		for index in polygon.size():
+			var a_cells := polygon[index]
+			var b_cells := polygon[(index + 1) % polygon.size()]
+			if a_cells.distance_to(b_cells) <= 0.01:
+				continue
+			var direction := (b_cells - a_cells).normalized()
+			result.push_back({"a": a_cells * SAMPLE_STEP, "b": b_cells * SAMPLE_STEP, "normal": Vector2(-direction.y, direction.x)})
+	return result
+
+
+func _grid_boundary_loops(occupancy: PackedByteArray, size: Vector2i) -> Array[PackedVector2Array]:
+	var edges: Array[Dictionary] = []
+	for y in size.y:
+		for x in size.x:
+			if occupancy[y * size.x + x] == 0:
+				continue
+			if y == 0 or occupancy[(y - 1) * size.x + x] == 0:
+				edges.push_back({"a": Vector2(x, y), "b": Vector2(x + 1, y)})
+			if x == size.x - 1 or occupancy[y * size.x + x + 1] == 0:
+				edges.push_back({"a": Vector2(x + 1, y), "b": Vector2(x + 1, y + 1)})
+			if y == size.y - 1 or occupancy[(y + 1) * size.x + x] == 0:
+				edges.push_back({"a": Vector2(x + 1, y + 1), "b": Vector2(x, y + 1)})
+			if x == 0 or occupancy[y * size.x + x - 1] == 0:
+				edges.push_back({"a": Vector2(x, y + 1), "b": Vector2(x, y)})
+	var starts: Dictionary = {}
+	for edge_index in edges.size():
+		var key := _point_key(edges[edge_index]["a"])
+		if not starts.has(key):
+			starts[key] = []
+		starts[key].push_back(edge_index)
+	var used := PackedByteArray()
+	used.resize(edges.size())
+	var loops: Array[PackedVector2Array] = []
+	for first_index in edges.size():
+		if used[first_index] == 1:
+			continue
+		var loop := PackedVector2Array()
+		var current_index := first_index
+		var first_point: Vector2 = edges[first_index]["a"]
+		while current_index >= 0 and used[current_index] == 0:
+			used[current_index] = 1
+			var edge: Dictionary = edges[current_index]
+			loop.push_back(edge["a"])
+			var finish: Vector2 = edge["b"]
+			if finish == first_point:
+				break
+			current_index = -1
+			for candidate_index: int in starts.get(_point_key(finish), []):
+				if used[candidate_index] == 0:
+					current_index = candidate_index
+					break
+		if loop.size() >= 3:
+			loops.push_back(_simplify_closed_loop(loop, POLYGON_EPSILON_CELLS))
+	return loops
+
+
+func _simplify_closed_loop(points: PackedVector2Array, epsilon: float) -> PackedVector2Array:
+	if points.size() <= 4:
+		return points
+	var split := floori(float(points.size()) / 2.0)
+	var first_half := PackedVector2Array()
+	for index in range(0, split + 1):
+		first_half.push_back(points[index])
+	var second_half := PackedVector2Array()
+	for index in range(split, points.size()):
+		second_half.push_back(points[index])
+	second_half.push_back(points[0])
+	var first_simple := _simplify_open_line(first_half, epsilon)
+	var second_simple := _simplify_open_line(second_half, epsilon)
+	var result := PackedVector2Array(first_simple)
+	for index in range(1, second_simple.size() - 1):
+		result.push_back(second_simple[index])
+	return result
+
+
+func _simplify_open_line(points: PackedVector2Array, epsilon: float) -> PackedVector2Array:
+	if points.size() <= 2:
+		return points
+	var maximum_distance := 0.0
+	var split_index := 0
+	for index in range(1, points.size() - 1):
+		var distance := _distance_to_segment(points[index], points[0], points[points.size() - 1])
+		if distance > maximum_distance:
+			maximum_distance = distance
+			split_index = index
+	if maximum_distance <= epsilon:
+		return PackedVector2Array([points[0], points[points.size() - 1]])
+	var left := _simplify_open_line(points.slice(0, split_index + 1), epsilon)
+	var right := _simplify_open_line(points.slice(split_index), epsilon)
+	left.resize(left.size() - 1)
+	left.append_array(right)
+	return left
+
+
+func _point_key(point: Vector2) -> String:
+	return "%d:%d" % [roundi(point.x), roundi(point.y)]
 
 
 func _merge_collinear_runs(raw: Array[Dictionary]) -> Array[Dictionary]:
@@ -316,7 +425,7 @@ func _trace_partitions(source: Image) -> Array[Dictionary]:
 			if points.size() < 8:
 				continue
 			var segment := _principal_segment(points)
-			if Vector2(segment.a).distance_to(Vector2(segment.b)) < 8.0 or float(segment.width) > 8.0:
+			if Vector2(segment.a).distance_to(Vector2(segment.b)) < 18.0 or float(segment.width) > 8.0:
 				continue
 			segment.id = "P07-%02d" % (result.size() + 1)
 			result.push_back(segment)

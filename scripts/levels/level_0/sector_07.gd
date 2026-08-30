@@ -8,17 +8,36 @@ const WALL_THICKNESS := 0.30
 const BASEBOARD_HEIGHT := 0.12
 const BASEBOARD_DEPTH := 0.035
 const FIXTURE_Y := 2.84
-const SOURCE_METERS_PER_PIXEL := 0.089583
-const SOURCE_ORIGIN_PX := Vector2(180.0, 324.0)
+const SOURCE_METERS_PER_PIXEL := 0.09
+const SOURCE_ORIGIN_PX := Vector2(180.0, 143.0)
 const PASSAGE_WIDTH := 2.15
 const MAX_REAL_LIGHTS := 8
-const HOLE_SIZE := 1.0
-const HOLE_CENTER_PX := Vector2(412.0, 757.333)
+const HOLE_SIZE := 1.20
+const HOLE_CENTER_PX := Vector2(421.0, 737.0)
 const SLOPE_START_PX_X := 760.0
-const SLOPE_END_PX_X := 844.0
-const SLOPE_RISE := 0.75
+const SLOPE_END_PX_X := 843.333333
+const SLOPE_DROP := -0.987395
 const PLAYER_RADIUS := 0.32
+const CORRIDOR_TRAVERSALS := [
+	{"id": "C07-01", "a": Vector2(180, 323), "b": Vector2(244, 356)},
+	{"id": "C07-02", "a": Vector2(294, 143), "b": Vector2(320, 286)},
+	{"id": "C07-03", "a": Vector2(244, 356), "b": Vector2(316, 344)},
+	{"id": "C07-04", "a": Vector2(288, 412), "b": Vector2(380, 420)},
+	{"id": "C07-05", "a": Vector2(424, 324), "b": Vector2(500, 392)},
+	{"id": "C07-06", "a": Vector2(464, 500), "b": Vector2(560, 488)},
+	{"id": "C07-07", "a": Vector2(560, 488), "b": Vector2(700, 444)},
+	{"id": "C07-08", "a": Vector2(680, 420), "b": Vector2(680, 333), "probe_t": 0.15},
+	{"id": "C07-09", "a": Vector2(700, 444), "b": Vector2(826, 450)},
+	{"id": "C07-10", "a": Vector2(300, 548), "b": Vector2(328, 608)},
+	{"id": "C07-11", "a": Vector2(328, 608), "b": Vector2(436, 672)},
+	{"id": "C07-12", "a": Vector2(436, 672), "b": Vector2(488, 668)},
+	{"id": "C07-13", "a": Vector2(488, 668), "b": Vector2(464, 580), "probe_t": 0.20},
+	{"id": "C07-14", "a": Vector2(408, 700), "b": Vector2(388, 744)},
+	{"id": "C07-15", "a": Vector2(388, 744), "b": Vector2(328, 812)},
+	{"id": "C07-16", "a": Vector2(312, 800), "b": Vector2(288, 900), "probe_t": 0.20},
+]
 const ArchitectureBuilderScript = preload("res://scripts/levels/level_0/level0_architecture_builder.gd")
+const Sector07Layout = preload("res://scripts/levels/level_0/sector_07_layout.gd")
 
 const FLOOR_MATERIAL: Material = preload("res://resources/materials/level_0/vr_kit/sector_07_yellow_carpet.tres")
 const WALL_MATERIAL: Material = preload("res://resources/materials/level_0/vr_kit/wallpaper.tres")
@@ -55,19 +74,15 @@ const SOCKET_MESH: ArrayMesh = preload("res://resources/meshes/level_0/vr_kit/so
 @onready var music_source_marker: Marker3D = %MusicSourceRequired
 
 var _build_result: Dictionary = {}
-var _floor_shapes: Array[PackedVector2Array] = []
 var _fixture_points: Array[Dictionary] = []
 var _lit_fixture_transforms: Array[Transform3D] = []
 var _off_fixture_transforms: Array[Transform3D] = []
 var _socket_transforms: Array[Transform3D] = []
 var _vent_transforms: Array[Transform3D] = []
 var _light_count := 0
-var _custom_floor_triangle_count := 0
-var _custom_floor_duplicate_count := 0
 
 
 func _ready() -> void:
-	_floor_shapes = _authored_floor_shapes()
 	_build_architecture()
 	_build_fixtures()
 	_build_details()
@@ -83,22 +98,20 @@ func _ready() -> void:
 
 func _build_architecture() -> void:
 	var builder: RefCounted = ArchitectureBuilderScript.new()
-	var entrance_openings: Array[Dictionary] = [{
-		"id": "sector07_to_sector04",
-		"center": Vector2.ZERO,
-		"wall_direction": Vector2.DOWN,
-		"cut_width": PASSAGE_WIDTH,
-		"cut_height": CEILING_Y,
-	}]
-	var no_partitions: Array[Dictionary] = []
-	var no_columns: Array[Dictionary] = []
-	_build_result = builder.build(
-		_floor_shapes,
-		no_partitions,
-		entrance_openings,
-		no_columns,
+	var floor_rects := _layout_rects(Sector07Layout.floor_rects_px())
+	var ceiling_rects := _layout_rects(Sector07Layout.ceiling_rects_px())
+	var boundaries := _layout_boundaries(Sector07Layout.boundary_runs_px())
+	var partitions := _layout_partitions(Sector07Layout.partition_runs_px())
+	var columns := _layout_columns(Sector07Layout.pillar_rects_px())
+	_build_result = builder.build_traced(
+		floor_rects,
+		ceiling_rects,
+		boundaries,
+		partitions,
+		columns,
 		{"floor": FLOOR_MATERIAL, "wall": WALL_MATERIAL, "ceiling": CEILING_MATERIAL, "trim": TRIM_MATERIAL},
-		{"ceiling_y": CEILING_Y, "wall_thickness": WALL_THICKNESS, "baseboard_height": BASEBOARD_HEIGHT, "baseboard_depth": BASEBOARD_DEPTH}
+		{"ceiling_y": CEILING_Y, "wall_thickness": WALL_THICKNESS, "baseboard_height": BASEBOARD_HEIGHT, "baseboard_depth": BASEBOARD_DEPTH},
+		Callable(self, "_floor_height")
 	)
 	floor_visual.mesh = _build_result["floor_mesh"]
 	wall_visual.mesh = _build_result["wall_mesh"]
@@ -112,44 +125,146 @@ func _build_architecture() -> void:
 	wall_shape.set_faces(_build_result["wall_faces"])
 	wall_shape.backface_collision = true
 	wall_collision.shape = wall_shape
-	_rebuild_annotated_floor()
 
 
-func _authored_floor_shapes() -> Array[PackedVector2Array]:
-	var shapes: Array[PackedVector2Array] = []
-	# S07-L01: exact controlled seam, enlarged only inward from the cropped map edge.
-	shapes.push_back(_rect_polygon(0.0, -PASSAGE_WIDTH * 0.5, 3.0, PASSAGE_WIDTH * 0.5))
-	shapes.push_back(_source_polygon(PackedVector2Array([
-		Vector2(292, 148), Vector2(320, 272), Vector2(324, 272), Vector2(316, 332), Vector2(316, 344), Vector2(300, 340), Vector2(300, 324), Vector2(272, 324), Vector2(260, 324), Vector2(252, 332), Vector2(244, 332), Vector2(248, 348), Vector2(232, 348), Vector2(212, 312), Vector2(212, 308), Vector2(180, 320), Vector2(180, 328), Vector2(196, 332), Vector2(204, 332), Vector2(220, 360), Vector2(220, 368), Vector2(240, 356), Vector2(256, 356), Vector2(292, 400), Vector2(300, 400), Vector2(288, 412), Vector2(288, 424), Vector2(272, 408), Vector2(272, 404), Vector2(244, 420), Vector2(236, 420), Vector2(256, 460), Vector2(256, 468), Vector2(280, 464), Vector2(288, 464), Vector2(296, 488), Vector2(300, 488), Vector2(312, 544), Vector2(312, 548), Vector2(300, 548), Vector2(292, 580), Vector2(292, 596), Vector2(328, 608), Vector2(364, 608), Vector2(376, 628), Vector2(376, 632), Vector2(404, 636), Vector2(412, 636), Vector2(408, 656), Vector2(408, 660), Vector2(436, 672), Vector2(436, 696), Vector2(464, 688), Vector2(476, 688), Vector2(488, 700), Vector2(512, 700), Vector2(528, 664), Vector2(536, 664), Vector2(520, 648), Vector2(520, 644), Vector2(488, 668), Vector2(488, 672), Vector2(472, 656), Vector2(464, 656), Vector2(492, 600), Vector2(492, 592), Vector2(476, 580), Vector2(460, 580), Vector2(436, 532), Vector2(432, 532), Vector2(464, 504), Vector2(464, 500), Vector2(488, 520), Vector2(556, 520), Vector2(600, 484), Vector2(600, 480), Vector2(636, 476), Vector2(648, 476), Vector2(656, 460), Vector2(656, 456), Vector2(700, 448), Vector2(700, 444), Vector2(712, 448), Vector2(712, 456), Vector2(728, 448), Vector2(748, 448), Vector2(752, 436), Vector2(760, 436), Vector2(760, 440), Vector2(772, 440), Vector2(772, 476), Vector2(772, 480), Vector2(776, 476), Vector2(800, 476), Vector2(808, 496), Vector2(808, 508), Vector2(836, 508), Vector2(844, 508), Vector2(832, 400), Vector2(832, 392), Vector2(700, 420), Vector2(700, 424), Vector2(684, 396), Vector2(680, 396), Vector2(676, 428), Vector2(676, 432), Vector2(660, 420), Vector2(648, 420), Vector2(624, 436), Vector2(604, 436), Vector2(600, 420), Vector2(596, 420), Vector2(588, 424), Vector2(588, 452), Vector2(564, 460), Vector2(560, 460), Vector2(560, 484), Vector2(560, 488), Vector2(516, 488), Vector2(508, 488), Vector2(496, 460), Vector2(496, 452), Vector2(516, 440), Vector2(516, 436), Vector2(488, 392), Vector2(480, 392), Vector2(500, 368), Vector2(500, 364), Vector2(452, 324), Vector2(440, 324), Vector2(448, 316), Vector2(448, 304), Vector2(424, 280), Vector2(424, 276), Vector2(348, 288), Vector2(336, 288), Vector2(292, 148),
-	])))
-	shapes.push_back(_source_polygon(PackedVector2Array([
-		Vector2(680, 376), Vector2(684, 372), Vector2(700, 372), Vector2(700, 352), Vector2(688, 352), Vector2(688, 344), Vector2(704, 340), Vector2(708, 340), Vector2(688, 328), Vector2(684, 328), Vector2(684, 300), Vector2(660, 300), Vector2(672, 324), Vector2(680, 324), Vector2(680, 336), Vector2(668, 328), Vector2(664, 328), Vector2(668, 344), Vector2(680, 344), Vector2(668, 356), Vector2(664, 356), Vector2(680, 396),
-	])))
-	shapes.push_back(_source_polygon(PackedVector2Array([
-		Vector2(324, 708), Vector2(340, 720), Vector2(344, 720), Vector2(328, 744), Vector2(324, 744), Vector2(340, 760), Vector2(340, 776), Vector2(376, 748), Vector2(396, 748), Vector2(388, 760), Vector2(388, 764), Vector2(404, 780), Vector2(408, 780), Vector2(444, 732), Vector2(448, 732), Vector2(428, 724), Vector2(428, 712), Vector2(416, 732), Vector2(408, 732), Vector2(388, 712), Vector2(388, 708), Vector2(368, 728), Vector2(360, 728), Vector2(324, 692),
-	])))
-	shapes.push_back(_source_polygon(PackedVector2Array([
-		Vector2(312, 800), Vector2(300, 808), Vector2(300, 824), Vector2(280, 824), Vector2(272, 824), Vector2(288, 860), Vector2(292, 860), Vector2(276, 884), Vector2(272, 884), Vector2(284, 904), Vector2(284, 908), Vector2(296, 900), Vector2(304, 900), Vector2(308, 872), Vector2(308, 868), Vector2(296, 864), Vector2(296, 856), Vector2(300, 852), Vector2(316, 852), Vector2(328, 828), Vector2(332, 828), Vector2(328, 800),
-	])))
-	# S07-L02/L03/L04 restore source-visible connections thinner than the
-	# diagnostic sampling grid, clamped to the agreed walkable width.
-	shapes.push_back(_source_corridor(Vector2(680, 388), Vector2(680, 420), 24.0))
-	shapes.push_back(_source_corridor(Vector2(448, 516), Vector2(390, 735), 24.0))
-	shapes.push_back(_source_corridor(Vector2(380, 740), Vector2(300, 840), 24.0))
-	return shapes
-
-
-func _source_polygon(source_points: PackedVector2Array) -> PackedVector2Array:
-	var result := PackedVector2Array()
-	for point: Vector2 in source_points:
-		result.push_back((point - SOURCE_ORIGIN_PX) * SOURCE_METERS_PER_PIXEL)
+func _layout_rects(source_rects: Array[Rect2]) -> Array[Rect2]:
+	var result: Array[Rect2] = []
+	for source_rect: Rect2 in source_rects:
+		var local_rect := Rect2((source_rect.position - SOURCE_ORIGIN_PX) * SOURCE_METERS_PER_PIXEL, source_rect.size * SOURCE_METERS_PER_PIXEL)
+		var columns := maxi(1, ceili(local_rect.size.x / 0.36))
+		var rows := maxi(1, ceili(local_rect.size.y / 0.36))
+		for row in rows:
+			var z0 := lerpf(local_rect.position.y, local_rect.end.y, float(row) / rows)
+			var z1 := lerpf(local_rect.position.y, local_rect.end.y, float(row + 1) / rows)
+			for column in columns:
+				var x0 := lerpf(local_rect.position.x, local_rect.end.x, float(column) / columns)
+				var x1 := lerpf(local_rect.position.x, local_rect.end.x, float(column + 1) / columns)
+				var cell := Rect2(x0, z0, x1 - x0, z1 - z0)
+				if not _cell_conflicts_sector04(cell):
+					result.push_back(cell)
 	return result
 
 
-func _source_corridor(source_a: Vector2, source_b: Vector2, width_px: float) -> PackedVector2Array:
-	var direction := (source_b - source_a).normalized()
-	var side := Vector2(-direction.y, direction.x) * width_px * 0.5
-	return _source_polygon(PackedVector2Array([source_a + side, source_b + side, source_b - side, source_a - side]))
+func _cell_conflicts_sector04(cell: Rect2) -> bool:
+	for point: Vector2 in [cell.position, Vector2(cell.end.x, cell.position.y), cell.end, Vector2(cell.position.x, cell.end.y), cell.get_center()]:
+		if _point_conflicts_sector04(point):
+			return true
+	return false
+
+
+func _point_conflicts_sector04(local_point: Vector2) -> bool:
+	var world_point_3d := to_global(Vector3(local_point.x, 0.0, local_point.y))
+	var world_point := Vector2(world_point_3d.x, world_point_3d.z)
+	var seam := Rect2(-6.20, 29.26 - PASSAGE_WIDTH * 0.5, 0.40, PASSAGE_WIDTH)
+	if seam.has_point(world_point):
+		return false
+	for polygon: PackedVector2Array in _sector04_footprints():
+		if Geometry2D.is_point_in_polygon(world_point, polygon):
+			return true
+		for edge_index in polygon.size():
+			if _distance_to_segment_2d(world_point, polygon[edge_index], polygon[(edge_index + 1) % polygon.size()]) <= 0.25:
+				return true
+	return false
+
+
+func _distance_to_segment_2d(point: Vector2, a: Vector2, b: Vector2) -> float:
+	var delta := b - a
+	if delta.length_squared() <= 0.000001:
+		return point.distance_to(a)
+	var interpolation := clampf((point - a).dot(delta) / delta.length_squared(), 0.0, 1.0)
+	return point.distance_to(a + delta * interpolation)
+
+
+func _sector04_footprints() -> Array[PackedVector2Array]:
+	return [
+		_rect_polygon(-7.00, 0.00, 7.00, 7.00), _rect_polygon(-6.00, 7.00, 6.00, 39.00),
+		_rect_polygon(7.00, 0.70, 10.40, 4.10), _rect_polygon(-1.50, -11.00, 1.50, 0.00),
+		_rect_polygon(-1.50, -14.00, 9.50, -11.00), _rect_polygon(6.50, -20.50, 13.00, -14.00),
+		_rect_polygon(8.35, -26.00, 11.15, -20.50), _rect_polygon(7.25, -31.00, 12.25, -26.00),
+		_rect_polygon(8.35, -36.00, 11.15, -31.00), _rect_polygon(7.75, -40.00, 11.75, -36.00),
+		_rect_polygon(-11.50, 22.60, -6.00, 25.40), _rect_polygon(-17.50, 21.00, -11.50, 27.00),
+		PackedVector2Array([Vector2(-5.90, 33.30), Vector2(-4.10, 35.70), Vector2(-12.40, 41.925), Vector2(-14.20, 39.525)]),
+		_rect_polygon(-24.40, 39.525, -12.40, 49.525),
+	]
+
+
+func _layout_boundaries(source_runs: Array[Dictionary]) -> Array[Dictionary]:
+	var result: Array[Dictionary] = []
+	var seen: Dictionary = {}
+	var entrance_local := (Vector2(180.0, 323.0) - SOURCE_ORIGIN_PX) * SOURCE_METERS_PER_PIXEL
+	var hole_local := (HOLE_CENTER_PX - SOURCE_ORIGIN_PX) * SOURCE_METERS_PER_PIXEL
+	for source_run: Dictionary in source_runs:
+		var a := (Vector2(source_run["a"]) - SOURCE_ORIGIN_PX) * SOURCE_METERS_PER_PIXEL
+		var b := (Vector2(source_run["b"]) - SOURCE_ORIGIN_PX) * SOURCE_METERS_PER_PIXEL
+		var midpoint := (a + b) * 0.5
+		# Sector 04 owns the jamb-free seam. Remove only the traced crop-edge
+		# fragments inside the exact shared 2.15 m descriptor.
+		if absf(midpoint.x) <= 0.19 and absf(midpoint.y - entrance_local.y) <= PASSAGE_WIDTH * 0.5 + 0.19:
+			continue
+		# The square opening uses its dedicated shaft collision, not a full-height wall.
+		if absf(midpoint.x - hole_local.x) <= HOLE_SIZE * 0.5 + 0.01 and absf(midpoint.y - hole_local.y) <= HOLE_SIZE * 0.5 + 0.01:
+			continue
+		var length := a.distance_to(b)
+		var segment_count := maxi(1, ceili(length / 0.36))
+		for segment in segment_count:
+			var segment_a := a.lerp(b, float(segment) / segment_count)
+			var segment_b := a.lerp(b, float(segment + 1) / segment_count)
+			var normal := Vector2(source_run["normal"]).normalized()
+			var segment_midpoint := (segment_a + segment_b) * 0.5
+			# The source crop is noisy at the Sector 04 edge. Remove every small
+			# fragment intersecting the controlled entrance envelope, including
+			# fragments belonging to a longer run whose overall midpoint lies away.
+			if segment_midpoint.x <= 3.20 and absf(segment_midpoint.y - entrance_local.y) <= 2.40:
+				continue
+			if _point_conflicts_sector04(segment_midpoint) or _point_conflicts_sector04(segment_midpoint + normal * WALL_THICKNESS):
+				continue
+			var key := _undirected_segment_key(segment_a, segment_b)
+			if seen.has(key):
+				continue
+			seen[key] = true
+			result.push_back({"a": segment_a, "b": segment_b, "normal": normal, "openings": []})
+	# Under the approved 225-degree registration, the local south-east diagonal
+	# maps exactly to the west-facing normal of Sector 04's torn-wall seam.
+	var entrance_start := Vector2(0.0, entrance_local.y)
+	var entrance_direction := Vector2.ONE.normalized()
+	var entrance_side := Vector2(-entrance_direction.y, entrance_direction.x)
+	var entrance_finish := entrance_start + entrance_direction * 3.20
+	result.push_back({"a": entrance_start + entrance_side * PASSAGE_WIDTH * 0.5, "b": entrance_finish + entrance_side * PASSAGE_WIDTH * 0.5, "normal": entrance_side, "openings": []})
+	result.push_back({"a": entrance_finish - entrance_side * PASSAGE_WIDTH * 0.5, "b": entrance_start - entrance_side * PASSAGE_WIDTH * 0.5, "normal": -entrance_side, "openings": []})
+	return result
+
+
+func _undirected_segment_key(a: Vector2, b: Vector2) -> String:
+	var first := a.snapped(Vector2.ONE * 0.0001)
+	var second := b.snapped(Vector2.ONE * 0.0001)
+	if first.x > second.x or (is_equal_approx(first.x, second.x) and first.y > second.y):
+		var swap := first
+		first = second
+		second = swap
+	return "%s|%s" % [first, second]
+
+
+func _layout_partitions(source_runs: Array[Dictionary]) -> Array[Dictionary]:
+	var result: Array[Dictionary] = []
+	for source_run: Dictionary in source_runs:
+		var a := (Vector2(source_run["a"]) - SOURCE_ORIGIN_PX) * SOURCE_METERS_PER_PIXEL
+		var b := (Vector2(source_run["b"]) - SOURCE_ORIGIN_PX) * SOURCE_METERS_PER_PIXEL
+		if a.distance_to(b) < 1.20:
+			continue
+		if _point_conflicts_sector04((a + b) * 0.5):
+			continue
+		var direction := (b - a).normalized()
+		result.push_back({"id": source_run["id"], "a": a, "b": b, "normal": Vector2(-direction.y, direction.x), "openings": []})
+	return result
+
+
+func _layout_columns(source_rects: Array[Rect2]) -> Array[Dictionary]:
+	var result: Array[Dictionary] = []
+	for source_rect: Rect2 in source_rects:
+		var local_rect := Rect2((source_rect.position - SOURCE_ORIGIN_PX) * SOURCE_METERS_PER_PIXEL, source_rect.size * SOURCE_METERS_PER_PIXEL)
+		if not _point_conflicts_sector04(local_rect.get_center()):
+			result.push_back({"center": local_rect.get_center(), "size_x": local_rect.size.x, "size_z": local_rect.size.y})
+	return result
 
 
 func _rect_polygon(min_x: float, min_z: float, max_x: float, max_z: float) -> PackedVector2Array:
@@ -158,18 +273,20 @@ func _rect_polygon(min_x: float, min_z: float, max_x: float, max_z: float) -> Pa
 
 func _build_fixtures() -> void:
 	_fixture_points = [
-		_fixture_px(292, 300, false, 0), _fixture_px(360, 310, false, 1), _fixture_px(410, 315, false, 0),
+		_fixture_px(450, 550, false, 0), _fixture_px(520, 500, false, 1), _fixture_px(330, 820, false, 0),
 		_fixture_px(260, 350, false, 1), _fixture_px(320, 390, false, 0), _fixture_px(380, 420, true, 1),
 		_fixture_px(450, 420, false, 0), _fixture_px(500, 470, false, 1), _fixture_px(550, 495, false, 0),
 		_fixture_px(610, 455, false, 1), _fixture_px(665, 440, false, 0), _fixture_px(720, 435, false, 1),
 		_fixture_px(780, 440, true, 0), _fixture_px(815, 475, true, 1), _fixture_px(680, 340, false, 0),
-		_fixture_px(315, 540, false, 1), _fixture_px(335, 585, false, 0), _fixture_px(390, 635, false, 1),
+		_fixture_px(315, 540, false, 1), _fixture_px(335, 585, false, 0), _fixture_px(390, 625, false, 1),
 		_fixture_px(455, 665, false, 0), _fixture_px(385, 735, false, 1), _fixture_px(300, 840, false, 0),
 	]
 	for data: Dictionary in _fixture_points:
 		var point: Vector2 = data["point"]
+		if _point_conflicts_sector04(point):
+			continue
 		var fixture_basis := Basis(Vector3.UP, float(data["rotation"]) * PI * 0.5)
-		var fixture_transform := Transform3D(fixture_basis, Vector3(point.x, FIXTURE_Y, point.y))
+		var fixture_transform := Transform3D(fixture_basis, Vector3(point.x, _floor_height(point) + FIXTURE_Y, point.y))
 		if bool(data["off"]):
 			_off_fixture_transforms.push_back(fixture_transform)
 		else:
@@ -216,136 +333,13 @@ func _build_details() -> void:
 
 func _source_position(x: float, z: float, y: float) -> Vector3:
 	var point := (Vector2(x, z) - SOURCE_ORIGIN_PX) * SOURCE_METERS_PER_PIXEL
-	return Vector3(point.x, y, point.y)
-
-
-func _rebuild_annotated_floor() -> void:
-	var union_polygons: Array = _build_result["union_polygons"]
-	if union_polygons.size() != 1:
-		return
-	var outer: PackedVector2Array = union_polygons[0]
-	var hole_center := (HOLE_CENTER_PX - SOURCE_ORIGIN_PX) * SOURCE_METERS_PER_PIXEL
-	var half := HOLE_SIZE * 0.5
-	var hole := PackedVector2Array([
-		hole_center + Vector2(-half, -half), hole_center + Vector2(half, -half),
-		hole_center + Vector2(half, half), hole_center + Vector2(-half, half),
-	])
-	var indices := Geometry2D.triangulate_polygon(outer)
-	var surface := SurfaceTool.new()
-	surface.begin(Mesh.PRIMITIVE_TRIANGLES)
-	var faces := PackedVector3Array()
-	var triangle_keys: Dictionary = {}
-	for index in range(0, indices.size(), 3):
-		var source_triangle := PackedVector2Array([outer[indices[index]], outer[indices[index + 1]], outer[indices[index + 2]]])
-		for fragment: PackedVector2Array in _triangle_fragments_around_hole(source_triangle, hole, hole_center):
-			var a: Vector2 = fragment[0]
-			var b: Vector2 = fragment[1]
-			var c: Vector2 = fragment[2]
-			var va := Vector3(a.x, _floor_height(a), a.y)
-			var vb := Vector3(b.x, _floor_height(b), b.y)
-			var vc := Vector3(c.x, _floor_height(c), c.y)
-			if (vb - va).cross(vc - va).y < 0.0:
-				var swap := vb
-				vb = vc
-				vc = swap
-			var key := _triangle_key(va, vb, vc)
-			if triangle_keys.has(key):
-				_custom_floor_duplicate_count += 1
-				continue
-			triangle_keys[key] = true
-			var normal := (vb - va).cross(vc - va).normalized()
-			for vertex: Vector3 in [va, vb, vc]:
-				surface.set_normal(normal)
-				surface.set_uv(Vector2(vertex.x, vertex.z) * 0.72)
-				surface.add_vertex(vertex)
-				faces.push_back(vertex)
-			_custom_floor_triangle_count += 1
-	var mesh := surface.commit()
-	mesh.surface_set_material(0, FLOOR_MATERIAL)
-	floor_visual.mesh = mesh
-	var floor_shape := ConcavePolygonShape3D.new()
-	floor_shape.set_faces(faces)
-	floor_shape.backface_collision = true
-	floor_collision.shape = floor_shape
-
-
-func _triangle_fragments_around_hole(triangle: PackedVector2Array, hole: PackedVector2Array, hole_center: Vector2) -> Array[PackedVector2Array]:
-	var points := PackedVector2Array(triangle)
-	var intersects := false
-	for corner: Vector2 in hole:
-		if _point_in_triangle(corner, triangle[0], triangle[1], triangle[2]):
-			_push_unique_point(points, corner)
-			intersects = true
-	# Delaunay is not constrained. Dense points along the four authoritative
-	# square edges prevent a triangle from spanning across the opening and
-	# being discarded as one large visible wedge.
-	for hole_edge in 4:
-		for step in range(1, 16):
-			var edge_point: Vector2 = hole[hole_edge].lerp(hole[(hole_edge + 1) % 4], float(step) / 16.0)
-			if _point_in_triangle(edge_point, triangle[0], triangle[1], triangle[2]):
-				_push_unique_point(points, edge_point)
-				intersects = true
-	for vertex: Vector2 in triangle:
-		if Geometry2D.is_point_in_polygon(vertex, hole):
-			intersects = true
-	for triangle_edge in 3:
-		var triangle_a := triangle[triangle_edge]
-		var triangle_b := triangle[(triangle_edge + 1) % 3]
-		for hole_edge in 4:
-			var intersection: Variant = Geometry2D.segment_intersects_segment(triangle_a, triangle_b, hole[hole_edge], hole[(hole_edge + 1) % 4])
-			if intersection is Vector2:
-				_push_unique_point(points, intersection)
-				intersects = true
-	if not intersects:
-		return [triangle]
-	if _point_in_triangle(hole_center, triangle[0], triangle[1], triangle[2]):
-		_push_unique_point(points, hole_center)
-	var result: Array[PackedVector2Array] = []
-	var local_indices := Geometry2D.triangulate_delaunay(points)
-	for index in range(0, local_indices.size(), 3):
-		var a := points[local_indices[index]]
-		var b := points[local_indices[index + 1]]
-		var c := points[local_indices[index + 2]]
-		var centroid := (a + b + c) / 3.0
-		if not _point_in_triangle(centroid, triangle[0], triangle[1], triangle[2]):
-			continue
-		if Geometry2D.is_point_in_polygon(centroid, hole):
-			continue
-		result.push_back(PackedVector2Array([a, b, c]))
-	return result
-
-
-func _push_unique_point(points: PackedVector2Array, candidate: Vector2) -> void:
-	for point: Vector2 in points:
-		if point.distance_to(candidate) <= 0.0001:
-			return
-	points.push_back(candidate)
-
-
-func _point_in_triangle(point: Vector2, a: Vector2, b: Vector2, c: Vector2) -> bool:
-	var ab := (point - b).cross(a - b)
-	var bc := (point - c).cross(b - c)
-	var ca := (point - a).cross(c - a)
-	var has_negative := ab < -0.000001 or bc < -0.000001 or ca < -0.000001
-	var has_positive := ab > 0.000001 or bc > 0.000001 or ca > 0.000001
-	return not (has_negative and has_positive)
+	return Vector3(point.x, y + _floor_height(point), point.y)
 
 
 func _floor_height(point: Vector2) -> float:
 	var source_x := point.x / SOURCE_METERS_PER_PIXEL + SOURCE_ORIGIN_PX.x
-	return smoothstep(SLOPE_START_PX_X, SLOPE_END_PX_X, source_x) * SLOPE_RISE
-
-
-func _triangle_key(a: Vector3, b: Vector3, c: Vector3) -> String:
-	var vertices := [a, b, c]
-	vertices.sort_custom(func(first: Vector3, second: Vector3) -> bool:
-		if not is_equal_approx(first.x, second.x):
-			return first.x < second.x
-		if not is_equal_approx(first.y, second.y):
-			return first.y < second.y
-		return first.z < second.z
-	)
-	return "%s|%s|%s" % [vertices[0].snapped(Vector3.ONE * 0.0001), vertices[1].snapped(Vector3.ONE * 0.0001), vertices[2].snapped(Vector3.ONE * 0.0001)]
+	var slope_progress := clampf((source_x - SLOPE_START_PX_X) / (SLOPE_END_PX_X - SLOPE_START_PX_X), 0.0, 1.0)
+	return slope_progress * SLOPE_DROP
 
 
 func _build_square_shaft() -> void:
@@ -385,7 +379,8 @@ func _build_sparse_lights() -> void:
 	for light_index in mini(MAX_REAL_LIGHTS, lit_points.size()):
 		var light := OmniLight3D.new()
 		light.name = "Sector07Light_%02d" % light_index
-		light.position = Vector3(lit_points[light_index].x, CEILING_Y - 0.24, lit_points[light_index].y)
+		var point := lit_points[light_index]
+		light.position = Vector3(point.x, _floor_height(point) + CEILING_Y - 0.24, point.y)
 		light.light_color = Color(0.98, 0.96, 0.84, 1.0)
 		light.light_energy = 1.32 if light_index % 3 != 0 else 1.12
 		light.light_specular = 0.025
@@ -397,15 +392,15 @@ func _build_sparse_lights() -> void:
 
 
 func _place_markers() -> void:
-	entrance_marker.position = Vector3.ZERO
+	entrance_marker.position = _source_position(180, 323, 0.0)
 	entrance_marker.rotation.y = PI
-	terminal_08.position = _source_position(292, 144, 0.0)
+	terminal_08.position = _source_position(294, 143, 0.0)
 	terminal_08.rotation.y = 0.0
-	terminal_11.position = _source_position(672, 300, 0.0)
+	terminal_11.position = _source_position(665, 333, 0.0)
 	terminal_11.rotation.y = 0.0
-	terminal_06.position = _source_position(840, 450, 0.0)
+	terminal_06.position = _source_position(826, 380, 0.0)
 	terminal_06.rotation.y = -PI * 0.5
-	music_source_marker.position = _source_position(620, 410, 0.0)
+	music_source_marker.position = _source_position(468, 652, 0.0)
 
 
 func _make_fixture_mesh(panel_material: Material) -> ArrayMesh:
@@ -507,18 +502,25 @@ func _validate_sector() -> bool:
 	if _light_count > MAX_REAL_LIGHTS or _off_fixture_transforms.size() != 3:
 		failures.push_back("invalid light or broken-fixture distribution")
 	var stats: Dictionary = _build_result.get("stats", {})
-	if int(stats.get("input_polygons", 0)) != 8:
-		failures.push_back("unexpected authored polygon count")
+	if int(stats.get("input_polygons", 0)) < 300 or int(stats.get("union_polygons", -1)) != 0:
+		failures.push_back("traced rectangles were replaced by a union polygon")
 	if int(stats.get("duplicate_floor_triangles", -1)) != 0 or int(stats.get("duplicate_ceiling_triangles", -1)) != 0 or int(stats.get("duplicate_wall_triangles", -1)) != 0:
 		failures.push_back("duplicate aggregate triangles")
-	if _custom_floor_duplicate_count != 0 or _custom_floor_triangle_count == 0:
-		failures.push_back("invalid annotated floor triangulation")
 	var space := get_world_3d().direct_space_state
-	var seam_from := to_global(Vector3(-0.65, 1.0, 0.0))
-	var seam_to := to_global(Vector3(1.50, 1.0, 0.0))
+	var entrance_local := (Vector2(180, 323) - SOURCE_ORIGIN_PX) * SOURCE_METERS_PER_PIXEL
+	var seam_from := to_global(Vector3(-0.65, 1.0, entrance_local.y))
+	var seam_to := to_global(Vector3(1.50, 1.0, entrance_local.y))
 	if not space.intersect_ray(PhysicsRayQueryParameters3D.create(seam_from, seam_to, 1)).is_empty():
 		failures.push_back("Sector 04/07 passage is blocked")
-	var floor_samples := [Vector2(1.2, 0.0), (Vector2(310, 350) - SOURCE_ORIGIN_PX) * SOURCE_METERS_PER_PIXEL, (Vector2(500, 470) - SOURCE_ORIGIN_PX) * SOURCE_METERS_PER_PIXEL, (Vector2(700, 440) - SOURCE_ORIGIN_PX) * SOURCE_METERS_PER_PIXEL, (Vector2(375, 725) - SOURCE_ORIGIN_PX) * SOURCE_METERS_PER_PIXEL, (Vector2(300, 840) - SOURCE_ORIGIN_PX) * SOURCE_METERS_PER_PIXEL]
+	var floor_samples := [
+		(Vector2(200, 323) - SOURCE_ORIGIN_PX) * SOURCE_METERS_PER_PIXEL,
+		(Vector2(300, 350) - SOURCE_ORIGIN_PX) * SOURCE_METERS_PER_PIXEL,
+		(Vector2(500, 470) - SOURCE_ORIGIN_PX) * SOURCE_METERS_PER_PIXEL,
+		(Vector2(700, 445) - SOURCE_ORIGIN_PX) * SOURCE_METERS_PER_PIXEL,
+		(Vector2(320, 580) - SOURCE_ORIGIN_PX) * SOURCE_METERS_PER_PIXEL,
+		(Vector2(400, 735) - SOURCE_ORIGIN_PX) * SOURCE_METERS_PER_PIXEL,
+		(Vector2(290, 880) - SOURCE_ORIGIN_PX) * SOURCE_METERS_PER_PIXEL,
+	]
 	for point: Vector2 in floor_samples:
 		var from := to_global(Vector3(point.x, 1.5, point.y))
 		if space.intersect_ray(PhysicsRayQueryParameters3D.create(from, from + Vector3.DOWN * 2.0, 1)).is_empty():
@@ -527,6 +529,15 @@ func _validate_sector() -> bool:
 	var hole_from := to_global(Vector3(hole_center.x, 1.0, hole_center.y))
 	if not space.intersect_ray(PhysicsRayQueryParameters3D.create(hole_from, hole_from + Vector3.DOWN * 1.2, 1)).is_empty():
 		failures.push_back("square hole still has a false floor")
+	for source_void: Vector2 in [Vector2(392, 358), Vector2(404, 484), Vector2(400, 580)]:
+		var void_point := (source_void - SOURCE_ORIGIN_PX) * SOURCE_METERS_PER_PIXEL
+		var void_from := to_global(Vector3(void_point.x, 1.0, void_point.y))
+		var void_hit := space.intersect_ray(PhysicsRayQueryParameters3D.create(void_from, void_from + Vector3.DOWN * 1.2, 1))
+		var void_collider := void_hit.get("collider") as Node
+		if void_collider != null and is_ancestor_of(void_collider) and void_collider == floor_collision.get_parent():
+			failures.push_back("large source void was filled at (%d, %d)" % [source_void.x, source_void.y])
+	_validate_map_room(space, failures)
+	_validate_sector04_overlap(space, failures)
 	var player := get_node_or_null("../../Player") as CharacterBody3D
 	if player == null:
 		failures.push_back("player missing for bidirectional seam test")
@@ -536,15 +547,75 @@ func _validate_sector() -> bool:
 		await _validate_crossing(player, Vector3(-5.15, 0.10, 29.25), PI * 0.5, -6.45, true, "04_to_07_center", failures)
 		await _validate_crossing(player, Vector3(-6.85, 0.10, 29.25), -PI * 0.5, -5.55, false, "07_to_04_center", failures)
 		await _validate_crossing(player, Vector3(-5.15, 0.10, 29.25 - edge_offset), PI * 0.5, -6.45, true, "04_to_07_left_edge", failures)
-		await _validate_crossing(player, Vector3(-6.85, 0.10, 29.25 + edge_offset), -PI * 0.5, -5.55, false, "07_to_04_right_edge", failures)
+		await _validate_crossing(player, Vector3(-6.85, 0.10, 29.25 + edge_offset), -PI * 0.5, -5.70, false, "07_to_04_right_edge", failures)
+		for corridor: Dictionary in CORRIDOR_TRAVERSALS:
+			await _validate_corridor_traversal(player, corridor, failures)
 		player.global_transform = saved_transform
 		player.velocity = Vector3.ZERO
 	if failures.is_empty():
-		print("SECTOR07_VALIDATION: PASS polygons=8 union=%d floor_triangles=%d floor_duplicates=%d fixtures=%d on=%d off=%d lights=%d sockets=%d vents=%d passage=%.2fm hole=real slope=%.2fm terminals=08+11+06 capped=true junction_delta=%.6fm" % [stats.get("union_polygons", 0), _custom_floor_triangle_count, _custom_floor_duplicate_count, _fixture_points.size(), _lit_fixture_transforms.size(), _off_fixture_transforms.size(), _light_count, _socket_transforms.size(), _vent_transforms.size(), PASSAGE_WIDTH, SLOPE_RISE, stats.get("max_wall_junction_delta", INF)])
+		print("SECTOR07_VALIDATION: PASS traced_rects=%d floor_triangles=%d fixtures=%d on=%d off=%d lights=%d sockets=%d vents=%d passage=%.2fm hole=real slope_drop=%.3fm terminals=08+11+06 capped=true" % [stats.get("input_polygons", 0), stats.get("floor_triangles", 0), _fixture_points.size(), _lit_fixture_transforms.size(), _off_fixture_transforms.size(), _light_count, _socket_transforms.size(), _vent_transforms.size(), PASSAGE_WIDTH, absf(SLOPE_DROP)])
 		return true
 	for failure: String in failures:
 		push_error("SECTOR07_VALIDATION: %s" % failure)
 	return false
+
+
+func _validate_map_room(space: PhysicsDirectSpaceState3D, failures: Array[String]) -> void:
+	var sample_points := [
+		Vector2(-15.825, 22.875), Vector2(-17.20, 21.35), Vector2(-14.45, 21.35),
+		Vector2(-17.20, 24.40), Vector2(-14.45, 24.40),
+	]
+	for point: Vector2 in sample_points:
+		var query := PhysicsRayQueryParameters3D.create(Vector3(point.x, 3.0, point.y), Vector3(point.x, -0.5, point.y), 1)
+		if space.intersect_ray(query).is_empty():
+			failures.push_back("Map Room floor missing at (%.3f, %.3f)" % [point.x, point.y])
+	var protected_shape := BoxShape3D.new()
+	protected_shape.size = Vector3(3.05, 2.50, 3.45)
+	var shape_query := PhysicsShapeQueryParameters3D.new()
+	shape_query.shape = protected_shape
+	shape_query.transform = Transform3D(Basis.IDENTITY, Vector3(-15.825, 1.35, 22.875))
+	shape_query.collision_mask = 1
+	for hit: Dictionary in space.intersect_shape(shape_query, 64):
+		var collider := hit.get("collider") as Node
+		if collider != null and is_ancestor_of(collider):
+			failures.push_back("Sector 07 collision invades the protected Map Room")
+			break
+	var sector_04 := get_node_or_null("../Sector04") as Node3D
+	var map_mount := sector_04.get_node_or_null("Details/MapMount") as MeshInstance3D if sector_04 != null else null
+	if map_mount == null or map_mount.global_position.distance_to(Vector3(-17.4625, 1.45, 22.80)) > 0.001:
+		failures.push_back("MapMount transform changed")
+	var sight_query := PhysicsRayQueryParameters3D.create(Vector3(-14.02, 1.45, 22.80), Vector3(-17.30, 1.45, 22.80), 1)
+	if not space.intersect_ray(sight_query).is_empty():
+		failures.push_back("Map Room entrance-to-map sightline is blocked")
+
+
+func _validate_sector04_overlap(space: PhysicsDirectSpaceState3D, failures: Array[String]) -> void:
+	var probe := BoxShape3D.new()
+	probe.size = Vector3(0.08, 2.40, 0.08)
+	var query := PhysicsShapeQueryParameters3D.new()
+	query.shape = probe
+	query.collision_mask = 1
+	var seam := Rect2(-6.20, 29.26 - PASSAGE_WIDTH * 0.5, 0.40, PASSAGE_WIDTH)
+	for footprint: PackedVector2Array in _sector04_footprints():
+		var minimum := footprint[0]
+		var maximum := footprint[0]
+		for point: Vector2 in footprint:
+			minimum = minimum.min(point)
+			maximum = maximum.max(point)
+		var x := minimum.x + 0.25
+		while x < maximum.x:
+			var z := minimum.y + 0.25
+			while z < maximum.y:
+				var sample := Vector2(x, z)
+				if Geometry2D.is_point_in_polygon(sample, footprint) and not seam.has_point(sample):
+					query.transform = Transform3D(Basis.IDENTITY, Vector3(x, 1.25, z))
+					for hit: Dictionary in space.intersect_shape(query, 16):
+						var collider := hit.get("collider") as Node
+						if collider != null and is_ancestor_of(collider):
+							failures.push_back("Sector 04/07 collision overlap at (%.2f, %.2f)" % [x, z])
+							return
+				z += 0.50
+			x += 0.50
 
 
 func _validate_crossing(player: CharacterBody3D, start: Vector3, yaw: float, threshold_x: float, expect_less: bool, label: String, failures: Array[String]) -> void:
@@ -563,6 +634,42 @@ func _validate_crossing(player: CharacterBody3D, start: Vector3, yaw: float, thr
 	if player.global_position.y < -0.5:
 		failures.push_back("%s fell through seam" % label)
 	print("SECTOR07_CROSSING: id=%s start=(%.3f,%.3f) end=(%.3f,%.3f) passed=%s" % [label, start.x, start.z, player.global_position.x, player.global_position.z, str(crossed and player.global_position.y >= -0.5)])
+
+
+func _validate_corridor_traversal(player: CharacterBody3D, corridor: Dictionary, failures: Array[String]) -> void:
+	var source_a: Vector2 = corridor["a"]
+	var source_b: Vector2 = corridor["b"]
+	var local_a := (source_a - SOURCE_ORIGIN_PX) * SOURCE_METERS_PER_PIXEL
+	var local_b := (source_b - SOURCE_ORIGIN_PX) * SOURCE_METERS_PER_PIXEL
+	var local_direction := local_a.direction_to(local_b)
+	# Audit chords connect room/corridor centres and may bend at their endpoints.
+	# Probe a 1.20 m segment across each chord's interior with the real capsule;
+	# endpoint-to-endpoint motion would incorrectly cut those authored bends.
+	var local_midpoint := local_a.lerp(local_b, float(corridor.get("probe_t", 0.50)))
+	var local_start := local_midpoint - local_direction * 0.60
+	var local_finish := local_midpoint + local_direction * 0.60
+	var world_start := to_global(Vector3(local_start.x, _floor_height(local_start) + 0.10, local_start.y))
+	var world_finish := to_global(Vector3(local_finish.x, _floor_height(local_finish) + 0.10, local_finish.y))
+	player.global_position = world_start
+	player.velocity = Vector3.ZERO
+	player.look_at(Vector3(world_finish.x, player.global_position.y, world_finish.z), Vector3.UP)
+	for _settle_frame in 5:
+		await get_tree().physics_frame
+	var planar_finish := Vector2(world_finish.x, world_finish.z)
+	var passed := false
+	Input.action_press("move_forward")
+	var maximum_frames := ceili(world_start.distance_to(world_finish) / 3.5 * 60.0) + 60
+	for _move_frame in maximum_frames:
+		await get_tree().physics_frame
+		if Vector2(player.global_position.x, player.global_position.z).distance_to(planar_finish) <= 0.70:
+			passed = true
+			break
+	Input.action_release("move_forward")
+	if not passed:
+		failures.push_back("%s controller traversal stopped %.2f m from target" % [String(corridor["id"]), Vector2(player.global_position.x, player.global_position.z).distance_to(planar_finish)])
+	if player.global_position.y < world_finish.y - 1.5:
+		failures.push_back("%s controller fell through floor" % String(corridor["id"]))
+	print("SECTOR07_CORRIDOR: id=%s distance=%.3f passed=%s" % [String(corridor["id"]), world_start.distance_to(world_finish), str(passed)])
 
 
 func _print_build_audit() -> void:
@@ -609,15 +716,16 @@ func _capture_sector() -> void:
 	add_child(overview_light)
 	var sector_04_node := get_node_or_null("../Sector04") as Node3D
 	var shots := [
-		{"file": "sector_07_topdown.png", "position": Vector3(30.0, 72.0, 18.0), "target": Vector3(30.0, 0.0, 18.0), "ortho_size": 78.0, "topdown": true},
-		{"file": "sector_07_main_cluster.png", "position": _source_position(310, 350, 1.45), "target": _source_position(405, 390, 1.25), "fov": 66.0},
-		{"file": "sector_07_narrow_corridor.png", "position": _source_position(438, 535, 1.38), "target": _source_position(390, 675, 1.18), "fov": 62.0},
+		{"file": "sector_07_topdown.png", "position": Vector3(30.0, 82.0, 34.0), "target": Vector3(30.0, 0.0, 34.0), "ortho_size": 84.0, "topdown": true},
+		{"file": "sector_07_main_cluster.png", "position": _source_position(300, 350, 1.45), "target": _source_position(285, 445, 1.25), "fov": 66.0},
+		{"file": "sector_07_narrow_corridor.png", "position": _source_position(312, 552, 1.38), "target": _source_position(330, 625, 1.18), "fov": 62.0},
 		{"file": "sector_07_lighting.png", "position": _source_position(715, 445, 1.45), "target": _source_position(815, 475, 1.20), "fov": 62.0},
 		{"file": "sector_07_hole_or_slope.png", "position": _source_position(HOLE_CENTER_PX.x, HOLE_CENTER_PX.y, 2.35), "target": _source_position(HOLE_CENTER_PX.x, HOLE_CENTER_PX.y, -0.20), "fov": 52.0},
-		{"file": "sector_04_07_connection_from_04.png", "position": Vector3(-1.50, 1.45, 0.0), "target": Vector3(3.0, 1.20, 0.0), "fov": 58.0},
-		{"file": "sector_04_07_connection_from_07.png", "position": Vector3(1.50, 1.45, 0.0), "target": Vector3(-2.0, 1.20, 0.0), "fov": 58.0},
-		{"file": "sector_04_07_connection_closeup_left.png", "position": Vector3(-0.50, 1.45, -0.62), "target": Vector3(0.0, 1.38, -1.075), "fov": 48.0},
-		{"file": "sector_04_07_connection_closeup_right.png", "position": Vector3(-0.20, 1.45, 0.62), "target": Vector3(0.0, 1.38, 1.075), "fov": 48.0},
+		{"file": "sector_04_map_room_regression.png", "position": Vector3(-14.45, 1.45, 22.80), "target": Vector3(-17.4625, 1.45, 22.80), "fov": 62.0, "world": true},
+		{"file": "sector_04_07_connection_from_04.png", "position": Vector3(-4.80, 1.45, 29.26), "target": Vector3(-7.40, 1.20, 29.26), "fov": 58.0, "world": true},
+		{"file": "sector_04_07_connection_from_07.png", "position": Vector3(-7.40, 1.45, 29.26), "target": Vector3(-4.80, 1.20, 29.26), "fov": 58.0, "world": true},
+		{"file": "sector_04_07_connection_closeup_left.png", "position": Vector3(-5.35, 1.45, 28.55), "target": Vector3(-6.0, 1.38, 28.185), "fov": 48.0, "world": true},
+		{"file": "sector_04_07_connection_closeup_right.png", "position": Vector3(-5.35, 1.45, 29.97), "target": Vector3(-6.0, 1.38, 30.335), "fov": 48.0, "world": true},
 	]
 	var output_dir := ProjectSettings.globalize_path("res://captures")
 	DirAccess.make_dir_recursive_absolute(output_dir)
@@ -629,14 +737,18 @@ func _capture_sector() -> void:
 		vent_visuals.visible = not topdown
 		overview_light.visible = topdown
 		if sector_04_node != null:
-			sector_04_node.visible = not topdown
+			sector_04_node.visible = true
 		camera.projection = Camera3D.PROJECTION_ORTHOGONAL if topdown else Camera3D.PROJECTION_PERSPECTIVE
-		camera.position = shot["position"]
+		var world_space := bool(shot.get("world", false))
+		if world_space:
+			camera.global_position = shot["position"]
+		else:
+			camera.position = shot["position"]
 		if topdown:
 			camera.size = float(shot["ortho_size"])
 		else:
 			camera.fov = float(shot["fov"])
-		var target_world := to_global(shot["target"])
+		var target_world: Vector3 = shot["target"] if world_space else to_global(shot["target"])
 		var look_direction := camera.global_position.direction_to(target_world)
 		var up := Vector3.FORWARD if absf(look_direction.dot(Vector3.UP)) > 0.99 else Vector3.UP
 		camera.look_at(target_world, up)
