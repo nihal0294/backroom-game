@@ -6,7 +6,6 @@ extends Node3D
 @export_range(90.0, 110.0, 1.0) var open_angle_degrees := 95.0
 @export_range(0.20, 0.80, 0.05) var animation_time := 0.40
 
-@onready var _hinge: Node3D = %Hinge
 @onready var _door_body: AnimatableBody3D = %DoorBody
 
 var is_open := false

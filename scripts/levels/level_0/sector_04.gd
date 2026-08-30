@@ -89,12 +89,21 @@ func _ready() -> void:
 	_build_fixtures()
 	_build_sparse_lights()
 	_place_markers()
-	_print_performance_audit()
-	var stats: Dictionary = _build_result["stats"]
-	print(
-		"SECTOR04_V2_BUILD: input=%d union=%d boundary=%d->%d partitions=%d floor_triangles=%d ceiling_triangles=%d columns=6 fixtures=%d on=%d off=%d lights=%d sockets=%d vents=%d junction_correction_max=%.6f junction_delta_max=%.6f"
-		% [stats.input_polygons, stats.union_polygons, stats.boundary_edges_before, stats.boundary_edges_after, stats.partition_count, stats.floor_triangles, stats.ceiling_triangles, _fixture_data.size(), _lit_fixture_transforms.size(), _off_fixture_transforms.size(), _light_count, _socket_transforms.size(), _vent_transforms.size(), stats.max_wall_junction_correction, stats.max_wall_junction_delta]
+	var validation_requested := OS.get_environment("LEVEL0_SECTOR04_VALIDATE") == "1"
+	var diagnostics_requested := (
+		validation_requested
+		or OS.get_environment("LEVEL0_SECTOR04_CAPTURE") == "1"
+		or OS.get_environment("LEVEL0_SECTOR04_AUDIT") == "1"
 	)
+	if diagnostics_requested:
+		_print_performance_audit()
+		var stats: Dictionary = _build_result["stats"]
+		print(
+			"SECTOR04_V2_BUILD: input=%d union=%d boundary=%d->%d partitions=%d floor_triangles=%d ceiling_triangles=%d columns=6 fixtures=%d on=%d off=%d lights=%d sockets=%d vents=%d junction_correction_max=%.6f junction_delta_max=%.6f"
+			% [stats.input_polygons, stats.union_polygons, stats.boundary_edges_before, stats.boundary_edges_after, stats.partition_count, stats.floor_triangles, stats.ceiling_triangles, _fixture_data.size(), _lit_fixture_transforms.size(), _off_fixture_transforms.size(), _light_count, _socket_transforms.size(), _vent_transforms.size(), stats.max_wall_junction_correction, stats.max_wall_junction_delta]
+		)
+		if not validation_requested:
+			_print_door_seam_audit()
 	call_deferred("_run_optional_tasks")
 
 
@@ -133,7 +142,6 @@ func _build_union_architecture() -> void:
 	_partition_walls.assign(_build_result["partition_runs"])
 	_raw_wall_segment_count = int(_build_result["stats"]["boundary_edges_before"]) + _partition_walls.size()
 	_sanitized_wall_segment_count = _boundary_walls.size() + _partition_walls.size()
-	_print_door_seam_audit()
 
 
 func _v2_partitions() -> Array[Dictionary]:

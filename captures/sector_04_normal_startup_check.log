@@ -3,8 +3,7 @@ Vulkan 1.3.260 - Forward+ - Using Device #0: AMD - AMD Radeon (TM) Graphics
 
 ERROR: Failed to read the root certificate store.
    at: get_system_ca_certificates (platform/windows/os_windows.cpp:2468)
-SECTOR04_V2_PERFORMANCE: nodes=42 MeshInstance3D=8 ArrayMesh=13 StaticBody3D=4 CollisionShape3D=4 MultiMeshInstance3D=6 Light3D=8 shadow_lights=0
-SECTOR04_V2_BUILD: input=14 union=1 boundary=53->53 partitions=4 floor_triangles=51 ceiling_triangles=51 columns=6 fixtures=27 on=24 off=3 lights=8 sockets=12 vents=5 junction_correction_max=0.150000 junction_delta_max=0.000000
 DOOR_SEAM_AUDIT: id=glass_room center=(7.000,2.400) clear_left=(7.0000,1.8000) clear_right=(7.0000,3.0000) frame_outer_left=(7.0000,1.7150) frame_outer_right=(7.0000,3.0850) left_wall_end=(7.0000,1.7150) right_wall_start=(7.0000,3.0850) delta_left=0.000000 delta_right=0.000000
 DOOR_SEAM_AUDIT: id=push_door center=(-11.500,24.000) clear_left=(-11.5000,24.6000) clear_right=(-11.5000,23.4000) frame_outer_left=(-11.5000,24.6850) frame_outer_right=(-11.5000,23.3150) left_wall_end=(-11.5000,24.6850) right_wall_start=(-11.5000,23.3150) delta_left=0.000000 delta_right=0.000000
-SECTOR04_V2_VALIDATION: PASS input=14 union=1 boundary=53->53 partitions=4 floor_samples=15 wall_samples=23 openings=14 framed=2 seam_max=0.000000m jamb_collision=4 wall_junction_max=0.000000m map_room=3.20x3.60 passage=1.20 clearances=2.50+2.10 vents=5 furniture=0 movement=1.750m slide=1.237m door=open+close duplicates=0
+SECTOR04_V2_PERFORMANCE: nodes=42 MeshInstance3D=8 ArrayMesh=13 StaticBody3D=4 CollisionShape3D=4 MultiMeshInstance3D=6 Light3D=8 shadow_lights=0
+SECTOR04_V2_BUILD: input=14 union=1 boundary=53->53 partitions=4 floor_triangles=51 ceiling_triangles=51 columns=6 fixtures=27 on=24 off=3 lights=8 sockets=12 vents=5 junction_correction_max=0.150000 junction_delta_max=0.000000

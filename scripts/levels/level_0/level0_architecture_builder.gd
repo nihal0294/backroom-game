@@ -544,7 +544,7 @@ func _emit_wall_rectangle(surface: SurfaceTool, faces: PackedVector3Array, inner
 	_append_collision_quad(faces, back_a, back_b, back_c, back_d)
 
 
-func _emit_opening_reveals(surface: SurfaceTool, faces: PackedVector3Array, inner_origin: Vector2, outer_origin: Vector2, direction: Vector2, normal: Vector2, start: float, finish: float, height: float) -> void:
+func _emit_opening_reveals(surface: SurfaceTool, faces: PackedVector3Array, inner_origin: Vector2, outer_origin: Vector2, direction: Vector2, _normal: Vector2, start: float, finish: float, height: float) -> void:
 	var inner_start := inner_origin + direction * start
 	var inner_end := inner_origin + direction * finish
 	var outer_start := outer_origin + direction * start
@@ -752,9 +752,9 @@ func _simplify_loop(source: PackedVector2Array) -> PackedVector2Array:
 func _normalized_loop(source: PackedVector2Array) -> PackedVector2Array:
 	var result := PackedVector2Array()
 	for point: Vector2 in source:
-		var snapped := Vector2(snappedf(point.x, POSITION_EPSILON), snappedf(point.y, POSITION_EPSILON))
-		if result.is_empty() or result[result.size() - 1].distance_to(snapped) > POSITION_EPSILON:
-			result.push_back(snapped)
+		var snapped_point := Vector2(snappedf(point.x, POSITION_EPSILON), snappedf(point.y, POSITION_EPSILON))
+		if result.is_empty() or result[result.size() - 1].distance_to(snapped_point) > POSITION_EPSILON:
+			result.push_back(snapped_point)
 	if result.size() > 1 and result[0].distance_to(result[result.size() - 1]) <= POSITION_EPSILON:
 		result.resize(result.size() - 1)
 	if _signed_area(result) < 0.0:
