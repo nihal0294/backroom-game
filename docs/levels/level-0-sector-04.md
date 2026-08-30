@@ -1,8 +1,8 @@
 # Level 0 — Sector 04 V2
 
-Status: **CURRENT — GOLDEN ROOM PASS; SECTOR 04 V2 PASS; awaiting developer review**.
+Status: **CURRENT — GOLDEN ROOM PASS; SECTOR 04 V2 PASS; connected to Sector 07; awaiting developer review**.
 
-Sector 04 is the only current Level 0 runtime sector. Its approved plan remains manually authored from `assets/level_0/maps/sector_04.png` and `assets/level_0/maps/level0_master_numbered.png`; Backrooms VR defines construction and visual language, never topology. No Sector 05 connection exists.
+Sector 04 remains the Level 0 spawn sector and is now loaded together with Sector 07. Its approved plan remains manually authored from `assets/level_0/maps/sector_04.png` and `assets/level_0/maps/level0_master_numbered.png`; Backrooms VR defines construction and visual language, never topology. No Sector 05 connection exists.
 
 ## Source contract
 
@@ -70,7 +70,7 @@ The rendered boundary contains only faces directed toward walkable space. Partit
 
 | ID | Source meaning | Visible implementation | Status |
 | --- | --- | --- | --- |
-| A141 | Torn wallpaper | Separate peeling patch; no invented damage mechanic. | `IMPLEMENTED_SOURCE_APPROX` |
+| A141 | Torn wallpaper | Non-colliding torn remnants frame the controlled `2.15 m` continuation into Sector 07; no damage mechanic. | `IMPLEMENTED_SOURCE_APPROX` |
 | A142 | Sketched map found | Non-interactive, wall-mounted Sector 04 map, visible on entry into D-R02. | `IMPLEMENTED_SOURCE_APPROX` |
 | A143 | Less content farther in | Long empty hall and progressively separated empty rooms. | `IMPLEMENTED_SOURCE_APPROX` |
 | A144 | Empty orange area | Muted opaque orange/brown carpet; rooms remain empty. | `IMPLEMENTED_SOURCE_APPROX` |
@@ -90,7 +90,7 @@ Door refinement test:
 
 Sector 04 Forward+:
 
-`SECTOR04_V2_VALIDATION: PASS input=14 union=1 boundary=53->53 partitions=4 floor_samples=15 wall_samples=23 openings=14 framed=2 seam_max=0.000000m jamb_collision=4 wall_junction_max=0.000000m map_room=3.20x3.60 passage=1.20 clearances=2.50+2.10 vents=5 furniture=0 movement=1.750m slide=1.237m door=open+close duplicates=0`
+`SECTOR04_V2_VALIDATION: PASS input=14 union=1 boundary=53->53 partitions=4 floor_samples=15 wall_samples=23 openings=15 framed=2 seam_max=0.000000m jamb_collision=4 wall_junction_max=0.000000m map_room=3.20x3.60 passage=1.20 sector07_passage=2.15 clearances=2.50+2.10 vents=5 furniture=0 movement=1.750m slide=1.237m door=open+close duplicates=0`
 
 Sector subtree counts:
 

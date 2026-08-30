@@ -1,0 +1,5 @@
+Godot Engine v4.5.stable.official.876b29033 - https://godotengine.org
+
+ERROR: Failed to read the root certificate store.
+   at: get_system_ca_certificates (platform/windows/os_windows.cpp:2468)
+SECTOR_04_07_REGISTRATION: s04 scale=0.4450 offset=(-1.0,1540.0) score=0.8423 s07 scale=0.7000 offset=(146.0,1303.0) score=0.5757 contact_master=(289.2,1626.0) gap=55.86px

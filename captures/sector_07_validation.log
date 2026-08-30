@@ -1,0 +1,11 @@
+Godot Engine v4.5.stable.official.876b29033 - https://godotengine.org
+
+ERROR: Failed to read the root certificate store.
+   at: get_system_ca_certificates (platform/windows/os_windows.cpp:2468)
+SECTOR07_PERFORMANCE: nodes=39 MeshInstance3D=6 ArrayMesh=11 StaticBody3D=4 CollisionShape3D=4 MultiMeshInstance3D=5 Light3D=8 shadow_lights=0
+SECTOR07_BUILD: input=8 union=1 boundary=205->205 floor_triangles=203 ceiling_triangles=203 fixtures=21 on=18 off=3 lights=8
+SECTOR07_CROSSING: id=04_to_07_center start=(-5.150,29.250) end=(-6.900,29.250) passed=true
+SECTOR07_CROSSING: id=07_to_04_center start=(-6.850,29.250) end=(-5.100,29.250) passed=true
+SECTOR07_CROSSING: id=04_to_07_left_edge start=(-5.150,28.575) end=(-6.900,28.575) passed=true
+SECTOR07_CROSSING: id=07_to_04_right_edge start=(-6.850,29.925) end=(-5.100,29.925) passed=true
+SECTOR07_VALIDATION: PASS polygons=8 union=1 floor_triangles=268 floor_duplicates=0 fixtures=21 on=18 off=3 lights=8 sockets=6 vents=4 passage=2.15m hole=real slope=0.75m terminals=08+11+06 capped=true junction_delta=0.000000m

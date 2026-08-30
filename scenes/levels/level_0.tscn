@@ -1,8 +1,9 @@
-[gd_scene load_steps=5 format=3]
+[gd_scene load_steps=6 format=3]
 
 [ext_resource type="PackedScene" path="res://scenes/player.tscn" id="1_player"]
 [ext_resource type="PackedScene" path="res://scenes/levels/level_0/sector_04.tscn" id="2_sector"]
 [ext_resource type="Script" path="res://scripts/levels/level_0/level_0.gd" id="3_script"]
+[ext_resource type="PackedScene" path="res://scenes/levels/level_0/sector_07.tscn" id="4_sector07"]
 
 [sub_resource type="Environment" id="Environment_placeholder"]
 background_mode = 1
@@ -22,6 +23,10 @@ script = ExtResource("3_script")
 [node name="Sectors" type="Node3D" parent="."]
 
 [node name="Sector04" parent="Sectors" instance=ExtResource("2_sector")]
+
+[node name="Sector07" parent="Sectors" instance=ExtResource("4_sector07")]
+position = Vector3(-6, 0, 29.25)
+rotation = Vector3(0, 3.14159265, 0)
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_placeholder")

@@ -1,0 +1,51 @@
+{
+	"a141_annotation_master_px": [
+		388.04,
+		1498.19
+	],
+	"contact": {
+		"distance_from_a141_annotation_px": 161.53,
+		"gap_px": 55.86,
+		"master_px": [
+			289.24,
+			1625.98
+		],
+		"sector_04_master_px": [
+			263.77,
+			1637.45
+		],
+		"sector_04_px": [
+			595.0,
+			219.0
+		],
+		"sector_07_master_px": [
+			314.7,
+			1614.5
+		],
+		"sector_07_px": [
+			241.0,
+			445.0
+		]
+	},
+	"master_size_px": [
+		2048,
+		1994
+	],
+	"schema": "level_0_sector_04_07_registration_v1",
+	"sector_04": {
+		"offset": [
+			-1.0,
+			1540.0
+		],
+		"scale": 0.445,
+		"score": 0.8423
+	},
+	"sector_07": {
+		"offset": [
+			146.0,
+			1303.0
+		],
+		"scale": 0.7,
+		"score": 0.5757
+	}
+}

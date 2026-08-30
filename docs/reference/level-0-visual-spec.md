@@ -1,6 +1,6 @@
 # Level 0 — standard visuale corrente
 
-Stato: **CURRENT — usato dalla Golden Room V2 e da Sector 04 V2; in attesa di review visiva finale**.
+Stato: **CURRENT — usato dalla Golden Room V2, Sector 04 V2 e Sector 07; in attesa di review visiva finale**.
 
 Questa specifica riguarda il linguaggio costruttivo e visivo. La topologia resta definita dalle immagini in `assets/level_0/maps/`; `assets/backrooms_vr/scene.gltf` non sostituisce mai la pianta di gioco.
 
@@ -14,7 +14,7 @@ Classificazioni:
 
 | Voce | Valore corrente | Classificazione | Motivazione |
 | --- | --- | --- | --- |
-| Pianta | `sector_04.png` nel contesto di `level0_master_numbered.png` | `SOURCE_EXACT` | Definisce sagoma, proporzioni e connessioni del settore; non viene ricavata dal modello VR. |
+| Pianta | immagini di settore in `assets/level_0/maps/` nel contesto di `level0_master_numbered.png` | `SOURCE_EXACT` | Definiscono sagoma, proporzioni e connessioni; non vengono ricavate dal modello VR. |
 | Riferimento architettonico | `assets/backrooms_vr/scene.gltf` | `SOURCE_EXACT` | È la fonte selezionata per altezza, spessore, finiture, controsoffitto, lampade, stipiti, prese e dettagli. |
 | Materiale parete | `res://resources/materials/level_0/vr_kit/wallpaper.tres`; BRW_B color/normal/ORM 2K | `SOURCE_DERIVED` | BRW_B è tileable e riproduce il pattern della reference senza riutilizzare gli atlas VR con illuminazione cotta. |
 | Tint parete | `Color(1.00, 0.93, 0.72, 1)`; saturazione sorgente `0.45`; contrasto pattern `0.13`; midpoint `Color(0.90, 0.86, 0.74, 1)` | `VISUAL_APPROXIMATION` | Mantiene il giallo-beige malato senza virare verso arancio saturo o bianco. |
@@ -25,6 +25,7 @@ Classificazioni:
 | Battiscopa | altezza `0.12 m`; sporgenza `0.035 m` in Sector 04 (`0.03 m` nel test Golden) | `VISUAL_APPROXIMATION` | Proporzione visiva derivata dalla reference, adattata alla geometria aggregata. |
 | Pavimento | `res://resources/materials/level_0/vr_kit/sector_04_orange_carpet.tres`; set ambientCG Carpet011 | `SOURCE_DERIVED` | Usa color, roughness, normal e AO indipendenti; nessun atlas baked o ORM ambiguo. |
 | Tint moquette | `Color(0.58, 0.41, 0.16, 1)`; saturazione sorgente `0.58`; UV `0.72 × 0.72` | `VISUAL_APPROXIMATION` | Traduce l'area arancio/marrone muta di Sector 04 mantenendo una fibra sporca leggibile. |
+| Moquette giallo-beige Sector 07 | `res://resources/materials/level_0/vr_kit/sector_07_yellow_carpet.tres`; tint `Color(0.62, 0.55, 0.245, 1)`; saturazione `0.52`; UV `0.72 × 0.72`; normal strength `0.54` | `VISUAL_APPROXIMATION` | Variante opaca di Carpet011 calibrata accanto alla wallpaper; non riusa il tappeto arancio specifico di Sector 04. |
 | Risposta moquette | opaque; metallic `0`; roughness clamp `0.88–1.00`; specular `0.04`; normal strength `0.54`; AO influence `0.18` | `VISUAL_APPROXIMATION` | Elimina la risposta vetrosa e mantiene il materiale morbido e opaco. |
 | Geometria pavimento | unica triangolazione della union dei 14 poligoni, senza superfici coplanari duplicate | `SOURCE_DERIVED` | La regola deriva dalla topologia della pianta ed elimina overlap e z-fighting. |
 | Sistema soffitto | mesh continua dalla stessa union del pavimento; materiale `res://resources/materials/level_0/vr_kit/ceiling.tres` | `SOURCE_DERIVED` | Un solo piano coerente impedisce salti casuali fra stanze/chunk. |
@@ -37,8 +38,9 @@ Classificazioni:
 | Presa | centro `Y = 0.317 m`; mesh `Socket_1` ripetuta senza collisione | `SOURCE_DERIVED` | Posizione e modello provengono dal kit VR; il dettaglio resta economico. |
 | Bocchetta HVAC | mesh `Vent_1` orizzontale a `Y = 2.84 m`; cinque istanze in Sector 04 | `SOURCE_DERIVED` per asset/quota; `VISUAL_APPROXIMATION` per distribuzione | Le bocchette appartengono al controsoffitto e non alle pareti. |
 | Pannello fluorescente | `1.20 × 0.60 m`, quota `Y = 2.84 m`; emissione warm-white | `SOURCE_DERIVED` per dimensione/quota; `VISUAL_APPROXIMATION` per emissione | Il pannello visivo è separato dalla sorgente luminosa reale. |
-| Distribuzione fluorescenti | Sector 04: 27 fixture, 24 accese e 3 spente, in due MultiMesh | `VISUAL_APPROXIMATION` | Distribuzione manuale irregolare e leggibile, non diagonale o perfettamente seriale. |
+| Distribuzione fluorescenti | Sector 04: 27 fixture, 24 accese e 3 spente; Sector 07: 21 fixture, 18 accese e 3 spente; due MultiMesh per settore | `VISUAL_APPROXIMATION` | Distribuzione manuale irregolare e leggibile, non diagonale o perfettamente seriale. |
 | Luce reale | massimo 8 `OmniLight3D`, senza ombre, solo presso fixture accese | `VISUAL_APPROXIMATION` | Mantiene zone più scure e limita il costo Forward+. |
+| Torcia Player in Level 0 | `SpotLight3D` locale con `shadow_enabled = false` | `VISUAL_APPROXIMATION` | Mantiene il conteggio runtime privo di shadow light, evitando il costo globale della torcia su due settori staticamente caricati. |
 | Environment | background `Color(0.035, 0.028, 0.012, 1)`; ambient `Color(0.56, 0.52, 0.38, 1)` a `0.50`; ACES exposure `1.05`; glow `0.06` | `VISUAL_APPROXIMATION` | Bilancia leggibilità, tono giallo sporco e buio fra i pannelli senza copiare numeri Godot 3. |
 
 ## Implementazione e prestazioni
@@ -61,6 +63,7 @@ Le immagini di review sono esclusivamente:
 - `captures/golden_room_*.png`;
 - `captures/door_test_*.png`;
 - `captures/sector_04_map_room_*.png`, `captures/sector_04_push_door_*.png` e le cinque `captures/sector_04_*seam*.png`/`sector_04_wall_t_junction_closeup.png`;
+- `captures/sector_07_*.png` e `captures/sector_04_07_connection_*.png` per Sector 07 e il raccordo controllato;
 - `captures/backrooms_vr_preview.png` come confronto immutabile.
 
 Questi valori sono lo standard implementato corrente, ma restano modificabili dopo la review visiva dello sviluppatore.

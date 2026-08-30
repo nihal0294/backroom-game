@@ -241,8 +241,17 @@ func _openings_for_run(a: Vector2, b: Vector2, sources: Array[Dictionary]) -> Ar
 	var direction := (b - a).normalized()
 	var length := a.distance_to(b)
 	for source: Dictionary in sources:
+		if source.has("wall_direction"):
+			var requested_direction: Vector2 = Vector2(source["wall_direction"]).normalized()
+			if absf(direction.dot(requested_direction)) < 0.999:
+				continue
 		var center: Vector2 = source["center"]
 		var projection := (center - a).dot(direction)
+		# Opening sources are shared across boundary runs. A centre can lie on
+		# another run's infinite support line while remaining outside that finite
+		# segment; that run is unrelated and must not report an overflow.
+		if projection < -POSITION_EPSILON or projection > length + POSITION_EPSILON:
+			continue
 		var closest := a + direction * projection
 		if closest.distance_to(center) > POSITION_EPSILON:
 			continue

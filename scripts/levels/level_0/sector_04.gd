@@ -22,6 +22,8 @@ const DOOR_FRAME_PROJECTION := 0.020
 const DOOR_FRAME_OUTER_WIDTH := DOOR_CLEAR_WIDTH + DOOR_FRAME_FACE_WIDTH * 2.0
 const DOOR_FRAME_OUTER_HEIGHT := DOOR_CLEAR_HEIGHT + DOOR_FRAME_FACE_WIDTH
 const DOOR_SEAM_TOLERANCE := 0.001
+const SECTOR07_PASSAGE_CENTER := Vector2(-6.0, 29.25)
+const SECTOR07_PASSAGE_WIDTH := 2.15
 const ArchitectureBuilderScript = preload("res://scripts/levels/level_0/level0_architecture_builder.gd")
 
 const FLOOR_MATERIAL: Material = preload("res://resources/materials/level_0/vr_kit/sector_04_orange_carpet.tres")
@@ -117,11 +119,17 @@ func _build_union_architecture() -> void:
 		"push_door", Vector2(-11.5, 24.0), DOOR_CLEAR_WIDTH, DOOR_CLEAR_HEIGHT,
 		DOOR_FRAME_FACE_WIDTH, DOOR_FRAME_DEPTH, DOOR_FRAME_PROJECTION
 	)
-	var no_boundary_openings: Array[Dictionary] = []
+	var boundary_openings: Array[Dictionary] = [{
+		"id": "sector04_to_sector07",
+		"center": SECTOR07_PASSAGE_CENTER,
+		"wall_direction": Vector2.DOWN,
+		"cut_width": SECTOR07_PASSAGE_WIDTH,
+		"cut_height": CEILING_Y,
+	}]
 	_build_result = _architecture_builder.build(
 		_floor_shapes,
 		_v2_partitions(),
-		no_boundary_openings,
+		boundary_openings,
 		_v2_columns(),
 		{"floor": FLOOR_MATERIAL, "wall": WALL_MATERIAL, "ceiling": CEILING_MATERIAL, "trim": TRIM_MATERIAL},
 		{"ceiling_y": CEILING_Y, "wall_thickness": WALL_THICKNESS, "baseboard_height": BASEBOARD_HEIGHT, "baseboard_depth": BASEBOARD_DEPTH}
@@ -329,9 +337,13 @@ func _build_torn_wallpaper() -> void:
 	var surface := SurfaceTool.new()
 	surface.begin(Mesh.PRIMITIVE_TRIANGLES)
 	var x := -5.998
-	var points := [Vector3(x, 0.75, 28.90), Vector3(x, 1.95, 28.80), Vector3(x, 2.05, 29.45), Vector3(x, 1.62, 29.72), Vector3(x, 0.82, 29.58)]
-	for triangle_index in range(1, points.size() - 1):
-		_add_triangle(surface, points[0], points[triangle_index], points[triangle_index + 1], Vector3.RIGHT)
+	# The old patch filled this wall. Two ragged remnants now frame the real,
+	# full-height Sector 07 passage without adding collision inside its clearance.
+	var left_points := [Vector3(x, 0.66, 28.02), Vector3(x, 2.18, 28.08), Vector3(x, 1.88, 28.175), Vector3(x, 0.92, 28.15)]
+	var right_points := [Vector3(x, 0.82, 30.35), Vector3(x, 1.94, 30.325), Vector3(x, 2.12, 30.43), Vector3(x, 0.62, 30.47)]
+	for points: Array in [left_points, right_points]:
+		for triangle_index in range(1, points.size() - 1):
+			_add_triangle(surface, points[0], points[triangle_index], points[triangle_index + 1], Vector3.RIGHT)
 	var mesh := surface.commit()
 	mesh.surface_set_material(0, TORN_WALLPAPER_MATERIAL)
 	torn_wallpaper_visual.mesh = mesh
@@ -624,6 +636,7 @@ func _validate_sector() -> bool:
 		{"id": "A2-E-C01", "from": Vector3(-5.50, 1.0, 35.10), "to": Vector3(-6.50, 1.0, 35.85)},
 		{"id": "E-C01-E", "from": Vector3(-11.90, 1.0, 39.675), "to": Vector3(-12.90, 1.0, 40.425)},
 		{"id": "D-R02", "from": Vector3(-13.50, 1.0, 22.80), "to": Vector3(-14.80, 1.0, 22.80)},
+		{"id": "Sector04-Sector07", "from": Vector3(-5.50, 1.0, 29.25), "to": Vector3(-6.50, 1.0, 29.25)},
 	]
 	for opening: Dictionary in opening_rays:
 		var opening_query := PhysicsRayQueryParameters3D.create(to_global(opening["from"]), to_global(opening["to"]), 1)
@@ -656,6 +669,8 @@ func _validate_sector() -> bool:
 	for width: float in [3.00, 3.00, 3.00, 2.80, 2.80, 2.80, 2.80, 3.00]:
 		if width < 2.60 or width <= PLAYER_RADIUS * 2.0:
 			failures.push_back("invalid opening width %.2f" % width)
+	if not is_equal_approx(SECTOR07_PASSAGE_WIDTH, 2.15) or SECTOR07_PASSAGE_WIDTH <= PLAYER_RADIUS * 2.0:
+		failures.push_back("invalid controlled Sector 07 passage width %.2f" % SECTOR07_PASSAGE_WIDTH)
 	var player := get_node_or_null("../../Player") as CharacterBody3D
 	var movement_distance := 0.0
 	var wall_slide_distance := 0.0
@@ -697,7 +712,7 @@ func _validate_sector() -> bool:
 		player.velocity = Vector3.ZERO
 		await _validate_push_door(player, space, failures)
 	if failures.is_empty():
-		print("SECTOR04_V2_VALIDATION: PASS input=14 union=1 boundary=%d->%d partitions=4 floor_samples=15 wall_samples=23 openings=14 framed=2 seam_max=%.6fm jamb_collision=4 wall_junction_max=%.6fm map_room=3.20x3.60 passage=1.20 clearances=2.50+2.10 vents=5 furniture=0 movement=%.3fm slide=%.3fm door=open+close duplicates=0" % [build_stats.boundary_edges_before, build_stats.boundary_edges_after, _max_door_seam_delta, float(build_stats.max_wall_junction_delta), movement_distance, wall_slide_distance])
+		print("SECTOR04_V2_VALIDATION: PASS input=14 union=1 boundary=%d->%d partitions=4 floor_samples=15 wall_samples=23 openings=15 framed=2 seam_max=%.6fm jamb_collision=4 wall_junction_max=%.6fm map_room=3.20x3.60 passage=1.20 sector07_passage=2.15 clearances=2.50+2.10 vents=5 furniture=0 movement=%.3fm slide=%.3fm door=open+close duplicates=0" % [build_stats.boundary_edges_before, build_stats.boundary_edges_after, _max_door_seam_delta, float(build_stats.max_wall_junction_delta), movement_distance, wall_slide_distance])
 		return true
 	for failure: String in failures:
 		push_error("SECTOR04_V2_VALIDATION: %s" % failure)
