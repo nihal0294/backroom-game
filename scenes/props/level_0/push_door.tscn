@@ -1,7 +1,9 @@
-[gd_scene load_steps=4 format=3]
+[gd_scene load_steps=6 format=3]
 
 [ext_resource type="Script" path="res://scripts/props/level_0/push_door.gd" id="1_script"]
 [ext_resource type="ArrayMesh" path="res://resources/meshes/level_0/vr_kit/exit_door_leaf.res" id="2_leaf"]
+[ext_resource type="AudioStream" path="res://assets/audio/level_0/interactions/door_open_creak.ogg" id="3_door_open"]
+[ext_resource type="AudioStream" path="res://assets/audio/level_0/interactions/door_close_creak.ogg" id="4_door_close"]
 [sub_resource type="BoxShape3D" id="BoxShape_leaf"]
 size = Vector3(1.05, 2.19, 0.05)
 
@@ -27,3 +29,19 @@ mesh = ExtResource("2_leaf")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Hinge/DoorBody"]
 position = Vector3(0.525, 1.095, 0)
 shape = SubResource("BoxShape_leaf")
+
+[node name="OpenAudio" type="AudioStreamPlayer3D" parent="."]
+unique_name_in_owner = true
+stream = ExtResource("3_door_open")
+volume_db = 8.0
+unit_size = 2.5
+max_distance = 18.0
+bus = &"SFX"
+
+[node name="CloseAudio" type="AudioStreamPlayer3D" parent="."]
+unique_name_in_owner = true
+stream = ExtResource("4_door_close")
+volume_db = 1.0
+unit_size = 2.5
+max_distance = 18.0
+bus = &"SFX"

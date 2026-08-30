@@ -7,6 +7,8 @@ extends Node3D
 @export_range(0.20, 0.80, 0.05) var animation_time := 0.40
 
 @onready var _door_body: AnimatableBody3D = %DoorBody
+@onready var _open_audio: AudioStreamPlayer3D = %OpenAudio
+@onready var _close_audio: AudioStreamPlayer3D = %CloseAudio
 
 var is_open := false
 var _is_animating := false
@@ -35,6 +37,10 @@ func _apply_state(next_open: bool, target_angle: float) -> void:
 	# must authorize and replicate this method rather than rotating from Player.
 	is_open = next_open
 	_is_animating = true
+	if next_open:
+		_open_audio.play()
+	else:
+		_close_audio.play()
 	if _active_tween != null:
 		_active_tween.kill()
 	_active_tween = create_tween()

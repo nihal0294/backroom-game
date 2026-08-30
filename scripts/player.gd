@@ -18,6 +18,7 @@ const CAMERA_PITCH_MAX := deg_to_rad(89.0)
 @onready var _status: CharacterStatusScript = $CharacterStatus
 @onready var _inventory: InventoryRuntimeScript = $InventoryRuntime
 @onready var _ui: CanvasLayer = $PlayerUI
+@onready var _audio: Node = %PlayerAudio
 
 var _mouse_captured: bool = true
 var _sprint_regen_timer: float = 0.0
@@ -46,6 +47,7 @@ func _input(event: InputEvent) -> void:
 
 	if event.is_action_pressed("flashlight_toggle") and not event.is_echo():
 		_flashlight.visible = not _flashlight.visible
+		_audio.call("play_flashlight_toggle")
 		get_viewport().set_input_as_handled()
 		return
 

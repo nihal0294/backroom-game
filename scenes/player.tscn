@@ -1,9 +1,10 @@
-[gd_scene load_steps=6 format=3]
+[gd_scene load_steps=7 format=3]
 
 [ext_resource type="Script" path="res://scripts/player.gd" id="1_player"]
 [ext_resource type="Script" path="res://scripts/characters/character_status.gd" id="2_status"]
 [ext_resource type="Script" path="res://scripts/characters/inventory_runtime.gd" id="3_inventory"]
 [ext_resource type="PackedScene" path="res://scenes/ui/player_ui.tscn" id="4_ui"]
+[ext_resource type="Script" path="res://scripts/audio/player_audio.gd" id="5_audio"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_body"]
 radius = 0.32
@@ -48,5 +49,15 @@ script = ExtResource("2_status")
 
 [node name="InventoryRuntime" type="Node" parent="."]
 script = ExtResource("3_inventory")
+
+[node name="PlayerAudio" type="Node" parent="."]
+unique_name_in_owner = true
+script = ExtResource("5_audio")
+
+[node name="Footsteps" type="AudioStreamPlayer" parent="PlayerAudio"]
+bus = &"SFX"
+
+[node name="Flashlight" type="AudioStreamPlayer" parent="PlayerAudio"]
+bus = &"SFX"
 
 [node name="PlayerUI" parent="." instance=ExtResource("4_ui")]
