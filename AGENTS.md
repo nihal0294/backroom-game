@@ -80,6 +80,10 @@ Il dump è un archivio di riferimento, non un catalogo di feature da implementar
 
 Le immagini nelle pagine possono essere link remote Wikidot. Se esiste un file locale accanto alla pagina, usalo; altrimenti il Markdown resta la fonte testuale. Non scaricare automaticamente l'intera gallery.
 
+### Guide tecniche esterne curate
+
+I documenti in `docs/guides/` sono riferimenti tecnici esterni selezionati e commentati. Non sono canone, game design o autorità architetturale, e non autorizzano automaticamente feature. Prima di applicarli, verificarli contro Godot 4.5, la documentazione corrente, il codice e le scene del progetto.
+
 ---
 
 ## 3. Non progettare sistemi a caso

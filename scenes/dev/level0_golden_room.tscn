@@ -1,0 +1,92 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://scripts/dev/level0_golden_room.gd" id="1_script"]
+
+[sub_resource type="Environment" id="Environment_golden_v2"]
+background_mode = 1
+background_color = Color(0.025, 0.022, 0.014, 1)
+ambient_light_source = 2
+ambient_light_color = Color(0.52, 0.49, 0.37, 1)
+ambient_light_energy = 0.52
+reflected_light_source = 2
+tonemap_mode = 2
+tonemap_exposure = 1.08
+glow_enabled = true
+glow_intensity = 0.06
+
+[node name="Level0GoldenRoom" type="Node3D"]
+script = ExtResource("1_script")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_golden_v2")
+
+[node name="Camera3D" type="Camera3D" parent="."]
+unique_name_in_owner = true
+position = Vector3(3.9, 1.58, 3.15)
+current = true
+fov = 72.0
+near = 0.03
+far = 80.0
+
+[node name="Geometry" type="Node3D" parent="."]
+
+[node name="FloorVisual" type="MeshInstance3D" parent="Geometry"]
+unique_name_in_owner = true
+
+[node name="WallVisual" type="MeshInstance3D" parent="Geometry"]
+unique_name_in_owner = true
+
+[node name="CeilingVisual" type="MeshInstance3D" parent="Geometry"]
+unique_name_in_owner = true
+
+[node name="BaseboardVisual" type="MeshInstance3D" parent="Geometry"]
+unique_name_in_owner = true
+
+[node name="Details" type="Node3D" parent="."]
+
+[node name="DoorFrames" type="MultiMeshInstance3D" parent="Details"]
+unique_name_in_owner = true
+
+[node name="VentVisuals" type="MultiMeshInstance3D" parent="Details"]
+unique_name_in_owner = true
+
+[node name="SocketVisuals" type="MultiMeshInstance3D" parent="Details"]
+unique_name_in_owner = true
+
+[node name="Fixtures" type="Node3D" parent="."]
+
+[node name="FluorescentFixtures" type="MultiMeshInstance3D" parent="Fixtures"]
+unique_name_in_owner = true
+cast_shadow = 0
+
+[node name="SparseLights" type="Node3D" parent="Fixtures"]
+
+[node name="LightA" type="OmniLight3D" parent="Fixtures/SparseLights"]
+position = Vector3(-2.2, 2.62, -0.4)
+light_color = Color(0.96, 0.91, 0.68, 1)
+light_energy = 1.25
+light_specular = 0.12
+omni_range = 7.0
+omni_attenuation = 1.65
+shadow_enabled = false
+
+[node name="LightB" type="OmniLight3D" parent="Fixtures/SparseLights"]
+position = Vector3(2.0, 2.62, 1.35)
+light_color = Color(0.95, 0.90, 0.66, 1)
+light_energy = 1.15
+light_specular = 0.12
+omni_range = 6.5
+omni_attenuation = 1.70
+shadow_enabled = false
+
+[node name="Collision" type="Node3D" parent="."]
+
+[node name="FloorBody" type="StaticBody3D" parent="Collision"]
+
+[node name="FloorCollision" type="CollisionShape3D" parent="Collision/FloorBody"]
+unique_name_in_owner = true
+
+[node name="WallBody" type="StaticBody3D" parent="Collision"]
+
+[node name="WallCollision" type="CollisionShape3D" parent="Collision/WallBody"]
+unique_name_in_owner = true

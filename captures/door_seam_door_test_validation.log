@@ -1,0 +1,10 @@
+Godot Engine v4.5.stable.official.876b29033 - https://godotengine.org
+OpenGL API 3.3.0 Core Profile Context 23.19.14.08.240820 - Compatibility - Using Device: ATI Technologies Inc. - AMD Radeon (TM) Graphics
+
+ERROR: Failed to read the root certificate store.
+   at: get_system_ca_certificates (platform/windows/os_windows.cpp:2468)
+BACKROOMS_VR_DOOR_AUDIT: source_outer_double_assembly=2.1053x2.2771x0.2088m SOURCE_EXACT source_single_leaf_slab=0.9897x2.1917x0.0357m SOURCE_EXACT
+BACKROOMS_VR_DOOR_AUDIT: extracted_single_leaf_with_hardware=1.0626x2.2095x0.1819m SOURCE_EXACT source_materials=Exit_Door frame_material=Exit_Door Wood_is_baseboard_not_frame
+BACKROOMS_VR_DOOR_AUDIT: individual_source_jamb_width=UNKNOWN individual_source_jamb_depth=UNKNOWN adopted_clear=1.20x2.20m adopted_frame_face=0.085m depth=0.060m projection=0.020m VISUAL_APPROXIMATION
+DOOR_SEAM_AUDIT: id=push_door_test center=(0.000,-3.000) clear_left=(-0.6000,-3.0000) clear_right=(0.6000,-3.0000) frame_outer_left=(-0.6850,-3.0000) frame_outer_right=(0.6850,-3.0000) left_wall_end=(-0.6850,-3.0000) right_wall_start=(0.6850,-3.0000) delta_left=0.000000 delta_right=0.000000
+LEVEL0_DOOR_TEST_VALIDATION: PASS wall=5.00x2.866x0.30 clear=1.20x2.20 outer=1.37x2.285 seam=0.000000 jamb_collision=left+right frame=full-depth+two-sided interaction=E angle=95 collision=follows_leaf

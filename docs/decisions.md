@@ -8,8 +8,8 @@ Le sezioni “Aperte” non autorizzano scelte arbitrarie.
 - Le immagini di settore definiscono esclusivamente sagoma calpestabile, proporzioni e connessioni; non possono essere sostituite dal layout del modello VR.
 - `assets/backrooms_vr/scene.gltf` è il riferimento architettonico principale per scala e presentazione: altezza, spessore e finitura delle pareti, controsoffitto, lampade, battiscopa, prese, stipiti, porte, colori e illuminazione.
 - Il modello VR non è la mappa di gioco e le sue texture atlas con illuminazione cotta non vengono stese sulla nuova geometria procedurale.
-- Primo settore attivo: Sector 04. La sua sagoma è tracciata deterministicamente e costruita con geometria/collisioni aggregate e dettagli ripetuti in MultiMesh.
-- Questa decisione supersede il workflow attivo room-by-room del 2026-08-26. S01-R01 resta un prototipo storico conservato, non la main scene.
+- Primo settore attivo: Sector 04. La sua planimetria manuale usa 14 poligoni calpestabili uniti prima di generare geometria/collisioni aggregate; i dettagli ripetuti usano MultiMesh.
+- Questa decisione supersede il workflow attivo room-by-room del 2026-08-26. S01-R01 e i precedenti Sector001/Sector002 sono stati rimossi dal workspace dopo approvazione; restano recuperabili dalla cronologia Git.
 - Nessun altro settore è autorizzato implicitamente da questa decisione.
 
 ## 2026-08-23 — Setup
@@ -23,11 +23,11 @@ Le sezioni “Aperte” non autorizzano scelte arbitrarie.
 ## 2026-08-26 — Level 0 room-by-room
 
 - L'authoring automatico a settori completi è abbandonato.
-- `Sector001`, `Sector002`, chunk e risorse generate restano storico inattivo e non sono una base da riparare o rigenerare.
+- `Sector001`, `Sector002`, chunk e risorse generate sono stati rimossi dal workspace e non sono una base da riparare o rigenerare.
 - La master map 71-days, il trace, scala/origine, annotazioni e audit restano fonti di riferimento.
-- Main scene di sviluppo: `res://scenes/levels/level_0.tscn`, con contenitore `Rooms` inizialmente vuoto.
+- La main scene resta `res://scenes/levels/level_0.tscn`; il workflow room-by-room non è più attivo.
 - Ogni milestone implementa una sola stanza/corridoio definito da crop esatto, con review geometrica, gameplay e visiva prima della stanza fisicamente adiacente.
-- La golden room resta laboratorio non approvato; non autorizza materiali o impostazioni globali.
+- La Golden Room V2 corrente è il test isolato del builder condiviso e dello standard architettonico; non è un settore di gioco.
 - Questa decisione supersede il workflow attivo di generazione Sector001/Sector002 descritto nella decisione 2026-08-25, ma non supersede la master map né il suo contratto metrico.
 
 ## 2026-08-23 — Level 0 blockout
@@ -49,8 +49,8 @@ Nuovo blueprint geometrico autoritativo:
 - Trace: `docs/levels/level-0-final-trace.json` (polilinee/occupancy dalla PNG, non stanze-rettangolo).
 - Scala congelata: 0.173846 m/px, origin pixel (0,0) → world (0,0), snap 0.5 m.
 - AABB stimata: 658.25 × 642.0 m.
-- 3D in questo milestone: **solo** `sector_001` (cluster centrale 17-days). Non costruire Sector 2 senza approvazione.
-- Generatore: `tools/trace_level_0_from_reference.py` + `tools/generate_level_0_from_trace.py`. Non è procedural generation.
+- Milestone storico: il bake riguardava solo il cluster centrale; la relativa implementazione e il generatore sono stati rimossi.
+- `tools/trace_level_0_from_reference.py` resta esclusivamente come strumento di audit del trace congelato, non come pipeline attiva.
 
 ## 2026-08-25 — Level 0 rifatto (solo geometria) — SUPERSEDED
 

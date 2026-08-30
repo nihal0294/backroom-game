@@ -1,0 +1,11 @@
+Godot Engine v4.5.stable.official.876b29033 - https://godotengine.org
+OpenGL API 3.3.0 Core Profile Context 23.19.14.08.240820 - Compatibility - Using Device: ATI Technologies Inc. - AMD Radeon (TM) Graphics
+
+SECTOR04_V2_PERFORMANCE: nodes=42 MeshInstance3D=8 ArrayMesh=13 StaticBody3D=4 CollisionShape3D=4 MultiMeshInstance3D=6 Light3D=8 shadow_lights=0
+SECTOR04_V2_BUILD: input=14 union=1 boundary=53->53 partitions=4 floor_triangles=51 ceiling_triangles=51 columns=6 fixtures=27 on=24 off=3 lights=8 sockets=12 vents=5
+SECTOR04_V2_CAPTURE: C:/Users/mauro/Desktop/Tutto/backroom-game/captures/sector_04_map_room_entrance.png
+SECTOR04_V2_CAPTURE: C:/Users/mauro/Desktop/Tutto/backroom-game/captures/sector_04_map_room_inside.png
+SECTOR04_V2_CAPTURE: C:/Users/mauro/Desktop/Tutto/backroom-game/captures/sector_04_map_room_map_closeup.png
+SECTOR04_V2_CAPTURE: C:/Users/mauro/Desktop/Tutto/backroom-game/captures/sector_04_map_room_corner.png
+SECTOR04_V2_CAPTURE: C:/Users/mauro/Desktop/Tutto/backroom-game/captures/sector_04_push_door_front.png
+SECTOR04_V2_CAPTURE: C:/Users/mauro/Desktop/Tutto/backroom-game/captures/sector_04_push_door_open.png

@@ -12,18 +12,32 @@ const SOCKET_CENTER_Y := 0.317
 const FIXTURE_Y := 2.84
 const MAX_REAL_LIGHTS := 8
 const PLAYER_RADIUS := 0.32
+const POSITION_EPSILON := 0.005
+const MIN_WALL_LENGTH := 0.01
+const DOOR_CLEAR_WIDTH := 1.20
+const DOOR_CLEAR_HEIGHT := 2.20
+const DOOR_FRAME_FACE_WIDTH := 0.085
+const DOOR_FRAME_DEPTH := 0.060
+const DOOR_FRAME_PROJECTION := 0.020
+const DOOR_FRAME_OUTER_WIDTH := DOOR_CLEAR_WIDTH + DOOR_FRAME_FACE_WIDTH * 2.0
+const DOOR_FRAME_OUTER_HEIGHT := DOOR_CLEAR_HEIGHT + DOOR_FRAME_FACE_WIDTH
+const DOOR_SEAM_TOLERANCE := 0.001
+const ArchitectureBuilderScript = preload("res://scripts/levels/level_0/level0_architecture_builder.gd")
 
 const FLOOR_MATERIAL: Material = preload("res://resources/materials/level_0/vr_kit/sector_04_orange_carpet.tres")
 const WALL_MATERIAL: Material = preload("res://resources/materials/level_0/vr_kit/wallpaper.tres")
 const CEILING_MATERIAL: Material = preload("res://resources/materials/level_0/vr_kit/ceiling.tres")
-const TRIM_MATERIAL: Material = preload("res://resources/materials/level_0/vr_kit/trim.tres")
-const DARK_MATERIAL: Material = preload("res://resources/materials/level_0/vr_kit/socket_dark.tres")
-const MAP_MATERIAL: Material = preload("res://resources/materials/level_0/vr_kit/door_panel.tres")
+const TRIM_MATERIAL: Material = preload("res://resources/materials/level_0/vr_kit/source/wood_trim.tres")
+const DOOR_FRAME_MATERIAL: Material = preload("res://resources/materials/level_0/vr_kit/door_frame.tres")
+const MAP_BACKING_MATERIAL: Material = preload("res://resources/materials/level_0/vr_kit/door_panel.tres")
+const MAP_FACE_MATERIAL: Material = preload("res://resources/materials/level_0/vr_kit/map_sector_04.tres")
 const GLASS_MATERIAL: Material = preload("res://resources/materials/level_0/vr_kit/glass.tres")
 const TORN_WALLPAPER_MATERIAL: Material = preload("res://resources/materials/level_0/vr_kit/torn_wallpaper.tres")
 const FIXTURE_HOUSING_MATERIAL: Material = preload("res://resources/materials/level_0/rooms/s01_r01_fixture_housing.tres")
 const FIXTURE_PANEL_MATERIAL: Material = preload("res://resources/materials/level_0/rooms/s01_r01_fixture_panel.tres")
 const FIXTURE_PANEL_OFF_MATERIAL: Material = preload("res://resources/materials/level_0/rooms/s01_r01_fixture_panel_off.tres")
+const VENT_MESH: ArrayMesh = preload("res://resources/meshes/level_0/vr_kit/vent_1_single.res")
+const SOCKET_MESH: ArrayMesh = preload("res://resources/meshes/level_0/vr_kit/socket_1_single.res")
 
 @onready var floor_visual: MeshInstance3D = %FloorVisual
 @onready var wall_visual: MeshInstance3D = %WallVisual
@@ -34,16 +48,17 @@ const FIXTURE_PANEL_OFF_MATERIAL: Material = preload("res://resources/materials/
 @onready var socket_visuals: MultiMeshInstance3D = %SocketVisuals
 @onready var door_frames: MultiMeshInstance3D = %DoorFrames
 @onready var door_panels: MultiMeshInstance3D = %DoorPanels
+@onready var vent_visuals: MultiMeshInstance3D = %VentVisuals
 @onready var torn_wallpaper_visual: MeshInstance3D = %TornWallpaperVisual
-@onready var map_placeholder: MeshInstance3D = %MapPlaceholder
-@onready var map_label: Label3D = %MapLabel
+@onready var map_mount: MeshInstance3D = %MapMount
+@onready var map_face: MeshInstance3D = %MapFace
 @onready var sparse_lights: Node3D = %SparseLights
 @onready var floor_collision: CollisionShape3D = %FloorCollision
 @onready var wall_collision: CollisionShape3D = %WallCollision
 @onready var glass_door_collision: CollisionShape3D = %GlassDoorCollision
 @onready var player_spawn: Marker3D = %Sector04PlayerSpawn
 @onready var unexplored_exit: Marker3D = %UnexploredExit
-
+@onready var push_door: Node3D = %PushDoor
 var _floor_shapes: Array[PackedVector2Array] = []
 var _boundary_walls: Array[Dictionary] = []
 var _partition_walls: Array[Dictionary] = []
@@ -51,31 +66,93 @@ var _fixture_data: Array[Dictionary] = []
 var _lit_fixture_transforms: Array[Transform3D] = []
 var _off_fixture_transforms: Array[Transform3D] = []
 var _socket_transforms: Array[Transform3D] = []
+var _vent_transforms: Array[Transform3D] = []
 var _light_count := 0
+var _raw_wall_segment_count := 0
+var _sanitized_wall_segment_count := 0
+var _architecture_builder: RefCounted
+var _build_result: Dictionary = {}
+var _glass_opening_contract: Dictionary = {}
+var _push_opening_contract: Dictionary = {}
+var _max_door_seam_delta := 0.0
 
 
 func _ready() -> void:
 	_floor_shapes = _manual_floor_shapes()
-	_boundary_walls = _manual_boundary_walls()
-	_partition_walls = _manual_partition_walls()
 	_fixture_data = _manual_fixture_data()
-	_build_floor_and_collision()
-	_build_ceiling()
-	_build_walls_columns_and_collision()
-	_build_baseboards()
-	_build_glass_door()
+	_build_union_architecture()
+	_build_framed_openings()
 	_build_fixed_sockets()
-	_build_map_placeholder()
+	_build_fixed_vents()
+	_build_map_mount()
 	_build_torn_wallpaper()
 	_build_fixtures()
 	_build_sparse_lights()
 	_place_markers()
 	_print_performance_audit()
+	var stats: Dictionary = _build_result["stats"]
 	print(
-		"SECTOR04_MANUAL_BUILD: floor_shapes=%d boundary_walls=%d partition_walls=%d columns=6 fixtures=%d on=%d off=%d lights=%d sockets=%d ceiling=%.3fm wall=%.2fm"
-		% [_floor_shapes.size(), _boundary_walls.size(), _partition_walls.size(), _fixture_data.size(), _lit_fixture_transforms.size(), _off_fixture_transforms.size(), _light_count, _socket_transforms.size(), CEILING_Y, WALL_THICKNESS]
+		"SECTOR04_V2_BUILD: input=%d union=%d boundary=%d->%d partitions=%d floor_triangles=%d ceiling_triangles=%d columns=6 fixtures=%d on=%d off=%d lights=%d sockets=%d vents=%d junction_correction_max=%.6f junction_delta_max=%.6f"
+		% [stats.input_polygons, stats.union_polygons, stats.boundary_edges_before, stats.boundary_edges_after, stats.partition_count, stats.floor_triangles, stats.ceiling_triangles, _fixture_data.size(), _lit_fixture_transforms.size(), _off_fixture_transforms.size(), _light_count, _socket_transforms.size(), _vent_transforms.size(), stats.max_wall_junction_correction, stats.max_wall_junction_delta]
 	)
 	call_deferred("_run_optional_tasks")
+
+
+func _build_union_architecture() -> void:
+	_architecture_builder = ArchitectureBuilderScript.new()
+	_glass_opening_contract = _architecture_builder.make_framed_opening(
+		"glass_room", Vector2(7.0, 2.4), DOOR_CLEAR_WIDTH, DOOR_CLEAR_HEIGHT,
+		DOOR_FRAME_FACE_WIDTH, DOOR_FRAME_DEPTH, DOOR_FRAME_PROJECTION
+	)
+	_push_opening_contract = _architecture_builder.make_framed_opening(
+		"push_door", Vector2(-11.5, 24.0), DOOR_CLEAR_WIDTH, DOOR_CLEAR_HEIGHT,
+		DOOR_FRAME_FACE_WIDTH, DOOR_FRAME_DEPTH, DOOR_FRAME_PROJECTION
+	)
+	var no_boundary_openings: Array[Dictionary] = []
+	_build_result = _architecture_builder.build(
+		_floor_shapes,
+		_v2_partitions(),
+		no_boundary_openings,
+		_v2_columns(),
+		{"floor": FLOOR_MATERIAL, "wall": WALL_MATERIAL, "ceiling": CEILING_MATERIAL, "trim": TRIM_MATERIAL},
+		{"ceiling_y": CEILING_Y, "wall_thickness": WALL_THICKNESS, "baseboard_height": BASEBOARD_HEIGHT, "baseboard_depth": BASEBOARD_DEPTH}
+	)
+	floor_visual.mesh = _build_result["floor_mesh"]
+	wall_visual.mesh = _build_result["wall_mesh"]
+	ceiling_visual.mesh = _build_result["ceiling_mesh"]
+	baseboard_visual.mesh = _build_result["baseboard_mesh"]
+	var floor_shape := ConcavePolygonShape3D.new()
+	floor_shape.set_faces(_build_result["floor_faces"])
+	floor_shape.backface_collision = true
+	floor_collision.shape = floor_shape
+	var wall_shape := ConcavePolygonShape3D.new()
+	wall_shape.set_faces(_build_result["wall_faces"])
+	wall_shape.backface_collision = true
+	wall_collision.shape = wall_shape
+	_boundary_walls.assign(_build_result["boundary_runs"])
+	_partition_walls.assign(_build_result["partition_runs"])
+	_raw_wall_segment_count = int(_build_result["stats"]["boundary_edges_before"]) + _partition_walls.size()
+	_sanitized_wall_segment_count = _boundary_walls.size() + _partition_walls.size()
+	_print_door_seam_audit()
+
+
+func _v2_partitions() -> Array[Dictionary]:
+	return [
+		{"id": "glass_partition", "a": Vector2(7.0, 0.7), "b": Vector2(7.0, 4.1), "normal": Vector2.LEFT, "openings": [_glass_opening_contract]},
+		{"id": "push_partition", "a": Vector2(-11.5, 25.4), "b": Vector2(-11.5, 22.6), "normal": Vector2.RIGHT, "openings": [_push_opening_contract]},
+		# D-R02 uses the union boundary as its west/south walls. The east and
+		# north partitions complete a 3.20 x 3.60 m clear rectangle without
+		# creating narrow inaccessible slivers against D-R01's outer wall.
+		{"id": "d_r02_east", "a": Vector2(-14.15, 21.00), "b": Vector2(-14.15, 24.75), "normal": Vector2.LEFT, "openings": [{"id": "d_r02_open_passage", "center": Vector2(-14.15, 22.80), "cut_width": 1.20, "cut_height": CEILING_Y}]},
+		{"id": "d_r02_north", "a": Vector2(-14.15, 24.75), "b": Vector2(-17.50, 24.75), "normal": Vector2.DOWN, "openings": []},
+	]
+
+
+func _v2_columns() -> Array[Dictionary]:
+	var columns: Array[Dictionary] = []
+	for center: Vector2 in _column_centers():
+		columns.push_back({"center": center, "size": 0.75})
+	return columns
 
 
 func _manual_floor_shapes() -> Array[PackedVector2Array]:
@@ -100,83 +177,58 @@ func _manual_floor_shapes() -> Array[PackedVector2Array]:
 	return shapes
 
 
-func _manual_boundary_walls() -> Array[Dictionary]:
-	var walls: Array[Dictionary] = []
-	# A1, with C01, A2 and glass-room interface left open.
-	_add_boundary(walls, Vector2(-7.00, 0.00), Vector2(-1.50, 0.00), Vector2.UP)
-	_add_boundary(walls, Vector2(1.50, 0.00), Vector2(7.00, 0.00), Vector2.UP)
-	_add_boundary(walls, Vector2(7.00, 0.00), Vector2(7.00, 0.70), Vector2.LEFT)
-	_add_boundary(walls, Vector2(7.00, 4.10), Vector2(7.00, 7.00), Vector2.LEFT)
-	_add_boundary(walls, Vector2(7.00, 7.00), Vector2(6.00, 7.00), Vector2.DOWN)
-	_add_boundary(walls, Vector2(-6.00, 7.00), Vector2(-7.00, 7.00), Vector2.DOWN)
-	_add_boundary(walls, Vector2(-7.00, 7.00), Vector2(-7.00, 0.00), Vector2.RIGHT)
-	# B glass room exterior.
-	_add_boundary(walls, Vector2(7.00, 0.70), Vector2(10.40, 0.70), Vector2.UP)
-	_add_boundary(walls, Vector2(10.40, 0.70), Vector2(10.40, 4.10), Vector2.LEFT)
-	_add_boundary(walls, Vector2(10.40, 4.10), Vector2(7.00, 4.10), Vector2.DOWN)
-	# A2, with D-C01 and E-C01 openings removed.
-	_add_boundary(walls, Vector2(6.00, 7.00), Vector2(6.00, 39.00), Vector2.LEFT)
-	_add_boundary(walls, Vector2(6.00, 39.00), Vector2(-6.00, 39.00), Vector2.DOWN)
-	_add_boundary(walls, Vector2(-6.00, 39.00), Vector2(-6.00, 37.20), Vector2.RIGHT)
-	_add_boundary(walls, Vector2(-6.00, 33.30), Vector2(-6.00, 25.40), Vector2.RIGHT)
-	_add_boundary(walls, Vector2(-6.00, 22.60), Vector2(-6.00, 7.00), Vector2.RIGHT)
-	# D-C01 sides and D-R01 exterior.
-	_add_boundary(walls, Vector2(-6.00, 22.60), Vector2(-11.50, 22.60), Vector2.UP)
-	_add_boundary(walls, Vector2(-11.50, 25.40), Vector2(-6.00, 25.40), Vector2.DOWN)
-	_add_boundary(walls, Vector2(-11.50, 21.00), Vector2(-11.50, 22.60), Vector2.LEFT)
-	_add_boundary(walls, Vector2(-11.50, 25.40), Vector2(-11.50, 27.00), Vector2.LEFT)
-	_add_boundary(walls, Vector2(-11.50, 21.00), Vector2(-17.50, 21.00), Vector2.UP)
-	_add_boundary(walls, Vector2(-17.50, 21.00), Vector2(-17.50, 27.00), Vector2.RIGHT)
-	_add_boundary(walls, Vector2(-17.50, 27.00), Vector2(-11.50, 27.00), Vector2.DOWN)
-	# C01/C02.
-	_add_boundary(walls, Vector2(-1.50, 0.00), Vector2(-1.50, -14.00), Vector2.RIGHT)
-	_add_boundary(walls, Vector2(1.50, -11.00), Vector2(1.50, 0.00), Vector2.LEFT)
-	_add_boundary(walls, Vector2(1.50, -11.00), Vector2(9.50, -11.00), Vector2.DOWN)
-	_add_boundary(walls, Vector2(9.50, -11.00), Vector2(9.50, -14.00), Vector2.LEFT)
-	_add_boundary(walls, Vector2(6.50, -14.00), Vector2(-1.50, -14.00), Vector2.UP)
-	# Three south rooms separated by C03 and C04.
-	_add_boundary(walls, Vector2(9.50, -14.00), Vector2(13.00, -14.00), Vector2.DOWN)
-	_add_boundary(walls, Vector2(13.00, -14.00), Vector2(13.00, -20.50), Vector2.LEFT)
-	_add_boundary(walls, Vector2(13.00, -20.50), Vector2(11.15, -20.50), Vector2.UP)
-	_add_boundary(walls, Vector2(8.35, -20.50), Vector2(6.50, -20.50), Vector2.UP)
-	_add_boundary(walls, Vector2(6.50, -20.50), Vector2(6.50, -14.00), Vector2.RIGHT)
-	_add_boundary(walls, Vector2(8.35, -20.50), Vector2(8.35, -26.00), Vector2.RIGHT)
-	_add_boundary(walls, Vector2(11.15, -26.00), Vector2(11.15, -20.50), Vector2.LEFT)
-	_add_boundary(walls, Vector2(7.25, -26.00), Vector2(8.35, -26.00), Vector2.DOWN)
-	_add_boundary(walls, Vector2(11.15, -26.00), Vector2(12.25, -26.00), Vector2.DOWN)
-	_add_boundary(walls, Vector2(12.25, -26.00), Vector2(12.25, -31.00), Vector2.LEFT)
-	_add_boundary(walls, Vector2(12.25, -31.00), Vector2(11.15, -31.00), Vector2.UP)
-	_add_boundary(walls, Vector2(8.35, -31.00), Vector2(7.25, -31.00), Vector2.UP)
-	_add_boundary(walls, Vector2(7.25, -31.00), Vector2(7.25, -26.00), Vector2.RIGHT)
-	_add_boundary(walls, Vector2(8.35, -31.00), Vector2(8.35, -36.00), Vector2.RIGHT)
-	_add_boundary(walls, Vector2(11.15, -36.00), Vector2(11.15, -31.00), Vector2.LEFT)
-	_add_boundary(walls, Vector2(7.75, -36.00), Vector2(8.35, -36.00), Vector2.DOWN)
-	_add_boundary(walls, Vector2(11.15, -36.00), Vector2(11.75, -36.00), Vector2.DOWN)
-	_add_boundary(walls, Vector2(11.75, -36.00), Vector2(11.75, -40.00), Vector2.LEFT)
-	_add_boundary(walls, Vector2(11.75, -40.00), Vector2(7.75, -40.00), Vector2.UP)
-	_add_boundary(walls, Vector2(7.75, -40.00), Vector2(7.75, -36.00), Vector2.RIGHT)
-	# E-C01 diagonal sides and Column Hall exterior.
-	_add_boundary(walls, Vector2(-5.90, 33.30), Vector2(-14.20, 39.525), Vector2(0.60, 0.80))
-	_add_boundary(walls, Vector2(-4.10, 35.70), Vector2(-12.40, 41.925), Vector2(-0.60, -0.80))
-	_add_boundary(walls, Vector2(-12.40, 41.925), Vector2(-12.40, 49.525), Vector2.LEFT)
-	_add_boundary(walls, Vector2(-12.40, 49.525), Vector2(-24.40, 49.525), Vector2.DOWN)
-	_add_boundary(walls, Vector2(-24.40, 49.525), Vector2(-24.40, 39.525), Vector2.RIGHT)
-	_add_boundary(walls, Vector2(-24.40, 39.525), Vector2(-14.20, 39.525), Vector2.UP)
-	return walls
+func _same_undirected_segment(a0: Vector2, b0: Vector2, a1: Vector2, b1: Vector2) -> bool:
+	return (
+		(a0.distance_to(a1) <= POSITION_EPSILON and b0.distance_to(b1) <= POSITION_EPSILON)
+		or (a0.distance_to(b1) <= POSITION_EPSILON and b0.distance_to(a1) <= POSITION_EPSILON)
+	)
 
 
-func _manual_partition_walls() -> Array[Dictionary]:
-	var walls: Array[Dictionary] = []
-	# Glass door span: X=7.00, Z=1.80..3.00.
-	_add_partition(walls, Vector2(7.00, 0.70), Vector2(7.00, 1.80))
-	_add_partition(walls, Vector2(7.00, 3.00), Vector2(7.00, 4.10))
-	# D-R02, with 0.90 m east entrance.
-	_add_partition(walls, Vector2(-16.70, 22.00), Vector2(-14.40, 22.00))
-	_add_partition(walls, Vector2(-14.40, 22.00), Vector2(-14.40, 22.65))
-	_add_partition(walls, Vector2(-14.40, 23.55), Vector2(-14.40, 24.20))
-	_add_partition(walls, Vector2(-14.40, 24.20), Vector2(-16.70, 24.20))
-	_add_partition(walls, Vector2(-16.70, 24.20), Vector2(-16.70, 22.00))
-	return walls
+func _print_door_seam_audit(failures: Array[String] = []) -> float:
+	var max_delta := 0.0
+	for run: Dictionary in _partition_walls:
+		for opening: Dictionary in run["openings"]:
+			if not bool(opening.get("framed", false)):
+				continue
+			var run_a: Vector2 = run["a"]
+			var run_direction: Vector2 = (Vector2(run["b"]) - run_a).normalized()
+			var center_distance := float(opening["center_distance"])
+			var clear_left := center_distance - float(opening["clear_width"]) * 0.5
+			var clear_right := center_distance + float(opening["clear_width"]) * 0.5
+			var frame_outer_left := center_distance - float(opening["frame_outer_width"]) * 0.5
+			var frame_outer_right := center_distance + float(opening["frame_outer_width"]) * 0.5
+			var left_wall_end := float(opening["start"])
+			var right_wall_start := float(opening["end"])
+			var clear_left_point := run_a + run_direction * clear_left
+			var clear_right_point := run_a + run_direction * clear_right
+			var frame_outer_left_point := run_a + run_direction * frame_outer_left
+			var frame_outer_right_point := run_a + run_direction * frame_outer_right
+			var left_wall_end_point := run_a + run_direction * left_wall_end
+			var right_wall_start_point := run_a + run_direction * right_wall_start
+			var delta_left := left_wall_end_point.distance_to(frame_outer_left_point)
+			var delta_right := right_wall_start_point.distance_to(frame_outer_right_point)
+			max_delta = maxf(max_delta, maxf(absf(delta_left), absf(delta_right)))
+			var center: Vector2 = opening["center"]
+			print(
+				"DOOR_SEAM_AUDIT: id=%s center=(%.3f,%.3f) clear_left=(%.4f,%.4f) clear_right=(%.4f,%.4f) frame_outer_left=(%.4f,%.4f) frame_outer_right=(%.4f,%.4f) left_wall_end=(%.4f,%.4f) right_wall_start=(%.4f,%.4f) delta_left=%.6f delta_right=%.6f"
+				% [opening["id"], center.x, center.y, clear_left_point.x, clear_left_point.y, clear_right_point.x, clear_right_point.y, frame_outer_left_point.x, frame_outer_left_point.y, frame_outer_right_point.x, frame_outer_right_point.y, left_wall_end_point.x, left_wall_end_point.y, right_wall_start_point.x, right_wall_start_point.y, delta_left, delta_right]
+			)
+			if absf(delta_left) > DOOR_SEAM_TOLERANCE or absf(delta_right) > DOOR_SEAM_TOLERANCE:
+				failures.push_back("framed opening %s seam delta exceeds 0.001 m" % String(opening["id"]))
+	_max_door_seam_delta = max_delta
+	return max_delta
+
+
+func _collinear_overlap_length(a0: Vector2, b0: Vector2, a1: Vector2, b1: Vector2) -> float:
+	var direction := (b0 - a0).normalized()
+	if absf(direction.cross((b1 - a1).normalized())) > POSITION_EPSILON:
+		return 0.0
+	if absf((a1 - a0).cross(direction)) > POSITION_EPSILON:
+		return 0.0
+	var first_max := a0.distance_to(b0)
+	var second_a := (a1 - a0).dot(direction)
+	var second_b := (b1 - a0).dot(direction)
+	return maxf(0.0, minf(first_max, maxf(second_a, second_b)) - maxf(0.0, minf(second_a, second_b)))
 
 
 func _manual_fixture_data() -> Array[Dictionary]:
@@ -199,92 +251,27 @@ func _manual_fixture_data() -> Array[Dictionary]:
 	]
 
 
-func _build_floor_and_collision() -> void:
-	var surface := SurfaceTool.new()
-	surface.begin(Mesh.PRIMITIVE_TRIANGLES)
-	var faces := PackedVector3Array()
-	for shape: PackedVector2Array in _floor_shapes:
-		var triangles := Geometry2D.triangulate_polygon(shape)
-		for triangle_index in range(0, triangles.size(), 3):
-			var a := Vector3(shape[triangles[triangle_index]].x, 0.0, shape[triangles[triangle_index]].y)
-			var b := Vector3(shape[triangles[triangle_index + 1]].x, 0.0, shape[triangles[triangle_index + 1]].y)
-			var c := Vector3(shape[triangles[triangle_index + 2]].x, 0.0, shape[triangles[triangle_index + 2]].y)
-			_add_triangle(surface, a, b, c, Vector3.UP)
-			faces.append_array(PackedVector3Array([a, b, c]))
-	var mesh := surface.commit()
-	mesh.surface_set_material(0, FLOOR_MATERIAL)
-	floor_visual.mesh = mesh
-	var shape_3d := ConcavePolygonShape3D.new()
-	shape_3d.set_faces(faces)
-	shape_3d.backface_collision = true
-	floor_collision.shape = shape_3d
-
-
-func _build_ceiling() -> void:
-	var surface := SurfaceTool.new()
-	surface.begin(Mesh.PRIMITIVE_TRIANGLES)
-	for shape: PackedVector2Array in _floor_shapes:
-		var triangles := Geometry2D.triangulate_polygon(shape)
-		for triangle_index in range(0, triangles.size(), 3):
-			var a := Vector3(shape[triangles[triangle_index]].x, CEILING_Y, shape[triangles[triangle_index]].y)
-			var b := Vector3(shape[triangles[triangle_index + 1]].x, CEILING_Y, shape[triangles[triangle_index + 1]].y)
-			var c := Vector3(shape[triangles[triangle_index + 2]].x, CEILING_Y, shape[triangles[triangle_index + 2]].y)
-			_add_triangle(surface, c, b, a, Vector3.DOWN)
-	var mesh := surface.commit()
-	mesh.surface_set_material(0, CEILING_MATERIAL)
-	ceiling_visual.mesh = mesh
-
-
-func _build_walls_columns_and_collision() -> void:
-	var surface := SurfaceTool.new()
-	surface.begin(Mesh.PRIMITIVE_TRIANGLES)
-	var faces := PackedVector3Array()
-	for wall: Dictionary in _boundary_walls:
-		_add_boundary_wall(surface, faces, wall["a"], wall["b"], wall["normal"])
-	for wall: Dictionary in _partition_walls:
-		_add_centered_wall(surface, faces, wall["a"], wall["b"])
-	for center: Vector2 in _column_centers():
-		_add_box_with_faces(surface, faces, Vector3(0.75, CEILING_Y, 0.75), Vector3(center.x, CEILING_Y * 0.5, center.y))
-	var mesh := surface.commit()
-	mesh.surface_set_material(0, WALL_MATERIAL)
-	wall_visual.mesh = mesh
-	var collision_mesh := ConcavePolygonShape3D.new()
-	collision_mesh.set_faces(faces)
-	collision_mesh.backface_collision = true
-	wall_collision.shape = collision_mesh
-
-
-func _build_baseboards() -> void:
-	var surface := SurfaceTool.new()
-	surface.begin(Mesh.PRIMITIVE_TRIANGLES)
-	for wall: Dictionary in _boundary_walls:
-		_add_baseboard_face(surface, wall["a"], wall["b"], wall["normal"])
-	for wall: Dictionary in _partition_walls:
-		var a: Vector2 = wall["a"]
-		var b: Vector2 = wall["b"]
-		var direction := (b - a).normalized()
-		var normal := Vector2(-direction.y, direction.x)
-		_add_baseboard_face(surface, a + normal * WALL_THICKNESS * 0.5, b + normal * WALL_THICKNESS * 0.5, normal)
-		_add_baseboard_face(surface, b - normal * WALL_THICKNESS * 0.5, a - normal * WALL_THICKNESS * 0.5, -normal)
-	for center: Vector2 in _column_centers():
-		var half := 0.375
-		_add_baseboard_face(surface, Vector2(center.x - half, center.y - half), Vector2(center.x + half, center.y - half), Vector2.DOWN)
-		_add_baseboard_face(surface, Vector2(center.x + half, center.y - half), Vector2(center.x + half, center.y + half), Vector2.RIGHT)
-		_add_baseboard_face(surface, Vector2(center.x + half, center.y + half), Vector2(center.x - half, center.y + half), Vector2.UP)
-		_add_baseboard_face(surface, Vector2(center.x - half, center.y + half), Vector2(center.x - half, center.y - half), Vector2.LEFT)
-	var mesh := surface.commit()
-	mesh.surface_set_material(0, TRIM_MATERIAL)
-	baseboard_visual.mesh = mesh
-
-
-func _build_glass_door() -> void:
-	var door_transform := _wall_transform(Vector2(7.00, 2.40), Vector2.UP, 0.0)
-	door_frames.multimesh = _make_transform_multimesh(_make_door_frame_mesh(), [door_transform])
-	door_panels.multimesh = _make_transform_multimesh(_make_glass_panel_mesh(), [door_transform])
+func _build_framed_openings() -> void:
+	var frame_transforms: Array[Transform3D] = []
+	var glass_transform := Transform3D.IDENTITY
+	for run: Dictionary in _partition_walls:
+		for opening: Dictionary in run["openings"]:
+			if not bool(opening.get("framed", false)):
+				continue
+			var center: Vector2 = _architecture_builder.opening_wall_center(run, opening, WALL_THICKNESS)
+			var frame_transform := _frame_transform(center, run["normal"])
+			frame_transforms.push_back(frame_transform)
+			if String(opening["id"]) == "glass_room":
+				glass_transform = frame_transform
+	var frame_mesh: ArrayMesh = _architecture_builder.build_framed_opening_mesh(
+		_glass_opening_contract, WALL_THICKNESS, DOOR_FRAME_MATERIAL
+	)
+	door_frames.multimesh = _make_transform_multimesh(frame_mesh, frame_transforms)
+	door_panels.multimesh = _make_transform_multimesh(_make_glass_panel_mesh(), [glass_transform])
 	var shape := BoxShape3D.new()
-	shape.size = Vector3(0.04, 2.20, 1.20)
+	shape.size = Vector3(1.20, 2.10, 0.025)
 	glass_door_collision.shape = shape
-	glass_door_collision.position = Vector3(7.00, 1.10, 2.40)
+	glass_door_collision.transform = Transform3D(glass_transform.basis, Vector3(glass_transform.origin.x, 1.05, glass_transform.origin.z))
 
 
 func _build_fixed_sockets() -> void:
@@ -302,20 +289,38 @@ func _build_fixed_sockets() -> void:
 		_wall_transform(Vector2(11.71, -38.0), Vector2.UP, SOCKET_CENTER_Y),
 		_wall_transform(Vector2(-24.36, 45.0), Vector2.DOWN, SOCKET_CENTER_Y),
 	]
-	socket_visuals.multimesh = _make_transform_multimesh(_make_socket_mesh(), _socket_transforms)
+	socket_visuals.multimesh = _make_transform_multimesh(SOCKET_MESH, _socket_transforms)
 
 
-func _build_map_placeholder() -> void:
-	map_placeholder.mesh = _make_box_mesh(Vector3(0.08, 0.80, 1.20), MAP_MATERIAL)
-	map_placeholder.position = Vector3(-16.61, 1.35, 23.10)
-	map_label.position = Vector3(0.05, 0.0, 0.0)
-	map_label.rotation = Vector3(0.0, -PI * 0.5, 0.0)
+func _build_fixed_vents() -> void:
+	var horizontal_basis := Basis(Vector3.RIGHT, Vector3.FORWARD, Vector3.UP)
+	_vent_transforms = [
+		Transform3D(horizontal_basis, Vector3(-2.5, 2.84, 16.5)),
+		Transform3D(horizontal_basis.rotated(Vector3.UP, PI * 0.5), Vector3(2.4, 2.84, 30.0)),
+		Transform3D(horizontal_basis, Vector3(0.0, 2.84, -6.0)),
+		Transform3D(horizontal_basis.rotated(Vector3.UP, PI * 0.5), Vector3(-8.7, 2.84, 24.0)),
+		Transform3D(horizontal_basis.rotated(Vector3.UP, deg_to_rad(53.13)), Vector3(-9.0, 2.84, 37.5)),
+	]
+	vent_visuals.multimesh = _make_transform_multimesh(VENT_MESH, _vent_transforms)
+
+
+func _build_map_mount() -> void:
+	# West wall is opposite the centered east entrance. The 25 mm air gap and
+	# 25 mm backing keep both backing and map face wholly inside D-R02.
+	map_mount.mesh = _make_box_mesh(Vector3(0.025, 0.90, 1.40), MAP_BACKING_MATERIAL)
+	map_mount.position = Vector3(-17.4625, 1.45, 22.80)
+	var face_mesh := QuadMesh.new()
+	face_mesh.size = Vector2(1.35, 0.85)
+	face_mesh.material = MAP_FACE_MATERIAL
+	map_face.mesh = face_mesh
+	map_face.position = Vector3(0.0135, 0.0, 0.0)
+	map_face.rotation = Vector3(0.0, PI * 0.5, 0.0)
 
 
 func _build_torn_wallpaper() -> void:
 	var surface := SurfaceTool.new()
 	surface.begin(Mesh.PRIMITIVE_TRIANGLES)
-	var x := -5.955
+	var x := -5.998
 	var points := [Vector3(x, 0.75, 28.90), Vector3(x, 1.95, 28.80), Vector3(x, 2.05, 29.45), Vector3(x, 1.62, 29.72), Vector3(x, 0.82, 29.58)]
 	for triangle_index in range(1, points.size() - 1):
 		_add_triangle(surface, points[0], points[triangle_index], points[triangle_index + 1], Vector3.RIGHT)
@@ -363,15 +368,6 @@ func _place_markers() -> void:
 	unexplored_exit.rotation = Vector3(0.0, PI, 0.0)
 
 
-func _add_boundary(walls: Array[Dictionary], a: Vector2, b: Vector2, normal: Vector2) -> void:
-	walls.push_back({"a": a, "b": b, "normal": normal.normalized()})
-
-
-func _add_partition(walls: Array[Dictionary], a: Vector2, b: Vector2) -> void:
-	if a.distance_squared_to(b) > 0.000001:
-		walls.push_back({"a": a, "b": b})
-
-
 func _fixture(point: Vector2, off: bool, rotation_index: int) -> Dictionary:
 	return {"point": point, "off": off, "rotation": rotation_index}
 
@@ -382,54 +378,6 @@ func _rect_polygon(min_x: float, min_z: float, max_x: float, max_z: float) -> Pa
 
 func _column_centers() -> Array[Vector2]:
 	return [Vector2(-21.4, 42.525), Vector2(-18.4, 42.525), Vector2(-15.4, 42.525), Vector2(-21.4, 46.525), Vector2(-18.4, 46.525), Vector2(-15.4, 46.525)]
-
-
-func _add_boundary_wall(surface: SurfaceTool, faces: PackedVector3Array, a: Vector2, b: Vector2, walkable_normal: Vector2) -> void:
-	_add_wall_prism(surface, faces, a, b, a - walkable_normal * WALL_THICKNESS, b - walkable_normal * WALL_THICKNESS)
-
-
-func _add_centered_wall(surface: SurfaceTool, faces: PackedVector3Array, a: Vector2, b: Vector2) -> void:
-	var direction := (b - a).normalized()
-	var normal := Vector2(-direction.y, direction.x)
-	var half_offset := normal * WALL_THICKNESS * 0.5
-	_add_wall_prism(surface, faces, a + half_offset, b + half_offset, a - half_offset, b - half_offset)
-
-
-func _add_wall_prism(surface: SurfaceTool, faces: PackedVector3Array, inner_a: Vector2, inner_b: Vector2, outer_a: Vector2, outer_b: Vector2) -> void:
-	var a0 := Vector3(inner_a.x, 0.0, inner_a.y)
-	var b0 := Vector3(inner_b.x, 0.0, inner_b.y)
-	var b1 := Vector3(inner_b.x, CEILING_Y, inner_b.y)
-	var a1 := Vector3(inner_a.x, CEILING_Y, inner_a.y)
-	var oa0 := Vector3(outer_a.x, 0.0, outer_a.y)
-	var ob0 := Vector3(outer_b.x, 0.0, outer_b.y)
-	var ob1 := Vector3(outer_b.x, CEILING_Y, outer_b.y)
-	var oa1 := Vector3(outer_a.x, CEILING_Y, outer_a.y)
-	var direction := (inner_b - inner_a).normalized()
-	var inner_normal := Vector3(-direction.y, 0.0, direction.x)
-	var length := inner_a.distance_to(inner_b)
-	_add_quad(surface, a0, b0, b1, a1, inner_normal, length, CEILING_Y)
-	_add_quad(surface, ob0, oa0, oa1, ob1, -inner_normal, length, CEILING_Y)
-	_add_quad(surface, a1, b1, ob1, oa1, Vector3.UP, length, WALL_THICKNESS)
-	_add_quad(surface, a0, oa0, ob0, b0, Vector3.DOWN, WALL_THICKNESS, length)
-	_add_quad(surface, a0, a1, oa1, oa0, Vector3(-direction.x, 0.0, -direction.y), WALL_THICKNESS, CEILING_Y)
-	_add_quad(surface, b0, ob0, ob1, b1, Vector3(direction.x, 0.0, direction.y), WALL_THICKNESS, CEILING_Y)
-	_append_quad_faces(faces, a0, b0, b1, a1)
-	_append_quad_faces(faces, ob0, oa0, oa1, ob1)
-	_append_quad_faces(faces, a1, b1, ob1, oa1)
-	_append_quad_faces(faces, a0, oa0, ob0, b0)
-	_append_quad_faces(faces, a0, a1, oa1, oa0)
-	_append_quad_faces(faces, b0, ob0, ob1, b1)
-
-
-func _add_baseboard_face(surface: SurfaceTool, a: Vector2, b: Vector2, walkable_normal: Vector2) -> void:
-	var projected_a := a + walkable_normal * BASEBOARD_DEPTH
-	var projected_b := b + walkable_normal * BASEBOARD_DEPTH
-	var a0 := Vector3(projected_a.x, 0.0, projected_a.y)
-	var b0 := Vector3(projected_b.x, 0.0, projected_b.y)
-	var b1 := Vector3(projected_b.x, BASEBOARD_HEIGHT, projected_b.y)
-	var a1 := Vector3(projected_a.x, BASEBOARD_HEIGHT, projected_a.y)
-	var direction := (b - a).normalized()
-	_add_quad(surface, a0, b0, b1, a1, Vector3(-direction.y, 0.0, direction.x), a.distance_to(b), BASEBOARD_HEIGHT)
 
 
 func _add_box_with_faces(surface: SurfaceTool, faces: PackedVector3Array, size: Vector3, center: Vector3) -> void:
@@ -456,35 +404,8 @@ func _add_box_with_faces(surface: SurfaceTool, faces: PackedVector3Array, size: 
 	_append_quad_faces(faces, p000, p100, p101, p001)
 
 
-func _make_door_frame_mesh() -> ArrayMesh:
-	var surface := SurfaceTool.new()
-	surface.begin(Mesh.PRIMITIVE_TRIANGLES)
-	_add_box(surface, Vector3(0.09, 2.20, 0.08), Vector3(-0.645, 1.10, 0.0))
-	_add_box(surface, Vector3(0.09, 2.20, 0.08), Vector3(0.645, 1.10, 0.0))
-	_add_box(surface, Vector3(1.38, 0.09, 0.08), Vector3(0.0, 2.155, 0.0))
-	var mesh := surface.commit()
-	mesh.surface_set_material(0, TRIM_MATERIAL)
-	return mesh
-
-
 func _make_glass_panel_mesh() -> ArrayMesh:
 	return _make_box_mesh(Vector3(1.20, 2.10, 0.025), GLASS_MATERIAL, Vector3(0.0, 1.05, 0.0))
-
-
-func _make_socket_mesh() -> ArrayMesh:
-	var mesh := ArrayMesh.new()
-	var plate := SurfaceTool.new()
-	plate.begin(Mesh.PRIMITIVE_TRIANGLES)
-	_add_box(plate, Vector3(0.078, 0.126, 0.008), Vector3.ZERO)
-	plate.commit(mesh)
-	var holes := SurfaceTool.new()
-	holes.begin(Mesh.PRIMITIVE_TRIANGLES)
-	_add_box(holes, Vector3(0.032, 0.012, 0.005), Vector3(0.0, 0.021, 0.006))
-	_add_box(holes, Vector3(0.032, 0.012, 0.005), Vector3(0.0, -0.021, 0.006))
-	holes.commit(mesh)
-	mesh.surface_set_material(0, TRIM_MATERIAL)
-	mesh.surface_set_material(1, DARK_MATERIAL)
-	return mesh
 
 
 func _make_fixture_mesh(panel_material: Material) -> ArrayMesh:
@@ -526,6 +447,12 @@ func _wall_transform(point: Vector2, direction: Vector2, height: float) -> Trans
 	var x_axis := Vector3(normalized_direction.x, 0.0, normalized_direction.y)
 	var z_axis := Vector3(-normalized_direction.y, 0.0, normalized_direction.x)
 	return Transform3D(Basis(x_axis, Vector3.UP, z_axis), Vector3(point.x, height, point.y))
+
+
+func _frame_transform(point: Vector2, normal: Vector2) -> Transform3D:
+	var tangent := Vector2(normal.y, -normal.x).normalized()
+	var frame_basis := Basis(Vector3(tangent.x, 0.0, tangent.y), Vector3.UP, Vector3(normal.x, 0.0, normal.y))
+	return Transform3D(frame_basis, Vector3(point.x, 0.0, point.y))
 
 
 func _add_box(surface: SurfaceTool, size: Vector3, center: Vector3) -> void:
@@ -582,7 +509,7 @@ func _print_performance_audit() -> void:
 			counts["lights"] += 1
 			if (node as Light3D).shadow_enabled:
 				counts["shadows"] += 1
-	print("SECTOR04_MANUAL_PERFORMANCE: nodes=%d MeshInstance3D=%d ArrayMesh=%d StaticBody3D=%d CollisionShape3D=%d MultiMeshInstance3D=%d Light3D=%d shadow_lights=%d" % [counts.nodes, counts.mesh, counts.array, counts.body, counts.collision, counts.multimesh, counts.lights, counts.shadows])
+	print("SECTOR04_V2_PERFORMANCE: nodes=%d MeshInstance3D=%d ArrayMesh=%d StaticBody3D=%d CollisionShape3D=%d MultiMeshInstance3D=%d Light3D=%d shadow_lights=%d" % [counts.nodes, counts.mesh, counts.array, counts.body, counts.collision, counts.multimesh, counts.lights, counts.shadows])
 
 
 func _run_optional_tasks() -> void:
@@ -609,6 +536,34 @@ func _validate_sector() -> bool:
 		failures.push_back("missing collision shape")
 	if _fixture_data.size() != 27 or _lit_fixture_transforms.size() != 24 or _off_fixture_transforms.size() != 3 or _light_count != MAX_REAL_LIGHTS:
 		failures.push_back("invalid fixture/light distribution")
+	if _vent_transforms.size() != 5 or vent_visuals.multimesh == null:
+		failures.push_back("invalid vent distribution")
+	for build_error: String in _build_result.get("errors", []):
+		failures.push_back("architecture builder: %s" % build_error)
+	var build_stats: Dictionary = _build_result.get("stats", {})
+	if int(build_stats.get("input_polygons", 0)) != 14 or int(build_stats.get("union_polygons", 0)) != 1 or int(build_stats.get("partition_count", 0)) != 4:
+		failures.push_back("unexpected union topology")
+	if int(build_stats.get("duplicate_floor_triangles", -1)) != 0 or int(build_stats.get("duplicate_ceiling_triangles", -1)) != 0 or int(build_stats.get("duplicate_wall_triangles", -1)) != 0:
+		failures.push_back("duplicate aggregate triangles")
+	for vent_transform: Transform3D in _vent_transforms:
+		if vent_transform.basis.z.normalized().dot(Vector3.UP) < 0.99 or not is_equal_approx(vent_transform.origin.y, 2.84):
+			failures.push_back("vent is not a horizontal ceiling HVAC module")
+	_validate_wall_segments(failures)
+	_print_door_seam_audit(failures)
+	if float(build_stats.get("max_wall_junction_delta", INF)) > DOOR_SEAM_TOLERANCE:
+		failures.push_back("wall face junction delta exceeds 0.001 m")
+	if push_door == null:
+		failures.push_back("missing reusable push door")
+	if door_frames.multimesh == null or door_frames.multimesh.instance_count != 2:
+		failures.push_back("door/glass frames do not use one complete two-sided frame per opening")
+	if not is_equal_approx(float(_glass_opening_contract.get("frame_outer_width", 0.0)), DOOR_FRAME_OUTER_WIDTH) or not is_equal_approx(float(_push_opening_contract.get("cut_height", 0.0)), DOOR_FRAME_OUTER_HEIGHT):
+		failures.push_back("framed opening contract dimensions changed")
+	if map_mount.mesh == null or not is_equal_approx(map_mount.mesh.get_aabb().size.x, 0.025) or not is_equal_approx(map_mount.mesh.get_aabb().size.y, 0.90) or not is_equal_approx(map_mount.mesh.get_aabb().size.z, 1.40):
+		failures.push_back("MapMount backing is not 1.40 x 0.90 x 0.025 m")
+	if map_face.mesh == null or map_face.position.x <= 0.0125 or not is_equal_approx(map_mount.position.y, 1.45):
+		failures.push_back("map face is not front-only at the required height/gap")
+	if get_node_or_null("Details/EmbeddedArmchair") != null:
+		failures.push_back("embedded furniture was not removed")
 	var space := get_world_3d().direct_space_state
 	var floor_samples := [
 		Vector2(0.0, 2.2), Vector2(0.0, 18.0), Vector2(0.0, 37.0), Vector2(8.7, 2.4),
@@ -630,6 +585,24 @@ func _validate_sector() -> bool:
 	var wall_query := PhysicsRayQueryParameters3D.create(to_global(Vector3(5.10, 1.0, 15.0)), to_global(Vector3(6.80, 1.0, 15.0)), 1)
 	if space.intersect_ray(wall_query).is_empty():
 		failures.push_back("solid east wall collision ray missed")
+	var wall_rays := [
+		[Vector3(-4.0, 1.0, 0.6), Vector3(-4.0, 1.0, -0.6)], [Vector3(-6.4, 1.0, 3.0), Vector3(-7.6, 1.0, 3.0)],
+		[Vector3(6.4, 1.0, 6.0), Vector3(7.6, 1.0, 6.0)], [Vector3(5.4, 1.0, 15.0), Vector3(6.6, 1.0, 15.0)],
+		[Vector3(-5.4, 1.0, 15.0), Vector3(-6.6, 1.0, 15.0)], [Vector3(2.0, 1.0, 38.4), Vector3(2.0, 1.0, 39.6)],
+		[Vector3(9.0, 1.0, 1.2), Vector3(9.0, 1.0, 0.2)], [Vector3(9.8, 1.0, 2.4), Vector3(10.8, 1.0, 2.4)],
+		[Vector3(9.0, 1.0, 3.6), Vector3(9.0, 1.0, 4.6)], [Vector3(-1.0, 1.0, -5.0), Vector3(-2.0, 1.0, -5.0)],
+		[Vector3(1.0, 1.0, -5.0), Vector3(2.0, 1.0, -5.0)], [Vector3(4.0, 1.0, -11.6), Vector3(4.0, 1.0, -10.4)],
+		[Vector3(3.0, 1.0, -13.4), Vector3(3.0, 1.0, -14.6)], [Vector3(12.4, 1.0, -17.0), Vector3(13.6, 1.0, -17.0)],
+		[Vector3(7.1, 1.0, -17.0), Vector3(5.9, 1.0, -17.0)], [Vector3(10.6, 1.0, -23.0), Vector3(11.7, 1.0, -23.0)],
+		[Vector3(8.9, 1.0, -23.0), Vector3(7.8, 1.0, -23.0)], [Vector3(11.7, 1.0, -28.0), Vector3(12.7, 1.0, -28.0)],
+		[Vector3(7.8, 1.0, -28.0), Vector3(6.8, 1.0, -28.0)], [Vector3(11.2, 1.0, -38.0), Vector3(12.2, 1.0, -38.0)],
+		[Vector3(-23.8, 1.0, 44.0), Vector3(-24.9, 1.0, 44.0)],
+	]
+	for wall_index in wall_rays.size():
+		var sample: Array = wall_rays[wall_index]
+		var sample_query := PhysicsRayQueryParameters3D.create(to_global(sample[0]), to_global(sample[1]), 1)
+		if space.intersect_ray(sample_query).is_empty():
+			failures.push_back("wall collision sample %d missed" % wall_index)
 	var opening_rays := [
 		{"id": "A1-A2", "from": Vector3(0.0, 1.0, 6.50), "to": Vector3(0.0, 1.0, 7.50)},
 		{"id": "A1-C01", "from": Vector3(0.0, 1.0, 0.50), "to": Vector3(0.0, 1.0, -0.50)},
@@ -640,19 +613,44 @@ func _validate_sector() -> bool:
 		{"id": "C-R02-C04", "from": Vector3(9.75, 1.0, -30.50), "to": Vector3(9.75, 1.0, -31.50)},
 		{"id": "C04-C-R03", "from": Vector3(9.75, 1.0, -35.50), "to": Vector3(9.75, 1.0, -36.50)},
 		{"id": "A2-D-C01", "from": Vector3(-5.50, 1.0, 24.00), "to": Vector3(-6.50, 1.0, 24.00)},
-		{"id": "D-C01-D-R01", "from": Vector3(-11.00, 1.0, 24.00), "to": Vector3(-12.00, 1.0, 24.00)},
 		{"id": "A2-E-C01", "from": Vector3(-5.50, 1.0, 35.10), "to": Vector3(-6.50, 1.0, 35.85)},
 		{"id": "E-C01-E", "from": Vector3(-11.90, 1.0, 39.675), "to": Vector3(-12.90, 1.0, 40.425)},
+		{"id": "D-R02", "from": Vector3(-13.50, 1.0, 22.80), "to": Vector3(-14.80, 1.0, 22.80)},
 	]
 	for opening: Dictionary in opening_rays:
 		var opening_query := PhysicsRayQueryParameters3D.create(to_global(opening["from"]), to_global(opening["to"]), 1)
 		if not space.intersect_ray(opening_query).is_empty():
 			failures.push_back("unexpected collision in opening %s" % String(opening["id"]))
+	var door_body := push_door.get_node("Hinge/DoorBody") as AnimatableBody3D
+	var door_cut_query := PhysicsRayQueryParameters3D.create(to_global(Vector3(-11.0, 1.0, 24.0)), to_global(Vector3(-12.0, 1.0, 24.0)), 1)
+	door_cut_query.exclude = [door_body.get_rid()]
+	if not space.intersect_ray(door_cut_query).is_empty():
+		failures.push_back("push-door opening still contains architecture collision")
+	var glass_cut_query := PhysicsRayQueryParameters3D.create(to_global(Vector3(6.5, 1.0, 2.4)), to_global(Vector3(7.5, 1.0, 2.4)), 1)
+	glass_cut_query.exclude = [glass_door_collision.get_parent().get_rid()]
+	if not space.intersect_ray(glass_cut_query).is_empty():
+		failures.push_back("glass opening still contains architecture collision")
+	_validate_framed_opening_collisions(space, door_body, failures)
+	var map_room_east_wall := PhysicsRayQueryParameters3D.create(to_global(Vector3(-13.50, 1.0, 21.55)), to_global(Vector3(-14.80, 1.0, 21.55)), 1)
+	if space.intersect_ray(map_room_east_wall).is_empty():
+		failures.push_back("D-R02 east wall beside its passage is missing")
+	var map_room_north_wall := PhysicsRayQueryParameters3D.create(to_global(Vector3(-16.00, 1.0, 24.20)), to_global(Vector3(-16.00, 1.0, 25.20)), 1)
+	if space.intersect_ray(map_room_north_wall).is_empty():
+		failures.push_back("D-R02 north wall is missing")
+	var map_room_clear_width := (-14.15 - WALL_THICKNESS * 0.5) - (-17.50)
+	var map_room_clear_depth := (24.75 - WALL_THICKNESS * 0.5) - 21.00
+	if not is_equal_approx(map_room_clear_width, 3.20) or not is_equal_approx(map_room_clear_depth, 3.60):
+		failures.push_back("D-R02 clear size is not 3.20 x 3.60 m")
+	var east_circulation_clearance := (-11.50) - (-14.15 + WALL_THICKNESS * 0.5)
+	var north_circulation_clearance := 27.00 - (24.75 + WALL_THICKNESS * 0.5)
+	if east_circulation_clearance < 1.40 or north_circulation_clearance < 1.40:
+		failures.push_back("D-R02 reduced D-R01 circulation below 1.40 m")
 	for width: float in [3.00, 3.00, 3.00, 2.80, 2.80, 2.80, 2.80, 3.00]:
 		if width < 2.60 or width <= PLAYER_RADIUS * 2.0:
 			failures.push_back("invalid opening width %.2f" % width)
 	var player := get_node_or_null("../../Player") as CharacterBody3D
 	var movement_distance := 0.0
+	var wall_slide_distance := 0.0
 	if player == null:
 		failures.push_back("player missing")
 	else:
@@ -670,12 +668,138 @@ func _validate_sector() -> bool:
 			failures.push_back("player fell through floor")
 		player.global_position = start
 		player.velocity = Vector3.ZERO
+		var saved_transform := player.global_transform
+		var player_camera := player.get_node("Camera3D") as Camera3D
+		player.global_position = to_global(Vector3(5.55, 0.10, 14.0))
+		player.rotation = Vector3.ZERO
+		player_camera.rotation.x = 0.0
+		for _frame_index in 5:
+			await get_tree().physics_frame
+		var slide_start := player.global_position
+		Input.action_press("move_forward")
+		Input.action_press("move_right")
+		for _frame_index in 30:
+			await get_tree().physics_frame
+		Input.action_release("move_forward")
+		Input.action_release("move_right")
+		wall_slide_distance = absf(player.global_position.z - slide_start.z)
+		if wall_slide_distance < 0.70:
+			failures.push_back("wall slide snagged after %.3f m" % wall_slide_distance)
+		player.global_transform = saved_transform
+		player.velocity = Vector3.ZERO
+		await _validate_push_door(player, space, failures)
 	if failures.is_empty():
-		print("SECTOR04_MANUAL_VALIDATION: PASS floors walls columns glass movement=%.3fm corridors>=2.60m fixtures=27 lights=8" % movement_distance)
+		print("SECTOR04_V2_VALIDATION: PASS input=14 union=1 boundary=%d->%d partitions=4 floor_samples=15 wall_samples=23 openings=14 framed=2 seam_max=%.6fm jamb_collision=4 wall_junction_max=%.6fm map_room=3.20x3.60 passage=1.20 clearances=2.50+2.10 vents=5 furniture=0 movement=%.3fm slide=%.3fm door=open+close duplicates=0" % [build_stats.boundary_edges_before, build_stats.boundary_edges_after, _max_door_seam_delta, float(build_stats.max_wall_junction_delta), movement_distance, wall_slide_distance])
 		return true
 	for failure: String in failures:
-		push_error("SECTOR04_MANUAL_VALIDATION: %s" % failure)
+		push_error("SECTOR04_V2_VALIDATION: %s" % failure)
 	return false
+
+
+func _validate_framed_opening_collisions(space: PhysicsDirectSpaceState3D, push_door_body: AnimatableBody3D, failures: Array[String]) -> void:
+	var glass_body := glass_door_collision.get_parent() as StaticBody3D
+	for run: Dictionary in _partition_walls:
+		var direction := (Vector2(run["b"]) - Vector2(run["a"])).normalized()
+		var normal: Vector2 = run["normal"]
+		for opening: Dictionary in run["openings"]:
+			if not bool(opening.get("framed", false)):
+				continue
+			var center: Vector2 = _architecture_builder.opening_wall_center(run, opening, WALL_THICKNESS)
+			var excluded: Array[RID] = []
+			excluded.push_back(glass_body.get_rid() if String(opening["id"]) == "glass_room" else push_door_body.get_rid())
+			var clear_query := _opening_cross_query(center, normal, excluded)
+			if not space.intersect_ray(clear_query).is_empty():
+				failures.push_back("framed opening %s clear centre is blocked" % String(opening["id"]))
+			var jamb_offset := float(opening["clear_width"]) * 0.5 + float(opening["jamb_visible_width"]) * 0.5
+			for side: float in [-1.0, 1.0]:
+				var jamb_point := center + direction * jamb_offset * side
+				var jamb_query := _opening_cross_query(jamb_point, normal, excluded)
+				if space.intersect_ray(jamb_query).is_empty():
+					failures.push_back("framed opening %s jamb collision missing on side %.0f" % [opening["id"], side])
+
+
+func _opening_cross_query(point: Vector2, normal: Vector2, excluded: Array[RID]) -> PhysicsRayQueryParameters3D:
+	var start := to_global(Vector3(point.x + normal.x * 0.70, 1.0, point.y + normal.y * 0.70))
+	var finish := to_global(Vector3(point.x - normal.x * 0.70, 1.0, point.y - normal.y * 0.70))
+	var query := PhysicsRayQueryParameters3D.create(start, finish, 1)
+	query.exclude = excluded
+	return query
+
+
+func _validate_wall_segments(failures: Array[String]) -> void:
+	var all_walls: Array[Dictionary] = []
+	all_walls.append_array(_boundary_walls)
+	all_walls.append_array(_partition_walls)
+	for wall_index in all_walls.size():
+		var wall: Dictionary = all_walls[wall_index]
+		var wall_a: Vector2 = wall["a"]
+		if wall_a.distance_to(wall["b"]) < MIN_WALL_LENGTH:
+			failures.push_back("short sanitized wall %d" % wall_index)
+		for other_index in range(wall_index + 1, all_walls.size()):
+			var other: Dictionary = all_walls[other_index]
+			if _same_undirected_segment(wall["a"], wall["b"], other["a"], other["b"]):
+				failures.push_back("duplicate sanitized walls %d/%d" % [wall_index, other_index])
+	for partition: Dictionary in _partition_walls:
+		for boundary: Dictionary in _boundary_walls:
+			if _collinear_overlap_length(partition["a"], partition["b"], boundary["a"], boundary["b"]) > POSITION_EPSILON:
+				failures.push_back("partition overlaps boundary")
+
+
+func _validate_push_door(player: CharacterBody3D, space: PhysicsDirectSpaceState3D, failures: Array[String]) -> void:
+	var saved_transform := player.global_transform
+	var player_camera := player.get_node("Camera3D") as Camera3D
+	player.global_position = to_global(Vector3(-9.80, 0.10, 24.00))
+	player.rotation = Vector3(0.0, PI * 0.5, 0.0)
+	player_camera.rotation.x = 0.0
+	player.velocity = Vector3.ZERO
+	for _frame_index in 5:
+		await get_tree().physics_frame
+	var glass_body := glass_door_collision.get_parent()
+	if glass_body.has_method("interact") or glass_body.get_parent().has_method("interact"):
+		failures.push_back("glass door became interactable")
+	_send_interact_input()
+	for _frame_index in 30:
+		await get_tree().physics_frame
+	if not bool(push_door.get("is_open")):
+		failures.push_back("E did not open push door")
+	var door_body := push_door.get_node("Hinge/DoorBody") as AnimatableBody3D
+	if absf(door_body.rotation.y) < deg_to_rad(90.0):
+		failures.push_back("push door did not reach open angle")
+	var old_plane_query := PhysicsRayQueryParameters3D.create(to_global(Vector3(-11.00, 1.0, 24.00)), to_global(Vector3(-12.00, 1.0, 24.00)), 1)
+	if not space.intersect_ray(old_plane_query).is_empty():
+		failures.push_back("open push door still blocks closed plane")
+	var moved_leaf_query := PhysicsRayQueryParameters3D.create(to_global(Vector3(-12.00, 1.0, 22.90)), to_global(Vector3(-12.00, 1.0, 23.90)), 1)
+	if space.intersect_ray(moved_leaf_query).is_empty():
+		failures.push_back("push door collision did not follow leaf")
+	player.global_position = to_global(Vector3(-12.00, 0.10, 25.20))
+	player.rotation = Vector3.ZERO
+	player_camera.rotation.x = 0.0
+	player.velocity = Vector3.ZERO
+	for _frame_index in 5:
+		await get_tree().physics_frame
+	_send_interact_input()
+	for _frame_index in 30:
+		await get_tree().physics_frame
+	if bool(push_door.get("is_open")):
+		failures.push_back("E did not close push door")
+	var closed_query := PhysicsRayQueryParameters3D.create(to_global(Vector3(-11.00, 1.0, 24.00)), to_global(Vector3(-12.00, 1.0, 24.00)), 1)
+	if space.intersect_ray(closed_query).is_empty():
+		failures.push_back("closed push door collision missing")
+	if player.global_position.y < -0.5:
+		failures.push_back("player displaced through floor during door test")
+	player.global_transform = saved_transform
+	player.velocity = Vector3.ZERO
+
+
+func _send_interact_input() -> void:
+	var pressed := InputEventAction.new()
+	pressed.action = "interact"
+	pressed.pressed = true
+	Input.parse_input_event(pressed)
+	var released := InputEventAction.new()
+	released.action = "interact"
+	released.pressed = false
+	Input.parse_input_event(released)
 
 
 func _capture_sector() -> void:
@@ -686,14 +810,10 @@ func _capture_sector() -> void:
 	camera.current = true
 	add_child(camera)
 	var shots := [
-		{"file": "sector_04_manual_spawn.png", "position": Vector3(0.0, 1.68, 2.2), "target": Vector3(0.2, 1.45, 25.0), "fov": 76.0},
-		{"file": "sector_04_manual_main_hall_axis.png", "position": Vector3(0.0, 1.68, 37.5), "target": Vector3(0.0, 1.45, 8.0), "fov": 78.0},
-		{"file": "sector_04_manual_c01.png", "position": Vector3(0.0, 1.62, -5.5), "target": Vector3(0.0, 1.40, -11.5), "fov": 70.0},
-		{"file": "sector_04_manual_c03.png", "position": Vector3(9.75, 1.62, -23.25), "target": Vector3(9.75, 1.40, -27.5), "fov": 68.0},
-		{"file": "sector_04_manual_d_c01.png", "position": Vector3(-8.75, 1.62, 24.0), "target": Vector3(-15.8, 1.40, 24.0), "fov": 70.0},
-		{"file": "sector_04_manual_e_c01.png", "position": Vector3(-9.15, 1.62, 37.6125), "target": Vector3(-13.3, 1.40, 40.725), "fov": 70.0},
-		{"file": "sector_04_manual_glass_door.png", "position": Vector3(4.4, 1.58, 2.4), "target": Vector3(7.00, 1.10, 2.4), "fov": 62.0},
-		{"file": "sector_04_manual_columns.png", "position": Vector3(-19.9, 1.62, 40.1), "target": Vector3(-18.4, 1.42, 48.7), "fov": 70.0},
+		{"file": "sector_04_door_seam_left_closeup.png", "position": Vector3(-10.78, 1.28, 23.70), "target": Vector3(-11.50, 1.10, 23.34), "fov": 47.0},
+		{"file": "sector_04_door_seam_right_closeup.png", "position": Vector3(-10.78, 1.28, 24.30), "target": Vector3(-11.50, 1.10, 24.66), "fov": 47.0},
+		{"file": "sector_04_wall_t_junction_closeup.png", "position": Vector3(-8.90, 1.42, 23.35), "target": Vector3(-11.50, 0.82, 22.60), "fov": 55.0},
+		{"file": "sector_04_door_seam_distance.png", "position": Vector3(-9.70, 1.48, 24.00), "target": Vector3(-11.50, 1.12, 24.00), "fov": 55.0},
 	]
 	var output_dir := ProjectSettings.globalize_path("res://captures")
 	DirAccess.make_dir_recursive_absolute(output_dir)
@@ -703,18 +823,13 @@ func _capture_sector() -> void:
 		camera.fov = float(shot.fov)
 		camera.look_at(shot.target, Vector3.UP)
 		await _save_capture(camera, output_dir.path_join(String(shot.file)))
-	ceiling_visual.visible = false
-	fixture_visuals.visible = false
-	fixture_visuals_off.visible = false
-	camera.projection = Camera3D.PROJECTION_ORTHOGONAL
-	camera.size = 100.0
-	camera.position = Vector3(-5.0, 95.0, 4.75)
-	camera.look_at(Vector3(-5.0, 0.0, 4.75), Vector3.FORWARD)
-	await _save_capture(camera, output_dir.path_join("sector_04_manual_topdown.png"))
-	ceiling_visual.visible = true
-	fixture_visuals.visible = true
-	fixture_visuals_off.visible = true
-	_write_manual_overlay(output_dir.path_join("sector_04_manual_overlay.png"))
+	push_door.call("request_toggle", camera)
+	for _frame_index in 30:
+		await get_tree().physics_frame
+	camera.position = Vector3(-9.70, 1.48, 24.00)
+	camera.fov = 55.0
+	camera.look_at(Vector3(-11.50, 1.12, 24.00), Vector3.UP)
+	await _save_capture(camera, output_dir.path_join("sector_04_door_open_seam.png"))
 	camera.queue_free()
 
 
@@ -726,67 +841,4 @@ func _save_capture(_camera: Camera3D, output_path: String) -> void:
 	if save_error != OK:
 		push_error("Sector04 capture failed: %s" % error_string(save_error))
 	else:
-		print("SECTOR04_MANUAL_CAPTURE: %s" % output_path)
-
-
-func _write_manual_overlay(output_path: String) -> void:
-	var source := Image.load_from_file(ProjectSettings.globalize_path("res://assets/level_0/maps/sector_04.png"))
-	if source == null or source.is_empty():
-		push_error("Sector04 manual overlay source missing")
-		return
-	source.convert(Image.FORMAT_RGBA8)
-	source.resize(1024, 1024, Image.INTERPOLATE_LANCZOS)
-	var manual := Image.create(1024, 1024, false, Image.FORMAT_RGBA8)
-	manual.fill(Color(0.31, 0.31, 0.31, 1.0))
-	var bounds := Rect2(Vector2(-26.0, -41.5), Vector2(41.0, 92.5))
-	for pixel_y in 1024:
-		for pixel_x in 1024:
-			var world := Vector2(bounds.position.x + float(pixel_x) / 1023.0 * bounds.size.x, bounds.end.y - float(pixel_y) / 1023.0 * bounds.size.y)
-			if _point_on_manual_floor(world):
-				manual.set_pixel(pixel_x, pixel_y, Color(0.76, 0.59, 0.34, 1.0))
-	for wall: Dictionary in _boundary_walls:
-		_draw_world_line(manual, wall["a"], wall["b"], bounds, Color(0.0, 0.95, 0.92, 1.0), 2)
-	for wall: Dictionary in _partition_walls:
-		_draw_world_line(manual, wall["a"], wall["b"], bounds, Color(0.0, 0.95, 0.92, 1.0), 2)
-	_draw_world_line(manual, Vector2(7.00, 1.80), Vector2(7.00, 3.00), bounds, Color(0.2, 0.75, 1.0, 1.0), 3)
-	for center: Vector2 in _column_centers():
-		var pixel := _world_to_overlay(center, bounds)
-		for offset_y in range(-5, 6):
-			for offset_x in range(-5, 6):
-				var target := pixel + Vector2i(offset_x, offset_y)
-				if target.x >= 0 and target.y >= 0 and target.x < 1024 and target.y < 1024:
-					manual.set_pixelv(target, Color(0.18, 0.12, 0.05, 1.0))
-	var comparison := Image.create(2048, 1024, false, Image.FORMAT_RGBA8)
-	comparison.blit_rect(source, Rect2i(0, 0, 1024, 1024), Vector2i.ZERO)
-	comparison.blit_rect(manual, Rect2i(0, 0, 1024, 1024), Vector2i(1024, 0))
-	var save_error := comparison.save_png(output_path)
-	if save_error != OK:
-		push_error("Sector04 overlay failed: %s" % error_string(save_error))
-	else:
-		print("SECTOR04_MANUAL_CAPTURE: %s" % output_path)
-
-
-func _point_on_manual_floor(point: Vector2) -> bool:
-	for shape: PackedVector2Array in _floor_shapes:
-		if Geometry2D.is_point_in_polygon(point, shape):
-			return true
-	return false
-
-
-func _draw_world_line(image: Image, a: Vector2, b: Vector2, bounds: Rect2, color: Color, thickness: int) -> void:
-	var start := _world_to_overlay(a, bounds)
-	var finish := _world_to_overlay(b, bounds)
-	var delta := finish - start
-	var steps := maxi(absi(delta.x), absi(delta.y))
-	for step in steps + 1:
-		var amount := float(step) / float(maxi(steps, 1))
-		var pixel := Vector2i(Vector2(start).lerp(Vector2(finish), amount))
-		for offset_y in range(-thickness, thickness + 1):
-			for offset_x in range(-thickness, thickness + 1):
-				var target := pixel + Vector2i(offset_x, offset_y)
-				if target.x >= 0 and target.y >= 0 and target.x < image.get_width() and target.y < image.get_height():
-					image.set_pixelv(target, color)
-
-
-func _world_to_overlay(point: Vector2, bounds: Rect2) -> Vector2i:
-	return Vector2i(roundi((point.x - bounds.position.x) / bounds.size.x * 1023.0), roundi((bounds.end.y - point.y) / bounds.size.y * 1023.0))
+		print("SECTOR04_V2_CAPTURE: %s" % output_path)

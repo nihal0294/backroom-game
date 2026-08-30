@@ -1,0 +1,8 @@
+Godot Engine v4.5.stable.official.876b29033 - https://godotengine.org
+
+ERROR: Failed to read the root certificate store.
+   at: get_system_ca_certificates (platform/windows/os_windows.cpp:2468)
+BACKROOMS_VR_DOOR_AUDIT: source_outer_double_assembly=2.1053x2.2771x0.2088m SOURCE_EXACT source_single_leaf_slab=0.9897x2.1917x0.0357m SOURCE_EXACT
+BACKROOMS_VR_DOOR_AUDIT: extracted_single_leaf_with_hardware=1.0626x2.2095x0.1819m SOURCE_EXACT source_materials=Exit_Door frame_material=Exit_Door Wood_is_baseboard_not_frame
+BACKROOMS_VR_DOOR_AUDIT: individual_source_jamb_width=UNKNOWN individual_source_jamb_depth=UNKNOWN adopted_clear=1.20x2.20m adopted_frame_face=0.085m depth=0.060m projection=0.020m VISUAL_APPROXIMATION
+LEVEL0_DOOR_TEST_VALIDATION: PASS wall=5.00x2.866x0.30 opening=1.20x2.20 topology=left+right+header hidden_wall=none frame=3-piecex2 interaction=E angle=95 collision=follows_leaf

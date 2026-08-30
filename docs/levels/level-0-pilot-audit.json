@@ -1,55 +1,8 @@
 {
-  "pilot": {
-    "id": "sector_001",
-    "name": "17-days-core",
-    "reason": "Central mapped cluster matching the older '17 days after arrival' zoom: flooded water, green carpet, poor lighting, no-ceiling spur, fan, narrow pinch, theatre/boiler/long stair, orange bulb.",
-    "px_box": [
-      1550,
-      1860,
-      2420,
-      2580
-    ]
-  },
-  "mpp": 0.173846,
-  "grid": [
-    302,
-    250
-  ],
-  "occupied_cells": 28865,
-  "floor_rects": 2625,
-  "wall_segments": 4534,
-  "overlap_cells": 0,
-  "missing_walkable_cells": 0,
-  "extra_floor_cells": 0,
-  "unintentional_overlaps": 0,
-  "unclassified_walkable_gaps": 0,
-  "spawn_m": [
-    304.0,
-    344.0
-  ],
-  "fixtures": 222,
-  "flicker_fixtures": 1,
-  "unpowered_fixtures": 2,
-  "orange_bulbs": 1,
-  "annotation_count": 162,
-  "confidence": {
-    "HIGH": 158,
-    "MEDIUM": 4,
-    "LOW": 0,
-    "UNREADABLE": 0
-  },
-  "estimated_level_span_m": [
-    658.25,
-    642.0
-  ],
-  "spawn_yaw": "180 deg, looking +Z",
-  "optimization": {
-    "method": "chunked ArrayMesh + ConcavePolygonShape3D + MultiMesh fixtures",
-    "chunk_m": 40,
-    "chunks": 16,
-    "overlap_cells": 0,
-    "missing_walkable_cells": 0,
-    "extra_floor_cells": 0,
-    "walk_samples_ok": 1145
-  }
+  "schema_version": 2,
+  "audit_id": "level_0_71_days_pilot",
+  "status": "ARCHIVED_IMPLEMENTATION_REMOVED",
+  "runtime_scene": null,
+  "trace_reference": "docs/levels/level-0-final-trace.json",
+  "note": "The generated pilot scene and resources were removed after developer approval. Historical implementation metrics no longer describe the runtime."
 }

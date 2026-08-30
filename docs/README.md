@@ -11,7 +11,7 @@ Questa cartella è la fonte di verità di `backroom-game`, dopo la richiesta cor
 5. [`content-system.md`](content-system.md) — modello per Levels, Entities, Objects ed Exits.
 6. [`lore.md`](lore.md) — canone Backrooms adottato e deroghe.
 7. [`development-plan.md`](development-plan.md) — ordine di implementazione e test.
-8. [`levels/level-0-sector-04.md`](levels/level-0-sector-04.md) — primo settore attivo della mappa numerata, trace metrico e kit architettonico Backrooms VR.
+8. [`levels/level-0-sector-04.md`](levels/level-0-sector-04.md) — primo settore attivo della mappa numerata, planimetria union e kit architettonico Backrooms VR.
 9. [`levels/level-0-rooms.md`](levels/level-0-rooms.md) — workflow room-by-room storico, conservato per tracciabilità.
 10. [`levels/level-0-final-manifest.md`](levels/level-0-final-manifest.md) — master map 71-days, trace e storico del tentativo generato a settori.
 

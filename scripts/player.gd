@@ -14,6 +14,7 @@ const CAMERA_PITCH_MAX := deg_to_rad(89.0)
 
 @onready var _camera: Camera3D = $Camera3D
 @onready var _flashlight: SpotLight3D = $Camera3D/Flashlight
+@onready var _interaction_ray: RayCast3D = $Camera3D/InteractionRay
 @onready var _status: CharacterStatusScript = $CharacterStatus
 @onready var _inventory: InventoryRuntimeScript = $InventoryRuntime
 @onready var _ui: CanvasLayer = $PlayerUI
@@ -25,6 +26,7 @@ var _was_sprinting: bool = false
 
 func _ready() -> void:
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
+	_interaction_ray.add_exception(self)
 
 
 func is_busy_in_ui() -> bool:
@@ -66,10 +68,27 @@ func _unhandled_input(event: InputEvent) -> void:
 	if is_busy_in_ui():
 		return
 
+	if event.is_action_pressed("interact") and not event.is_echo():
+		_try_interact()
+		get_viewport().set_input_as_handled()
+		return
+
 	if event is InputEventMouseMotion and _mouse_captured:
 		rotate_y(-event.relative.x * mouse_sensitivity)
 		_camera.rotate_x(-event.relative.y * mouse_sensitivity)
 		_camera.rotation.x = clampf(_camera.rotation.x, CAMERA_PITCH_MIN, CAMERA_PITCH_MAX)
+
+
+func _try_interact() -> void:
+	_interaction_ray.force_raycast_update()
+	if not _interaction_ray.is_colliding():
+		return
+	var target := _interaction_ray.get_collider() as Node
+	while target != null and target != get_tree().current_scene:
+		if target.has_method("interact"):
+			target.call("interact", self)
+			return
+		target = target.get_parent()
 
 
 

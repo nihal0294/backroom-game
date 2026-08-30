@@ -1,0 +1,29 @@
+[gd_scene load_steps=4 format=3]
+
+[ext_resource type="Script" path="res://scripts/props/level_0/push_door.gd" id="1_script"]
+[ext_resource type="ArrayMesh" path="res://resources/meshes/level_0/vr_kit/exit_door_leaf.res" id="2_leaf"]
+[sub_resource type="BoxShape3D" id="BoxShape_leaf"]
+size = Vector3(1.05, 2.19, 0.05)
+
+[node name="PushDoor" type="Node3D"]
+script = ExtResource("1_script")
+
+[node name="Frame" type="Node3D" parent="."]
+
+[node name="Hinge" type="Node3D" parent="."]
+unique_name_in_owner = true
+
+[node name="DoorBody" type="AnimatableBody3D" parent="Hinge"]
+unique_name_in_owner = true
+collision_layer = 1
+collision_mask = 1
+sync_to_physics = true
+
+[node name="DoorMesh" type="MeshInstance3D" parent="Hinge/DoorBody"]
+position = Vector3(1.0627, 0, 0)
+rotation = Vector3(0, 3.14159265, 0)
+mesh = ExtResource("2_leaf")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Hinge/DoorBody"]
+position = Vector3(0.525, 1.095, 0)
+shape = SubResource("BoxShape_leaf")

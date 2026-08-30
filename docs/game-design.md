@@ -101,7 +101,7 @@ Gli oggetti includono strumenti, consumabili, armi, artefatti, decorazioni e ogg
 - entità non confermate (wiki: unknown); non inserirle;
 - uscita wiki di riferimento: parete tremolante/instabile verso Level 1.
 
-Il precedente `level_0_test.tscn` con Sector001/Sector002 e il prototipo S01-R01 sono storici inattivi. Non ripararli, rigenerarli o usarli come fondazione. Sector 04 è il primo ambiente della nuova mappa a 48 settori; Backrooms VR definisce il linguaggio costruttivo, non la topologia.
+Le precedenti implementazioni Sector001/Sector002 e il prototipo S01-R01 sono state rimosse dal workspace e restano solo nella cronologia Git. Non ripararle o rigenerarle. Sector 04 è il primo ambiente della nuova mappa a 48 settori; Backrooms VR definisce il linguaggio costruttivo, non la topologia.
 
 ## Piattaforme
 
