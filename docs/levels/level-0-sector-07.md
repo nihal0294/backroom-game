@@ -1,133 +1,141 @@
-# Level 0 — Sector 07
+# Level 0 — Sector 07 manual plan
 
-## Authority and coordinate contract
+## Runtime contract
 
-Sector 07 is a static, deterministically baked continuation of Sector 04. Topology comes from `assets/level_0/maps/sector_07.png`; relative placement and annotations come from `level0_master_numbered.png`; external terminals come from `sectors_01_12_connections.png`. Backrooms VR assets provide visual language only.
+Sector 07 is manually authored vector geometry. `sector_07.png`, `level0_master_numbered.png` and `sectors_01_12_connections.png` are references used to define the plan; runtime generation does not sample pixels, load the trace JSON or call `build_traced()`.
 
-The 1024 × 1024 source uses one coordinate system throughout:
+The source-plan coordinates remain metric and deterministic. All rooms, corridors, partitions, columns, openings, fixtures and markers share one authoring coordinate system. A registration correction is then applied uniformly:
 
 ```gdscript
-local_x = (pixel_x - 180.0) * 0.09
-local_z = (pixel_y - 143.0) * 0.09
+registered_local = source_plan_local + Vector2(6.0, -6.0)
+world = Transform3D(yaw_150_degrees, Vector3(-6.0, 0.0, 29.26)) * registered_local
 ```
 
-Useful source bounds are X `180…844`, Y `143…906`, producing the required local AABB of approximately `59.85 × 68.76 m`. The old `0.089583 m/px` scale and Y origin `324` are retired.
+The root remains on the torn-wallpaper seam at world `(-6.00, 29.26)`. The manual body offset is not an independent room origin: it is one constant transform applied to the complete plan. A `2.60 m` connector joins the fixed seam to R09.
 
-## Confirmed root cause and replacement pipeline
+## Cause of the previous ammassamento
 
-The previous implementation mixed a Y origin of `324` with source points measured from the full PNG, then merged the main contour and hand-added connectors into one union polygon. The union could not retain exterior-connected void contours; the scene transform also anchored local `(0,0)` rather than source `(180,323)`. Those three errors caused rooms to bunch together, filled the voids and placed Sector 07 across Sector 04.
+The rejected implementation combined raster-cell occupancy, crop-relative source coordinates and locally positioned room/connector additions. Its sector registration placed valid Sector 07 regions inside the existing Sector 04 footprint and Map Room. Consequently several floors and walls were stacked in world space even when their local coordinates looked separate.
 
-The replacement pipeline is:
+The replacement removes the raster construction path from `sector_07.gd`. Rotation-only registration cannot satisfy the fixed Sector 04 footprint: the best sampled rotation without a body offset still produced 588 overlapping samples. The selected yaw `150°` plus the uniform `(6,-6) m` body offset produces zero overlap samples at `0.25 m` spacing and also passes the runtime collision-volume regression.
 
-1. `tools/trace_sector_07.gd` samples the PNG at `SAMPLE_STEP = 4` and simplifies closed boundary loops with `POLYGON_EPSILON_CELLS = 2.50`;
-2. non-overlapping greedy rectangles freeze floor and ceiling occupancy;
-3. all outer and inner loops, eight source-visible internal partitions, 12 dark pillars and the exact square hole are frozen in `sector_07_layout.gd`;
-4. `level0_architecture_builder.gd::build_traced()` emits four aggregate meshes and two aggregate collision resources without polygon union;
-5. approved Sector 04 footprints are excluded at 0.36 m trace-cell granularity, except the shared seam, preventing stacked geometry where the manually approved Sector 04 footprint differs from raster registration.
+## Architecture
 
-The noisy crop-edge fragments at the Sector 04 entrance are replaced, not overlaid, by one exact 2.15 m diagonal corridor. Under the selected 225-degree registration its local south-east direction maps to the west-facing normal of Sector 04. Traced wall segments have closed end faces; their coplanar horizontal caps are omitted to prevent floor/ceiling z-fighting. A visual-only ceiling continuation sits 4 mm above the primary underside and extends behind outward wall mass, covering trace-resolution seams without changing collision or floor occupancy.
+- Floor: local profiled `Y = 0`.
+- Ceiling: `2.866 m` above the local floor; it follows the Dark Room descent.
+- Wall thickness: `0.30 m`.
+- Baseboard: `0.12 m` high, `0.035 m` projection.
+- Standard openings: at least `2.60 m`; narrowest authored corridor is `2.90 m`.
+- Static geometry: 36 manual input polygons processed by the shared aggregate builder.
+- Repeated fixtures/details: MultiMesh.
+- Real lights: 8, shadows disabled.
+- Sector terminals 06, 08 and 11: capped markers only; no adjacent sectors instantiated.
 
-Runtime does not read the PNG or JSON.
+## Room inventory
 
-## Registration and Sector 04 protection
+Centres below are source-plan local coordinates before the uniform registration offset.
 
-| Item | Value |
-|---|---:|
-| Sector 04 seam centre | world `(-6.00, 29.26)` |
-| Source anchor | pixel `(180,323)` = local `(0.00,16.20)` |
-| Clear width | `2.15 m` |
-| Selected root | position `(5.45513,0,40.71513)`, yaw `225°` |
-| Map Room | `3.20 × 3.60 m`, unchanged |
-| MapMount | `(-17.4625,1.45,22.80)`, unchanged |
+| ID | Name | Centre X/Z | Maximum size | Main connections |
+|---|---|---:|---:|---|
+| R01 | Dark Room | `(57.60,-12.80)` | `9.60 × 11.60 m` | C01, terminal 06/ramp |
+| R02 | Sector 11 vestibule | `(50.20,0.00)` | `5.20 × 5.10 m` | C02, terminal 11 |
+| R03 | East transition chamber | `(36.50,-16.40)` | `8.80 × 7.60 m` | C03, core |
+| R04 | Core east hall | `(28.60,-10.60)` | `8.20 × 19.20 m` | core |
+| R05 | North-east core room | `(24.00,-0.40)` | `10.80 × 11.00 m` | core |
+| R06 | North central room | `(17.80,0.00)` | `14.00 × 11.00 m` | C04, core |
+| R07 | West pocket | `(7.00,-2.20)` | `7.80 × 11.00 m` | connector 04, core |
+| R08 | Central crossing | `(14.00,-9.20)` | `16.00 × 13.00 m` | core |
+| R09 | Torn-wallpaper vestibule | `(6.50,0.00)` | `5.00 × 5.00 m` | connector 04, core |
+| R10 | South-west core room | `(11.00,-13.00)` | `10.30 × 9.60 m` | core, C05 |
+| R11 | South hall | `(17.20,-23.00)` | `20.80 × 12.80 m` | C05, C06, C07 |
+| R12 | East ring side room | `(32.30,-35.00)` | `6.80 × 6.20 m` | C07 |
+| R13 | Square-hole room | `(24.00,-40.00)` | `7.00 × 7.00 m` | C06, R14/R15 |
+| R14 | Lower junction | `(18.50,-45.00)` | `9.20 × 8.60 m` | R13, C08 |
+| R15 | Lower east side room | `(31.00,-43.00)` | `8.40 × 6.00 m` | R13 |
+| R16 | Nest antechamber | `(12.20,-51.40)` | `8.00 × 7.80 m` | C08, R17 |
+| R17 | Nest terminal room | `(11.50,-56.80)` | `6.00 × 4.60 m` | R16 |
 
-The tested 0°, 180° and 203° candidates overlapped approved Sector 04 geometry; 180° and 203° specifically invaded the Map Room. The 225° candidate clears its protected volume and points the western source branch away from the seam. The deterministic Sector 04 footprint exclusion makes the 2.15 m seam the only shared collision surface. `%UnexploredExit` is not used.
+J01 is the `5.60 × 5.00 m` Sector 11 T-junction centred at `(50.20,-10.70)`.
 
-## Rooms
+## Corridor inventory
 
-These audit polygons describe visible source regions; runtime geometry remains the exact traced occupancy, not these control envelopes.
+| ID | Name | Centreline | Total length | Net width |
+|---|---|---|---:|---:|
+| C01 | First east spine | `(56.8,-10.7) → (54,-10.7) → (52,-11.7)` | `5.04 m` | `3.60 m` |
+| C02 | Sector 11 branch | `(50,-10) → (50,-5) → (50,-1)` | `9.00 m` | `3.20 m` |
+| C03 | Bent east spine | `(49,-11.8) → (44,-13.3) → (40.8,-14.7) → (38,-16.5)` | `12.04 m` | `3.60 m` |
+| C04 | Sector 08 branch | `(14.8,2.3) → (14,7.3) → (13,12.3) → (11.4,18)` | `16.08 m` | `3.20 m` |
+| C05 | Ring west side | `(12,-22.5) → (13,-26.2) → (14.8,-28.5)` | `6.75 m` | `3.20 m` |
+| C06 | Ring south side | `(14.8,-28.5) → (20,-31.7) → (25.6,-34.9) → (25.6,-36.5)` | `14.16 m` | `3.20 m` |
+| C07 | Ring east/music side | `(25.6,-34.9) → (29,-32.7) → (30.8,-28.7) → (28.4,-25.7)` | `12.28 m` | `3.20 m` |
+| C08 | Nest neck | `(18.6,-47) → (17.2,-48.9) → (14,-52.7) → (12,-52)` | `9.45 m` | `2.90 m` |
 
-| ID | Maximum size | Openings |
-|---|---:|---|
-| R07-01 | `12.24 × 10.08 m` | C07-01, 03, 04 |
-| R07-02 | `11.88 × 9.00 m` | C07-02, 03, 05 |
-| R07-03 | `17.28 × 13.32 m` | C07-04, 06, 10 |
-| R07-04 | `7.20 × 14.04 m` | C07-05, 06 |
-| R07-05 | `14.40 × 9.00 m` | C07-06, 07 |
-| R07-06 | `17.64 × 10.44 m` | C07-07, 08, 09 |
-| R07-07 | `15.48 × 11.16 m` | C07-10, 11, 13 |
-| R07-08 | `11.16 × 7.92 m` | C07-11, 12, 14 |
-| R07-09 | `9.00 × 10.80 m` | C07-12, 13 |
-| R07-10 | `11.16 × 7.92 m` | C07-14, 15 |
-| R07-11 | `5.40 × 5.76 m` | C07-15, 16 |
-| R07-12 | `3.24 × 4.32 m` | C07-16 |
+The C07 ring uses one small manually meshed bridge between two aggregate polygons. This preserves the ring void without asking `Geometry2D` to encode a hole as one simple polygon. Both bridge interfaces have explicit `3.00 m` wall cuts and pass the real capsule sweep.
 
-The three required large voids remain without floor or ceiling and have traced perimeter walls. Their control envelopes are approximately `(354…430,304…412)`, `(343…465,427…541)` and `(363…470,525…644)` px.
+## Registered terminals
 
-## Corridor audit
+| Terminal | Registered local X/Y/Z | World X/Y/Z | Width | State |
+|---|---:|---:|---:|---|
+| 04 | `(0.000,0.000,0.000)` | `(-6.000,0.000,29.260)` | `2.60 m` | connected to Sector 04 |
+| 06 | `(70.600,-0.987,-11.700)` | `(-72.991,-0.987,4.092)` | `3.20 m` | capped marker |
+| 08 | `(17.400,0.000,12.000)` | `(-15.069,0.000,10.168)` | `3.20 m` | capped marker |
+| 11 | `(56.000,0.000,-7.000)` | `(-57.997,0.000,7.322)` | `3.20 m` | capped marker |
 
-Bearings are in source-local X/Z. Complete endpoints, metre coordinates, predecessor/successor and room polygons are stored in `level-0-sector-07-trace.json`.
+## Special areas and annotations
 
-| ID | Source endpoints (px) | Length | Net width | Bearing |
-|---|---|---:|---:|---:|
-| C07-01 | `(180,323)→(244,356)` | 6.481 m | 2.15 m | 27.3° |
-| C07-02 | `(294,143)→(320,286)` | 13.081 m | 2.15 m | 79.7° |
-| C07-03 | `(244,356)→(316,344)` | 6.569 m | 3.60 m | -9.5° |
-| C07-04 | `(288,412)→(380,420)` | 8.311 m | 3.60 m | 5.0° |
-| C07-05 | `(424,324)→(500,392)` | 9.178 m | 3.60 m | 41.8° |
-| C07-06 | `(464,500)→(560,488)` | 8.707 m | 3.60 m | -7.1° |
-| C07-07 | `(560,488)→(700,444)` | 13.208 m | 3.60 m | -17.4° |
-| C07-08 | `(680,420)→(680,333)` | 7.830 m | 2.15 m | -90.0° |
-| C07-09 | `(700,444)→(826,450)` | 11.353 m | 3.60 m | 2.7° |
-| C07-10 | `(300,548)→(328,608)` | 5.959 m | 2.15 m | 65.0° |
-| C07-11 | `(328,608)→(436,672)` | 11.298 m | 2.15 m | 30.7° |
-| C07-12 | `(436,672)→(488,668)` | 4.694 m | 2.15 m | -4.4° |
-| C07-13 | `(488,668)→(464,580)` | 8.209 m | 2.15 m | -105.3° |
-| C07-14 | `(408,700)→(388,744)` | 4.350 m | 2.15 m | 114.4° |
-| C07-15 | `(388,744)→(328,812)` | 8.162 m | 2.15 m | 131.4° |
-| C07-16 | `(312,800)→(288,900)` | 9.256 m | 2.15 m | 103.5° |
-
-## Architecture and annotations
-
-- Wall thickness `0.30 m`, mass toward non-walkable space.
-- Floor at local `Y=0`; ceiling `2.866 m` above the local profiled floor.
-- Baseboard `0.12 m` high with `0.035 m` projection.
-- 0.60 m ceiling tessellation; profiled floor, walls and ceiling share the same slope function.
-- The east descent is `7.5°` over `7.5 m`, dropping `0.987 m`; three fixtures are off/broken and crack strips are visual only.
-- The square hole is `1.20 × 1.20 m` at approximately `(421,737)` px. Its floor triangles are absent and its shaft has collision; no death system was invented.
-- The distant-music annotation is marker-only at `(468,652)` px (`CONTENT_REQUIRED`).
-- The jammed/warped door remains static and visual; no interaction was invented.
-- The terminal “nest” rooms remain separate and empty; no entity or active nest was invented.
-- Terminal markers are source-capped at 08 `(294,143)`, 11 `(665,333)` and 06 `(826,380)`; no other sector is instantiated.
-- Normal Level 0 yellow carpet is used, not Sector 04's orange special carpet.
-
-Lighting stays at 21 batched fixtures (18 on, 3 off), eight sparse real lights, no shadows, six sockets and four vents.
+- Dark Room: 8 structural columns, 3 neutral placeholder props and uneven/broken lighting.
+- Descent from terminal 06: continuous ramp, approximately `7.5°`, `0.987 m` drop; floor, walls and ceiling follow it.
+- Warped/jammed door: static visual and collision only; no interaction was invented.
+- Distant music: marker only in the C07/southern zone; the existing audio architecture was not changed.
+- Square hole: real `1.20 × 1.20 m` floor opening with a collidable shaft border; no death system was added.
+- Nest sequence: R16 and R17 remain separate, cramped rooms with placeholder clutter; no entity or active nest was invented.
+- Three principal plan voids remain outside the walkable geometry and are not paved or ceiling-filled.
+- Sector 04 Map Room and MapMount remain fixed and unobstructed.
 
 ## Validation evidence
 
-Sector 07:
+Final registration audit:
 
-`SECTOR07_VALIDATION: PASS traced_rects=8999 floor_triangles=17998 fixtures=21 on=18 off=3 lights=8 sockets=6 vents=4 passage=2.15m hole=real slope_drop=0.987m terminals=08+11+06 capped=true`
+```text
+SECTOR07_REGISTRATION: anchor=(-6.0, 0.0, 29.26) yaw=150.0 plan_offset=(6.0, -6.0) overlap_samples=0 sample_step=0.25
+```
 
-Sector 04 regression with Sector 07 loaded:
+Final Godot 4.5 validation:
 
-`SECTOR04_V2_VALIDATION: PASS ... map_room=3.20x3.60 passage=1.20 sector07_passage=2.15 clearances=2.50+2.10 ... duplicates=0`
+```text
+SECTOR07_ROUTE: id=ROUTE-06-CORE passed=true
+SECTOR07_ROUTE: id=ROUTE-11 passed=true
+SECTOR07_ROUTE: id=ROUTE-08 passed=true
+SECTOR07_ROUTE: id=ROUTE-04 passed=true
+SECTOR07_ROUTE: id=ROUTE-RING passed=true
+SECTOR07_ROUTE: id=ROUTE-NEST passed=true
+SECTOR07_AUDIO_SPATIAL: real_lights=8 hums=8 near_unit=1.35 far_cutoff=8.00 off_fixtures=8
+SECTOR07_MANUAL_VALIDATION: PASS rooms=17 corridors=8 junctions=1 shapes=36 floor_step=0.50 routes=6 columns=22 props=10 lights=8
+```
 
-The combined test checks five Map Room floor points, its protected collision volume, MapMount transform, entrance-to-map sightline, all approved Sector 04 footprints at 0.50 m intervals, the three large voids, hole floor absence, terminals, aggregate mesh duplication, four real-controller seam crossings and a 1.20 m real-capsule traversal probe inside every one of the 16 audited corridors. Chord endpoints remain room/corridor control centres, so the traversal probes deliberately test each corridor interior rather than cutting across authored bends at the endpoints.
+Performance/build audit:
 
-Sector 07 performance remains batched:
+```text
+nodes=100 MeshInstance3D=28 ArrayMesh=33 StaticBody3D=18 CollisionShape3D=18 MultiMeshInstance3D=5 Light3D=8 shadow_lights=0
+input=36 union=4 boundary=189->188 floor_triangles=181 ceiling_triangles=181 fixtures=29 on=21 off=8 lights=8
+```
 
-`nodes=39 MeshInstance3D=6 ArrayMesh=11 StaticBody3D=4 CollisionShape3D=4 MultiMeshInstance3D=5 Light3D=8 shadow_lights=0`
-
-Final build audit: `input=8999 union=0 boundary=1282->1282 floor_triangles=17998 ceiling_triangles=20586`. Generated resources are `63,347 B` for the JSON trace, `44,225 B` for the frozen layout script, `111,895 B` for the overlay and `148,397 B` for the top-down capture.
+Validation covers room-centre/corner floor rays, every corridor centreline at `0.50 m`, six full real-capsule routes, ramp support, hole absence, Dark Room inventory, static jammed door, Map Room floor/protected volume/MapMount/sightline and Sector 04 collision overlap outside the authorized seam.
 
 Artifacts:
 
-- `captures/sector_07_trace_overlay.png`
+- `captures/sector_07_manual_overlay.png`
 - `captures/sector_07_topdown.png`
-- `captures/sector_07_main_cluster.png`
-- `captures/sector_07_narrow_corridor.png`
-- `captures/sector_07_lighting.png`
-- `captures/sector_07_hole_or_slope.png`
+- `captures/sector_07_dark_room_from_06.png`
+- `captures/sector_07_dark_room_west_exit.png`
+- `captures/sector_07_sector11_junction.png`
+- `captures/sector_07_core.png`
+- `captures/sector_07_sector08_branch.png`
+- `captures/sector_07_south_ring.png`
+- `captures/sector_07_hole_room.png`
+- `captures/sector_07_nest_antechamber.png`
+- `captures/sector_07_nest_terminal.png`
 - `captures/sector_04_map_room_regression.png`
 - `captures/sector_04_07_connection_from_04.png`
 - `captures/sector_04_07_connection_from_07.png`
+- `captures/sector_04_07_connection_ceiling.png`

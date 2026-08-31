@@ -807,12 +807,13 @@ func _emit_depth_quad(surface: SurfaceTool, faces: PackedVector3Array, first: Ve
 
 func _emit_column(surface: SurfaceTool, faces: PackedVector3Array, column: Dictionary, ceiling_y: float) -> void:
 	var center: Vector2 = column["center"]
-	var half := float(column["size"]) * 0.5
+	var half_x := float(column.get("size_x", column.get("size", 0.75))) * 0.5
+	var half_z := float(column.get("size_z", column.get("size", 0.75))) * 0.5
 	var points := PackedVector2Array([
-		Vector2(center.x - half, center.y - half),
-		Vector2(center.x - half, center.y + half),
-		Vector2(center.x + half, center.y + half),
-		Vector2(center.x + half, center.y - half),
+		Vector2(center.x - half_x, center.y - half_z),
+		Vector2(center.x - half_x, center.y + half_z),
+		Vector2(center.x + half_x, center.y + half_z),
+		Vector2(center.x + half_x, center.y - half_z),
 	])
 	for point_index in points.size():
 		var a2 := points[point_index]
@@ -841,12 +842,13 @@ func _build_baseboard_mesh(columns: Array[Dictionary], material: Material, confi
 		face_runs.push_back(_baseboard_face_run(b - normal * half, a - normal * half, b, a, -normal, _reverse_openings(run["openings"], a.distance_to(b))))
 	for column: Dictionary in columns:
 		var center: Vector2 = column["center"]
-		var half := float(column["size"]) * 0.5
+		var half_x := float(column.get("size_x", column.get("size", 0.75))) * 0.5
+		var half_z := float(column.get("size_z", column.get("size", 0.75))) * 0.5
 		var points := PackedVector2Array([
-			Vector2(center.x - half, center.y - half),
-			Vector2(center.x - half, center.y + half),
-			Vector2(center.x + half, center.y + half),
-			Vector2(center.x + half, center.y - half),
+			Vector2(center.x - half_x, center.y - half_z),
+			Vector2(center.x - half_x, center.y + half_z),
+			Vector2(center.x + half_x, center.y + half_z),
+			Vector2(center.x + half_x, center.y - half_z),
 		])
 		for point_index in points.size():
 			var a := points[point_index]
@@ -955,7 +957,7 @@ func _validate_wall_runs() -> void:
 			if _same_segment(run["a"], run["b"], other["a"], other["b"]):
 				errors.push_back("duplicate wall run")
 			elif _collinear_overlap(run["a"], run["b"], other["a"], other["b"]) > POSITION_EPSILON:
-				errors.push_back("overlapping collinear wall runs")
+				errors.push_back("overlapping collinear wall runs %s %s: %s..%s / %s..%s" % [run.get("id", "boundary"), other.get("id", "boundary"), run["a"], run["b"], other["a"], other["b"]])
 
 
 func _endpoint_is_free(point: Vector2, runs: Array[Dictionary]) -> bool:
@@ -975,7 +977,10 @@ func _simplify_loop(source: PackedVector2Array) -> PackedVector2Array:
 			var previous := points[(index - 1 + points.size()) % points.size()]
 			var current := points[index]
 			var following := points[(index + 1) % points.size()]
-			if current.distance_to(previous) <= POSITION_EPSILON or current.distance_to(following) <= POSITION_EPSILON:
+			# Boolean unions can leave sub-centimetre sliver vertices where two
+			# manually authored polygons overlap. They are numerical residue, not
+			# architectural wall runs, so remove them before wall extraction.
+			if current.distance_to(previous) < MIN_SEGMENT_LENGTH or current.distance_to(following) < MIN_SEGMENT_LENGTH:
 				points.remove_at(index)
 				changed = true
 				break

@@ -28,8 +28,8 @@ script = ExtResource("3_script")
 [node name="Sector04" parent="Sectors" instance=ExtResource("2_sector")]
 
 [node name="Sector07" parent="Sectors" instance=ExtResource("4_sector07")]
-position = Vector3(5.45513, 0, 40.71513)
-rotation = Vector3(0, 3.92699082, 0)
+position = Vector3(-6, 0, 29.26)
+rotation = Vector3(0, 2.61799388, 0)
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_placeholder")

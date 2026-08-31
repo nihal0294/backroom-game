@@ -1,25 +1,30 @@
 {
-	"schema": "level_0_sector_04_07_registration_v2",
-	"master_source": "res://assets/level_0/maps/level0_master_numbered.png",
-	"sector_04_seam_world": [-6.0, 29.26],
-	"sector_07_source_anchor_px": [180.0, 323.0],
-	"sector_07_source_anchor_local_m": [0.0, 16.2],
-	"sector_07_meters_per_pixel": 0.09,
-	"candidate_transforms": [
-		{"yaw_deg": 0.0, "position_xz": [-6.0, 13.06], "result": "REJECTED_SECTOR04_OVERLAP"},
-		{"yaw_deg": 180.0, "position_xz": [-6.0, 45.46], "result": "REJECTED_MAP_ROOM_COLLISION"},
-		{"yaw_deg": 203.0, "position_xz": [0.330, 44.172], "result": "REJECTED_MAP_ROOM_COLLISION"},
-		{"yaw_deg": 225.0, "position_xz": [5.45513, 40.71513], "result": "SELECTED"}
-	],
-	"selected_transform": {
-		"position": [5.45513, 0.0, 40.71513],
-		"yaw_degrees": 225.0,
-		"anchor_world_result": [-6.0, 29.26],
-		"registration_exclusion": "Sector 07 traced cells and wall segments inside approved Sector 04 footprints are omitted; only the 2.15 m seam surface is shared."
-	},
-	"validation": {
-		"map_room_protected_volume": "PASS",
-		"sector_04_07_collision_overlap_outside_seam": "PASS",
-		"bidirectional_controller_crossing": "PASS"
-	}
+  "schema": "level_0_sector_04_07_registration_v3_manual",
+  "master_source": "res://assets/level_0/maps/level0_master_numbered.png",
+  "sector_07_source": "res://assets/level_0/maps/sector_07.png",
+  "sector_04_seam_world_xz": [-6.0, 29.26],
+  "sector_07_root": {
+    "position": [-6.0, 0.0, 29.26],
+    "yaw_degrees": 150.0
+  },
+  "manual_plan": {
+    "authoring_origin": [0.0, 0.0],
+    "uniform_registration_offset_xz": [6.0, -6.0],
+    "effective_body_origin_world_xz": [-14.196152, 31.456152],
+    "sector_04_connector_width_m": 2.6,
+    "runtime_raster_or_trace_dependency": false
+  },
+  "validation": {
+    "sample_step_m": 0.25,
+    "sector_04_overlap_samples_outside_seam": 0,
+    "map_room_protected_volume": "PASS",
+    "map_mount_transform": "PASS",
+    "map_room_sightline": "PASS",
+    "route_04": "PASS",
+    "route_06_core": "PASS",
+    "route_08": "PASS",
+    "route_11": "PASS",
+    "route_ring": "PASS",
+    "route_nest": "PASS"
+  }
 }

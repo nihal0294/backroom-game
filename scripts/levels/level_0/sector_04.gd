@@ -23,7 +23,7 @@ const DOOR_FRAME_OUTER_WIDTH := DOOR_CLEAR_WIDTH + DOOR_FRAME_FACE_WIDTH * 2.0
 const DOOR_FRAME_OUTER_HEIGHT := DOOR_CLEAR_HEIGHT + DOOR_FRAME_FACE_WIDTH
 const DOOR_SEAM_TOLERANCE := 0.001
 const SECTOR07_PASSAGE_CENTER := Vector2(-6.0, 29.25)
-const SECTOR07_PASSAGE_WIDTH := 2.15
+const SECTOR07_PASSAGE_WIDTH := 2.60
 const ArchitectureBuilderScript = preload("res://scripts/levels/level_0/level0_architecture_builder.gd")
 
 const FLOOR_MATERIAL: Material = preload("res://resources/materials/level_0/vr_kit/sector_04_orange_carpet.tres")
@@ -339,8 +339,8 @@ func _build_torn_wallpaper() -> void:
 	var x := -5.998
 	# The old patch filled this wall. Two ragged remnants now frame the real,
 	# full-height Sector 07 passage without adding collision inside its clearance.
-	var left_points := [Vector3(x, 0.66, 28.02), Vector3(x, 2.18, 28.08), Vector3(x, 1.88, 28.175), Vector3(x, 0.92, 28.15)]
-	var right_points := [Vector3(x, 0.82, 30.35), Vector3(x, 1.94, 30.325), Vector3(x, 2.12, 30.43), Vector3(x, 0.62, 30.47)]
+	var left_points := [Vector3(x, 0.66, 27.78), Vector3(x, 2.18, 27.84), Vector3(x, 1.88, 27.95), Vector3(x, 0.92, 27.92)]
+	var right_points := [Vector3(x, 0.82, 30.58), Vector3(x, 1.94, 30.55), Vector3(x, 2.12, 30.66), Vector3(x, 0.62, 30.70)]
 	for points: Array in [left_points, right_points]:
 		for triangle_index in range(1, points.size() - 1):
 			_add_triangle(surface, points[0], points[triangle_index], points[triangle_index + 1], Vector3.RIGHT)
@@ -669,7 +669,7 @@ func _validate_sector() -> bool:
 	for width: float in [3.00, 3.00, 3.00, 2.80, 2.80, 2.80, 2.80, 3.00]:
 		if width < 2.60 or width <= PLAYER_RADIUS * 2.0:
 			failures.push_back("invalid opening width %.2f" % width)
-	if not is_equal_approx(SECTOR07_PASSAGE_WIDTH, 2.15) or SECTOR07_PASSAGE_WIDTH <= PLAYER_RADIUS * 2.0:
+	if not is_equal_approx(SECTOR07_PASSAGE_WIDTH, 2.60) or SECTOR07_PASSAGE_WIDTH <= PLAYER_RADIUS * 2.0:
 		failures.push_back("invalid controlled Sector 07 passage width %.2f" % SECTOR07_PASSAGE_WIDTH)
 	var player := get_node_or_null("../../Player") as CharacterBody3D
 	var movement_distance := 0.0
@@ -712,7 +712,7 @@ func _validate_sector() -> bool:
 		player.velocity = Vector3.ZERO
 		await _validate_push_door(player, space, failures)
 	if failures.is_empty():
-		print("SECTOR04_V2_VALIDATION: PASS input=14 union=1 boundary=%d->%d partitions=4 floor_samples=15 wall_samples=23 openings=15 framed=2 seam_max=%.6fm jamb_collision=4 wall_junction_max=%.6fm map_room=3.20x3.60 passage=1.20 sector07_passage=2.15 clearances=2.50+2.10 vents=5 furniture=0 movement=%.3fm slide=%.3fm door=open+close duplicates=0" % [build_stats.boundary_edges_before, build_stats.boundary_edges_after, _max_door_seam_delta, float(build_stats.max_wall_junction_delta), movement_distance, wall_slide_distance])
+		print("SECTOR04_V2_VALIDATION: PASS input=14 union=1 boundary=%d->%d partitions=4 floor_samples=15 wall_samples=23 openings=15 framed=2 seam_max=%.6fm jamb_collision=4 wall_junction_max=%.6fm map_room=3.20x3.60 passage=1.20 sector07_passage=2.60 clearances=2.50+2.10 vents=5 furniture=0 movement=%.3fm slide=%.3fm door=open+close duplicates=0" % [build_stats.boundary_edges_before, build_stats.boundary_edges_after, _max_door_seam_delta, float(build_stats.max_wall_junction_delta), movement_distance, wall_slide_distance])
 		return true
 	for failure: String in failures:
 		push_error("SECTOR04_V2_VALIDATION: %s" % failure)
